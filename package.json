@@ -25,7 +25,7 @@
     "package-lock.json": "^1.0.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "three": "^0.186.0",
+    "three": "^0.186.1",
     "vlabs-iiitsonepat-shared": "file:./stubs/vlabs-iiitsonepat-shared",
     "vlabs-iiitsonepat-ui": "file:./stubs/vlabs-iiitsonepat-ui"
   },
