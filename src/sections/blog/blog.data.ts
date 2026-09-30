@@ -56,4 +56,15 @@ export const BLOG_POSTS: readonly BlogPostRecord[] = [
     readTime: "6 min read",
     thumbnail: "/blog/04-interactive-procedure-steps/thumbnail.svg",
   },
+  {
+    title: "When a search box became an architecture problem",
+    excerpt:
+      "The old VLab search could find experiments. We wanted it to understand them. What started as a ⌘K redesign turned into a build-time search index, client-side performance work, and a small lesson in how humans actually search.",
+    date: "2026-09-30",
+    author: { name: "Shivanshu Mangal", role: "Contributor" },
+    tag: "Engineering",
+    slug: "search-box-optimisation",
+    readTime: "7 min read",
+    thumbnail: "/blog/05-search-box-optimization/thumbnail.svg",
+  },
 ];
