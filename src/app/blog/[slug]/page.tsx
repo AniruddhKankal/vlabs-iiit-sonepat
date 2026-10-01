@@ -226,8 +226,7 @@ export default async function BlogPostPage({
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <GitHubMark size={13} />
-                  @{post.author.github}
+                  <GitHubMark size={13} />@{post.author.github}
                   <ArrowUpRight sizePx={7} />
                 </a>
               </div>
