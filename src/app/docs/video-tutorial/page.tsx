@@ -36,7 +36,7 @@ export default function VideoTutorialPage() {
 
       <h2>How to add an experiment</h2>
 
-      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+      {}
       <video
         controls
         preload="metadata"
@@ -81,9 +81,9 @@ export default function VideoTutorialPage() {
         <strong>Tip: Use AI to speed up</strong>
         <p>
           You can paste <code>src/labs/COMPONENTS.md</code> and{" "}
-          <code>src/labs/SKILLS.md</code> into Claude or another LLM and ask
-          it to generate the entire experiment folder structure. Then just
-          review, adjust, and register.
+          <code>src/labs/SKILLS.md</code> into Claude or another LLM and ask it
+          to generate the entire experiment folder structure. Then just review,
+          adjust, and register.
         </p>
       </Callout>
 

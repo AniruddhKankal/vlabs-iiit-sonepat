@@ -9,6 +9,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "test:coverage": "vitest run --coverage",
