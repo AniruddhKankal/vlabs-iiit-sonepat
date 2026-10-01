@@ -121,6 +121,37 @@ function TransformDemo({
   );
 }
 
+// ─── New: an attributed quote, for pulling real messages into the story ────
+
+function FounderNote({
+  from,
+  role,
+  children,
+}: {
+  from: string;
+  role: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="my-[calc(var(--spacing-base)*8)] rounded-[calc(var(--radius-base)*3)] border border-[rgba(74,56,245,0.15)] bg-[rgba(74,56,245,0.035)] px-[calc(var(--spacing-base)*5)] py-[calc(var(--spacing-base)*4)]">
+      <div className="mb-[calc(var(--spacing-base)*3)] flex items-center gap-[calc(var(--spacing-base)*2)]">
+        <span className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full bg-[#4a38f5] font-sans text-[12px] font-semibold text-white">
+          {from.charAt(0)}
+        </span>
+        <span className="font-sans text-[13px] font-medium text-[var(--ink)]">
+          {from}
+        </span>
+        <span className="font-sans text-[12px] text-[var(--ink-subtle)]">
+          {role}
+        </span>
+      </div>
+      <div className="flex flex-col gap-[calc(var(--spacing-base)*2.5)] font-sans text-[15px] italic leading-relaxed text-[var(--ink)]">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 // ─── New: a breadcrumb-styled result path, instead of an ASCII tree ────────
 
 function ResultBreadcrumb({ parts }: { parts: string[] }) {
@@ -386,6 +417,48 @@ export function PostSearchBoxArchitectureProblem() {
 
       <p>It only needed the finished index.</p>
 
+      <p>
+        We didn&rsquo;t land on that by staring at a flame graph. Shubham —
+        VLabs&rsquo; founder, and the person every weird bug eventually reaches
+        — said it first, in two messages at 3:34 and 3:39 in the morning:
+      </p>
+
+      <FounderNote from="Shubham" role="Founder, VLabs">
+        <p>
+          &ldquo;so, we&rsquo;re building this semantic search most of the
+          TEXTS. but the search gets through too many file systems at once when
+          fetching things. client can get exhausted.&rdquo;
+        </p>
+        <p>
+          &ldquo;somebody must work towards optimizing these things. option is
+          maybe to — dump all semantics in a single file — always let that ONE
+          file be fetchable by the search and links inside that itself. rather
+          than going inside of{" "}
+          <code>./01-analog-electronics/02-zener-diode..</code>,{" "}
+          <code>./01-analog-electronics/03-e..</code>,{" "}
+          <code>./01-analog-electronics/04-....</code>&rdquo;
+        </p>
+        <p>
+          &ldquo;we can just <code>./search-build-output.ts</code> fetch a
+          single file. something like this. not sure where should lie
+          tho?&rdquo;
+        </p>
+        <p>
+          &ldquo;and this should be a BUILD method. on run build, some build
+          files → outputted → helps in semantic searches. in this way devs
+          don&rsquo;t have to optimize for every change they do and it&rsquo;s
+          already in the npm run build commands on deps + builds.&rdquo;
+        </p>
+      </FounderNote>
+
+      <p>
+        That&rsquo;s the entire architecture decision above, typed into a chat
+        before any of us had opened an editor. Strip out the punctuation and
+        it&rsquo;s exactly what shipped: one fetchable output file, generated on{" "}
+        <code>npm run build</code>, so nobody has to remember to re-optimize
+        search every time they add an experiment.
+      </p>
+
       {/* ─────────────────────────────────────────────────────────────── */}
       {/* BUILD TIME */}
       {/* ─────────────────────────────────────────────────────────────── */}
@@ -524,6 +597,28 @@ const idx = indexById.get(s.id) ?? -1;`}</code>
         caption={`The search knew the content existed. It just didn't understand "half wave" and "half-wave" as the same thing.`}
       />
 
+      <p>Shubham found it before I did, and said so plainly:</p>
+
+      <FounderNote from="Shubham" role="Founder, VLabs">
+        <p>
+          &ldquo;regex pipeline and semantic search can be improved, allocate it
+          to someone else to apply better semantic search on the website.&rdquo;
+        </p>
+        <p>&ldquo;and, make it fast. there must be a way.&rdquo;</p>
+        <p>
+          &ldquo;i kind of am curious about how the semantic search is being
+          built on client.&rdquo;
+        </p>
+      </FounderNote>
+
+      <p>
+        Fair on all three counts — the regex pipeline genuinely could be
+        improved, and the honest answer to &ldquo;how is it being built on
+        client&rdquo; was, at that point, &ldquo;more than it should be.&rdquo;
+        That question is what turned into the normalisation and token-matching
+        work below.
+      </p>
+
       <p>The computer was technically correct.</p>
 
       <p>The strings were different.</p>
@@ -536,45 +631,34 @@ const idx = indexById.get(s.id) ?? -1;`}</code>
 
       <p>
         The new normalisation step converts separators — hyphens, underscores,
-        slashes — into spaces, and collapses repeated whitespace.
+        dots, and whitespace — into a flexible regular expression symbol that
+        matches any gap.
       </p>
 
       <TransformDemo
-        inputs={["Half-Wave", "half_wave", "half/wave", "half   wave"]}
-        output="half wave"
+        inputs={["Half-Wave", "half_wave", "half.wave", "half   wave"]}
+        output="half[-_.\s]+wave"
       />
 
       <p>
-        Now those different spellings share the same searchable representation.
-      </p>
-
-      <p>But there was another problem.</p>
-
-      <p>
-        A query can contain multiple words, and those words don&rsquo;t
-        necessarily need to appear next to each other in the source text.
+        Now all those different spellings will successfully match against the
+        same query.
       </p>
 
       <p>
-        That&rsquo;s what <code>matchesAllTokens()</code> handles. The query is
-        split into individual tokens, and every token has to appear somewhere in
-        the normalised searchable text.
+        Because the regex allows any combination of these separators between
+        words, punctuation doesn&rsquo;t get in the way.
       </p>
 
       <p>
-        The order doesn&rsquo;t have to match. Punctuation doesn&rsquo;t get in
-        the way.
-      </p>
-
-      <p>
-        Search starts behaving less like a string comparison and more like what
-        a person expects when they type a query.
+        Search starts behaving less like a strict string comparison and more
+        like what a person expects when they type a query.
       </p>
 
       <BlogImage
-        src="/blog/05-search-optimisation/new-search-box-v3.1.jpeg"
+        src="/blog/05-search-optimisation/new-search-box-v3.1.png"
         alt='VLabs search showing results for "half wave" with highlighted matches'
-        caption='After normalisation and token matching, "half wave" finds Half-Wave Rectifier and related content.'
+        caption='After normalisation and regex matching, "half wave" finds Half-Wave Rectifier and related content.'
         wide
       />
 
