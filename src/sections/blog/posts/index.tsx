@@ -4,6 +4,7 @@ import { PostBuildingEceLabs } from "./building-3d-ece-labs";
 import { PostLunariaToTailwind } from "./lunaria-to-tailwind";
 import { PostWhyOpenSource } from "./why-open-source";
 import { PostInteractiveProcedureSteps } from "./interactive-procedure-steps";
+import { PostSearchBoxArchitectureProblem } from "./search-box-optimisation";
 
 export type BlogPostFull = BlogPostRecord & {
   content: ReactNode;
@@ -14,6 +15,7 @@ const CONTENT_MAP: Record<string, ReactNode> = {
   "lunaria-to-tailwind": <PostLunariaToTailwind />,
   "why-open-source-education": <PostWhyOpenSource />,
   "interactive-procedure-steps": <PostInteractiveProcedureSteps />,
+  "search-box-optimisation": <PostSearchBoxArchitectureProblem />,
 };
 
 export function getBlogPost(slug: string): BlogPostFull | null {

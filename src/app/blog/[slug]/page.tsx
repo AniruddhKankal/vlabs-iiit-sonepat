@@ -104,7 +104,7 @@ export default async function BlogPostPage({
               {/* Author bar */}
               <div className="flex items-center gap-[calc(var(--spacing-base)*3)] mb-[calc(var(--spacing-base)*3)]">
                 <img
-                  src="https://github.com/FirePheonix.png"
+                  src={post.author.imageUrl}
                   alt={post.author.name}
                   width={36}
                   height={36}
@@ -196,7 +196,7 @@ export default async function BlogPostPage({
                 </p>
                 <div className="flex items-center gap-[calc(var(--spacing-base)*3)]">
                   <img
-                    src="https://github.com/FirePheonix.png"
+                    src={post.author.imageUrl}
                     alt="Shubham Singh"
                     width={44}
                     height={44}
@@ -204,17 +204,15 @@ export default async function BlogPostPage({
                   />
                   <div className="flex flex-col gap-[2px]">
                     <span className="text-[var(--ink)] font-[family-name:var(--font-sans),sans-serif] text-[14px] font-medium">
-                      Shubham Singh
+                      {post.author.name}
                     </span>
                     <span className="text-[var(--ink-muted)] font-[family-name:var(--font-sans),sans-serif] text-[12px]">
-                      President, Technical Society
+                      {post.author.role}
                     </span>
                   </div>
                 </div>
                 <p className="text-[var(--ink-muted)] font-[family-name:var(--font-sans),sans-serif] text-[13px] leading-[1.6] m-0">
-                  Built VLabs from scratch between June and September 2026.
-                  Maintains the project as president of the Technical Society of
-                  IIIT Sonepat.
+                  {post.author.bio}
                 </p>
                 <a
                   className={[
@@ -224,12 +222,11 @@ export default async function BlogPostPage({
                     "no-underline font-[family-name:var(--font-sans),sans-serif] text-[12px] font-medium",
                     "hover:bg-[#333] transition-colors duration-150",
                   ].join(" ")}
-                  href="https://github.com/FirePheonix"
+                  href={`https://github.com/${post.author.github}`}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <GitHubMark size={13} />
-                  @FirePheonix
+                  <GitHubMark size={13} />@{post.author.github}
                   <ArrowUpRight sizePx={7} />
                 </a>
               </div>
