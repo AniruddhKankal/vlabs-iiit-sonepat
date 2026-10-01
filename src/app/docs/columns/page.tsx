@@ -20,14 +20,15 @@ export default function ColumnsPage() {
       <h1>Column layout guide</h1>
 
       <p>
-        The breadboard has 30 usable columns. Components occupy contiguous
-        column ranges. Overlapping ranges cause visual clipping and broken wire
-        connections.
+        The standard breadboard has 30 usable columns. The{" "}
+        <code>long-breadboard</code> has 63 usable columns. Components occupy
+        contiguous column ranges. Overlapping ranges cause visual clipping and
+        broken wire connections.
       </p>
 
       <hr />
 
-      <h2>Zone map</h2>
+      <h2>Zone map (Standard Board)</h2>
 
       <pre>{`cols  1– 3   input tie-points (A, B, Cin, Bin…)
 cols  4–10   first IC  (7 cols + 2 gap = 9 total)
@@ -42,7 +43,7 @@ col  30      do not use — board edge`}</pre>
         <p>
           The ICs live on rows <code>e/f</code>. Resistors and LEDs live on row
           <code> c</code>. They share the same column range but use different
-          rows, so they don't collide. Follow the row conventions below.
+          rows, so they don&apos;t collide. Follow the row conventions below.
         </p>
       </Callout>
 
@@ -60,13 +61,13 @@ col  30      do not use — board edge`}</pre>
             <td>
               <code>a, b</code>
             </td>
-            <td>Input wires (tie-points for A, B, Cin…)</td>
+            <td>Input wires (tie-points for A, B, Cin…) and Instrument inputs</td>
           </tr>
           <tr>
             <td>
               <code>c</code>
             </td>
-            <td>Resistors and LEDs (output chain)</td>
+            <td>Resistors, LEDs (output chain), and discrete semiconductors</td>
           </tr>
           <tr>
             <td>
@@ -104,8 +105,8 @@ IC3 at col 23 → occupies cols 23–29  (2-col gap between 20 and 23 ✓)`}</pr
 
       <p>
         A resistor spans <strong>col → col+3</strong>. Its LED must be at{" "}
-        <strong>col+2</strong> (not col+1 — that's the resistor's right lead,
-        col+4 is the LED's right-of-anode).
+        <strong>col+2</strong> (not col+1 — that&apos;s the resistor&apos;s right lead,
+        col+4 is the LED&apos;s right-of-anode).
       </p>
 
       <pre>{`// First output pair at col 22 / row c:
@@ -124,7 +125,7 @@ IC3 at col 23 → occupies cols 23–29  (2-col gap between 20 and 23 ✓)`}</pr
 
       <p>
         Before placing a component, write out the column ranges of all existing
-        components and verify there's no overlap on the same row:
+        components and verify there&apos;s no overlap on the same row:
       </p>
 
       <pre>{`// Quick range check (same row = potential collision):
@@ -137,7 +138,8 @@ IC3 at col 23 → occupies cols 23–29  (2-col gap between 20 and 23 ✓)`}</pr
 
       <p>
         For circuits needing three or more ICs (e.g. a full adder with three
-        gates), shift the resistor + LED pairs to the far right:
+        gates), shift the resistor + LED pairs to the far right, or use a{" "}
+        <code>long-breadboard</code>.
       </p>
 
       <pre>{`cols  4–10   IC1
