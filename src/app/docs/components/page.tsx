@@ -26,120 +26,116 @@ export default function ComponentsPage() {
       </p>
 
       <p>
-        The types below are currently <strong>renderable</strong> (a geometry
-        builder exists). Types listed as "pending" are declared in the union but
-        return
-        <code> null</code> from the registry until a builder is written.
+        Each component type has its own folder under{" "}
+        <code>src/components/</code> containing the geometry builder. All types
+        below are <strong>fully renderable</strong> with 3D geometry.
       </p>
 
       <hr />
 
-      <h2>Breadboard</h2>
-      <p>Always the first component. There is exactly one per circuit.</p>
-      <pre>{`{ id: 'bb', type: 'breadboard' }`}</pre>
+      <h2>Boards</h2>
+      <pre>{`{ id: 'bb', type: 'breadboard' }
+{ id: 'bb', type: 'long-breadboard' }`}</pre>
       <p>
-        Renders a 30-column solderless breadboard with power rails, tie-point
-        hole grid, and centre gap. The <code>id</code> is referenced by all{" "}
-        <code>TiePin</code> and
-        <code> RailPin</code> wire endpoints.
+        Always the first component. <code>breadboard</code> renders a 30-column
+        solderless breadboard. <code>long-breadboard</code> renders an extended
+        version with more tie-points.
       </p>
 
       <h2>Logic gates (DIP-14)</h2>
       <p>
-        All six gate types render as a DIP-14 IC package straddling the centre
-        gap. Each occupies <strong>7 consecutive columns</strong>.
+        All gate types render as a DIP-14 IC package straddling the centre gap.
+        Each occupies <strong>7 consecutive columns</strong>.
       </p>
-      <pre>{`{ id: 'xor1',  type: 'xor-gate',  mountedAt: { board: 'bb', col: 5,  row: 'e' } }
-{ id: 'and1',  type: 'and-gate',  mountedAt: { board: 'bb', col: 12, row: 'e' } }
-{ id: 'or1',   type: 'or-gate',   mountedAt: { board: 'bb', col: 5,  row: 'e' } }
-{ id: 'not1',  type: 'not-gate',  mountedAt: { board: 'bb', col: 5,  row: 'e' } }
-{ id: 'nand1', type: 'nand-gate', mountedAt: { board: 'bb', col: 5,  row: 'e' } }
-{ id: 'nor1',  type: 'nor-gate',  mountedAt: { board: 'bb', col: 5,  row: 'e' } }`}</pre>
+      <pre>{`{ id: 'xor1',    type: 'xor-gate',    mountedAt: { board: 'bb', col: 5,  row: 'e' } }
+{ id: 'and1',    type: 'and-gate',    mountedAt: { board: 'bb', col: 12, row: 'e' } }
+{ id: 'or1',     type: 'or-gate',     mountedAt: { board: 'bb', col: 5,  row: 'e' } }
+{ id: 'not1',    type: 'not-gate',    mountedAt: { board: 'bb', col: 5,  row: 'e' } }
+{ id: 'nand1',   type: 'nand-gate',   mountedAt: { board: 'bb', col: 5,  row: 'e' } }
+{ id: 'nor1',    type: 'nor-gate',    mountedAt: { board: 'bb', col: 5,  row: 'e' } }
+{ id: 'xnor1',   type: 'xnor-gate',   mountedAt: { board: 'bb', col: 5,  row: 'e' } }
+{ id: 'buf1',    type: 'buffer-gate', mountedAt: { board: 'bb', col: 5,  row: 'e' } }`}</pre>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Field</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <code>row</code>
-            </td>
-            <td>
-              Always <code>'e'</code> — the IC straddles rows e/f
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <code>col</code>
-            </td>
-            <td>Left edge column. Pins land in cols N through N+6.</td>
-          </tr>
-          <tr>
-            <td>Spacing</td>
-            <td>
-              Leave at least 2 columns between ICs (next IC at col+9 minimum)
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <h2>Passives</h2>
 
-      <h2>Resistor</h2>
+      <h3>Resistor</h3>
       <pre>{`{ id: 'r1', type: 'resistor', ohms: 330, mountedAt: { board: 'bb', col: 22, row: 'c' } }`}</pre>
       <p>
-        Renders as a horizontal cylinder with four colour-coded bands and an ohm
-        label. Spans <strong>col → col+3</strong> (4 columns). Leads connect to{" "}
-        <code>p1</code>
-        (left, col) and <code>p2</code> (right, col+3).
+        Renders as a horizontal cylinder with four colour-coded bands. Spans{" "}
+        <strong>col → col+3</strong>. Leads: <code>p1</code> (left) and{" "}
+        <code>p2</code> (right).
       </p>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Field</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <code>ohms</code>
-            </td>
-            <td>Any number. Drives the band colours and label.</td>
-          </tr>
-          <tr>
-            <td>
-              <code>row</code>
-            </td>
-            <td>
-              <code>'c'</code> recommended to stay clear of IC rows.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>LED</h2>
-      <pre>{`{ id: 'led1', type: 'led', color: 'green',  mountedAt: { board: 'bb', col: 24, row: 'c' } }
-{ id: 'led2', type: 'led', color: 'yellow', mountedAt: { board: 'bb', col: 27, row: 'c' } }
-{ id: 'led3', type: 'led', color: 'red',    mountedAt: { board: 'bb', col: 24, row: 'c' } }
-{ id: 'led4', type: 'led', color: 'blue',   mountedAt: { board: 'bb', col: 27, row: 'c' } }`}</pre>
-      <p>
-        Spans <strong>col (anode) → col+1 (cathode)</strong>. Always place after
-        its current-limiting resistor. Place LED at col N+2 when resistor is at
-        col N.
-      </p>
-
-      <h2>Capacitor</h2>
+      <h3>Capacitor</h3>
       <pre>{`{ id: 'c1', type: 'capacitor', capacitance: 100, mountedAt: { board: 'bb', col: 5, row: 'c' } }`}</pre>
       <p>
-        Renders as an electrolytic capacitor (blue cylinder with polarity stripe
-        and value label). Spans <strong>col → col+1</strong>. Leads connect to{" "}
-        <code>p1</code>
-        and <code>p2</code>.
+        Electrolytic capacitor. Spans <strong>col → col+1</strong>. Leads:{" "}
+        <code>p1</code> and <code>p2</code>.
       </p>
+
+      <h3>Potentiometer</h3>
+      <pre>{`{ id: 'pot1', type: 'potentiometer', mountedAt: { board: 'bb', col: 1, row: 'b' },
+  probes: [pinRef1, pinRef2] }`}</pre>
+      <p>
+        Variable resistor with optional probe wire targets for instrument
+        connections.
+      </p>
+
+      <h2>LEDs &amp; Displays</h2>
+
+      <h3>LED</h3>
+      <pre>{`{ id: 'led1', type: 'led', color: 'green', mountedAt: { board: 'bb', col: 24, row: 'c' } }`}</pre>
+      <p>
+        Colors: <code>&apos;red&apos;</code>, <code>&apos;green&apos;</code>,{" "}
+        <code>&apos;yellow&apos;</code>, <code>&apos;blue&apos;</code>,{" "}
+        <code>&apos;white&apos;</code>. Spans <strong>col (anode) →
+        col+1 (cathode)</strong>.
+      </p>
+
+      <h3>7-Segment Display</h3>
+      <pre>{`{ id: 'seg1', type: '7seg-display', mountedAt: { board: 'bb', col: 10, row: 'e' } }`}</pre>
+
+      <h2>Semiconductors</h2>
+
+      <h3>Diode</h3>
+      <pre>{`{ id: 'd1', type: 'diode', mountedAt: { board: 'bb', col: 5, row: 'c' } }`}</pre>
+
+      <h3>Zener Diode</h3>
+      <pre>{`{ id: 'z1', type: 'zener', vz: 5.1, mountedAt: { board: 'bb', col: 5, row: 'c' } }`}</pre>
+
+      <h3>BJT (NPN / PNP)</h3>
+      <pre>{`{ id: 'q1', type: 'npn-bjt', mountedAt: { board: 'bb', col: 10, row: 'c' } }
+{ id: 'q2', type: 'pnp-bjt', mountedAt: { board: 'bb', col: 15, row: 'c' } }`}</pre>
+
+      <h3>MOSFET</h3>
+      <pre>{`{ id: 'm1', type: 'n-mosfet', mountedAt: { board: 'bb', col: 10, row: 'c' } }
+{ id: 'm2', type: 'p-mosfet', mountedAt: { board: 'bb', col: 15, row: 'c' } }`}</pre>
+
+      <h3>Op-Amp</h3>
+      <pre>{`{ id: 'oa1', type: 'op-amp', mountedAt: { board: 'bb', col: 5, row: 'e' } }`}</pre>
+
+      <h2>Switches &amp; Buttons</h2>
+      <pre>{`{ id: 'btn1', type: 'push-button', mountedAt: { board: 'bb', col: 2, row: 'c' } }
+{ id: 'sw1',  type: 'switch',      mountedAt: { board: 'bb', col: 3, row: 'c' } }
+{ id: 'dip1', type: 'dip-switch',  poles: 4, mountedAt: { board: 'bb', col: 5, row: 'e' } }`}</pre>
+
+      <h2>Power</h2>
+      <pre>{`{ id: 'bat1', type: 'battery',  mountedAt: { board: 'bb', col: 1, row: 'a' },
+  terminals: [pinRef_pos, pinRef_neg] }
+{ id: 'dc1',  type: 'dc-jack', mountedAt: { board: 'bb', col: 1, row: 'a' },
+  terminals: [pinRef_pos, pinRef_neg] }`}</pre>
+
+      <h2>Instruments</h2>
+      <pre>{`{ id: 'amm1', type: 'ammeter',  ... }   // rendered (src/components/ammeter)
+{ id: 'vm1',  type: 'voltmeter', ... }  // rendered (src/components/voltmeter)
+{ id: 'dmm1', type: 'multimeter', ... } // rendered (src/components/multimeter)
+{ id: 'osc1', type: 'oscilloscope', ... }       // rendered (src/components/oscilloscope)
+{ id: 'fg1',  type: 'function-generator', ... } // rendered (src/components/function-generator)
+{ id: 'la1',  type: 'logic-analyser', ... }     // rendered (src/components/logic-analyser)`}</pre>
+
+      <h2>Other</h2>
+      <pre>{`{ id: 'xfm1', type: 'transformer', ... } // rendered (src/components/transformer)
+{ id: 'mcu1', type: 'mcu-trainer', ... } // rendered (src/components/mcu-trainer)`}</pre>
 
       <h2>Wire</h2>
       <pre>{`{ id: 'w1', type: 'wire', color: 'red',
@@ -160,97 +156,36 @@ export default function ComponentsPage() {
         </thead>
         <tbody>
           <tr>
-            <td>
-              <code>'red'</code>
-            </td>
-            <td>Input A</td>
+            <td><code>&apos;red&apos;</code></td>
+            <td>VCC / Input A</td>
           </tr>
           <tr>
-            <td>
-              <code>'blue'</code>
-            </td>
+            <td><code>&apos;blue&apos;</code></td>
             <td>Input B</td>
           </tr>
           <tr>
-            <td>
-              <code>'orange'</code>
-            </td>
+            <td><code>&apos;orange&apos;</code></td>
             <td>Input C / Cin / Bin</td>
           </tr>
           <tr>
-            <td>
-              <code>'white'</code>
-            </td>
+            <td><code>&apos;white&apos;</code></td>
             <td>Internal signal</td>
           </tr>
           <tr>
-            <td>
-              <code>'green'</code>
-            </td>
+            <td><code>&apos;green&apos;</code></td>
             <td>Sum / primary output</td>
           </tr>
           <tr>
-            <td>
-              <code>'yellow'</code>
-            </td>
+            <td><code>&apos;yellow&apos;</code></td>
             <td>Carry / Borrow output</td>
           </tr>
           <tr>
-            <td>
-              <code>'black'</code>
-            </td>
+            <td><code>&apos;purple&apos;</code></td>
+            <td>Alternate signal</td>
+          </tr>
+          <tr>
+            <td><code>&apos;black&apos;</code></td>
             <td>Ground</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>Pending types (not yet rendered)</h2>
-
-      <p>
-        These are declared in the <code>ComponentInstance</code> union and
-        accepted by the type system, but the registry returns <code>null</code>{" "}
-        for them — they simply won't appear in the 3D scene. To make them
-        visible, write a geometry builder and add a registry entry. See{" "}
-        <Link href="/docs/geometry">Writing geometry</Link>.
-      </p>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Type string</th>
-            <th>Physical part</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <code>'potentiometer'</code>
-            </td>
-            <td>Variable resistor / trimmer</td>
-          </tr>
-          <tr>
-            <td>
-              <code>'push-button'</code>
-            </td>
-            <td>Momentary tactile switch</td>
-          </tr>
-          <tr>
-            <td>
-              <code>'switch'</code>
-            </td>
-            <td>SPDT toggle switch</td>
-          </tr>
-          <tr>
-            <td>
-              <code>'battery'</code>
-            </td>
-            <td>9V battery clip</td>
-          </tr>
-          <tr>
-            <td>
-              <code>'dc-jack'</code>
-            </td>
-            <td>Barrel power connector</td>
           </tr>
         </tbody>
       </table>
@@ -259,15 +194,16 @@ export default function ComponentsPage() {
         <strong>Standalone builders</strong>
         <p>
           Every component type also has a <code>buildXxxStandalone()</code>{" "}
-          variant (e.g. <code>buildLedStandalone('red')</code>) used by the
-          showcase cards on the landing page. Write one alongside the
+          variant (e.g. <code>buildLedStandalone(&apos;red&apos;)</code>) used by the
+          showcase cards on the landing page and the{" "}
+          <code>EceComponentViewer</code>. Write one alongside the
           board-mounted version.
         </p>
       </Callout>
 
       <DocNav>
-        <DocNavLink as={Link} href="/docs/quickstart" data-dir="prev">
-          Quickstart
+        <DocNavLink as={Link} href="/docs/video-tutorial" data-dir="prev">
+          Video tutorial
         </DocNavLink>
         <DocNavLink as={Link} href="/docs/geometry" data-dir="next">
           Writing geometry

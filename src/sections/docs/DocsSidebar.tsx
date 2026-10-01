@@ -23,6 +23,7 @@ export const DOCS_NAV: DocNavGroup[] = [
     items: [
       { href: "/docs", label: "Overview" },
       { href: "/docs/quickstart", label: "Quickstart" },
+      { href: "/docs/video-tutorial", label: "Video tutorial" },  
     ],
   },
   {

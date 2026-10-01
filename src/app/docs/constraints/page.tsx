@@ -48,15 +48,15 @@ export default function ConstraintsPage() {
 
       <ul>
         <li>
-          Each step's <code>show[]</code> must be a superset of the previous
-          step's <code>show[]</code>.
+          Each step&apos;s <code>show[]</code> must be a superset of the previous
+          step&apos;s <code>show[]</code>.
         </li>
         <li>Never remove an id between steps.</li>
         <li>
-          The final step's <code>show[]</code> must include every component id.
+          The final step&apos;s <code>show[]</code> must include every component id.
         </li>
         <li>
-          First step's <code>show[]</code> must be <code>['bb']</code>.
+          First step&apos;s <code>show[]</code> must be <code>['bb']</code>.
         </li>
       </ul>
 
@@ -68,7 +68,7 @@ export default function ConstraintsPage() {
         </li>
         <li>Each IC occupies exactly 7 consecutive columns.</li>
         <li>Minimum 2-column gap between adjacent ICs.</li>
-        <li>Do not place any component past column 30.</li>
+        <li>Do not place any component past column 30 on the standard breadboard, or past column 63 on the long-breadboard.</li>
       </ul>
 
       <h2>Resistor + LED pairing</h2>
@@ -91,7 +91,7 @@ export default function ConstraintsPage() {
           Resistor at col 22 → <code>p1</code> at col 22, <code>p2</code> at col
           25. LED at col 24 → anode at col 24, cathode at col 25. Wire:{" "}
           <code>resistor p2 (col 25) → LED anode (col 24)</code>. They share the
-          same node because they're in the same column on the same row.
+          same node because they&apos;re in the same column on the same row.
         </p>
       </Callout>
 
@@ -135,13 +135,13 @@ export default function ConstraintsPage() {
 
       <h2>Validating before committing</h2>
 
-      <p>There's no automated validator yet. Manual checklist:</p>
+      <p>There&apos;s no automated validator yet. Manual checklist:</p>
 
       <ol>
         <li>
           All ids in <code>show[]</code> exist in <code>components[]</code>
         </li>
-        <li>Column ranges of components on the same row don't overlap</li>
+        <li>Column ranges of components on the same row don&apos;t overlap</li>
         <li>
           Every IC is on row <code>'e'</code> with 7-col spacing
         </li>
@@ -150,7 +150,7 @@ export default function ConstraintsPage() {
           <code>show[]</code> only grows — never shrinks
         </li>
         <li>
-          Last step's <code>show[]</code> contains all component ids
+          Last step&apos;s <code>show[]</code> contains all component ids
         </li>
         <li>
           <code>activeInputs</code> keys match <code>truthTable.inputs</code>
