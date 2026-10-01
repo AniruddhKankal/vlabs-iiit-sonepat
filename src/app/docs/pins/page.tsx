@@ -30,7 +30,7 @@ export default function PinsPage() {
       <pre>{`type PinRef =
   | TiePin      // a specific breadboard hole
   | RailPin     // a power-rail hole
-  | IcPin       // a named pin on a mounted IC
+  | IcPin       // a named pin on a mounted IC or discrete semiconductor
   | PassivePin  // p1 or p2 lead on a resistor or capacitor
   | LedPin;     // anode or cathode of an LED`}</pre>
 
@@ -61,7 +61,7 @@ export default function PinsPage() {
             <td>
               <code>col</code>
             </td>
-            <td>1–30</td>
+            <td>1–30 (for standard board) or 1–63 (for long board)</td>
           </tr>
           <tr>
             <td>
@@ -131,23 +131,19 @@ export default function PinsPage() {
         </p>
       </Callout>
 
-      <h2>IcPin — named IC pin</h2>
+      <h2>IcPin — named IC pin or discrete semiconductor lead</h2>
 
       <pre>{`{ ic: 'xor1', pin: 'A' }   // input A  → col+0, row e
-{ ic: 'xor1', pin: 'B' }   // input B  → col+1, row e
 { ic: 'xor1', pin: 'Y' }   // output Y → col+2, row e
 
-// Dual-gate ICs (two gates per package):
-{ ic: 'nand1', pin: '1A' }  // gate 1 input A  → col+0
-{ ic: 'nand1', pin: '1B' }  // gate 1 input B  → col+1
-{ ic: 'nand1', pin: '1Y' }  // gate 1 output   → col+2
-{ ic: 'nand1', pin: '2A' }  // gate 2 input A  → col+3
-{ ic: 'nand1', pin: '2B' }  // gate 2 input B  → col+4
-{ ic: 'nand1', pin: '2Y' }  // gate 2 output   → col+5`}</pre>
+// Discrete semiconductors (BJTs, MOSFETs):
+{ ic: 'q1', pin: 'B' } // Base
+{ ic: 'q1', pin: 'C' } // Collector
+{ ic: 'q1', pin: 'E' } // Emitter`}</pre>
 
       <p>
-        The <code>ic</code> field references the <code>id</code> of a gate
-        component. The resolver looks up that component's{" "}
+        The <code>ic</code> field references the <code>id</code> of a component
+        with named pins. The resolver looks up that component&apos;s{" "}
         <code>mountedAt.col</code> and adds the appropriate column offset.
       </p>
 
@@ -205,6 +201,15 @@ export default function PinsPage() {
         </tbody>
       </table>
 
+      <Callout $tone="tip">
+        <strong>It&apos;s not just for logic gates!</strong>
+        <p>
+          BJTs, MOSFETs, regulators, timers, etc., all use the{" "}
+          <code>IcPin</code> structure for wires (e.g. <code>pin: 'B'</code> or{" "}
+          <code>pin: 'G'</code>).
+        </p>
+      </Callout>
+
       <h2>PassivePin — resistor or capacitor lead</h2>
 
       <pre>{`{ component: 'r1', end: 'p1' }   // left lead  → mountedAt.col
@@ -229,34 +234,12 @@ export default function PinsPage() {
         <strong> cathode</strong> (negative) to ground.
       </p>
 
-      <h2>Common wiring pattern</h2>
-
-      <p>
-        The standard output chain is: IC output → resistor p1 → resistor p2 →
-        LED anode → LED cathode → ground rail.
-      </p>
-
-      <pre>{`// IC output → resistor
-{ id: 'w_out', type: 'wire', color: 'green',
-  from: { ic: 'xor1', pin: 'Y' },
-  to:   { component: 'r_sum', end: 'p1' } },
-
-// Resistor → LED
-{ id: 'w_led', type: 'wire', color: 'green',
-  from: { component: 'r_sum', end: 'p2' },
-  to:   { led: 'led_sum', end: 'anode' } },
-
-// LED cathode → ground
-{ id: 'w_gnd', type: 'wire', color: 'black',
-  from: { led: 'led_sum', end: 'cathode' },
-  to:   { board: 'bb', rail: 'gnd_top', col: 1 } },`}</pre>
-
       <DocNav>
         <DocNavLink as={Link} href="/docs/circuits" data-dir="prev">
           Circuit schema
         </DocNavLink>
         <DocNavLink as={Link} href="/docs/steps" data-dir="next">
-          Steps & highlighting
+          Steps &amp; highlighting
         </DocNavLink>
       </DocNav>
     </Prose>
