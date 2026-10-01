@@ -48,12 +48,13 @@ export default function ConstraintsPage() {
 
       <ul>
         <li>
-          Each step&apos;s <code>show[]</code> must be a superset of the previous
-          step&apos;s <code>show[]</code>.
+          Each step&apos;s <code>show[]</code> must be a superset of the
+          previous step&apos;s <code>show[]</code>.
         </li>
         <li>Never remove an id between steps.</li>
         <li>
-          The final step&apos;s <code>show[]</code> must include every component id.
+          The final step&apos;s <code>show[]</code> must include every component
+          id.
         </li>
         <li>
           First step&apos;s <code>show[]</code> must be <code>['bb']</code>.
@@ -68,7 +69,10 @@ export default function ConstraintsPage() {
         </li>
         <li>Each IC occupies exactly 7 consecutive columns.</li>
         <li>Minimum 2-column gap between adjacent ICs.</li>
-        <li>Do not place any component past column 30 on the standard breadboard, or past column 63 on the long-breadboard.</li>
+        <li>
+          Do not place any component past column 30 on the standard breadboard,
+          or past column 63 on the long-breadboard.
+        </li>
       </ul>
 
       <h2>Resistor + LED pairing</h2>

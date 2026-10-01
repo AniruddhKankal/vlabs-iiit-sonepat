@@ -21,17 +21,16 @@ export default function GeometryPage() {
 
       <p>
         A geometry builder is a pure TypeScript function that returns a
-        <code> THREE.Group</code>. It receives the component&apos;s position data and
-        returns a fully-formed 3D mesh — no React, no hooks, no side effects.
+        <code> THREE.Group</code>. It receives the component&apos;s position
+        data and returns a fully-formed 3D mesh — no React, no hooks, no side
+        effects.
       </p>
 
       <hr />
 
       <h2>The three-step process</h2>
 
-      <p>
-        Adding a new renderable component type requires three changes:
-      </p>
+      <p>Adding a new renderable component type requires three changes:</p>
 
       <ol>
         <li>
@@ -41,7 +40,9 @@ export default function GeometryPage() {
           — extends the <code>ComponentInstance</code> discriminated union.
         </li>
         <li>
-          <strong>Create a component folder in <code>src/components/</code></strong>{" "}
+          <strong>
+            Create a component folder in <code>src/components/</code>
+          </strong>{" "}
           — write the geometry builder and export it.
         </li>
         <li>
@@ -53,7 +54,8 @@ export default function GeometryPage() {
       </ol>
 
       <p>
-        The renderer itself never changes. That&apos;s the point of the registry.
+        The renderer itself never changes. That&apos;s the point of the
+        registry.
       </p>
 
       <hr />
@@ -76,10 +78,9 @@ export type ComponentInstance =
       <h2>Step 2 — Create the component folder</h2>
 
       <p>
-        Create a new folder under <code>src/components/</code> following
-        the established pattern. Each component folder has an{" "}
-        <code>index.ts</code> that exports both the board-mounted and
-        standalone builder functions:
+        Create a new folder under <code>src/components/</code> following the
+        established pattern. Each component folder has an <code>index.ts</code>{" "}
+        that exports both the board-mounted and standalone builder functions:
       </p>
 
       <pre>{`src/components/

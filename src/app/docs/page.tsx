@@ -158,8 +158,7 @@ export default function DocsIndexPage() {
             <td>
               <code>semesters/&lt;sem&gt;/&lt;subject&gt;/&lt;name&gt;/</code>{" "}
               (new folder with aim, theory, apparatus, procedure, observations,
-              conclusion, components, index) +{" "}
-              <code>semesters/catalog.ts</code>
+              conclusion, components, index) + <code>semesters/catalog.ts</code>
             </td>
           </tr>
           <tr>
@@ -168,8 +167,8 @@ export default function DocsIndexPage() {
             </td>
             <td>
               <code>src/components/&lt;name&gt;/</code> (new folder) +{" "}
-              <code>src/components/index.ts</code> +{" "}
-              <code>LabScene.tsx</code> (one registry entry)
+              <code>src/components/index.ts</code> + <code>LabScene.tsx</code>{" "}
+              (one registry entry)
             </td>
           </tr>
           <tr>
@@ -197,8 +196,7 @@ export default function DocsIndexPage() {
           Paste <code>src/labs/COMPONENTS.md</code> into Claude, describe the
           experiment, and have it generate the full folder structure (aim,
           theory, apparatus, procedure, observations, conclusion, and circuit
-          definition). Register the result in{" "}
-          <code>semesters/catalog.ts</code>.
+          definition). Register the result in <code>semesters/catalog.ts</code>.
         </p>
       </Callout>
 

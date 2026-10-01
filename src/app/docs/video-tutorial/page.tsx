@@ -48,10 +48,7 @@ export default function VideoTutorialPage() {
           marginBottom: "16px",
         }}
       >
-        <source
-          src="/how_to_add_experiment_vlabs.mp4"
-          type="video/mp4"
-        />
+        <source src="/how_to_add_experiment_vlabs.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
@@ -67,8 +64,8 @@ export default function VideoTutorialPage() {
           procedure, observations, and conclusion files
         </li>
         <li>
-          <strong>Defining the circuit</strong> — using the{" "}
-          <code>CB</code> fluent builder or manual <code>Circuit</code> objects
+          <strong>Defining the circuit</strong> — using the <code>CB</code>{" "}
+          fluent builder or manual <code>Circuit</code> objects
         </li>
         <li>
           <strong>Registering in the catalog</strong> — adding the experiment to{" "}
@@ -85,8 +82,8 @@ export default function VideoTutorialPage() {
         <p>
           You can paste <code>src/labs/COMPONENTS.md</code> and{" "}
           <code>src/labs/APPARATUS.md</code> into Claude or another LLM and ask
-          it to generate the entire experiment folder structure. Then just review,
-          adjust, and register.
+          it to generate the entire experiment folder structure. Then just
+          review, adjust, and register.
         </p>
       </Callout>
 

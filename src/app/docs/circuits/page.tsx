@@ -21,9 +21,9 @@ export default function CircuitsPage() {
       <p>
         A circuit is a plain TypeScript object conforming to the{" "}
         <code>Circuit</code> type. It usually lives in{" "}
-        <code>components.ts</code> within an experiment folder. It imports no renderer
-        code, and can be generated entirely by an AI given the component
-        reference.
+        <code>components.ts</code> within an experiment folder. It imports no
+        renderer code, and can be generated entirely by an AI given the
+        component reference.
       </p>
 
       <hr />
@@ -109,8 +109,9 @@ export const SrLatch: Circuit = {
       <h2>components</h2>
 
       <p>
-        An array of <code>ComponentInstance</code> values. Order doesn&apos;t matter
-        for rendering — the renderer iterates all of them. Conventional order:
+        An array of <code>ComponentInstance</code> values. Order doesn&apos;t
+        matter for rendering — the renderer iterates all of them. Conventional
+        order:
       </p>
 
       <ol>

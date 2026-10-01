@@ -61,7 +61,9 @@ col  30      do not use — board edge`}</pre>
             <td>
               <code>a, b</code>
             </td>
-            <td>Input wires (tie-points for A, B, Cin…) and Instrument inputs</td>
+            <td>
+              Input wires (tie-points for A, B, Cin…) and Instrument inputs
+            </td>
           </tr>
           <tr>
             <td>
@@ -105,8 +107,8 @@ IC3 at col 23 → occupies cols 23–29  (2-col gap between 20 and 23 ✓)`}</pr
 
       <p>
         A resistor spans <strong>col → col+3</strong>. Its LED must be at{" "}
-        <strong>col+2</strong> (not col+1 — that&apos;s the resistor&apos;s right lead,
-        col+4 is the LED&apos;s right-of-anode).
+        <strong>col+2</strong> (not col+1 — that&apos;s the resistor&apos;s
+        right lead, col+4 is the LED&apos;s right-of-anode).
       </p>
 
       <pre>{`// First output pair at col 22 / row c:

@@ -88,8 +88,8 @@ export default function ComponentsPage() {
       <p>
         Colors: <code>&apos;red&apos;</code>, <code>&apos;green&apos;</code>,{" "}
         <code>&apos;yellow&apos;</code>, <code>&apos;blue&apos;</code>,{" "}
-        <code>&apos;white&apos;</code>. Spans <strong>col (anode) →
-        col+1 (cathode)</strong>.
+        <code>&apos;white&apos;</code>. Spans{" "}
+        <strong>col (anode) → col+1 (cathode)</strong>.
       </p>
 
       <h3>7-Segment Display</h3>
@@ -156,35 +156,51 @@ export default function ComponentsPage() {
         </thead>
         <tbody>
           <tr>
-            <td><code>&apos;red&apos;</code></td>
+            <td>
+              <code>&apos;red&apos;</code>
+            </td>
             <td>VCC / Input A</td>
           </tr>
           <tr>
-            <td><code>&apos;blue&apos;</code></td>
+            <td>
+              <code>&apos;blue&apos;</code>
+            </td>
             <td>Input B</td>
           </tr>
           <tr>
-            <td><code>&apos;orange&apos;</code></td>
+            <td>
+              <code>&apos;orange&apos;</code>
+            </td>
             <td>Input C / Cin / Bin</td>
           </tr>
           <tr>
-            <td><code>&apos;white&apos;</code></td>
+            <td>
+              <code>&apos;white&apos;</code>
+            </td>
             <td>Internal signal</td>
           </tr>
           <tr>
-            <td><code>&apos;green&apos;</code></td>
+            <td>
+              <code>&apos;green&apos;</code>
+            </td>
             <td>Sum / primary output</td>
           </tr>
           <tr>
-            <td><code>&apos;yellow&apos;</code></td>
+            <td>
+              <code>&apos;yellow&apos;</code>
+            </td>
             <td>Carry / Borrow output</td>
           </tr>
           <tr>
-            <td><code>&apos;purple&apos;</code></td>
+            <td>
+              <code>&apos;purple&apos;</code>
+            </td>
             <td>Alternate signal</td>
           </tr>
           <tr>
-            <td><code>&apos;black&apos;</code></td>
+            <td>
+              <code>&apos;black&apos;</code>
+            </td>
             <td>Ground</td>
           </tr>
         </tbody>
@@ -194,10 +210,10 @@ export default function ComponentsPage() {
         <strong>Standalone builders</strong>
         <p>
           Every component type also has a <code>buildXxxStandalone()</code>{" "}
-          variant (e.g. <code>buildLedStandalone(&apos;red&apos;)</code>) used by the
-          showcase cards on the landing page and the{" "}
-          <code>EceComponentViewer</code>. Write one alongside the
-          board-mounted version.
+          variant (e.g. <code>buildLedStandalone(&apos;red&apos;)</code>) used
+          by the showcase cards on the landing page and the{" "}
+          <code>EceComponentViewer</code>. Write one alongside the board-mounted
+          version.
         </p>
       </Callout>
 

@@ -42,9 +42,9 @@ export default function StepsPage() {
 
       <p>
         <code>show</code> lists every component <em>id</em> that should be
-        visible at this step. It is <strong>cumulative</strong> — each step&apos;s
-        array includes all ids from the previous step plus the new ones. You
-        never shrink it.
+        visible at this step. It is <strong>cumulative</strong> — each
+        step&apos;s array includes all ids from the previous step plus the new
+        ones. You never shrink it.
       </p>
 
       <pre>{`steps: [
@@ -78,15 +78,16 @@ export default function StepsPage() {
 
       <p>
         The optional <code>highlight</code> field points to one component id.
-        The renderer pulses or accentuates that component to draw the student&apos;s
-        attention to what was just added.
+        The renderer pulses or accentuates that component to draw the
+        student&apos;s attention to what was just added.
       </p>
 
       <ul>
         <li>Use it on the step that first introduces a component.</li>
         <li>Point it at a wire to highlight a connection just made.</li>
         <li>
-          In the final &quot;test&quot; step, point it at the LED that should light up.
+          In the final &quot;test&quot; step, point it at the LED that should
+          light up.
         </li>
         <li>Omit it when you&apos;re revealing many things at once.</li>
       </ul>
@@ -108,22 +109,36 @@ export default function StepsPage() {
 
       <h2>Analog States: supplyVoltage, readings, ledBrightness</h2>
 
-      <p>
-        For analog electronics, use the analog-specific fields:
-      </p>
+      <p>For analog electronics, use the analog-specific fields:</p>
 
       <ul>
         <li>
-          <strong><code>supplyVoltage</code></strong>: Displays the current voltage
-          supplied to the circuit (e.g. <code>5.0</code>).
+          <strong>
+            <code>supplyVoltage</code>
+          </strong>
+          : Displays the current voltage supplied to the circuit (e.g.{" "}
+          <code>5.0</code>).
         </li>
         <li>
-          <strong><code>readings</code></strong>: A map of instrument <code>id</code>s
-          to their display strings (e.g. <code>{'{'} vm1: '4.85 V' {'}'}</code>).
+          <strong>
+            <code>readings</code>
+          </strong>
+          : A map of instrument <code>id</code>s to their display strings (e.g.{" "}
+          <code>
+            {"{"} vm1: '4.85 V' {"}"}
+          </code>
+          ).
         </li>
         <li>
-          <strong><code>ledBrightness</code></strong>: A map of LED <code>id</code>s
-          to their brightness values from 0.0 to 1.0 (e.g. <code>{'{'} led1: 0.8 {'}'}</code>).
+          <strong>
+            <code>ledBrightness</code>
+          </strong>
+          : A map of LED <code>id</code>s to their brightness values from 0.0 to
+          1.0 (e.g.{" "}
+          <code>
+            {"{"} led1: 0.8 {"}"}
+          </code>
+          ).
         </li>
       </ul>
 
@@ -150,8 +165,8 @@ export default function StepsPage() {
           wires.
         </li>
         <li>
-          Don&apos;t split individual wires into separate steps — batch related wires
-          together.
+          Don&apos;t split individual wires into separate steps — batch related
+          wires together.
         </li>
         <li>
           Do split ICs onto their own steps when explaining their logic
