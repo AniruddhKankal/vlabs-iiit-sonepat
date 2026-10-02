@@ -1,0 +1,15 @@
+import { type SceneProcedureStep } from "@/labs/experiments/types";
+
+export const step: SceneProcedureStep = {
+  label: "Place the output resistors and LEDs.",
+  body: "On the right side of the board place three 330 Ω resistors with an LED just after each: green for Sum/Difference (columns 46 and 48), yellow for Carry (50 and 52) and red for Borrow (54 and 56). The resistors limit the LED current.",
+  show: [
+    "bb", "xor1", "and1", "not1", "and2",
+    "w_a_xor", "w_a_and", "w_a_not",
+    "w_b_xor", "w_b_and", "w_b_and2",
+    "w_not_and2",
+    "r_sd", "led_sd", "r_c", "led_c", "r_b", "led_b",
+  ],
+  highlight: "led_sd",
+  audioPath: "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/04-procedure/07-procedure.mp3"
+};

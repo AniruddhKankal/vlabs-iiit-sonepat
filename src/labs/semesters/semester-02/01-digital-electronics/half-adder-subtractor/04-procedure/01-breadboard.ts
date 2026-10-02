@@ -1,0 +1,8 @@
+import { type SceneProcedureStep } from "@/labs/experiments/types";
+
+export const step: SceneProcedureStep = {
+  label: "Place the long breadboard.",
+  body: "Place the 60-column breadboard on the workbench. We use the long board so the four ICs and the output stage have plenty of room and every jumper wire stays clearly visible. Input tie-points will be on the left (columns 2 and 4) and the LEDs on the right.",
+  show: ["bb"],
+  audioPath: "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/04-procedure/01-procedure.mp3"
+};
