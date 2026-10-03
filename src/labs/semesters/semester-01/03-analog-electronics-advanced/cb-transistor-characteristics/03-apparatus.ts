@@ -27,7 +27,7 @@ export const apparatus: ApparatusSection = {
       specification: "DC volts range",
       quantity: "3",
     },
-    { name: "Breadboard", specification: "830 tie-point", quantity: "1"},
+    { name: "Breadboard", specification: "830 tie-point", quantity: "1" },
     { name: "Connecting wires", quantity: "1" },
   ],
 };
