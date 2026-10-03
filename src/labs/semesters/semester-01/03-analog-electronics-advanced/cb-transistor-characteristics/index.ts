@@ -15,7 +15,14 @@ export const cbTransistorCharacteristicsExperiment: ExperimentDefinition = {
   description:
     "Plot the input (IE vs VEB) and output (IC vs VCB) characteristics of an NPN transistor in common-base configuration and find ri, ro and α.",
   components,
-  sections: [aim, theory, apparatus, observationsInput, observationsOutput, conclusion],
+  sections: [
+    aim,
+    theory,
+    apparatus,
+    observationsInput,
+    observationsOutput,
+    conclusion,
+  ],
   procedureSteps,
 };
 
