@@ -14,9 +14,10 @@ export function buildCapacitor(
   const R = PITCH * 0.65,
     H = PITCH * 2.8;
 
+  root.position.set(cx, TOP_Y + H / 2, cz);
+
   const bodyGeo = new THREE.CylinderGeometry(R, R, H, 18);
   const body = new THREE.Mesh(bodyGeo, M.capblue());
-  body.position.set(cx, TOP_Y + H / 2, cz);
   body.add(
     new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo, 20), M.edge()),
   );
@@ -25,7 +26,7 @@ export function buildCapacitor(
   // Polarity stripe
   const sg = new THREE.CylinderGeometry(R + 0.006, R + 0.006, H * 0.18, 18);
   const stripe = new THREE.Mesh(sg, M.silver());
-  stripe.position.set(cx, TOP_Y + H - H * 0.09, cz);
+  stripe.position.set(0, H * 0.41, 0);
   root.add(stripe);
 
   // Negative bar
@@ -33,7 +34,7 @@ export function buildCapacitor(
     new THREE.BoxGeometry(0.012, H * 0.2, R * 0.28),
     M.dark(),
   );
-  bar.position.set(cx + R * 0.65, TOP_Y + H - H * 0.09, cz);
+  bar.position.set(R * 0.65, H * 0.41, 0);
   root.add(bar);
 
   // Top cap
@@ -41,7 +42,7 @@ export function buildCapacitor(
     new THREE.CylinderGeometry(R, R, 0.015, 18),
     M.silver(),
   );
-  cap.position.set(cx, TOP_Y + H, cz);
+  cap.position.set(0, H / 2, 0);
   root.add(cap);
 
   // Leads
@@ -54,7 +55,7 @@ export function buildCapacitor(
   );
   for (const lp of [lead1, lead2]) {
     const lm = new THREE.Mesh(leadGeo, M.gold());
-    lm.position.set(lp.x, TOP_Y - BOARD_H * 0.3 + leadH / 2, lp.z);
+    lm.position.set(lp.x - cx, leadH / 2 - H / 2 - BOARD_H * 0.3, lp.z - cz);
     root.add(lm);
   }
 
@@ -67,7 +68,7 @@ export function buildCapacitor(
   });
   if (valL) {
     valL.rotation.y = Math.PI / 2;
-    valL.position.set(cx + R + 0.002, TOP_Y + H * 0.5, cz);
+    valL.position.set(R + 0.002, 0, 0);
     root.add(valL);
   }
   const vL = textLabel("25V", R * 1.2, H * 0.14, {
@@ -76,7 +77,7 @@ export function buildCapacitor(
   });
   if (vL) {
     vL.rotation.y = Math.PI / 2;
-    vL.position.set(cx + R + 0.002, TOP_Y + H * 0.34, cz);
+    vL.position.set(R + 0.002, -H * 0.16, 0);
     root.add(vL);
   }
 
@@ -91,7 +92,6 @@ export function buildCapacitorStandalone(capacitance = 100): THREE.Group {
 
   const bodyGeo = new THREE.CylinderGeometry(R, R, H, 18);
   const body = new THREE.Mesh(bodyGeo, M.capblue());
-  body.position.y = H / 2;
   body.add(
     new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo, 20), M.edge()),
   );
@@ -101,25 +101,26 @@ export function buildCapacitorStandalone(capacitance = 100): THREE.Group {
     new THREE.CylinderGeometry(R + 0.006, R + 0.006, H * 0.2, 18),
     M.silver(),
   );
-  stripe.position.y = H * 0.88;
+  stripe.position.y = H * 0.38;
   root.add(stripe);
 
   const bar = new THREE.Mesh(
     new THREE.BoxGeometry(0.012, H * 0.22, R * 0.28),
     M.dark(),
   );
-  bar.position.set(R * 0.65, H * 0.88, 0);
+  bar.position.set(R * 0.65, H * 0.38, 0);
   root.add(bar);
 
-  root
-    .add(
-      new THREE.Mesh(new THREE.CylinderGeometry(R, R, 0.016, 18), M.silver()),
-    )
-    .position.set(0, H, 0);
+  const cap = new THREE.Mesh(
+    new THREE.CylinderGeometry(R, R, 0.016, 18),
+    M.silver(),
+  );
+  cap.position.set(0, H / 2, 0);
+  root.add(cap);
 
   for (const dx of [-P * 0.3, P * 0.3]) {
     const lead = solidCyl(P * 0.07, P * 1.6, M.gold(), 6);
-    lead.position.set(dx, -P * 0.8, 0);
+    lead.position.set(dx, -P * 0.8 - H / 2, 0);
     root.add(lead);
   }
 
@@ -131,7 +132,7 @@ export function buildCapacitorStandalone(capacitance = 100): THREE.Group {
   });
   if (valL) {
     valL.rotation.y = Math.PI / 2;
-    valL.position.set(R + 0.002, H * 0.5, 0);
+    valL.position.set(R + 0.002, 0, 0);
     root.add(valL);
   }
   const vL = textLabel("25V", R * 1.2, H * 0.14, {
@@ -140,7 +141,7 @@ export function buildCapacitorStandalone(capacitance = 100): THREE.Group {
   });
   if (vL) {
     vL.rotation.y = Math.PI / 2;
-    vL.position.set(R + 0.002, H * 0.34, 0);
+    vL.position.set(R + 0.002, -H * 0.16, 0);
     root.add(vL);
   }
 
