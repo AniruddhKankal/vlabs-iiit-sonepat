@@ -14,6 +14,7 @@ export function createVisualRenderer(
   let renderer: THREE.WebGLRenderer;
   try {
     renderer = new THREE.WebGLRenderer(parameters);
+    if (!renderer) return null;
   } catch (error) {
     if (process.env.NODE_ENV !== "production") {
       console.error("WebGL renderer creation failed:", error);
