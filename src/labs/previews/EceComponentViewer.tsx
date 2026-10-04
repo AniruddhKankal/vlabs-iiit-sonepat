@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
+import { createVisualRenderer } from "@/platform/visuals/three-runtime/create-visual-renderer";
 import {
   buildBreadboardStandalone,
   buildDip14Standalone,
@@ -18,18 +19,44 @@ import {
   buildIcMeterStandalone,
   buildDcPowerSupplyStandalone,
   buildMcuTrainerStandalone,
+  buildDiodeStandalone,
+  buildZenerDiodeStandalone,
+  buildAmmeterStandalone,
+  buildVoltmeterStandalone,
+  buildBjtStandalone,
+  buildMosfetStandalone,
+  buildOpAmpStandalone,
+  buildSevenSegmentStandalone,
+  buildOscilloscopeStandalone,
+  buildFunctionGeneratorStandalone,
+  buildTransformerStandalone,
+  buildDipSwitchStandalone,
+  buildLogicAnalyzerStandalone,
 } from "@/components";
 
 // ── Component kind type ───────────────────────────────────────────────────
 export type EceComponentKind =
   | "breadboard"
+  | "diode"
+  | "zener-diode"
   | "led"
+  | "dip-switch"
   | "resistor"
+  | "bjt"
+  | "mosfet"
+  | "op-amp"
+  | "seven-segment"
+  | "transformer"
+  | "function-generator"
   | "capacitor"
   | "potentiometer"
+  | "ammeter"
+  | "voltmeter"
+  | "logic-analyser"
   | "push-button"
   | "switch"
   | "battery"
+  | "oscilloscope"
   | "dc-jack"
   | "xor-gate"
   | "and-gate"
@@ -42,20 +69,46 @@ function buildStandalone(kind: EceComponentKind): THREE.Group {
   switch (kind) {
     case "breadboard":
       return buildBreadboardStandalone();
+    case "diode":
+      return buildDiodeStandalone();
+    case "zener-diode":
+      return buildZenerDiodeStandalone();
     case "led":
       return buildLedStandalone("green");
+    case "dip-switch":
+      return buildDipSwitchStandalone();
     case "resistor":
       return buildResistorStandalone(330);
+    case "bjt":
+      return buildBjtStandalone();
+    case "mosfet":
+      return buildMosfetStandalone();
+    case "op-amp":
+      return buildOpAmpStandalone();
+    case "seven-segment":
+      return buildSevenSegmentStandalone();
+    case "transformer":
+      return buildTransformerStandalone();
+    case "function-generator":
+      return buildFunctionGeneratorStandalone();
     case "capacitor":
       return buildCapacitorStandalone(100);
     case "potentiometer":
       return buildPotentiometerStandalone();
+    case "ammeter":
+      return buildAmmeterStandalone();
+    case "voltmeter":
+      return buildVoltmeterStandalone();
+    case "logic-analyser":
+      return buildLogicAnalyzerStandalone();
     case "push-button":
       return buildPushButtonStandalone();
     case "switch":
       return buildSwitchStandalone();
     case "battery":
       return buildBatteryStandalone();
+    case "oscilloscope":
+      return buildOscilloscopeStandalone();
     case "dc-jack":
       return buildDcJackStandalone();
     case "xor-gate":
@@ -74,13 +127,26 @@ function buildStandalone(kind: EceComponentKind): THREE.Group {
 // ── Camera presets ────────────────────────────────────────────────────────
 const CAM: Record<EceComponentKind, [number, number, number]> = {
   breadboard: [1.5, 2.2, 2.5],
+  diode: [1.5, 2.2, 2.5],
+  "zener-diode": [1.5, 2.5, 2.5],
   led: [1.2, 1.6, 2.0],
+  "dip-switch": [1.2, 1.6, 2.0],
   resistor: [1.5, 1.2, 1.8],
+  bjt: [1.4, 1.2, 1.8],
+  mosfet: [1.4, 1.2, 1.8],
+  "op-amp": [1.5, 2.2, 1.8],
+  "seven-segment": [1.5, 2.0, 2.2],
+  transformer: [1.5, 2.0, 2.2],
+  "function-generator": [1.5, 2.0, 2.2],
   capacitor: [1.2, 1.8, 2.2],
   potentiometer: [1.4, 2.0, 2.2],
+  ammeter: [1.4, 2.0, 2.2],
+  voltmeter: [1.4, 2.0, 2.2],
+  "logic-analyser": [1.4, 2.0, 2.2],
   "push-button": [1.2, 1.6, 2.0],
   switch: [1.4, 1.6, 2.2],
   battery: [1.4, 2.4, 2.8],
+  oscilloscope: [1.5, 2.2, 2.8],
   "dc-jack": [1.4, 1.6, 2.2],
   "xor-gate": [1.6, 1.8, 2.4],
   "and-gate": [1.6, 1.8, 2.4],
@@ -123,7 +189,8 @@ export function EceComponentViewer({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    const renderer = createVisualRenderer({ canvas, antialias: true });
+    if (!renderer) return;
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     renderer.setClearColor(background, 1);
 
