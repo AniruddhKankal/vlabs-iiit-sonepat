@@ -172,15 +172,19 @@ export function EceComponentViewer({
         rx += (e.clientY - ly) * 0.007;
         rx = Math.max(-0.8, Math.min(1.4, rx));
       } else if (dragAction === "pan") {
-        const dx = -(e.clientX - lx) * 0.005 / zoom;
-        const dy = (e.clientY - ly) * 0.005 / zoom;
-        
-        const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
-        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);
-        
+        const dx = (-(e.clientX - lx) * 0.005) / zoom;
+        const dy = ((e.clientY - ly) * 0.005) / zoom;
+
+        const right = new THREE.Vector3(1, 0, 0).applyQuaternion(
+          camera.quaternion,
+        );
+        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(
+          camera.quaternion,
+        );
+
         target.addScaledVector(right, dx);
         target.addScaledVector(up, dy);
-        
+
         applyZoom(zoom);
       }
       lx = e.clientX;
@@ -199,7 +203,10 @@ export function EceComponentViewer({
     // scroll and a pinch land here as wheel events and have to be handled by hand.
     const applyZoom = (next: number) => {
       zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, next));
-      camera.position.copy(restPosition).multiplyScalar(1 / zoom).add(target);
+      camera.position
+        .copy(restPosition)
+        .multiplyScalar(1 / zoom)
+        .add(target);
       camera.lookAt(target);
     };
     const onWheel = (e: WheelEvent) => {

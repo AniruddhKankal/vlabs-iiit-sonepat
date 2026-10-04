@@ -111,7 +111,10 @@ export function buildCapacitorStandalone(capacitance = 100): THREE.Group {
   bar.position.set(R * 0.65, H * 0.38, 0);
   root.add(bar);
 
-  const cap = new THREE.Mesh(new THREE.CylinderGeometry(R, R, 0.016, 18), M.silver());
+  const cap = new THREE.Mesh(
+    new THREE.CylinderGeometry(R, R, 0.016, 18),
+    M.silver(),
+  );
   cap.position.set(0, H / 2, 0);
   root.add(cap);
 
