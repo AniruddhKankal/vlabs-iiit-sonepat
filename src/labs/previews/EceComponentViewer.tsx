@@ -134,6 +134,7 @@ export function EceComponentViewer({
     camera.lookAt(0, 0, 0);
     const restPosition = camera.position.clone();
     let zoom = 1;
+    const target = new THREE.Vector3(0, 0, 0);
 
     const pivot = new THREE.Group();
     pivot.rotation.x = TILT[kind] ?? 0.3;
@@ -151,28 +152,45 @@ export function EceComponentViewer({
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    let dragging = false,
+    let dragAction: "rotate" | "pan" | null = null,
       lx = 0,
       ly = 0,
       ry = 0,
       rx = TILT[kind] ?? 0.3;
     const onDown = (e: PointerEvent) => {
-      dragging = true;
+      dragAction = e.button === 2 ? "pan" : "rotate";
       lx = e.clientX;
       ly = e.clientY;
     };
     const onUp = () => {
-      dragging = false;
+      dragAction = null;
     };
     const onMove = (e: PointerEvent) => {
-      if (!dragging) return;
-      ry += (e.clientX - lx) * 0.012;
-      rx += (e.clientY - ly) * 0.007;
-      rx = Math.max(-0.8, Math.min(1.4, rx));
+      if (!dragAction) return;
+      if (dragAction === "rotate") {
+        ry += (e.clientX - lx) * 0.012;
+        rx += (e.clientY - ly) * 0.007;
+        rx = Math.max(-0.8, Math.min(1.4, rx));
+      } else if (dragAction === "pan") {
+        const dx = -(e.clientX - lx) * 0.005 / zoom;
+        const dy = (e.clientY - ly) * 0.005 / zoom;
+        
+        const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
+        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);
+        
+        target.addScaledVector(right, dx);
+        target.addScaledVector(up, dy);
+        
+        applyZoom(zoom);
+      }
       lx = e.clientX;
       ly = e.clientY;
     };
+    const onContextMenu = (e: Event) => {
+      e.preventDefault();
+    };
     canvas.addEventListener("pointerdown", onDown);
+    canvas.addEventListener("contextmenu", onContextMenu);
     window.addEventListener("pointerup", onUp);
     window.addEventListener("pointermove", onMove);
 
@@ -181,8 +199,8 @@ export function EceComponentViewer({
     // scroll and a pinch land here as wheel events and have to be handled by hand.
     const applyZoom = (next: number) => {
       zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, next));
-      camera.position.copy(restPosition).multiplyScalar(1 / zoom);
-      camera.lookAt(0, 0, 0);
+      camera.position.copy(restPosition).multiplyScalar(1 / zoom).add(target);
+      camera.lookAt(target);
     };
     const onWheel = (e: WheelEvent) => {
       if (!zoomEnabled) return;
@@ -191,6 +209,7 @@ export function EceComponentViewer({
       applyZoom(zoom * (e.deltaY > 0 ? 1 - step : 1 + step));
     };
     const onDblClick = () => {
+      target.set(0, 0, 0);
       applyZoom(1);
       ry = 0;
       rx = TILT[kind] ?? 0.3;
@@ -201,7 +220,7 @@ export function EceComponentViewer({
     let raf: number;
     function loop() {
       raf = requestAnimationFrame(loop);
-      if (!dragging && autoRotate) ry += 0.005;
+      if (!dragAction && autoRotate) ry += 0.005;
       pivot.rotation.y = ry;
       pivot.rotation.x = rx;
       renderer.render(scene, camera);
@@ -212,6 +231,7 @@ export function EceComponentViewer({
       cancelAnimationFrame(raf);
       ro.disconnect();
       canvas.removeEventListener("pointerdown", onDown);
+      canvas.removeEventListener("contextmenu", onContextMenu);
       window.removeEventListener("pointerup", onUp);
       window.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("wheel", onWheel);
