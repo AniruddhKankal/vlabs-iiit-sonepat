@@ -41,7 +41,7 @@ export const M = {
       polygonOffset: true,
       polygonOffsetFactor: 3,
     }),
-  metal: () => 
+  metal: () =>
     new THREE.MeshStandardMaterial({
       color: "#B8C0C8",
       metalness: 0.85,
