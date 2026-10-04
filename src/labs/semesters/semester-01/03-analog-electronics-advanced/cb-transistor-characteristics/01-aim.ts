@@ -4,6 +4,8 @@ export const aim: TheorySection = {
   id: "aim",
   type: "text",
   title: "Aim",
+  audioPath:
+    "/semesters/semester-01/01-analog-electronics-advanced/cb-transistor-characteristics/01-aim.mp3",
   paragraphs: [
     "To study the input and output characteristics of a transistor in the common-base (CB) configuration, and to determine its input resistance, output resistance and current gain (α).",
   ],
