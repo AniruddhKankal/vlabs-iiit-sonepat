@@ -3,6 +3,8 @@ import { type SceneProcedureStep } from "@/labs/experiments/types";
 export const step: SceneProcedureStep = {
   label: "Input characteristics at VCB = 4 V",
   body: "Return VEE to 0 V, then raise VCC until DMM-2 reads 4.00 V. Repeat the VEE sweep, re-trimming VCC to hold VCB at 4 V. Sample point: VEE = 3.0 V gives VEB ≈ 0.64 V, so IE ≈ 2.36 mA. The curve sits very slightly to the left of the VCB = 0 V curve (Early effect).",
+  audioPath:
+    "/semesters/semester-01/01-analog-electronics-advanced/cb-transistor-characteristics/10-procedure.mp3",
   show: [
     "bb",
     "psu_vee",

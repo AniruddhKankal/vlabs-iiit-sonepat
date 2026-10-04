@@ -3,6 +3,8 @@ import { type SceneProcedureStep } from "@/labs/experiments/types";
 export const step: SceneProcedureStep = {
   label: "Connect the multimeters",
   body: "Set all three multimeters to DC volts. DMM-1 is across emitter and base and reads VEB. DMM-2 is across collector and base and reads VCB. DMM-3 is across RC and reads VRC, from which IC = VRC / RC.",
+  audioPath:
+    "/semesters/semester-01/01-analog-electronics-advanced/cb-transistor-characteristics/08-procedure.mp3",
   show: [
     "bb",
     "psu_vee",
