@@ -562,14 +562,24 @@ function LabPageStandard({ content }: Props) {
       speak("");
       return;
     }
-    if (activeSection?.audioPath) {
-      speak(activeSection.audioPath);
+
+    let pathToPlay = activeSection?.audioPath;
+    if (activeSection?.type === "procedure") {
+      const step = activeSection.steps[procedureStepIndex];
+      if (step?.audioPath) {
+        pathToPlay = step.audioPath;
+      }
     }
+
+    if (pathToPlay) {
+      speak(pathToPlay);
+    }
+
     return () => {
       // Cleanup: stop any playing audio
       speak("");
     };
-  }, [activeSection, isMicOn, speak]);
+  }, [activeSection, procedureStepIndex, isMicOn, speak]);
   const circuit: Circuit =
     ALL_CIRCUITS.find((c) => c.id === content.circuitId) ?? BREADBOARD_ONLY;
 
