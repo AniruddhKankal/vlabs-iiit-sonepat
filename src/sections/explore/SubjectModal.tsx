@@ -168,12 +168,12 @@ export function SubjectModal({ subject, onClose }: Props) {
             {(activeIndex !== null
               ? activeExp?.description
               : subject.description) && (
-                <Body size="sm" muted className="text-[13px] leading-[1.5]">
-                  {activeIndex !== null
-                    ? activeExp?.description
-                    : subject.description}
-                </Body>
-              )}
+              <Body size="sm" muted className="text-[13px] leading-[1.5]">
+                {activeIndex !== null
+                  ? activeExp?.description
+                  : subject.description}
+              </Body>
+            )}
 
             {activeIndex !== null &&
               (activeExp?.labRoute ? (
