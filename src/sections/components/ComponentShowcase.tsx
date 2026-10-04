@@ -93,7 +93,7 @@ export function ComponentShowcase({ data }: { data: ComponentData }) {
   return (
     <div className="flex flex-col min-h-dvh bg-white lg:flex-row overflow-hidden relative">
       {/* ── Left: 3D Viewer ── */}
-      <div className="relative w-full h-[50vh] lg:h-dvh lg:w-[55%] bg-[#f7f6f3] border-b lg:border-b-0 lg:border-r border-[rgba(0,0,0,0.08)] flex-shrink-0">
+      <div className="relative w-full h-[50vh] lg:h-dvh lg:w-[55%] bg-[#f7f6f3] border-b lg:border-b-0 lg:border-r border-[rgba(0,0,0,0.08)] flex-shrink-0 overflow-hidden">
         <EceComponentViewer
           kind={data.kind}
           background="#f7f6f3"
@@ -102,8 +102,63 @@ export function ComponentShowcase({ data }: { data: ComponentData }) {
         />
 
         {/* Helper overlay */}
-        <div className="absolute bottom-[calc(var(--spacing-base)*4)] left-1/2 -translate-x-1/2 text-black/30 font-sans text-[11px] pointer-events-none whitespace-nowrap">
+        <div className="absolute bottom-14 left-1/2 -translate-x-1/2 text-black/30 font-sans text-[11px] pointer-events-none whitespace-nowrap">
           drag to rotate · scroll or pinch to zoom · double-click to reset
+        </div>
+
+        {/* ── Bottom Dock ── */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 p-1 bg-transparent rounded-xl z-50 max-w-[60%]">
+          <button 
+            className="text-black/25 hover:text-black/50 flex-shrink-0 transition-colors cursor-pointer"
+            onClick={() => scrollDock('left')}
+            aria-label="Scroll left"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+
+          <div 
+            ref={dockScrollRef}
+            className="flex items-center gap-2 overflow-x-auto scroll-smooth dock-scroll" 
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            <style>{`
+              .dock-scroll::-webkit-scrollbar {
+                display: none;
+              }
+            `}</style>
+            {Object.values(COMPONENTS_DATA).map((comp) => {
+              const isActive = comp.slug === data.slug;
+              return (
+                <Link
+                  key={comp.slug}
+                  href={`/components/${comp.slug}`}
+                  className={`relative w-[64px] h-[64px] rounded-lg overflow-hidden flex-shrink-0 transition-all ${
+                    isActive 
+                      ? "bg-white/80 border border-black/10 ring-1 ring-black/5 opacity-100 shadow-sm" 
+                      : "bg-white/40 border border-black/5 hover:border-black/10 hover:bg-white/70 opacity-60 hover:opacity-100"
+                  }`}
+                  title={comp.name}
+                >
+                  <div className="absolute inset-0 pointer-events-none">
+                    <EceComponentViewer 
+                      kind={comp.kind} 
+                      background={isActive ? "#f7f6f3" : "#f7f6f3"} 
+                      autoRotate={isActive} 
+                      zoom={false} 
+                    />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <button 
+            className="text-black/25 hover:text-black/50 flex-shrink-0 transition-colors cursor-pointer"
+            onClick={() => scrollDock('right')}
+            aria-label="Scroll right"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
         </div>
       </div>
 
@@ -254,62 +309,7 @@ export function ComponentShowcase({ data }: { data: ComponentData }) {
         </div>
       </div>
 
-      {/* ── Bottom Dock ── */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 bg-white/90 backdrop-blur-md rounded-2xl border border-black/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] z-50">
-        <button 
-          className="text-black/40 hover:text-black px-1 flex-shrink-0 transition-colors cursor-pointer"
-          onClick={() => scrollDock('left')}
-          aria-label="Scroll left"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
 
-        <div 
-          ref={dockScrollRef}
-          className="flex items-center gap-3 overflow-x-auto scroll-smooth max-w-[65vw] sm:max-w-[300px] md:max-w-[400px]" 
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          <style>{`
-            .dock-scroll::-webkit-scrollbar {
-              display: none;
-            }
-          `}</style>
-          <div className="flex items-center gap-3 dock-scroll w-full">
-            {Object.values(COMPONENTS_DATA).map((comp) => {
-              const isActive = comp.slug === data.slug;
-              return (
-                <Link
-                  key={comp.slug}
-                  href={`/components/${comp.slug}`}
-                  className={`relative w-[72px] h-[72px] rounded-xl overflow-hidden flex-shrink-0 transition-all ${
-                    isActive 
-                      ? "bg-[#f7f6f3] border border-black/10 ring-1 ring-black/5 opacity-100" 
-                      : "bg-white border border-transparent hover:border-black/5 hover:bg-[#f7f6f3] opacity-70 hover:opacity-100"
-                  }`}
-                  title={comp.name}
-                >
-                  <div className="absolute inset-0 pointer-events-none">
-                    <EceComponentViewer 
-                      kind={comp.kind} 
-                      background={isActive ? "#f7f6f3" : "#ffffff"} 
-                      autoRotate={isActive} 
-                      zoom={false} 
-                    />
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-        <button 
-          className="text-black/40 hover:text-black px-1 flex-shrink-0 transition-colors cursor-pointer"
-          onClick={() => scrollDock('right')}
-          aria-label="Scroll right"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-      </div>
     </div>
   );
 }
