@@ -17,103 +17,305 @@ export const COMPONENTS_DATA: Record<string, ComponentData> = {
     kind: "breadboard",
     tagline: "The foundation for prototyping electronic circuits.",
     description: [
-      "A breadboard is a rectangular plastic board with a grid of tiny holes. It allows you to easily connect electronic components together to build and test circuits without soldering.",
-      "The holes are connected underneath by metal clips. The outer rows (power rails) are connected horizontally, while the inner rows (terminal strips) are connected vertically, with a gap in the middle to straddle ICs.",
+      "A breadboard is a reusable prototyping board that lets you connect electronic components without soldering.",
+      "Its internal metal contacts connect groups of holes together, allowing components and jumper wires to be connected quickly while building and testing circuits.",
     ],
     specs: [
       { label: "Type", value: "Solderless" },
-      { label: "Tie points", value: "830" },
-      { label: "Power rails", value: "2 pairs (Top/Bottom)" },
+      { label: "Construction", value: "Plastic body with metal contacts" },
       { label: "Pitch", value: "0.1 inch (2.54 mm)" },
+      { label: "Use", value: "Circuit Prototyping" },
     ],
     tips: [
-      "Always connect your power supply to the top and bottom rails first.",
-      "Use the centre gap to mount DIP ICs (chips).",
-      "Keep your wiring neat to make debugging easier.",
+      "Connect the power supply to the power rails before building the circuit.",
+      "Use the center gap to place DIP ICs.",
+      "Keep wiring short and organized for easier debugging.",
     ],
   },
-  resistors: {
-    slug: "resistors",
-    name: "Resistors",
+
+  resistor: {
+    slug: "resistor",
+    name: "Resistor",
     kind: "resistor",
-    tagline: "Control the flow of electrical current.",
+    tagline: "Control and limit the flow of electrical current.",
     description: [
-      "Resistors are passive components that resist the flow of electrical current. They are used to limit current, divide voltages, and protect delicate components like LEDs from receiving too much power.",
-      "The resistance value is measured in Ohms (Ω) and is typically indicated by a series of colored bands painted on the body of the resistor.",
+      "A resistor is a passive electronic component that opposes the flow of electric current.",
+      "Resistors are commonly used to limit current, divide voltage, bias components, and protect devices such as LEDs.",
     ],
     specs: [
       { label: "Type", value: "Through-hole (Axial)" },
-      { label: "Power rating", value: "1/4 Watt" },
-      { label: "Tolerance", value: "±5% (Gold band)" },
-      { label: "Polarity", value: "None (Bi-directional)" },
+      { label: "Power Rating", value: "1/4 Watt" },
+      { label: "Tolerance", value: "±5%" },
+      { label: "Polarity", value: "None" },
     ],
     tips: [
-      "Resistors have no polarity; they can be plugged in either way.",
-      "Always use a current-limiting resistor in series with an LED.",
-      "Learn the resistor color code or keep a reference chart handy.",
+      "Resistors are non-polarized and can be connected in either direction.",
+      "Use a current-limiting resistor when connecting an LED.",
+      "Use the color bands to determine the resistance value.",
     ],
   },
-  capacitors: {
-    slug: "capacitors",
-    name: "Capacitors",
+
+  capacitor: {
+    slug: "capacitor",
+    name: "Capacitor",
     kind: "capacitor",
     tagline: "Store and release electrical energy.",
     description: [
-      "Capacitors store electrical energy temporarily in an electric field. They are used for filtering noise in power supplies, smoothing out voltage spikes, and in timing circuits.",
-      "Electrolytic capacitors (like the blue one shown) have high capacitance but are polarized, meaning they must be connected in the correct direction.",
+      "A capacitor is a passive component that stores electrical energy in an electric field.",
+      "Capacitors are commonly used for filtering, smoothing power supplies, coupling signals, and creating timing circuits.",
     ],
     specs: [
       { label: "Type", value: "Electrolytic / Ceramic" },
-      { label: "Capacitance", value: "Microfarads (µF) to Picofarads (pF)" },
-      { label: "Polarity", value: "Yes (for Electrolytic)" },
-      { label: "Voltage rating", value: "Variable (e.g. 25V)" },
+      { label: "Unit", value: "Farad (F)" },
+      { label: "Typical Range", value: "pF to µF" },
+      { label: "Polarity", value: "Depends on type" },
     ],
     tips: [
-      "Pay attention to polarity! The striped side of an electrolytic capacitor indicates the negative terminal.",
-      "Ceramic capacitors (the small disc ones) are not polarized.",
-      "Ensure the voltage rating of the capacitor exceeds your circuit voltage.",
+      "Check polarity before connecting an electrolytic capacitor.",
+      "The negative terminal is usually marked with a stripe.",
+      "Never exceed the capacitor's rated voltage.",
     ],
   },
-  leds: {
-    slug: "leds",
-    name: "Light Emitting Diodes",
+
+  led: {
+    slug: "led",
+    name: "Light Emitting Diode",
     kind: "led",
-    tagline: "Visual indicators for your circuits.",
+    tagline: "Turn electrical energy into visible light.",
     description: [
-      "LEDs (Light Emitting Diodes) are semiconductors that emit light when current flows through them. They are essential for providing visual feedback in circuits.",
-      "Because they are diodes, they only allow current to flow in one direction. They must be oriented correctly and always require a resistor to prevent them from burning out.",
+      "An LED is a semiconductor diode that emits light when current flows through it in the forward direction.",
+      "LEDs are widely used as visual indicators and are commonly connected with a resistor to limit the current.",
     ],
     specs: [
       { label: "Type", value: "5mm Through-hole" },
-      { label: "Forward Voltage", value: "~2.0V (varies by color)" },
-      { label: "Forward Current", value: "20mA (Max)" },
-      { label: "Polarity", value: "Yes (Long leg = Anode/+)" },
+      { label: "Forward Voltage", value: "~2V (varies by color)" },
+      { label: "Typical Current", value: "20mA" },
+      { label: "Polarity", value: "Anode (+) / Cathode (-)" },
     ],
     tips: [
-      "The longer leg is the anode (positive) and the shorter leg is the cathode (negative).",
-      "The flat edge on the plastic collar also indicates the cathode side.",
-      "Never connect an LED directly to a power source without a resistor.",
+      "The longer leg is usually the anode.",
+      "The shorter leg and flat edge indicate the cathode.",
+      "Always use a current-limiting resistor with an LED.",
     ],
   },
-  "ics-gates": {
-    slug: "ics-gates",
-    name: "Integrated Circuits & Gates",
-    kind: "xor-gate",
-    tagline: "The building blocks of digital logic.",
+
+  potentiometer: {
+    slug: "potentiometer",
+    name: "Potentiometer",
+    kind: "potentiometer",
+    tagline: "Adjust resistance with a simple rotary control.",
     description: [
-      "Integrated Circuits (ICs) pack complex circuits into a single chip. In digital electronics, the most common chips are logic gates (AND, OR, NOT, etc.) which perform basic boolean logic operations.",
-      "These chips typically come in a Dual In-line Package (DIP) and must be placed across the center gap of the breadboard so their pins do not short together.",
+      "A potentiometer is a three-terminal variable resistor whose resistance can be adjusted by rotating its shaft.",
+      "It is commonly used as a variable voltage divider for controlling voltage, brightness, speed, and other circuit parameters.",
     ],
     specs: [
-      { label: "Package", value: "DIP-14 or DIP-16" },
-      { label: "Logic Family", value: "74LS or 74HC series" },
-      { label: "Operating Voltage", value: "5V (Standard)" },
-      { label: "Pin Pitch", value: "0.1 inch (Fits breadboard)" },
+      { label: "Type", value: "Rotary Variable Resistor" },
+      { label: "Terminals", value: "3" },
+      { label: "Function", value: "Variable Resistance" },
+      { label: "Control", value: "Rotary" },
     ],
     tips: [
-      "Always align the notch or dot on the chip to face the top/left of the board to identify Pin 1.",
-      "Connect VCC (power) and GND (ground) before wiring any logic inputs.",
-      "Never leave unused input pins floating (unconnected); tie them to ground or VCC.",
+      "The middle terminal is the wiper.",
+      "The two outer terminals provide the full resistance range.",
+      "Use the wiper as the output when using it as a voltage divider.",
+    ],
+  },
+
+  "push-button": {
+    slug: "push-button",
+    name: "Push Button",
+    kind: "push-button",
+    tagline: "A simple momentary input for electronic circuits.",
+    description: [
+      "A push button is a momentary switch that changes its electrical state while it is being pressed.",
+      "It is commonly used as a digital input for microcontrollers, counters, logic circuits, and interactive electronics.",
+    ],
+    specs: [
+      { label: "Type", value: "Momentary Push Button" },
+      { label: "Operation", value: "Normally Open" },
+      { label: "Function", value: "Momentary Input" },
+      { label: "Mounting", value: "Through-hole" },
+    ],
+    tips: [
+      "Use a pull-up or pull-down resistor to prevent floating inputs.",
+      "Place the button across the breadboard center gap when appropriate.",
+      "Mechanical buttons can produce contact bounce.",
+    ],
+  },
+
+  switch: {
+    slug: "switch",
+    name: "Switch",
+    kind: "switch",
+    tagline: "Manually control the flow of current or signals.",
+    description: [
+      "A switch is an electromechanical component used to open or close an electrical circuit.",
+      "It allows a user to manually control power or signals and is commonly used as an input in electronic circuits.",
+    ],
+    specs: [
+      { label: "Type", value: "Toggle Switch" },
+      { label: "Function", value: "Open / Close Circuit" },
+      { label: "Operation", value: "Manual" },
+      { label: "Use", value: "Circuit Control" },
+    ],
+    tips: [
+      "Check the switch terminal configuration before wiring.",
+      "Use pull-up or pull-down resistors for digital inputs when required.",
+      "Do not exceed the switch's rated voltage or current.",
+    ],
+  },
+
+  battery: {
+    slug: "battery",
+    name: "Battery",
+    kind: "battery",
+    tagline: "A portable source of electrical energy.",
+    description: [
+      "A battery converts stored chemical energy into electrical energy and provides a portable source of DC power.",
+      "Batteries are commonly used to power electronic circuits when an external power supply is not available.",
+    ],
+    specs: [
+      { label: "Type", value: "DC Battery" },
+      { label: "Output", value: "DC Voltage" },
+      { label: "Polarity", value: "Positive / Negative" },
+      { label: "Use", value: "Portable Power" },
+    ],
+    tips: [
+      "Always identify the positive and negative terminals.",
+      "Never short-circuit a battery.",
+      "Check the battery voltage before connecting it to a circuit.",
+    ],
+  },
+
+  "dc-jack": {
+    slug: "dc-jack",
+    name: "DC Power Jack",
+    kind: "dc-jack",
+    tagline: "A convenient connection point for DC power.",
+    description: [
+      "A DC power jack is a connector used to supply DC power from an external adapter to an electronic circuit.",
+      "It provides a convenient interface between a power adapter and the circuit's power input.",
+    ],
+    specs: [
+      { label: "Type", value: "DC Barrel Jack" },
+      { label: "Connection", value: "DC Adapter" },
+      { label: "Terminals", value: "Positive / Negative" },
+      { label: "Use", value: "Power Input" },
+    ],
+    tips: [
+      "Verify the polarity of the connected adapter.",
+      "Make sure the adapter voltage matches the circuit requirements.",
+      "Do not exceed the connector's rated current.",
+    ],
+  },
+
+  "dc-power-supply": {
+    slug: "dc-power-supply",
+    name: "DC Power Supply",
+    kind: "dc-power-supply",
+    tagline: "Provides controlled DC power for electronic circuits.",
+    description: [
+      "A DC power supply provides a controlled source of direct current for powering electronic circuits and experiments.",
+      "Its voltage and current controls allow the power delivered to a circuit to be adjusted according to the experiment requirements.",
+    ],
+    specs: [
+      { label: "Type", value: "Adjustable DC Supply" },
+      { label: "Output", value: "DC Voltage" },
+      { label: "Controls", value: "Voltage / Current" },
+      { label: "Use", value: "Circuit Power" },
+    ],
+    tips: [
+      "Set the required voltage before connecting the circuit.",
+      "Check the circuit's maximum operating voltage.",
+      "Turn the supply off before changing circuit connections.",
+    ],
+  },
+
+  "ic-meter": {
+    slug: "ic-meter",
+    name: "IC Meter",
+    kind: "ic-meter",
+    tagline: "Test and verify integrated circuits.",
+    description: [
+      "An IC meter is a laboratory testing instrument used to check and verify integrated circuits.",
+      "It can help identify faulty ICs and verify their operation during digital electronics experiments.",
+    ],
+    specs: [
+      { label: "Type", value: "Digital IC Tester" },
+      { label: "Function", value: "IC Testing" },
+      { label: "Interface", value: "IC Socket / Pins" },
+      { label: "Use", value: "Digital Electronics Lab" },
+    ],
+    tips: [
+      "Verify the IC orientation before inserting it.",
+      "Make sure the IC supply voltage is correct.",
+      "Never insert or remove an IC while the tester is powered.",
+    ],
+  },
+
+  "mcu-trainer": {
+    slug: "mcu-trainer",
+    name: "Microcontroller Trainer",
+    kind: "mcu-trainer",
+    tagline: "A platform for learning and experimenting with microcontrollers.",
+    description: [
+      "A microcontroller trainer is a development and learning platform that combines a microcontroller with commonly used peripherals and interfaces.",
+      "It allows students to experiment with GPIO, LEDs, buttons, displays, communication interfaces, and other embedded-system concepts.",
+    ],
+    specs: [
+      { label: "Type", value: "Microcontroller Training Board" },
+      { label: "Interface", value: "GPIO / Communication" },
+      { label: "Peripherals", value: "LEDs, Buttons, Headers" },
+      { label: "Use", value: "Embedded Systems" },
+    ],
+    tips: [
+      "Check the board's operating voltage before connecting components.",
+      "Use the correct GPIO pins for each peripheral.",
+      "Avoid connecting two output pins directly together.",
+    ],
+  },
+
+  "xor-gate": {
+    slug: "xor-gate",
+    name: "XOR Gate",
+    kind: "xor-gate",
+    tagline: "Outputs HIGH when its inputs are different.",
+    description: [
+      "An XOR (Exclusive OR) gate is a digital logic gate that produces a HIGH output when its inputs are different.",
+      "It is commonly used in adders, parity circuits, comparators, and other digital logic applications.",
+    ],
+    specs: [
+      { label: "Logic Function", value: "Exclusive OR" },
+      { label: "Inputs", value: "2" },
+      { label: "Output", value: "1" },
+      { label: "Typical IC", value: "74LS86 / 74HC86" },
+    ],
+    tips: [
+      "The output is HIGH only when exactly one input is HIGH.",
+      "Connect the IC's VCC and GND pins before using the gate.",
+      "Do not leave unused logic inputs floating.",
+    ],
+  },
+
+  "and-gate": {
+    slug: "and-gate",
+    name: "AND Gate",
+    kind: "and-gate",
+    tagline: "Outputs HIGH only when all inputs are HIGH.",
+    description: [
+      "An AND gate is a fundamental digital logic gate whose output becomes HIGH only when all of its inputs are HIGH.",
+      "AND gates are used extensively in control logic, decision-making circuits, arithmetic circuits, and digital systems.",
+    ],
+    specs: [
+      { label: "Logic Function", value: "AND" },
+      { label: "Inputs", value: "2" },
+      { label: "Output", value: "1" },
+      { label: "Typical IC", value: "74LS08 / 74HC08" },
+    ],
+    tips: [
+      "The output is HIGH only when every input is HIGH.",
+      "Connect the IC's VCC and GND pins before using the gate.",
+      "Do not leave unused logic inputs floating.",
     ],
   },
 };
