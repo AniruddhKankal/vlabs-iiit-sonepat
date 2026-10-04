@@ -21,7 +21,6 @@ function makeLead(x: number): THREE.Group {
 
   const lead = solidCyl(LEAD_RADIUS, LEAD_LENGTH, M.metal(), 10);
 
-  // Cylinders are vertical by default.
   lead.position.set(x, -LEAD_LENGTH / 2, 0);
 
   group.add(lead);
