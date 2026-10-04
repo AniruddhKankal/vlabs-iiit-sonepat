@@ -16,6 +16,19 @@ import {
   buildWireStandalone,
   buildBreadboardStandalone,
   buildPotentiometerStandalone,
+  buildDiodeStandalone,
+  buildZenerDiodeStandalone,
+  buildAmmeterStandalone,
+  buildVoltmeterStandalone,
+  buildBjtStandalone,
+  buildMosfetStandalone,
+  buildOpAmpStandalone,
+  buildSevenSegmentStandalone,
+  buildOscilloscopeStandalone,
+  buildFunctionGeneratorStandalone,
+  buildTransformerStandalone,
+  buildDipSwitchStandalone,
+  buildLogicAnalyzerStandalone,
 } from "@/components";
 
 // ── Model builder ─────────────────────────────────────────────────────────
@@ -25,29 +38,64 @@ function buildItemModel(item: ApparatusItem): THREE.Group {
   if (n.includes("resistor") || n.includes("ω") || n.includes("ohm")) {
     return buildResistorStandalone(parseOhms(item.name) ?? 470);
   }
-  if (
-    n.includes("zener") ||
-    n.includes("1n4") ||
-    (n.includes("diode") && !n.includes("led"))
-  ) {
-    return buildLedStandalone("yellow");
+  if (n.includes("1n4148")) {
+    return buildDiodeStandalone("1N4148");
+  }
+  if (n.includes("1n4007")) {
+    return buildDiodeStandalone("1N4007");
+  }
+  if (n.includes("1n4733a") || n.includes("zener")) {
+    return buildZenerDiodeStandalone();
   }
   if (n.includes("led")) {
     return buildLedStandalone(
       n.includes("red") ? "red" : n.includes("blue") ? "blue" : "green",
     );
   }
+  if (n.includes("dip-switch")) {
+    return buildDipSwitchStandalone();
+  }
+  if (n.includes("bc547") || n.includes("bjt") || n.includes("transistor")) {
+    return buildBjtStandalone();
+  }
   if (n.includes("capacitor") || n.includes("µf") || n.includes("nf")) {
     return buildCapacitorStandalone(47e-6);
   }
+  if (n.includes("2n7000") || n.includes("mosfet")) {
+    return buildMosfetStandalone();
+  }
+  if (n.includes("op-amp") || n.includes("LM741")) {
+    return buildOpAmpStandalone();
+  }
+  if (n.includes("function-generator")) {
+    return buildFunctionGeneratorStandalone();
+  }
+  if (n.includes("seven-segment")) {
+    return buildSevenSegmentStandalone();
+  }
+  if (n.includes("transformer")) {
+    return buildTransformerStandalone();
+  }
+  if (n.includes("logic-analyser")) {
+    return buildLogicAnalyzerStandalone();
+  }
   if (n.includes("power supply") || n.includes("supply") || n.includes("psu")) {
     return buildDcPowerSupplyStandalone();
+  }
+  if (n.includes("ammeter") || n.includes("milliammeter")) {
+    return buildAmmeterStandalone();
+  }
+  if (n.includes("voltmeter")) {
+    return buildVoltmeterStandalone();
   }
   if (n.includes("multimeter") || n.includes("dmm") || n.includes("meter")) {
     return buildIcMeterStandalone(); // proper DMM model
   }
   if (n.includes("battery")) {
     return buildBatteryStandalone();
+  }
+  if (n.includes("oscilloscope") || n.includes("CRO")) {
+    return buildOscilloscopeStandalone();
   }
   if (n.includes("breadboard")) {
     const g = buildBreadboardStandalone();
