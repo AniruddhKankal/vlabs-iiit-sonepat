@@ -117,7 +117,7 @@ export function SubjectModal({ subject, onClose }: Props) {
           "max-h-[calc(100vh-calc(var(--spacing-base)*8))]",
           "max-w-[calc(100vw-calc(var(--spacing-base)*8))]",
           "w-[min(100%,1260px)]",
-          "min-[921px]:flex-row min-[921px]:max-h-[860px] min-[921px]:min-h-[640px]",
+          "min-[921px]:flex-row min-[921px]:h-[min(710px,calc(100vh-calc(var(--spacing-base)*8)))]",
         ].join(" ")}
       >
         {/* Close button */}
@@ -168,12 +168,12 @@ export function SubjectModal({ subject, onClose }: Props) {
             {(activeIndex !== null
               ? activeExp?.description
               : subject.description) && (
-              <Body size="sm" muted className="text-[13px] leading-[1.5]">
-                {activeIndex !== null
-                  ? activeExp?.description
-                  : subject.description}
-              </Body>
-            )}
+                <Body size="sm" muted className="text-[13px] leading-[1.5]">
+                  {activeIndex !== null
+                    ? activeExp?.description
+                    : subject.description}
+                </Body>
+              )}
 
             {activeIndex !== null &&
               (activeExp?.labRoute ? (
