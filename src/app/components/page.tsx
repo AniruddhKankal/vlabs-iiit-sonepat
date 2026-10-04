@@ -41,12 +41,13 @@ export default function ComponentsPage() {
                 </div>
                 <div className="md:max-w-[571px]">
                   <Body muted size="sm">
-                    Interactive 3D models and detailed specifications for every building block in our virtual laboratory.
+                    Interactive 3D models and detailed specifications for every
+                    building block in our virtual laboratory.
                   </Body>
                 </div>
               </HeadingPair>
             </SectionIntro>
-            
+
             <div className="grid gap-[calc(var(--spacing-base)*4)] grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {cards.map((card) => (
                 <IllustrationCard card={card} key={card.illustration} />
