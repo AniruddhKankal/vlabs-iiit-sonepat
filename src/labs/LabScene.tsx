@@ -187,13 +187,17 @@ function buildInstance(
 
     case "ammeter": {
       const p = (inst as any).probes as [any, any] | undefined;
-      const pos = p ? resolvePin(p[0], all) ?? new THREE.Vector3() : new THREE.Vector3();
+      const pos = p
+        ? (resolvePin(p[0], all) ?? new THREE.Vector3())
+        : new THREE.Vector3();
       return buildAmmeter(pos);
     }
 
     case "voltmeter": {
       const p = (inst as any).probes as [any, any] | undefined;
-      const pos = p ? resolvePin(p[0], all) ?? new THREE.Vector3() : new THREE.Vector3();
+      const pos = p
+        ? (resolvePin(p[0], all) ?? new THREE.Vector3())
+        : new THREE.Vector3();
       return buildVoltmeter(pos);
     }
 
@@ -586,13 +590,13 @@ export function LabSceneCanvas({
       } else if (inst.type === "ammeter") {
         const p = (inst as any).probes as [any, any] | undefined;
         const pos = p
-          ? resolvePin(p[0], circuit.components) ?? new THREE.Vector3()
+          ? (resolvePin(p[0], circuit.components) ?? new THREE.Vector3())
           : new THREE.Vector3();
         fresh = buildAmmeter(pos);
       } else if (inst.type === "voltmeter") {
         const p = (inst as any).probes as [any, any] | undefined;
         const pos = p
-          ? resolvePin(p[0], circuit.components) ?? new THREE.Vector3()
+          ? (resolvePin(p[0], circuit.components) ?? new THREE.Vector3())
           : new THREE.Vector3();
         fresh = buildVoltmeter(pos);
       } else if (inst.type === "oscilloscope") {
@@ -615,7 +619,6 @@ export function LabSceneCanvas({
       meshMapRef.current.set(inst.id, fresh);
     }
   }, [circuit, activeStepIndex]);
-
 
   // ── Rebuild markers when they change ─────────────────────────────────
   useEffect(() => {

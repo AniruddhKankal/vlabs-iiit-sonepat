@@ -163,36 +163,46 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ### Passives
 
 #### Resistor
+
 ```ts
 { id: 'r1', type: 'resistor', ohms: 330, mountedAt: { board: 'bb', col: 22, row: 'c' } }
 ```
+
 - Spans **col → col+3** (4 columns wide)
 
 #### Capacitor
+
 ```ts
 { id: 'c1', type: 'capacitor', capacitance: 100, mountedAt: { board: 'bb', col: 5, row: 'c' } }
 ```
+
 - Spans **col → col+1**; `capacitance` in µF
 
 #### Inductor
+
 ```ts
 { id: 'l1', type: 'inductor', henrys: 0.001, mountedAt: { board: 'bb', col: 5, row: 'c' } }
 ```
+
 - Spans **col → col+3** (same footprint as resistor)
 
 #### LED
+
 ```ts
 { id: 'led1', type: 'led', color: 'green', mountedAt: { board: 'bb', col: 24, row: 'c' } }
 ```
+
 - `color`: `'red' | 'green' | 'yellow' | 'blue' | 'white'`
 - Spans **col (anode) → col+1 (cathode)**
 - Always place a series resistor at col N; LED goes at col N+2
 
 #### Diode / Zener
+
 ```ts
 { id: 'd1', type: 'diode', mountedAt: { board: 'bb', col: 5, row: 'c' } }         // 1N4148
 { id: 'z1', type: 'zener', vz: 5.1, mountedAt: { board: 'bb', col: 10, row: 'c' } }
 ```
+
 - Spans **col (anode) → col+3 (cathode)** (same footprint as resistor)
 
 ---
@@ -200,17 +210,21 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ### Discrete active components
 
 #### BJT (Bipolar Junction Transistor)
+
 ```ts
 { id: 'q1', type: 'npn-bjt', mountedAt: { board: 'bb', col: 10, row: 'c' } }  // BC547
 { id: 'q2', type: 'pnp-bjt', mountedAt: { board: 'bb', col: 15, row: 'c' } }  // BC557
 ```
+
 - 3 pins: **B** (col), **C** (col+1), **E** (col+2)
 
 #### MOSFET
+
 ```ts
 { id: 'm1', type: 'n-mosfet', mountedAt: { board: 'bb', col: 20, row: 'c' } }  // 2N7000
 { id: 'm2', type: 'p-mosfet', mountedAt: { board: 'bb', col: 25, row: 'c' } }
 ```
+
 - 3 pins: **G** (col), **D** (col+1), **S** (col+2)
 
 ---
@@ -229,12 +243,14 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ```
 
 **Placement rules:**
+
 - Each IC occupies **7 consecutive columns** (7 pins per side)
 - Space ICs at least 2 columns apart (14 cols total per IC + gap)
 - `row: 'e'` — IC straddles the centre gap
 - Do not place anything past col 29 on a standard 30-col board
 
 #### Reducing gates (N-bit → 1-bit)
+
 ```ts
 { id: 'ar1', type: 'and-reduce',  bits: 4, mountedAt: { board: 'bb', col: 5, row: 'e' } }
 { id: 'or1', type: 'or-reduce',   bits: 4, mountedAt: { board: 'bb', col: 5, row: 'e' } }
@@ -259,6 +275,7 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ```
 
 #### Comparators
+
 ```ts
 { id: 'eq1', type: 'compare-eq', bits: 4, signed: false, mountedAt: { board: 'bb', col: 5, row: 'e' } }
 { id: 'ne1', type: 'compare-ne', bits: 4, mountedAt: { board: 'bb', col: 5, row: 'e' } }
@@ -269,6 +286,7 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ```
 
 #### Shifters
+
 ```ts
 { id: 'sl1', type: 'shift-left',  bits: { in: 8, amount: 3, out: 8 }, signed: false, mountedAt: { board: 'bb', col: 5, row: 'e' } }
 { id: 'sr1', type: 'shift-right', bits: { in: 8, amount: 3, out: 8 }, signed: false, mountedAt: { board: 'bb', col: 5, row: 'e' } }
@@ -300,16 +318,19 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ### Sequential logic
 
 #### D Flip-Flop
+
 ```ts
 { id: 'dff1', type: 'dff', bits: 1, initial: '0', mountedAt: { board: 'bb', col: 5, row: 'e' } }  // 74HC74, DIP-14
 ```
 
 #### JK Flip-Flop
+
 ```ts
 { id: 'jk1', type: 'jk-ff', mountedAt: { board: 'bb', col: 5, row: 'e' } }  // 74HC76, DIP-16
 ```
 
 #### SR Latch
+
 ```ts
 { id: 'sr1', type: 'sr-latch', mountedAt: { board: 'bb', col: 5, row: 'e' } }  // 74HC279, DIP-16
 ```
@@ -343,6 +364,7 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ```
 
 #### Bus virtual operations (no physical IC, DigitalJS)
+
 ```ts
 { id: 'ze1', type: 'zero-extend', extend: { input: 4, output: 8 }, mountedAt: { board: 'bb', col: 5, row: 'e' } }
 { id: 'se1', type: 'sign-extend', extend: { input: 4, output: 8 }, mountedAt: { board: 'bb', col: 5, row: 'e' } }
@@ -358,6 +380,7 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ```ts
 { id: 'op1', type: 'op-amp', mountedAt: { board: 'bb', col: 10, row: 'e' } }  // LM741, DIP-8
 ```
+
 - DIP-8 package, spans **4 columns**, straddling the centre gap
 
 ---
@@ -478,6 +501,7 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ```
 
 Use `step.readings` to display live instrument values in the lab UI:
+
 ```ts
 readings: { dmm: "2.4 V", am1: "12 mA" }
 ```
@@ -558,14 +582,14 @@ Procedure steps own both instructional copy **and** 3D scene state via `show`.
 
 ```ts
 export const step: SceneProcedureStep = {
-  label: "Wire inputs",             // step heading in the lab UI
-  body: "Red=A, Blue=B…",          // markdown body
+  label: "Wire inputs", // step heading in the lab UI
+  body: "Red=A, Blue=B…", // markdown body
   show: ["bb", "xor1", "w_a_xor"], // cumulative visible ids
-  highlight: "xor1",               // optional camera focus
-  activeInputs: { A: 0, B: 0 },   // optional I/O panel (digital)
-  supplyVoltage: 5.0,              // optional (analog)
-  readings: { dmm: "2.4 V" },     // optional instrument display
-  ledBrightness: { led1: 0.8 },   // optional LED dimming (0.0–1.0)
+  highlight: "xor1", // optional camera focus
+  activeInputs: { A: 0, B: 0 }, // optional I/O panel (digital)
+  supplyVoltage: 5.0, // optional (analog)
+  readings: { dmm: "2.4 V" }, // optional instrument display
+  ledBrightness: { led1: 0.8 }, // optional LED dimming (0.0–1.0)
   audioPath: "/semesters/…/01-step.mp3", // optional audio narration
 };
 ```
