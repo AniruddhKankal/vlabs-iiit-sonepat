@@ -15,5 +15,6 @@ export const step: SceneProcedureStep = {
     "w_gnd_and1",
   ],
   highlight: "xor1",
-  audioPath: "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/04-procedure/02-procedure.mp3",
+  audioPath:
+    "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/04-procedure/02-procedure.mp3",
 };

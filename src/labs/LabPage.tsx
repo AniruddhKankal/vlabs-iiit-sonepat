@@ -562,7 +562,7 @@ function LabPageStandard({ content }: Props) {
       speak("");
       return;
     }
-    
+
     let currentAudioPath = activeSection?.audioPath;
     if (activeSection?.type === "procedure") {
       const step = activeSection.steps[procedureStepIndex];
@@ -574,7 +574,7 @@ function LabPageStandard({ content }: Props) {
     if (currentAudioPath) {
       speak(currentAudioPath);
     }
-    
+
     return () => {
       // Cleanup: stop any playing audio
       speak("");

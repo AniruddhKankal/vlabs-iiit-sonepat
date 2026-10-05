@@ -44,5 +44,6 @@ export const step: SceneProcedureStep = {
   ],
   activeInputs: { A: 0, B: 1 },
   ledBrightness: { led_sd: 1, led_c: 0, led_b: 1 },
-  audioPath: "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/04-procedure/10-procedure.mp3",
+  audioPath:
+    "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/04-procedure/10-procedure.mp3",
 };
