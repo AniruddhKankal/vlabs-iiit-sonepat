@@ -25,11 +25,16 @@ export default function RegistryPage() {
 
       <pre>{`const COMPONENT_REGISTRY: Record<string, BuildFn> = {
   breadboard: () => buildBreadboard(COLS),
+  'long-breadboard': () => buildLongBreadboard(COLS),
   'xor-gate': (inst) => buildDip14(inst.mountedAt.col, 'XOR'),
   resistor:   (inst) => {
     const r = inst as Extract<ComponentInstance, { type: 'resistor' }>;
     return buildResistor(hole(r.mountedAt.col, r.mountedAt.row), ..., r.ohms);
   },
+  diode:      (inst) => { ... },
+  'npn-bjt':  (inst) => { ... },
+  'n-mosfet': (inst) => { ... },
+  'op-amp':   (inst) => { ... },
   // ...
 };`}</pre>
 
@@ -42,9 +47,9 @@ export default function RegistryPage() {
 
       <p>
         If a type has no entry, <code>buildInstance</code> returns{" "}
-        <code>null</code> and the component is silently skipped. This is how
-        "pending" types work — they're valid in the schema but invisible until a
-        builder is added.
+        <code>null</code> and the component is silently skipped. This is how any
+        &quot;pending&quot; types work — they&apos;re valid in the schema but
+        invisible until a builder is added.
       </p>
 
       <hr />
@@ -83,12 +88,12 @@ export default function RegistryPage() {
         <strong>Why not use a switch?</strong>
         <p>
           A switch in the renderer couples every component type to a single
-          function. The registry decouples them: each type's builder can live in
-          a separate file, be imported independently, and be added or removed
-          without touching any existing case. It also makes the set of
+          function. The registry decouples them: each type&apos;s builder can
+          live in a separate file, be imported independently, and be added or
+          removed without touching any existing case. It also makes the set of
           renderable types machine-readable — you can iterate{" "}
           <code>Object.keys(COMPONENT_REGISTRY)</code>
-          to know what's supported.
+          to know what&apos;s supported.
         </p>
       </Callout>
 
@@ -97,7 +102,7 @@ export default function RegistryPage() {
       <p>
         Wires are the only type that uses the second <code>all</code> argument,
         because resolving an IC pin or passive lead requires finding the
-        referenced component's position:
+        referenced component&apos;s position:
       </p>
 
       <pre>{`wire: (inst, all) => {
@@ -113,11 +118,11 @@ export default function RegistryPage() {
       <ol>
         <li>
           Type variant added to <code>ComponentInstance</code> in{" "}
-          <code>types.ts</code>
+          <code>src/labs/types.ts</code>
         </li>
         <li>
-          Geometry builder written in <code>geometry/</code> and exported from{" "}
-          <code>geometry/index.ts</code>
+          Geometry builder written in <code>src/components/&lt;name&gt;/</code>{" "}
+          and exported from <code>src/components/index.ts</code>
         </li>
         <li>
           Builder imported at the top of <code>LabScene.tsx</code>
@@ -127,7 +132,7 @@ export default function RegistryPage() {
         </li>
         <li>
           Optional: <code>Standalone</code> variant for the showcase card (
-          <code>buildXxxStandalone()</code>)
+          <code>buildXxxStandalone()</code>) and <code>EceComponentViewer</code>
         </li>
       </ol>
 

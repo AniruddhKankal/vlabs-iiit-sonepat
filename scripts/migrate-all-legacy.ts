@@ -15,6 +15,7 @@ import { GpioInterfacingCircuit } from "../src/labs/circuits/gpio-interfacing";
 import { SevenSegmentDisplayCircuit } from "../src/labs/circuits/seven-segment-display";
 import { AdcDacCircuit } from "../src/labs/circuits/adc-dac";
 import { CbAmplifierCircuit } from "../src/labs/circuits/cb-amplifier";
+import { CbTransistorCharacteristicsCircuit } from "../src/labs/circuits/cb-transistor-characteristics";
 import { BjtBiasCircuit } from "../src/labs/circuits/bjt-bias";
 import { MosfetCharacteristicsCircuit } from "../src/labs/circuits/mosfet-characteristics";
 import { OpampCircuitsCircuit } from "../src/labs/circuits/opamp-circuits";
@@ -40,6 +41,7 @@ import { GpioInterfacingContent } from "../src/labs/content/gpio-interfacing";
 import { SevenSegmentDisplayContent } from "../src/labs/content/seven-segment-display";
 import { AdcDacContent } from "../src/labs/content/adc-dac";
 import { CbAmplifierContent } from "../src/labs/content/cb-amplifier";
+import { CbTransistorCharacteristicsContent } from "../src/labs/circuits/cb-transistor-characteristics";
 import { BjtBiasContent } from "../src/labs/content/bjt-bias";
 import { MosfetCharacteristicsContent } from "../src/labs/content/mosfet-characteristics";
 import { OpampCircuitsContent } from "../src/labs/content/opamp-circuits";
@@ -550,6 +552,15 @@ runCircuitMigration(
   CbAmplifierContent,
   ["bjt", "amplifier", "common base", "alpha", "current gain"],
 );
+
+runCircuitMigration(
+  "03-analog-electronics-advanced",
+  "semester-01/03-analog-electronics-advanced",
+  CbTransistorCharacteristicsCircuit,
+  CbTransistorCharacteristicsContent,
+  ["bjt", "transistor", "common base", "alpha", "current gain"],
+);
+
 runCircuitMigration(
   "03-analog-electronics-advanced",
   "semester-01/03-analog-electronics-advanced",

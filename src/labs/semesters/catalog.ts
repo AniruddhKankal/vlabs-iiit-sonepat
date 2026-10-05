@@ -125,6 +125,12 @@ import {
 } from "./semester-01/03-analog-electronics-advanced/cb-amplifier";
 
 import {
+  CbTransistorCharacteristicsCircuit,
+  CbTransistorCharacteristicsContent,
+  cbTransistorCharacteristicsExperiment,
+} from "./semester-01/03-analog-electronics-advanced/cb-transistor-characteristics";
+
+import {
   BjtBiasCircuit,
   BjtBiasContent,
   bjtBiasExperiment,
@@ -655,6 +661,12 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         "alpha",
         "current gain",
       ]),
+      fromBuilt(
+        cbTransistorCharacteristicsExperiment,
+        CbTransistorCharacteristicsCircuit,
+        CbTransistorCharacteristicsContent,
+        ["bjt", "transistor", "common base", "alpha", "current gain"],
+      ),
       fromBuilt(bjtBiasExperiment, BjtBiasCircuit, BjtBiasContent, [
         "bjt",
         "bias",
