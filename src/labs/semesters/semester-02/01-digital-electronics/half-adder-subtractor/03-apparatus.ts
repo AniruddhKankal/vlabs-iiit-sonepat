@@ -11,6 +11,8 @@ export const apparatus: LabSection = {
     { name: "NOT gate IC", specification: "74HC04", quantity: "1" },
     { name: "Resistor", specification: "330 Ω", quantity: "3" },
     { name: "LED", specification: "Green, yellow and red", quantity: "3" },
-    { name: "Jumper wires", specification: "Red, blue, white, green, yellow, orange, black", quantity: "As required" },
+    { name: "DC power supply", specification: "5 V regulated", quantity: "1" },
+    { name: "Jumper wires", specification: "Red, blue, white, green, yellow, orange, purple, black", quantity: "As required" },
   ],
+  audioPath: "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/03-apparatus.mp3",
 };

@@ -13,9 +13,28 @@ import { type ComponentInstance } from "@/labs/types";
  *   cols 28-34   : not1   (A=28,        Y=30)
  *   cols 38-44   : and2   (A=38, B=39, Y=40)   -> Borrow
  *   cols 46-57   : output stage (resistor + LED pairs, row c)
+ *
+ * Power scheme:
+ *   psu (dc-jack) terminals -> vcc_top col 1 / gnd_top col 1 (no wires used)
+ *   w_rail_link  : vcc_top col 59 -> vcc_bot col 59 (links top & bottom + rails)
+ *   Gate signal pins sit on row e (top half), so for every IC at column c:
+ *     Vcc = vcc_bot rail -> bottom-half hole  (col c,   row h)   [purple]
+ *     GND = top-half hole (col c+6, row b)  -> gnd_top rail      [black]
+ *   LED cathodes -> gnd_top at cols 49 / 53 / 57.
  */
 export const components: ComponentInstance[] = [
   { id: "bb", type: "long-breadboard" },
+
+  // ── 5 V supply (instrument: uses terminals, never wires) ──────
+  {
+    id: "psu",
+    type: "dc-jack",
+    mountedAt: { board: "bb", col: 1, row: "a" },
+    terminals: [
+      { board: "bb", rail: "vcc_top", col: 1 },
+      { board: "bb", rail: "gnd_top", col: 1 },
+    ],
+  },
 
   // ── Logic ICs (row e, straddling the centre gap) ──────────────
   {
@@ -201,5 +220,77 @@ export const components: ComponentInstance[] = [
     color: "black",
     from: { led: "led_b", end: "cathode" },
     to: { board: "bb", rail: "gnd_top", col: 57 },
+  },
+  // ── Rail link: top + rail feeds bottom + rail (purple) ────────
+  {
+    id: "w_rail_link",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_top", col: 59 },
+    to: { board: "bb", rail: "vcc_bot", col: 59 },
+  },
+
+  // ── xor1 power: Vcc (col 8, bottom half) + GND (col 14, top half)
+  {
+    id: "w_vcc_xor1",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_bot", col: 8 },
+    to: { board: "bb", col: 8, row: "h" },
+  },
+  {
+    id: "w_gnd_xor1",
+    type: "wire",
+    color: "black",
+    from: { board: "bb", col: 14, row: "b" },
+    to: { board: "bb", rail: "gnd_top", col: 14 },
+  },
+
+  // ── and1 power: Vcc (col 18, bottom half) + GND (col 24, top half)
+  {
+    id: "w_vcc_and1",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_bot", col: 18 },
+    to: { board: "bb", col: 18, row: "h" },
+  },
+  {
+    id: "w_gnd_and1",
+    type: "wire",
+    color: "black",
+    from: { board: "bb", col: 24, row: "b" },
+    to: { board: "bb", rail: "gnd_top", col: 24 },
+  },
+
+  // ── not1 power: Vcc (col 28, bottom half) + GND (col 34, top half)
+  {
+    id: "w_vcc_not1",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_bot", col: 28 },
+    to: { board: "bb", col: 28, row: "h" },
+  },
+  {
+    id: "w_gnd_not1",
+    type: "wire",
+    color: "black",
+    from: { board: "bb", col: 34, row: "b" },
+    to: { board: "bb", rail: "gnd_top", col: 34 },
+  },
+
+  // ── and2 power: Vcc (col 38, bottom half) + GND (col 44, top half)
+  {
+    id: "w_vcc_and2",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_bot", col: 38 },
+    to: { board: "bb", col: 38, row: "h" },
+  },
+  {
+    id: "w_gnd_and2",
+    type: "wire",
+    color: "black",
+    from: { board: "bb", col: 44, row: "b" },
+    to: { board: "bb", rail: "gnd_top", col: 44 },
   },
 ];
