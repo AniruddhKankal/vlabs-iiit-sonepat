@@ -77,12 +77,6 @@ import {
 } from "./semester-01/02-computer-application/logic-gates";
 
 import {
-  HalfAdderCircuit,
-  HalfAdderContent,
-  halfAdderExperiment,
-} from "./semester-01/02-computer-application/half-adder";
-
-import {
   FullAdderCircuit,
   FullAdderContent,
   fullAdderExperiment,
@@ -177,6 +171,12 @@ import {
   DemuxAddressDecoderContent,
   demuxAddressDecoderExperiment,
 } from "./semester-02/01-digital-electronics/demux-address-decoder";
+
+import {
+  HalfAdderSubtractorCircuit,
+  HalfAdderSubtractorContent,
+  halfAdderSubtractorExperiment,
+} from "./semester-02/01-digital-electronics/half-adder-subtractor";
 
 import {
   HalfAdderRevisitCircuit,
@@ -595,14 +595,6 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         "xor",
         "74hc",
       ]),
-      fromBuilt(halfAdderExperiment, HalfAdderCircuit, HalfAdderContent, [
-        "adder",
-        "xor",
-        "and",
-        "sum",
-        "carry",
-        "combinational logic",
-      ]),
       fromBuilt(fullAdderExperiment, FullAdderCircuit, FullAdderContent, [
         "adder",
         "carry-in",
@@ -738,6 +730,19 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         DemuxAddressDecoderCircuit,
         DemuxAddressDecoderContent,
         ["demux", "address decoder", "bus", "peripheral select", "active-low"],
+      ),
+      fromBuilt(
+        halfAdderSubtractorExperiment,
+        HalfAdderSubtractorCircuit,
+        HalfAdderSubtractorContent,
+        [
+          "adder",
+          "subtractor",
+          "half adder",
+          "half subtractor",
+          "xor",
+          "combinational logic",
+        ],
       ),
     ],
   },

@@ -563,16 +563,16 @@ function LabPageStandard({ content }: Props) {
       return;
     }
 
-    let pathToPlay = activeSection?.audioPath;
+    let currentAudioPath = activeSection?.audioPath;
     if (activeSection?.type === "procedure") {
       const step = activeSection.steps[procedureStepIndex];
       if (step?.audioPath) {
-        pathToPlay = step.audioPath;
+        currentAudioPath = step.audioPath;
       }
     }
 
-    if (pathToPlay) {
-      speak(pathToPlay);
+    if (currentAudioPath) {
+      speak(currentAudioPath);
     }
 
     return () => {
