@@ -25,12 +25,20 @@ const rightStrokePath = (height: number): string => {
 export type ButtonShapeProps = {
   heightPx: number;
   outlined?: boolean;
+  mirror?: boolean;
 };
 
-export function ButtonShape({ heightPx, outlined = false }: ButtonShapeProps) {
+export function ButtonShape({
+  heightPx,
+  outlined = false,
+  mirror = false,
+}: ButtonShapeProps) {
   return (
     <span
-      className="flex absolute inset-0 pointer-events-none [&_svg]:block [&_svg]:shrink-0 [&_path[data-fill]]:fill-[var(--button-fill,transparent)] [&_path[data-fill]]:transition-[fill] [&_path[data-fill]]:duration-300 [&_path[data-fill]]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] [&_path[data-stroke]]:fill-none [&_path[data-stroke]]:stroke-[var(--button-stroke,transparent)] [&_path[data-stroke]]:[stroke-linecap:round] [&_path[data-stroke]]:[stroke-linejoin:round] [&_path[data-stroke]]:[stroke-width:1] [&_path[data-stroke]]:transition-[stroke] [&_path[data-stroke]]:duration-300 [&_path[data-stroke]]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)]"
+      style={{
+        transform: mirror ? "scaleX(-1)" : undefined,
+      }}
+      className={`flex absolute inset-0 pointer-events-none [&_svg]:block [&_svg]:shrink-0 [&_path[data-fill]]:fill-[var(--button-fill,transparent)] [&_path[data-fill]]:transition-[fill] [&_path[data-fill]]:duration-300 [&_path[data-fill]]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] [&_path[data-stroke]]:fill-none [&_path[data-stroke]]:stroke-[var(--button-stroke,transparent)] [&_path[data-stroke]]:[stroke-linecap:round] [&_path[data-stroke]]:[stroke-linejoin:round] [&_path[data-stroke]]:[stroke-width:1] [&_path[data-stroke]]:transition-[stroke] [&_path[data-stroke]]:duration-300 [&_path[data-stroke]]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)]`}
       aria-hidden
     >
       <svg
