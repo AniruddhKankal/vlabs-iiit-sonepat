@@ -198,32 +198,125 @@ Prefer the semester folder format for all new work.
 - Spans **col (anode) → col+1 (cathode)**
 - Place **after** its series resistor (resistor at col N → LED at col N+2)
 
+### Inductor
+
+```ts
+{ id: 'l1', type: 'inductor', henrys: 0.001, mountedAt: { board: 'bb', col: 5, row: 'c' } }
+```
+
+- Spans **col → col+3** (4 columns wide, like a resistor)
+
+### Diode / Zener
+
+```ts
+{ id: 'd1', type: 'diode', mountedAt: { board: 'bb', col: 5, row: 'c' } }
+{ id: 'z1', type: 'zener', vz: 5.1, mountedAt: { board: 'bb', col: 10, row: 'c' } }
+```
+
+- Spans **col (anode) → col+3 (cathode)** (like a resistor)
+
+### Transistors (BJT / MOSFET)
+
+```ts
+{ id: 'q1', type: 'npn-bjt', mountedAt: { board: 'bb', col: 10, row: 'c' } }
+{ id: 'q2', type: 'pnp-bjt', mountedAt: { board: 'bb', col: 15, row: 'c' } }
+{ id: 'm1', type: 'n-mosfet', mountedAt: { board: 'bb', col: 20, row: 'c' } }
+{ id: 'm2', type: 'p-mosfet', mountedAt: { board: 'bb', col: 25, row: 'c' } }
+```
+
+- Pins occupy 3 consecutive columns (`col`, `col+1`, `col+2`)
+
+### Op-Amp
+
+```ts
+{ id: 'op1', type: 'op-amp', mountedAt: { board: 'bb', col: 10, row: 'e' } }
+```
+
+- DIP-8 package, spans **4 columns**, straddling the centre gap (`row: 'e'`)
+
+### Displays & Switches
+
+```ts
+{ id: 'seg1', type: '7seg-display', mountedAt: { board: 'bb', col: 10, row: 'e' } } // DIP-10
+{ id: 'sw1', type: 'dip-switch', poles: 4, mountedAt: { board: 'bb', col: 10, row: 'e' } } // DIP
+{ id: 'btn1', type: 'push-button', mountedAt: { board: 'bb', col: 20, row: 'e' } } // 4-pin tactile
+{ id: 'sw2', type: 'switch', mountedAt: { board: 'bb', col: 25, row: 'c' } } // slide switch
+```
+
+
 ### Instruments (beside breadboard)
 
 **CRITICAL RULE:** Do NOT use standard `type: 'wire'` components to connect these instruments to the board. Always use the built-in `terminals` (for sources) or `probes` (for meters) arrays.
 
 ```ts
+// DC power supply / AC transformer source (renders as bench PSU on the left)
 {
-  id: 'ac_src', type: 'dc-jack',      // Can act as DC PSU or AC transformer source
+  id: 'psu', type: 'dc-jack',
   mountedAt: { board: 'bb', col: 1, row: 'a' },
   terminals: [
-    { board: 'bb', rail: 'vcc_top', col: 5 },
-    { board: 'bb', rail: 'gnd_top', col: 5 },
+    { board: 'bb', rail: 'vcc_top', col: 5 },   // [0] = +
+    { board: 'bb', rail: 'gnd_top', col: 5 },   // [1] = −
   ],
 }
+
+// Digital multimeter (renders as bench DMM on the right)
 {
-  id: 'dmm', type: 'potentiometer',   // Renders as a bench multimeter
+  id: 'dmm', type: 'potentiometer',
   mountedAt: { board: 'bb', col: 1, row: 'b' },
   probes: [
-    { board: 'bb', col: 11, row: 'c' },
-    { board: 'bb', col: 14, row: 'c' },
+    { board: 'bb', col: 11, row: 'c' },   // [0] = probe 1
+    { board: 'bb', col: 14, row: 'c' },   // [1] = probe 2
+  ],
+}
+
+// Analogue milliammeter (0–100 mA panel meter, blue body)
+{
+  id: 'am1', type: 'ammeter',
+  mountedAt: { board: 'bb', col: 1, row: 'c' },
+  probes: [
+    { board: 'bb', col: 8, row: 'c' },    // [0] = + terminal (series in)
+    { board: 'bb', col: 10, row: 'c' },   // [1] = − terminal (series out)
+  ],
+}
+
+// Analogue voltmeter (0–15 V DC panel meter, grey body)
+{
+  id: 'vm1', type: 'voltmeter',
+  mountedAt: { board: 'bb', col: 1, row: 'd' },
+  probes: [
+    { board: 'bb', col: 8, row: 'c' },    // [0] = + probe
+    { board: 'bb', col: 14, row: 'c' },   // [1] = − probe
+  ],
+}
+
+// Oscilloscope / CRO  (black body with green screen, placed to the right)
+{
+  id: 'cro', type: 'oscilloscope',
+  mountedAt: { board: 'bb', col: 1, row: 'e' },
+  probes: [
+    { board: 'bb', col: 15, row: 'c' },   // [0] = CH1
+    { board: 'bb', rail: 'gnd_top', col: 15 }, // [1] = GND
+  ],
+}
+
+// Function / signal generator (0.1 Hz – 1 MHz, placed beside PSU)
+{
+  id: 'fg1', type: 'function-generator',
+  mountedAt: { board: 'bb', col: 1, row: 'f' },
+  probes: [
+    { board: 'bb', col: 3, row: 'a' },    // [0] = OUTPUT 50Ω
+    { board: 'bb', rail: 'gnd_top', col: 3 }, // [1] = GND
   ],
 }
 ```
 
+Use `step.readings` to display instrument values: `readings: { dmm: "2.4 V" }`.
+
 Full type union: `src/labs/types.ts` → `ComponentInstance`.
 
 ---
+
+
 
 ## Wire (PinRef) syntax
 

@@ -15,6 +15,10 @@ import {
   buildWire,
   buildDcPowerSupply,
   buildIcMeter,
+  buildAmmeter,
+  buildVoltmeter,
+  buildOscilloscope,
+  buildFunctionGenerator,
 } from "@/components";
 import { resolveIcPin } from "@/components/ic";
 import { simulate } from "./simulate";
@@ -179,6 +183,28 @@ function buildInstance(
           }
         : undefined;
       return buildIcMeter("right", "--", targets);
+    }
+
+    case "ammeter": {
+      const p = (inst as any).probes as [any, any] | undefined;
+      const pos = p ? resolvePin(p[0], all) ?? new THREE.Vector3() : new THREE.Vector3();
+      return buildAmmeter(pos);
+    }
+
+    case "voltmeter": {
+      const p = (inst as any).probes as [any, any] | undefined;
+      const pos = p ? resolvePin(p[0], all) ?? new THREE.Vector3() : new THREE.Vector3();
+      return buildVoltmeter(pos);
+    }
+
+    case "oscilloscope": {
+      const pos = new THREE.Vector3();
+      return buildOscilloscope(pos);
+    }
+
+    case "function-generator": {
+      const pos = new THREE.Vector3();
+      return buildFunctionGenerator(pos);
     }
 
     default:
@@ -528,7 +554,11 @@ export function LabSceneCanvas({
       if (
         inst.type !== "dc-jack" &&
         inst.type !== "battery" &&
-        inst.type !== "potentiometer"
+        inst.type !== "potentiometer" &&
+        inst.type !== "ammeter" &&
+        inst.type !== "voltmeter" &&
+        inst.type !== "oscilloscope" &&
+        inst.type !== "function-generator"
       )
         continue;
       if (!visible.has(inst.id)) continue;
@@ -541,6 +571,7 @@ export function LabSceneCanvas({
 
       const displayVal = step.readings?.[inst.id] ?? "--";
       let fresh: THREE.Group;
+
       if (inst.type === "potentiometer") {
         const p = (inst as any).probes as [any, any] | undefined;
         const targets = p
@@ -552,7 +583,24 @@ export function LabSceneCanvas({
             }
           : undefined;
         fresh = buildIcMeter("right", displayVal, targets);
+      } else if (inst.type === "ammeter") {
+        const p = (inst as any).probes as [any, any] | undefined;
+        const pos = p
+          ? resolvePin(p[0], circuit.components) ?? new THREE.Vector3()
+          : new THREE.Vector3();
+        fresh = buildAmmeter(pos);
+      } else if (inst.type === "voltmeter") {
+        const p = (inst as any).probes as [any, any] | undefined;
+        const pos = p
+          ? resolvePin(p[0], circuit.components) ?? new THREE.Vector3()
+          : new THREE.Vector3();
+        fresh = buildVoltmeter(pos);
+      } else if (inst.type === "oscilloscope") {
+        fresh = buildOscilloscope(new THREE.Vector3());
+      } else if (inst.type === "function-generator") {
+        fresh = buildFunctionGenerator(new THREE.Vector3());
       } else {
+        // dc-jack / battery
         const t = (inst as any).terminals as [any, any] | undefined;
         const targets = t
           ? {
@@ -567,6 +615,7 @@ export function LabSceneCanvas({
       meshMapRef.current.set(inst.id, fresh);
     }
   }, [circuit, activeStepIndex]);
+
 
   // ── Rebuild markers when they change ─────────────────────────────────
   useEffect(() => {
