@@ -1,9 +1,9 @@
-import { type LabSection } from '@/labs/lab-content.types';
+import { type LabSection } from "@/labs/lab-content.types";
 
 export const theory: LabSection = {
-  id: 'theory',
-  type: 'text',
-  title: 'Theory',
+  id: "theory",
+  type: "text",
+  title: "Theory",
   paragraphs: [
     "An N-channel enhancement MOSFET has three terminals: Gate (G), Drain (D) and Source (S). No channel exists at $V_{GS} = 0$. A channel forms only when $V_{GS}$ exceeds the threshold voltage $V_{th}$, and the drain current $I_D$ is then controlled by the gate voltage.",
     "Drain (output) characteristics: the plot of $I_D$ versus $V_{DS}$ at constant $V_{GS}$. Ohmic (triode) region, for $V_{DS} < V_{GS} - V_{th}$: $I_D = K\\,[\\,2(V_{GS}-V_{th})V_{DS} - V_{DS}^2\\,]$. Saturation region, for $V_{DS} \\ge V_{GS} - V_{th}$: $I_D = K\\,(V_{GS}-V_{th})^2$, which is almost independent of $V_{DS}$. Here $K$ is the device constant in mA/V².",
