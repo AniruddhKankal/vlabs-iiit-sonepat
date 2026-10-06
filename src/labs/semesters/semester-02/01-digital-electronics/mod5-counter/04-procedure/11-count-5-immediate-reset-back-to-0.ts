@@ -1,0 +1,38 @@
+import { type SceneProcedureStep } from "@/labs/experiments/types";
+
+export const step: SceneProcedureStep = {
+  label: "Count 5 → immediate reset back to 0.",
+  body: "Fifth pulse. The counter momentarily reaches 0101 (QA=1, QC=1) which triggers R01=R02=1, instantly resetting to 0000. You observe the LEDs jump from count 4 directly to 0. The MOD-5 sequence (0→1→2→3→4→0) repeats.",
+  show: [
+    "bb",
+    "ctr",
+    "w_clk_ctr",
+    "w_qa_clkb",
+    "w_qa_r01",
+    "w_qc_r02",
+    "r_qa",
+    "led_qa",
+    "r_qb",
+    "led_qb",
+    "r_qc",
+    "led_qc",
+    "r_qd",
+    "led_qd",
+    "w_qa_out",
+    "w_qa_led",
+    "w_qa_gnd",
+    "w_qb_out",
+    "w_qb_led",
+    "w_qb_gnd",
+    "w_qc_out",
+    "w_qc_led",
+    "w_qc_gnd",
+    "w_qd_out",
+    "w_qd_led",
+    "w_qd_gnd",
+  ],
+  highlight: "ctr",
+  activeInputs: {
+    CLK: 1,
+  },
+};
