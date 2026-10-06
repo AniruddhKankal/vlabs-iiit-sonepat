@@ -149,6 +149,12 @@ import {
 } from "./semester-01/01-analog-electronics/13-opamp-circuits";
 
 import {
+  IntroLogicGatesCircuit,
+  IntroLogicGatesContent,
+  introLogicGatesExperiment,
+} from "./semester-02/01-digital-electronics/01-intro-logic-gates";
+
+import {
   Encoder4to2Circuit,
   Encoder4to2Content,
   encoder4to2Experiment,
@@ -732,6 +738,22 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
       "Implement encoders, decoders, and MUX/DEMUX-based logic on a breadboard. Explore Boolean minimisation and address decoding used in memory systems.",
     defaultCircuitId: "encoder-4to2",
     experiments: [
+      fromBuilt(
+        introLogicGatesExperiment,
+        IntroLogicGatesCircuit,
+        IntroLogicGatesContent,
+        [
+          "logic gates",
+          "and",
+          "or",
+          "not",
+          "nand",
+          "nor",
+          "xor",
+          "xnor",
+          "74hc",
+        ],
+      ),
       fromBuilt(
         gateLevelMinimizationExperiment,
         GateLevelMinimizationCircuit,
