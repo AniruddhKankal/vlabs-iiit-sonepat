@@ -1,44 +1,31 @@
-import { type ApparatusSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const apparatus: ApparatusSection = {
+export const apparatus: LabSection = {
   id: "apparatus",
   type: "apparatus",
   title: "Apparatus Required",
   items: [
     {
-      name: "Breadboard",
-      specification: "830 tie-point",
-      quantity: "1",
+      name: "DC regulated power supply",
+      specification: "0-30 V, 1 A, variable (1 piece)",
     },
     {
-      name: "Zener Diode",
-      specification: "1N4733A, V_Z = 5.1 V, 1 W",
-      quantity: "1",
+      name: "Zener diode",
+      specification: "5.1 V, 500 mW, BZX55C5V1 or equivalent (1 piece)",
+    },
+    { name: "Resistor Rs", specification: "330 Ω, 1/4 W, ±5 % (1 piece)" },
+    {
+      name: "Load resistors RL and RL2",
+      specification: "1 kΩ, 1/4 W, ±5 % (2 pieces)",
     },
     {
-      name: "Series Resistor R_S",
-      specification: "470 Ω, ½ W",
-      quantity: "1",
+      name: "Digital multimeter",
+      specification: "DC voltage range 0-20 V (1 piece)",
     },
+    { name: "Breadboard", specification: "Solderless (1 piece)" },
     {
-      name: "Load Resistor R_L",
-      specification: "1 kΩ, 2.2 kΩ, 4.7 kΩ (¼ W each)",
-      quantity: "1 each",
-    },
-    {
-      name: "Regulated DC Power Supply",
-      specification: "0–12 V variable",
-      quantity: "1",
-    },
-    {
-      name: "Digital Multimeter (×2)",
-      specification: "Input and output voltage measurement",
-      quantity: "2",
-    },
-    {
-      name: "Connecting Wires",
-      specification: "M-M jumper wires",
-      quantity: "1 set",
+      name: "Connecting wires",
+      specification: "Single-core, assorted colours",
     },
   ],
 };

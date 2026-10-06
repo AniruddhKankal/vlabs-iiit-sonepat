@@ -1,12 +1,12 @@
-import { type ConclusionSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const conclusion: ConclusionSection = {
+export const conclusion: LabSection = {
   id: "conclusion",
   type: "conclusion",
   title: "Conclusion",
   paragraphs: [
-    "The drain and transfer characteristics of the 2N7000 N-channel enhancement MOSFET were successfully plotted. The transfer characteristic confirmed the quadratic law $I_D = K(V_{GS} - V_{TH})^2$ in saturation with threshold voltage $V_{TH} \\approx 2.0\\,\\text{V}$ and transconductance parameter $K \\approx 0.6\\,\\text{A/V}^2$, consistent with datasheet values.",
-    "The output characteristics showed a clear transition from the linear (ohmic) region at low $V_{DS}$ to the saturation region where $I_D$ is nearly constant. The pinch-off locus $V_{DS} = V_{GS} - V_{TH}$ separated the two regions as predicted. Channel-length modulation was visible as a small positive slope in saturation.",
-    "These characteristics underpin MOSFET applications in switching (linear region: low $r_{DS(on)}$), amplification (saturation region: high $g_m$), and current-source biasing. The near-zero gate current distinguishes the MOSFET from the BJT and enables CMOS logic with negligible static power dissipation.",
+    "The drain and transfer characteristics of the N-channel enhancement MOSFET were plotted. The drain current is negligible below the threshold voltage, rises as a square law with VGS, and becomes nearly constant with VDS once VDS ≥ VGS − Vth (saturation).",
+    "Reference values for the illustrative device used in the virtual lab (Vth = 2 V, K = 5 mA/V²): ID = 20 mA at VGS = 4 V in saturation, ID = 45 mA at VGS = 5 V, and gm = 2K(VGS − Vth) = 20 mA/V at VGS = 4 V. A physical device will give different numbers; compare your own Vth and gm with the datasheet.",
+    "Precautions: keep both supplies at 0 V while wiring; never exceed the drain current and power rating of the MOSFET; do not leave the gate floating (static damage); change VGS and VDD gradually.",
   ],
 };

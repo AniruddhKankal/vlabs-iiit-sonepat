@@ -1,12 +1,11 @@
-import { type ConclusionSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const conclusion: ConclusionSection = {
+export const conclusion: LabSection = {
   id: "conclusion",
   type: "conclusion",
   title: "Conclusion",
   paragraphs: [
-    "The Zener shunt regulator successfully maintained an output voltage of approximately 5.1 V despite variations in both input voltage (line regulation) and load current (load regulation). The regulated output remained within ±0.05 V for V_in between 6 V and 10 V with a 1 kΩ load.",
-    "Line regulation was found to be excellent once the Zener entered breakdown. Load regulation was also satisfactory for load resistances down to 470 Ω, beyond which the voltage began to sag as total current exceeded the design margin.",
-    "This experiment demonstrated the fundamental voltage-regulation principle using a Zener diode. While a simple shunt regulator wastes power in the series resistor, it is adequate for low-power reference applications. More efficient regulators using op-amps or dedicated IC regulators (e.g., LM7805) build on this same Zener reference concept.",
+    "For input voltages above about 6.78 V (with RL = 1 kΩ) the reverse-biased Zener diode enters breakdown and holds the output voltage at approximately its Zener voltage of 5.1 V, while a change in Vin from 8 V to 12 V produces only a very small change in Vout. Below this input, at Vin = 6 V, the diode is not conducting and the output simply follows the input through the Rs-RL divider.",
+    "When the load was increased by connecting RL2 in parallel (RL = 500 Ω), the load current doubled to about 10.2 mA, the Zener current fell to about 4.65 mA, and the output voltage stayed approximately constant. Hence the Zener diode works as a simple shunt voltage regulator with good line and load regulation, provided it remains in breakdown (IZ(min) < IZ < IZ(max)).",
   ],
 };

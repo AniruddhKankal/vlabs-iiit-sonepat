@@ -1,10 +1,10 @@
-import { type TheorySection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const aim: TheorySection = {
+export const aim: LabSection = {
   id: "aim",
   type: "text",
   title: "Aim",
   paragraphs: [
-    "To study and verify drain and transfer characteristics of n-channel mosfet (2n7000) on a breadboard.",
+    "To study the drain (output) characteristics and the transfer characteristics of an N-channel enhancement MOSFET, and to determine its threshold voltage, transconductance and operating regions.",
   ],
 };
