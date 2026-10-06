@@ -12,5 +12,5 @@ export const theory: LabSection = {
     "Gates used: one XOR (74HC86), two AND (74HC08) and one NOT (74HC04). Truth table, for inputs A and B: (0,0) gives Sum/Diff = 0, Carry = 0, Borrow = 0. (0,1) gives Sum/Diff = 1, Carry = 0, Borrow = 1. (1,0) gives Sum/Diff = 1, Carry = 0, Borrow = 0. (1,1) gives Sum/Diff = 0, Carry = 1, Borrow = 0.",
   ],
   audioPath:
-    "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/02-theory.mp3",
+    "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/02_theory_english.mp3",
 };
