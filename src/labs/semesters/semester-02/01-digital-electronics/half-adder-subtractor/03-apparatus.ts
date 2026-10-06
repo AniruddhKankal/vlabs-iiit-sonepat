@@ -23,5 +23,5 @@ export const apparatus: LabSection = {
     },
   ],
   audioPath:
-    "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/03-apparatus.mp3",
+    "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/03_apparatus_english.mp3",
 };
