@@ -1,0 +1,12 @@
+services:
+  web:
+    build: .
+    container_name: vlabs
+    ports:
+      - "3003:3003"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development

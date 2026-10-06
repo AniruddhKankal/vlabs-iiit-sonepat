@@ -134,6 +134,17 @@ npm run search:index
 node scripts/generate-favicon.mjs
 ```
 
+### Running with Docker
+
+```bash
+# Start dev container
+docker compose up --build
+# → http://localhost:3003
+
+# Stop container
+docker compose down
+```
+
 ---
 
 ## Development history & ownership
