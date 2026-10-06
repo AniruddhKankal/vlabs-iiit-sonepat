@@ -1,22 +1,28 @@
-import { type ObservationSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const observations: ObservationSection = {
+export const observations: LabSection = {
   id: "observations",
   type: "observation",
   title: "Observations",
   paragraphs: [
-    "Supply: +5 V. Clock pulsed manually. Count resets at 5 as expected.",
-    "Note: count 5 (0101) is too brief to be observed — the asynchronous reset acts within nanoseconds of QA and QC both going HIGH.",
+    "Apply clock pulses one at a time and record the LED states $Q_C Q_B Q_A$ (lit = 1) after each pulse. Compare your readings with the expected values below.",
+    "Frequency division check: with a 1 kHz clock, measure the period of $Q_C$ on the CRO. It should be 5 ms, which is $f_{clk}/5$.",
   ],
   table: {
-    headers: ["CLK Pulse", "QD", "QC", "QB", "QA", "Count", "LEDs (D C B A)"],
+    headers: ["Mode", "Clock pulse", "Q_C", "Q_B", "Q_A", "Decimal"],
     rows: [
-      ["Reset/0", 0, 0, 0, 0, 0, "off off off off"],
-      [1, 0, 0, 0, 1, 1, "off off off RED"],
-      [2, 0, 0, 1, 0, 2, "off off YEL off"],
-      [3, 0, 0, 1, 1, 3, "off off YEL RED"],
-      [4, 0, 1, 0, 0, 4, "off GRN off off"],
-      ["5 → 0", 0, 0, 0, 0, "5→0", "Reset (instant)"],
+      ["UP", "0", "0", "0", "0", "0"],
+      ["UP", "1", "0", "0", "1", "1"],
+      ["UP", "2", "0", "1", "0", "2"],
+      ["UP", "3", "0", "1", "1", "3"],
+      ["UP", "4", "1", "0", "0", "4"],
+      ["UP", "5", "0", "0", "0", "0"],
+      ["DOWN", "0", "1", "0", "0", "4"],
+      ["DOWN", "1", "0", "1", "1", "3"],
+      ["DOWN", "2", "0", "1", "0", "2"],
+      ["DOWN", "3", "0", "0", "1", "1"],
+      ["DOWN", "4", "0", "0", "0", "0"],
+      ["DOWN", "5", "1", "0", "0", "4"],
     ],
   },
 };

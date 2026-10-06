@@ -1,10 +1,10 @@
-import { type TheorySection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const aim: TheorySection = {
+export const aim: LabSection = {
   id: "aim",
   type: "text",
   title: "Aim",
   paragraphs: [
-    "To study and verify mod-5 asynchronous counter using 74hc93 on a breadboard.",
+    "To design, construct and verify a MOD-5 asynchronous (ripple) UP counter and a MOD-5 asynchronous DOWN counter using JK flip-flops (74HC76) and NAND gates.",
   ],
 };

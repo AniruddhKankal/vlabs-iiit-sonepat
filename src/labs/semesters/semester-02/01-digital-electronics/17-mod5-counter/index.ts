@@ -4,92 +4,26 @@ import { type ExperimentDefinition } from "@/labs/experiments/types";
 import { aim } from "./01-aim";
 import { theory } from "./02-theory";
 import { apparatus } from "./03-apparatus";
+import { procedureSteps } from "./04-procedure";
 import { observations } from "./05-observations";
 import { conclusion } from "./06-conclusion";
-import { components } from "./components";
-import { procedureSteps } from "./04-procedure";
 
-export const mod5CounterExperiment: ExperimentDefinition = {
-  id: "mod5-counter",
-  title: "MOD-5 Asynchronous Counter using 74HC93",
+// Text lab: flip-flops (jk-ff / dff) have no 3D mesh in LabScene yet,
+// so this experiment uses the sidebar-only (labType: 'text') layout.
+export const mod5AsyncUpDownCounterExperiment: ExperimentDefinition = {
+  id: "mod5-async-up-down-counter",
+  title: "MOD-5 Asynchronous UP and DOWN Counters",
   description:
-    "Design a MOD-5 counter using the 74HC93 by connecting reset inputs to detect count=5 (0101) and reset to 0000.",
-  truthTable: {
-    inputs: ["CLK"],
-    outputs: ["QD", "QC", "QB", "QA"],
-    rows: [
-      {
-        inputs: {
-          CLK: 0,
-        },
-        outputs: {
-          QD: 0,
-          QC: 0,
-          QB: 0,
-          QA: 0,
-        },
-      },
-      {
-        inputs: {
-          CLK: 1,
-        },
-        outputs: {
-          QD: 0,
-          QC: 0,
-          QB: 0,
-          QA: 1,
-        },
-      },
-      {
-        inputs: {
-          CLK: 0,
-        },
-        outputs: {
-          QD: 0,
-          QC: 0,
-          QB: 1,
-          QA: 0,
-        },
-      },
-      {
-        inputs: {
-          CLK: 1,
-        },
-        outputs: {
-          QD: 0,
-          QC: 0,
-          QB: 1,
-          QA: 1,
-        },
-      },
-      {
-        inputs: {
-          CLK: 0,
-        },
-        outputs: {
-          QD: 0,
-          QC: 1,
-          QB: 0,
-          QA: 0,
-        },
-      },
-      {
-        inputs: {
-          CLK: 1,
-        },
-        outputs: {
-          QD: 0,
-          QC: 0,
-          QB: 0,
-          QA: 0,
-        },
-      },
-    ],
-  },
-  components,
+    "Design and verify a MOD-5 asynchronous UP counter and a MOD-5 asynchronous DOWN counter using JK flip-flops and NAND gates.",
+  labType: "text",
+  components: [],
   sections: [aim, theory, apparatus, observations, conclusion],
   procedureSteps,
 };
 
-export const Mod5CounterCircuit = buildCircuit(mod5CounterExperiment);
-export const Mod5CounterContent = buildLabContent(mod5CounterExperiment);
+export const Mod5AsyncUpDownCounterCircuit = buildCircuit(
+  mod5AsyncUpDownCounterExperiment,
+);
+export const Mod5AsyncUpDownCounterContent = buildLabContent(
+  mod5AsyncUpDownCounterExperiment,
+);

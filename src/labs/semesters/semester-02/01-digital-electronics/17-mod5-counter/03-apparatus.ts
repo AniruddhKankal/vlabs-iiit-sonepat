@@ -1,44 +1,51 @@
-import { type ApparatusSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const apparatus: ApparatusSection = {
+export const apparatus: LabSection = {
   id: "apparatus",
   type: "apparatus",
-  title: "Apparatus Required",
+  title: "Apparatus",
   items: [
     {
+      name: "Digital IC trainer / DC power supply",
+      specification: "Regulated +5 V",
+      quantity: "1",
+    },
+    {
       name: "Breadboard",
-      specification: "830 tie-point, solderless",
+      specification: "Standard, 830 points",
       quantity: "1",
     },
     {
-      name: "74HC93 Counter IC",
-      specification: "4-bit async binary counter, DIP-14, 5 V",
+      name: "Dual JK flip-flop IC",
+      specification: "74HC76, negative-edge triggered, with PRE and CLR",
+      quantity: "2",
+    },
+    {
+      name: "Quad 2-input NAND gate IC",
+      specification: "74HC00",
       quantity: "1",
     },
     {
-      name: "LEDs",
-      specification: "5 mm — red (QA), yellow (QB), green (QC), blue (QD)",
-      quantity: "4",
+      name: "Triple 3-input NAND gate IC",
+      specification: "74HC10",
+      quantity: "1",
     },
+    { name: "LED", specification: "5 mm, any colour", quantity: "3" },
+    { name: "Resistor", specification: "330 Ω, 1/4 W", quantity: "3" },
     {
-      name: "Resistors 330 Ω",
-      specification: "¼ W, ×4 — one per LED",
-      quantity: "4",
-    },
-    {
-      name: "DC Power Supply",
-      specification: "+5 V DC",
+      name: "Clock source",
+      specification: "1 Hz clock from the trainer, or a debounced pulse switch",
       quantity: "1",
     },
     {
-      name: "Clock source / Push Button",
-      specification: "Manual clock pulse (press = one count)",
+      name: "CRO (optional)",
+      specification: "Dual channel, for timing diagram",
       quantity: "1",
     },
     {
-      name: "Connecting Wires",
-      specification: "M-M jumper wires",
-      quantity: "1 set",
+      name: "Connecting wires",
+      specification: "Single-core, jumper type",
+      quantity: "As required",
     },
   ],
 };
