@@ -1,15 +1,14 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
-
+//
 export const step: SceneProcedureStep = {
-  label: "Test JK=11: TOGGLE on falling edge.",
-  body: "Set J=1, K=1. Pulse CLK multiple times. Q toggles on every falling edge — LED alternates ON/OFF. This mode eliminates the SR forbidden state.",
+  label: "Rewire for T mode: connect T to both J and K.",
+  body: "Connect the single T input (col 4 row a) to both J and K IC pins. Now the flip-flop acts as a T flip-flop: T=1 → toggle, T=0 → hold.",
   show: [
     "bb",
     "jk1",
     "w_set_vcc",
     "w_clr_vcc",
-    "w_j_jk1",
-    "w_k_jk1",
+    "w_t_jk1",
     "w_clk_jk1",
     "r_q",
     "led_q",

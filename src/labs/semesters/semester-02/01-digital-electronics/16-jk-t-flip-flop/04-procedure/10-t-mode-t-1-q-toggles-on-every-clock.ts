@@ -1,8 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
-
+//
 export const step: SceneProcedureStep = {
-  label: "Rewire for T mode: connect T to both J and K.",
-  body: "Connect the single T input (col 4 row a) to both J and K IC pins. Now the flip-flop acts as a T flip-flop: T=1 → toggle, T=0 → hold.",
+  label: "T mode: T=1 — Q toggles on every clock.",
+  body: "Set T=1 (col 4 row a → VCC). Pulse CLK repeatedly. LED alternates with every pulse — this is frequency division by 2. Set T=0 and confirm Q holds.",
   show: [
     "bb",
     "jk1",
@@ -21,9 +21,10 @@ export const step: SceneProcedureStep = {
     "w_qbar_led",
     "w_qbar_gnd",
   ],
+  highlight: "led_q",
   activeInputs: {
     J: 1,
     K: 1,
-    CLK: 0,
+    CLK: 1,
   },
 };

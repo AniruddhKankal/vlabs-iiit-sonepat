@@ -10,7 +10,7 @@ import { step as s09 } from "./09-rewire-for-t-mode-connect-t-to-both-j-and-k";
 import { step as s10 } from "./10-t-mode-t-1-q-toggles-on-every-clock";
 
 import { type SceneProcedureStep } from "@/labs/experiments/types";
-
+//
 export const procedureSteps: SceneProcedureStep[] = [
   s01,
   s02,
