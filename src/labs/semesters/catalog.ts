@@ -50,25 +50,25 @@ import {
   KirchhoffLawsCircuit,
   KirchhoffLawsContent,
   kirchhoffLawsExperiment,
-} from "./semester-01/01-analog-electronics/kirchhoff-laws";
+} from "./semester-01/03-FEE/kirchhoff-laws";
 
 import {
   SuperpositionTheoremCircuit,
   SuperpositionTheoremContent,
   superpositionTheoremExperiment,
-} from "./semester-01/01-analog-electronics/superposition-theorem";
+} from "./semester-01/03-FEE/superposition-theorem";
 
 import {
   TheveninTheoremCircuit,
   TheveninTheoremContent,
   theveninTheoremExperiment,
-} from "./semester-01/01-analog-electronics/thevenin-theorem";
+} from "./semester-01/03-FEE/thevenin-theorem";
 
 import {
   NortonTheoremCircuit,
   NortonTheoremContent,
   nortonTheoremExperiment,
-} from "./semester-01/01-analog-electronics/norton-theorem";
+} from "./semester-01/03-FEE/norton-theorem";
 
 import {
   LogicGatesCircuit,
@@ -110,43 +110,43 @@ import {
   ZenerVoltageRegulatorCircuit,
   ZenerVoltageRegulatorContent,
   zenerVoltageRegulatorExperiment,
-} from "./semester-01/03-analog-electronics-advanced/zener-voltage-regulator";
+} from "./semester-01/01-analog-electronics/04-zener-voltage-regulator";
 
 import {
   CeAmplifierCircuit,
   CeAmplifierContent,
   ceAmplifierExperiment,
-} from "./semester-01/03-analog-electronics-advanced/ce-amplifier";
+} from "./semester-01/01-analog-electronics/07-ce-amplifier";
 
 import {
   CbAmplifierCircuit,
   CbAmplifierContent,
   cbAmplifierExperiment,
-} from "./semester-01/03-analog-electronics-advanced/cb-amplifier";
+} from "./semester-01/01-analog-electronics/09-cb-amplifier";
 
 import {
   CbTransistorCharacteristicsCircuit,
   CbTransistorCharacteristicsContent,
   cbTransistorCharacteristicsExperiment,
-} from "./semester-01/03-analog-electronics-advanced/cb-transistor-characteristics";
+} from "./semester-01/01-analog-electronics/08-cb-transistor-characteristics";
 
 import {
   BjtBiasCircuit,
   BjtBiasContent,
   bjtBiasExperiment,
-} from "./semester-01/03-analog-electronics-advanced/bjt-bias";
+} from "./semester-01/01-analog-electronics/10-bjt-bias";
 
 import {
   MosfetCharacteristicsCircuit,
   MosfetCharacteristicsContent,
   mosfetCharacteristicsExperiment,
-} from "./semester-01/03-analog-electronics-advanced/mosfet-characteristics";
+} from "./semester-01/01-analog-electronics/11-mosfet-characteristics";
 
 import {
   OpampCircuitsCircuit,
   OpampCircuitsContent,
   opampCircuitsExperiment,
-} from "./semester-01/03-analog-electronics-advanced/opamp-circuits";
+} from "./semester-01/01-analog-electronics/13-opamp-circuits";
 
 import {
   Encoder4to2Circuit,
