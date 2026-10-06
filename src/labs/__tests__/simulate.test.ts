@@ -7,8 +7,8 @@ import { HalfSubtractorCircuit as HalfSubtractor } from "@/labs/semesters/semest
 import { FullSubtractorCircuit as FullSubtractor } from "@/labs/semesters/semester-01/02-computer-application/full-subtractor";
 import { Mux2to1Circuit as Mux2to1 } from "@/labs/semesters/semester-01/02-computer-application/mux-2to1";
 import { Demux1to2Circuit as Demux1to2 } from "@/labs/semesters/semester-01/02-computer-application/demux-1to2";
-import { Encoder4to2Circuit as Encoder4to2 } from "@/labs/semesters/semester-02/01-digital-electronics/encoder-4to2";
-import { Decoder2to4Circuit as Decoder2to4 } from "@/labs/semesters/semester-02/01-digital-electronics/decoder-2to4";
+import { Encoder4to2Circuit as Encoder4to2 } from "@/labs/semesters/semester-02/01-digital-electronics/11-encoder-4to2";
+import { Decoder2to4Circuit as Decoder2to4 } from "@/labs/semesters/semester-02/01-digital-electronics/12-decoder-2to4";
 import { FullAdderRippleCircuit } from "@/labs/semesters/semester-02/02-advanced-adders/full-adder-ripple";
 
 // ── helpers ───────────────────────────────────────────────────────────────
