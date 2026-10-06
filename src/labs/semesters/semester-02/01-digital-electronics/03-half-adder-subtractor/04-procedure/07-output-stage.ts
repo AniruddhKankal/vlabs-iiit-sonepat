@@ -35,5 +35,5 @@ export const step: SceneProcedureStep = {
   ],
   highlight: "led_sd",
   audioPath:
-    "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/04-procedure/07-procedure.mp3",
+    "/semesters/semester-02/01-digital-electronics/half-adder-subtractor/07_procedure_english.mp3",
 };

@@ -5,7 +5,7 @@ export const theory: TheorySection = {
   type: "text",
   title: "Theory",
   audioPath:
-    "/semesters/semester-01/01-analog-electronics-advanced/cb-transistor-characteristics/02-theory.mp3",
+    "/semesters/semester-01/01-analog-electronics-advanced/cb-transistor-characteristics/02_theory_english.mp3",
   paragraphs: [
     "In the common-base (CB) configuration the base terminal is common to both the input and the output circuits. The input is applied between emitter and base (VEB, IE) and the output is taken between collector and base (VCB, IC). In the active region the emitter–base junction is forward biased and the collector–base junction is reverse biased.",
     "Current gain: the dc current gain is α = IC / IE. Because a small part of the emitter current leaves through the base (IE = IC + IB), α is slightly less than 1, typically 0.95 to 0.99. Including leakage, IC = α·IE + ICBO, where ICBO is the collector–base reverse saturation current with the emitter open.",
