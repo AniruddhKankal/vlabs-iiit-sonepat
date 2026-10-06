@@ -1,5 +1,5 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
-
+//
 export const step: SceneProcedureStep = {
   label: "Test JK=11: TOGGLE on falling edge.",
   body: "Set J=1, K=1. Pulse CLK multiple times. Q toggles on every falling edge — LED alternates ON/OFF. This mode eliminates the SR forbidden state.",

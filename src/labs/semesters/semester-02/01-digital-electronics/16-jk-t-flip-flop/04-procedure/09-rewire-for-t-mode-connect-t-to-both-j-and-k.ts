@@ -1,5 +1,5 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
-
+//
 export const step: SceneProcedureStep = {
   label: "Rewire for T mode: connect T to both J and K.",
   body: "Connect the single T input (col 4 row a) to both J and K IC pins. Now the flip-flop acts as a T flip-flop: T=1 → toggle, T=0 → hold.",

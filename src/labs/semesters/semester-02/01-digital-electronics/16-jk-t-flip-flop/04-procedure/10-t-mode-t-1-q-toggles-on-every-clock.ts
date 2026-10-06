@@ -1,5 +1,5 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
-
+//
 export const step: SceneProcedureStep = {
   label: "T mode: T=1 — Q toggles on every clock.",
   body: "Set T=1 (col 4 row a → VCC). Pulse CLK repeatedly. LED alternates with every pulse — this is frequency division by 2. Set T=0 and confirm Q holds.",
