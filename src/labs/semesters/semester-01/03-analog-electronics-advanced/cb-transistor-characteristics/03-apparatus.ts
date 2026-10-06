@@ -5,7 +5,7 @@ export const apparatus: ApparatusSection = {
   type: "apparatus",
   title: "Apparatus",
   audioPath:
-    "/semesters/semester-01/01-analog-electronics-advanced/cb-transistor-characteristics/03-apparatus.mp3",
+    "/semesters/semester-01/01-analog-electronics-advanced/cb-transistor-characteristics/03_apparatus_english.mp3",
   items: [
     {
       name: "NPN transistor",
