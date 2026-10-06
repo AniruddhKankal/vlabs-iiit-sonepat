@@ -8,31 +8,31 @@ import {
   StudyBasicComponentsCircuit,
   StudyBasicComponentsContent,
   studyBasicComponentsExperiment,
-} from "./semester-01/01-analog-electronics/study-basic-components";
+} from "./semester-01/01-analog-electronics/01-study-basic-components";
 
 import {
   PnJunctionDiodeCircuit,
   PnJunctionDiodeContent,
   pnJunctionDiodeExperiment,
-} from "./semester-01/01-analog-electronics/pn-junction-diode";
+} from "./semester-01/01-analog-electronics/02-pn-junction-diode";
 
 import {
   ZenerDiodeCircuit,
   ZenerDiodeContent,
   zenerDiodeExperiment,
-} from "./semester-01/01-analog-electronics/zener-diode";
+} from "./semester-01/01-analog-electronics/03-zener-diode";
 
 import {
   HalfWaveRectifierCircuit,
   HalfWaveRectifierContent,
   halfWaveRectifierExperiment,
-} from "./semester-01/01-analog-electronics/half-wave-rectifier";
+} from "./semester-01/01-analog-electronics/05-half-wave-rectifier";
 
 import {
   FullWaveRectifierCircuit,
   FullWaveRectifierContent,
   fullWaveRectifierExperiment,
-} from "./semester-01/01-analog-electronics/full-wave-rectifier";
+} from "./semester-01/01-analog-electronics/06-full-wave-rectifier";
 
 import {
   RectifiersCapacitorFiltersCircuit,
