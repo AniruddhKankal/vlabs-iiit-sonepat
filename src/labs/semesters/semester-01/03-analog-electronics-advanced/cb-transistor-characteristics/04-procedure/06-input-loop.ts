@@ -4,7 +4,7 @@ export const step: SceneProcedureStep = {
   label: "Wire the input loop (emitter)",
   body: "Connect the negative rail of VEE to RE, and RE to the emitter. The emitter is now driven negative with respect to the base, which forward-biases the emitter–base junction. Current path: base → emitter → RE → −VEE.",
   audioPath:
-    "/semesters/semester-01/01-analog-electronics-advanced/cb-transistor-characteristics/06-procedure.mp3",
+    "/semesters/semester-01/01-analog-electronics-advanced/cb-transistor-characteristics/06_procedure_english.mp3",
   show: [
     "bb",
     "psu_vee",
