@@ -1,7 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: "Connect the center-tapped transformer secondary and ground the center tap.",
+  label:
+    "Connect the center-tapped transformer secondary and ground the center tap.",
   body:
     "Place the step-down center-tapped transformer supply (ac_src) at column 1. " +
     "Connect the two outer secondary terminals: AC1 to column 4 (row a) and AC2 to column 5 (row b). " +

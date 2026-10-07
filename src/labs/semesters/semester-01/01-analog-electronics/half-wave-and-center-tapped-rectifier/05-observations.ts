@@ -37,7 +37,11 @@ export const observations: ObservationSection = {
         "6.32 V ($V_m / \\sqrt{2}$)",
       ],
       ["Ripple Factor ($\\gamma$)", "1.21", "0.48"],
-      ["Output Ripple Frequency ($f_r$)", "50 Hz ($f_{in}$)", "100 Hz ($2f_{in}$)"],
+      [
+        "Output Ripple Frequency ($f_r$)",
+        "50 Hz ($f_{in}$)",
+        "100 Hz ($2f_{in}$)",
+      ],
       ["Rectification Efficiency ($\\eta$)", "40.2%", "80.6%"],
       ["Peak Inverse Voltage (PIV)", "9.0 V ($V_m$)", "18.0 V ($2V_m$)"],
       ["Filtered DC Voltage (with 100 µF)", "7.45 V", "8.12 V"],

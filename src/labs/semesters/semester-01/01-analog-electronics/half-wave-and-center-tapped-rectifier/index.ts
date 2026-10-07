@@ -9,17 +9,18 @@ import { conclusion } from "./06-conclusion";
 import { components } from "./components";
 import { procedureSteps } from "./04-procedure";
 
-export const halfWaveAndCenterTappedRectifierExperiment: ExperimentDefinition = {
-  id: "half-wave-and-center-tapped-rectifier",
-  title: "Half-Wave and Center-Tapped Full-Wave Rectifiers",
-  description:
-    "Study and compare half-wave and center-tapped full-wave rectifier circuits. " +
-    "Observe rectification across both half-cycles, measure DC output voltages, ripple factors, and efficiency, " +
-    "and demonstrate the smoothing effect of a shunt capacitor filter.",
-  components,
-  sections: [aim, theory, apparatus, observations, conclusion],
-  procedureSteps,
-};
+export const halfWaveAndCenterTappedRectifierExperiment: ExperimentDefinition =
+  {
+    id: "half-wave-and-center-tapped-rectifier",
+    title: "Half-Wave and Center-Tapped Full-Wave Rectifiers",
+    description:
+      "Study and compare half-wave and center-tapped full-wave rectifier circuits. " +
+      "Observe rectification across both half-cycles, measure DC output voltages, ripple factors, and efficiency, " +
+      "and demonstrate the smoothing effect of a shunt capacitor filter.",
+    components,
+    sections: [aim, theory, apparatus, observations, conclusion],
+    procedureSteps,
+  };
 
 export const HalfWaveAndCenterTappedRectifierCircuit = buildCircuit(
   halfWaveAndCenterTappedRectifierExperiment,
