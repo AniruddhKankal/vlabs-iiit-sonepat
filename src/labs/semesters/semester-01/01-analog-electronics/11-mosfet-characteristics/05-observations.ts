@@ -1,29 +1,57 @@
-import { type ObservationSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const observations: ObservationSection = {
-  id: "observations",
+export const observationOutput: LabSection = {
+  id: "observations-output",
   type: "observation",
-  title: "Observations",
+  title: "Observation Table 1: Drain characteristics",
   paragraphs: [
-    "Device: 2N7000. $R_D = 1\\,\\text{k}\\Omega$. $V_{TH}$ (extracted from $\\sqrt{I_D}$ plot) $\\approx 2.0\\,\\text{V}$.",
-    "Table (a): Transfer characteristics at $V_{DS} = 5\\,\\text{V}$.",
+    "Drain resistor RD = 100 Ω. ID (mA) = VRD (V) / 0.1 kΩ = 10 × VRD (V). Fill ID for each VGS.",
   ],
   table: {
     headers: [
-      "$V_{GS}$ (V)",
-      "$I_D$ (mA)",
-      "$\\sqrt{I_D}$ (mA$^{0.5}$)",
-      "Region",
+      "VDS (V)",
+      "ID (mA) at VGS = 3 V",
+      "ID (mA) at VGS = 4 V",
+      "ID (mA) at VGS = 5 V",
     ],
     rows: [
-      [0, "0.00", "0.000", "Off"],
-      [1.5, "0.00", "0.000", "Off"],
-      [2.5, "0.25", "0.500", "Saturation"],
-      [3, "1.00", "1.000", "Saturation"],
-      [3.5, "2.25", "1.500", "Saturation"],
-      [4, "4.00", "2.000", "Saturation"],
-      [4.5, "6.25", "2.500", "Saturation"],
-      [5, "9.00", "3.000", "Saturation"],
+      ["0", "", "", ""],
+      ["0.25", "", "", ""],
+      ["0.5", "", "", ""],
+      ["1", "", "", ""],
+      ["2", "", "", ""],
+      ["3", "", "", ""],
+      ["4", "", "", ""],
+      ["6", "", "", ""],
+      ["8", "", "", ""],
+      ["10", "", "", ""],
+    ],
+  },
+};
+
+export const observationTransfer: LabSection = {
+  id: "observations-transfer",
+  type: "observation",
+  title: "Observation Table 2: Transfer characteristics",
+  paragraphs: [
+    "VDS held constant at 5 V. ID (mA) = 10 × VRD (V). Compute sqrt(ID) for the threshold-voltage plot.",
+  ],
+  table: {
+    headers: ["VGS (V)", "VRD (V)", "ID (mA)", "sqrt(ID) (mA^0.5)"],
+    rows: [
+      ["0.0", "", "", ""],
+      ["0.5", "", "", ""],
+      ["1.0", "", "", ""],
+      ["1.5", "", "", ""],
+      ["2.0", "", "", ""],
+      ["2.5", "", "", ""],
+      ["3.0", "", "", ""],
+      ["3.5", "", "", ""],
+      ["4.0", "", "", ""],
+      ["4.5", "", "", ""],
+      ["5.0", "", "", ""],
+      ["5.5", "", "", ""],
+      ["6.0", "", "", ""],
     ],
   },
 };

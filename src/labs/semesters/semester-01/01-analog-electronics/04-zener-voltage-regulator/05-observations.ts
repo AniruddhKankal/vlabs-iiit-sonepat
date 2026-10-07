@@ -1,26 +1,36 @@
-import { type ObservationSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const observations: ObservationSection = {
+export const observations: LabSection = {
   id: "observations",
   type: "observation",
   title: "Observations",
   paragraphs: [
-    "Zener: 1N4733A (V_Z = 5.1 V, 1 W). R_S = 470 Ω. Supply variable 0–10 V.",
-    "Nominal output voltage V_out ≈ 5.1 V (in regulation range).",
-    "Maximum safe Zener current: I_Z_max = P_Z / V_Z = 1 / 5.1 ≈ 196 mA.",
+    "Rs = 330 Ω, Zener diode Vz = 5.1 V. Expected values are calculated for an ideal 5.1 V Zener diode; your measured values may differ slightly because of the Zener tolerance and its dynamic resistance. Record the observed Vout in the blank column.",
+    "Line regulation (RL = 1 kΩ): ΔVout / ΔVin × 100 % between Vin = 8 V and Vin = 12 V = ____ %.",
+    "Load regulation (Vin = 10 V): (Vout at RL = 1 kΩ - Vout at RL = 500 Ω) / Vout at RL = 500 Ω × 100 % = ____ %.",
   ],
   table: {
     headers: [
-      "V_in (V)",
-      "V_out — No Load (V)",
-      "V_out — R_L=1kΩ (V)",
-      "V_out — R_L=470Ω (V)",
+      "S.No.",
+      "Vin (V)",
+      "RL (Ω)",
+      "Expected Vout (V)",
+      "Observed Vout (V)",
+      "Zener diode state",
     ],
     rows: [
-      [4, "3.98", "3.96", "3.90"],
-      [6, "5.10", "5.09", "5.07"],
-      [8, "5.11", "5.10", "5.08"],
-      [10, "5.12", "5.11", "5.09"],
+      ["1", "6", "1000", "4.51", "", "Not in breakdown"],
+      ["2", "8", "1000", "5.10", "", "In breakdown (IZ ≈ 3.69 mA)"],
+      ["3", "10", "1000", "5.10", "", "In breakdown (IZ ≈ 9.75 mA)"],
+      ["4", "12", "1000", "5.10", "", "In breakdown (IZ ≈ 15.81 mA)"],
+      [
+        "5",
+        "10",
+        "500 (1 kΩ ∥ 1 kΩ)",
+        "5.10",
+        "",
+        "In breakdown (IZ ≈ 4.65 mA)",
+      ],
     ],
   },
 };

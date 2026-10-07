@@ -1,12 +1,14 @@
-import { step as s01 } from "./01-place-the-breadboard-and-connect-the-dc-power-su";
-import { step as s02 } from "./02-connect-the-dmm-as-a-drain-path-ammeter";
-import { step as s03 } from "./03-insert-drain-resistor-r-d-1-k-and-wire-to-led";
-import { step as s04 } from "./04-insert-gate-bias-network-r-pot-10-k";
-import { step as s05 } from "./05-insert-the-output-indicator-led-yellow-and-final";
-import { step as s06 } from "./06-transfer-characteristic-sweep-v-gs-at-fixed-v-ds";
-import { step as s07 } from "./07-output-characteristic-sweep-v-ds-at-fixed-v-gs-4";
-
 import { type SceneProcedureStep } from "@/labs/experiments/types";
+import { step as s01 } from "./01-step";
+import { step as s02 } from "./02-step";
+import { step as s03 } from "./03-step";
+import { step as s04 } from "./04-step";
+import { step as s05 } from "./05-step";
+import { step as s06 } from "./06-step";
+import { step as s07 } from "./07-step";
+import { step as s08 } from "./08-step";
+import { step as s09 } from "./09-step";
+import { step as s10 } from "./10-step";
 
 export const procedureSteps: SceneProcedureStep[] = [
   s01,
@@ -16,4 +18,7 @@ export const procedureSteps: SceneProcedureStep[] = [
   s05,
   s06,
   s07,
+  s08,
+  s09,
+  s10,
 ];

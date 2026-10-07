@@ -149,6 +149,12 @@ import {
 } from "./semester-01/01-analog-electronics/13-opamp-circuits";
 
 import {
+  IntroLogicGatesCircuit,
+  IntroLogicGatesContent,
+  introLogicGatesExperiment,
+} from "./semester-02/01-digital-electronics/01-intro-logic-gates";
+
+import {
   Encoder4to2Circuit,
   Encoder4to2Content,
   encoder4to2Experiment,
@@ -245,9 +251,9 @@ import {
 } from "./semester-02/01-digital-electronics/16-jk-t-flip-flop";
 
 import {
-  Mod5CounterCircuit,
-  Mod5CounterContent,
-  mod5CounterExperiment,
+  Mod5AsyncUpDownCounterCircuit,
+  Mod5AsyncUpDownCounterContent,
+  mod5AsyncUpDownCounterExperiment,
 } from "./semester-02/01-digital-electronics/17-mod5-counter";
 
 import {
@@ -733,6 +739,22 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
     defaultCircuitId: "encoder-4to2",
     experiments: [
       fromBuilt(
+        introLogicGatesExperiment,
+        IntroLogicGatesCircuit,
+        IntroLogicGatesContent,
+        [
+          "logic gates",
+          "and",
+          "or",
+          "not",
+          "nand",
+          "nor",
+          "xor",
+          "xnor",
+          "74hc",
+        ],
+      ),
+      fromBuilt(
         gateLevelMinimizationExperiment,
         GateLevelMinimizationCircuit,
         GateLevelMinimizationContent,
@@ -826,14 +848,19 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         "toggle",
         "sequential",
       ]),
-      fromBuilt(mod5CounterExperiment, Mod5CounterCircuit, Mod5CounterContent, [
-        "counter",
-        "mod-5",
-        "asynchronous",
-        "74hc93",
-        "ripple counter",
-        "sequential",
-      ]),
+      fromBuilt(
+        mod5AsyncUpDownCounterExperiment,
+        Mod5AsyncUpDownCounterCircuit,
+        Mod5AsyncUpDownCounterContent,
+        [
+          "counter",
+          "mod-5",
+          "asynchronous",
+          "74hc93",
+          "ripple counter",
+          "sequential",
+        ],
+      ),
       fromBuilt(
         muxBasedLogicExperiment,
         MuxBasedLogicCircuit,
