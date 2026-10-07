@@ -54,6 +54,10 @@ These types **render** in the lab UI. Prefer only these in `show[]` unless you a
 | `dc-jack`                  | `mountedAt`, optional `terminals: [PinRef, PinRef]` | Bench PSU or AC source; **DO NOT USE WIRES to connect it.** Use `terminals` to connect straight to rails/holes.                          |
 | `battery`                  | same as `dc-jack`                                   | Same builder as PSU                                                                                                                      |
 | `potentiometer`            | `mountedAt`, optional `probes: [PinRef, PinRef]`    | Renders as **bench multimeter**; not a trimpot. **DO NOT USE WIRES.** Use `probes` to test two points.                                   |
+| `ammeter`                  | `mountedAt`, `probes: [PinRef, PinRef]`             | 0–100 mA panel meter (blue body). **DO NOT USE WIRES.** Use `probes` to connect in series.                                               |
+| `voltmeter`                | `mountedAt`, `probes: [PinRef, PinRef]`             | 0–15 V DC panel meter (grey body). **DO NOT USE WIRES.** Use `probes` to connect across components.                                      |
+| `oscilloscope`             | `mountedAt`, `probes: [PinRef, PinRef]`             | CRO with green screen. **DO NOT USE WIRES.** Use `probes` for CH1 and GND.                                                               |
+| `function-generator`       | `mountedAt`, `probes: [PinRef, PinRef]`             | Signal generator. **DO NOT USE WIRES.** Use `probes` for OUTPUT and GND.                                                                 |
 
 **Visual stand-ins (current repo pattern):** diodes / Zeners on the breadboard use `type: 'led'` (e.g. yellow for signal diode, red for reverse-biased Zener). Theory schematics can use `{ type: 'zener', … }` inside `TheorySection.schematic` — that is 2D only, not the BOM.
 
