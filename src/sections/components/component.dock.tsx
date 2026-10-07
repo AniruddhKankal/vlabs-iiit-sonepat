@@ -14,7 +14,13 @@ const EceComponentViewer = dynamic(
   { ssr: false },
 );
 
-function DockItem({ comp, isActive }: { comp: ComponentData; isActive: boolean }) {
+function DockItem({
+  comp,
+  isActive,
+}: {
+  comp: ComponentData;
+  isActive: boolean;
+}) {
   const ref = useRef<HTMLAnchorElement>(null);
   const [isVisible, setIsVisible] = useState(isActive);
 
@@ -27,7 +33,7 @@ function DockItem({ comp, isActive }: { comp: ComponentData; isActive: boolean }
         root: null,
         rootMargin: "50px",
         threshold: 0,
-      }
+      },
     );
 
     if (ref.current) {
@@ -119,7 +125,11 @@ export function ComponentDock({ currentSlug }: { currentSlug: string }) {
           .dock-strip::-webkit-scrollbar { display: none; }
         `}</style>
         {Object.values(COMPONENTS_DATA).map((comp) => (
-          <DockItem key={comp.slug} comp={comp} isActive={comp.slug === currentSlug} />
+          <DockItem
+            key={comp.slug}
+            comp={comp}
+            isActive={comp.slug === currentSlug}
+          />
         ))}
       </div>
 
