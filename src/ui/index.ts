@@ -34,3 +34,4 @@ export { SectionIntro } from "./SectionIntro";
 export { SectionStack } from "./SectionStack";
 export { VerticalDivider } from "./VerticalDivider";
 export { SectionShell, type SectionShellProps } from "./SectionShell";
+export { Pagination } from "./Pagination";

@@ -1,5 +1,7 @@
+import { ArrowRight } from "@/icons";
 import {
   Body,
+  Button,
   Eyebrow,
   Heading,
   HeadingPair,
@@ -33,6 +35,18 @@ export function ThreeCards() {
               </Body>
             </div>
           </HeadingPair>
+          <div className="flex flex-wrap gap-3">
+            <Button
+              href="/components"
+              label="Explore all the components"
+              variant="outlined"
+              trailingIcon={
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  <ArrowRight sizePx={16} />
+                </span>
+              }
+            />
+          </div>
         </SectionIntro>
         <CardsGrid>
           {ILLUSTRATION_CARDS.map((card) => (

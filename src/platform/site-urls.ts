@@ -19,7 +19,7 @@ export const SITE_URLS: Record<
   calBooking: "https://cal.com/forms/f7841033-0a20-4958-8c92-4e34ec128a81",
   discord: "https://discord.gg/5MaJbxFnm",
   docsApi: "https://github.com/OSS-Initiatives-IIIT-Sonepat/vlabs-iiit-sonepat",
-  docsDevelopers: "https://vlabs-iiit-sonepat.vercel.app/docs",
+  docsDevelopers: "/docs",
   docsGettingStarted:
     "https://github.com/OSS-Initiatives-IIIT-Sonepat/vlabs-iiit-sonepat",
   docsMcp: "https://github.com/OSS-Initiatives-IIIT-Sonepat/vlabs-iiit-sonepat",

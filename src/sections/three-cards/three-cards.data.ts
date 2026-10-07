@@ -5,7 +5,7 @@ export type IllustrationId = EceKind;
 export type IllustrationCardRecord = {
   attribution?: { role: string; company: string };
   body: string;
-  caseStudySlug?: string;
+  actionHref?: string;
   heading: string;
   illustration: IllustrationId;
 };

@@ -16,6 +16,7 @@ export type ButtonProps = {
   href?: string;
   label: string;
   leadingIcon?: ReactNode;
+  trailingIcon?: ReactNode;
   size?: ButtonSize;
   type?: "button" | "submit";
   variant?: ButtonVariant;
@@ -32,6 +33,7 @@ export function Button({
   href,
   label,
   leadingIcon,
+  trailingIcon,
   size = "regular",
   type = "button",
   variant = "filled",
@@ -45,7 +47,7 @@ export function Button({
     href !== undefined && !href.startsWith("/") && !isProtocolLink;
 
   const rootClass = [
-    "inline-flex items-center justify-center relative",
+    "inline-flex items-center justify-center relative group",
     "bg-none border-none cursor-pointer no-underline uppercase",
     "font-mono text-[calc(var(--font-base)*3)] font-medium tracking-normal",
     size === "small" ? "h-8" : "h-10",
@@ -81,6 +83,7 @@ export function Button({
       >
         {leadingIcon}
         {label}
+        {trailingIcon}
       </span>
     </>
   );

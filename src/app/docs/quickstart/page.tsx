@@ -9,7 +9,7 @@ import {
 
 export const metadata = {
   title: "Quickstart — VLabs Docs",
-  description: "Add your first circuit to VLabs in under 5 minutes.",
+  description: "Add your first experiment to VLabs in under 10 minutes.",
 };
 
 export default function QuickstartPage() {
@@ -19,9 +19,10 @@ export default function QuickstartPage() {
       <h1>Quickstart</h1>
 
       <p>
-        This guide adds a new circuit to VLabs from scratch. You'll write a
-        circuit definition, register it, and see it live — no renderer changes
-        needed.
+        This guide walks you through adding a new experiment to VLabs from
+        scratch. You&apos;ll create the experiment folder structure, write the
+        content sections and circuit definition, register it in the catalog, and
+        see it live.
       </p>
 
       <Callout $tone="info">
@@ -32,117 +33,157 @@ export default function QuickstartPage() {
         </p>
       </Callout>
 
-      <h2>Step 1 — Create the circuit file</h2>
+      <h2>Step 1 — Create the experiment folder</h2>
 
       <p>
-        Every circuit lives in its own folder under{" "}
-        <code>src/labs/circuits/</code>. Create{" "}
-        <code>src/labs/circuits/sr-latch/index.ts</code>:
+        Each experiment lives in its own folder under a semester and subject
+        directory in <code>src/labs/semesters/</code>. For example, to add an
+        &quot;SR Latch&quot; experiment to Semester 2 / Sequential Logic:
       </p>
 
-      <pre>{`import { type Circuit } from '@/labs/types';
+      <pre>{`src/labs/semesters/semester-02/04-sequential-logic/sr-latch/
+  01-aim.ts
+  02-theory.ts
+  03-apparatus.ts
+  04-procedure/
+    index.ts
+  05-observations.ts
+  06-conclusion.ts
+  components.ts        ← circuit definition
+  index.ts             ← barrel export`}</pre>
 
-export const SrLatch: Circuit = {
+      <h2>Step 2 — Write the content sections</h2>
+
+      <p>
+        Each section is a typed object imported from{" "}
+        <code>@/labs/lab-content.types</code>:
+      </p>
+
+      <pre>{`// 01-aim.ts
+import { type TheorySection } from '@/labs/lab-content.types';
+
+export const aim: TheorySection = {
+  id: 'aim',
+  type: 'text',
+  title: 'Aim',
+  paragraphs: [
+    'To build and verify an SR Latch using two cross-coupled NAND gates ' +
+      'and observe the Set, Reset, and Hold states.',
+  ],
+};`}</pre>
+
+      <h2>Step 3 — Write the circuit definition</h2>
+
+      <p>
+        Create <code>components.ts</code> with the circuit definition. You can
+        use the fluent <code>CB</code> builder or write a manual{" "}
+        <code>Circuit</code> object:
+      </p>
+
+      <pre>{`// components.ts — using the CB fluent builder
+import { CB } from '@/labs/builder';
+
+export const SrLatchCircuit = new CB(
+  'sr-latch',
+  'SR Latch',
+  'A Set-Reset latch built from two cross-coupled NAND gates.',
+)
+  .board()
+  .gate('nand1', 'nand-gate', 5)
+  .gate('nand2', 'nand-gate', 14)
+  .wire('w_q',  'green',  { ic: 'nand1', pin: 'Y' }, { ic: 'nand2', pin: 'A' })
+  .wire('w_qn', 'yellow', { ic: 'nand2', pin: 'Y' }, { ic: 'nand1', pin: 'B' })
+  .wire('w_s',  'red',    { board: 'bb', col: 2, row: 'a' }, { ic: 'nand1', pin: 'A' })
+  .wire('w_r',  'blue',   { board: 'bb', col: 3, row: 'a' }, { ic: 'nand2', pin: 'B' })
+  .step('Place the breadboard', 'Your build surface.').show('bb')
+  .step('Place NAND gate 1', 'Set side — holds Q output.').show('nand1').highlight('nand1')
+  .step('Place NAND gate 2', 'Reset side — holds Q̄ output.').show('nand2').highlight('nand2')
+  .step('Wire inputs S and R', 'Red = S, Blue = R.').show('w_s', 'w_r')
+  .step('Cross-couple outputs', 'Feedback creates memory.').show('w_q', 'w_qn').highlight('w_q')
+  .build();`}</pre>
+
+      <h2>Step 4 — Create the barrel export</h2>
+
+      <p>
+        The experiment&apos;s <code>index.ts</code> exports the circuit,
+        content, and experiment definition:
+      </p>
+
+      <pre>{`// index.ts
+import { type ExperimentDefinition } from '@/labs/experiments/types';
+import { type LabContent } from '@/labs/lab-content.types';
+
+import { aim } from './01-aim';
+import { theory } from './02-theory';
+import { apparatus } from './03-apparatus';
+import { procedure } from './04-procedure';
+import { observations } from './05-observations';
+import { conclusion } from './06-conclusion';
+
+export { SrLatchCircuit } from './components';
+
+export const SrLatchContent: LabContent = {
   id: 'sr-latch',
   title: 'SR Latch',
-  description:
-    'A Set-Reset latch built from two cross-coupled NAND gates. ' +
-    'S=0 sets the output HIGH, R=0 resets it LOW. ' +
-    'Both HIGH = hold state; both LOW = forbidden.',
+  circuitId: 'sr-latch',
+  sections: [aim, theory, apparatus, procedure, observations, conclusion],
+};
 
-  components: [
-    { id: 'bb',    type: 'breadboard' },
-    { id: 'nand1', type: 'nand-gate', mountedAt: { board: 'bb', col: 5,  row: 'e' } },
-    { id: 'nand2', type: 'nand-gate', mountedAt: { board: 'bb', col: 14, row: 'e' } },
-
-    // Cross-coupling wires
-    { id: 'w_q',   type: 'wire', color: 'green',
-      from: { ic: 'nand1', pin: 'Y' }, to: { ic: 'nand2', pin: 'A' } },
-    { id: 'w_qn',  type: 'wire', color: 'yellow',
-      from: { ic: 'nand2', pin: 'Y' }, to: { ic: 'nand1', pin: 'B' } },
-
-    // Input wires
-    { id: 'w_s',   type: 'wire', color: 'red',
-      from: { board: 'bb', col: 2, row: 'a' }, to: { ic: 'nand1', pin: 'A' } },
-    { id: 'w_r',   type: 'wire', color: 'blue',
-      from: { board: 'bb', col: 3, row: 'a' }, to: { ic: 'nand2', pin: 'B' } },
-  ],
-
-  steps: [
-    {
-      title: 'Place the breadboard',
-      body: 'Your build surface. Columns share a node across the tie-point rows.',
-      show: ['bb'],
-    },
-    {
-      title: 'Place NAND gate 1 (Set side)',
-      body: 'The 74HC00 NAND gate at column 5. This side holds the Q output.',
-      show: ['bb', 'nand1'],
-      highlight: 'nand1',
-    },
-    {
-      title: 'Place NAND gate 2 (Reset side)',
-      body: 'The second NAND gate at column 14. This side holds the Q-bar output.',
-      show: ['bb', 'nand1', 'nand2'],
-      highlight: 'nand2',
-    },
-    {
-      title: 'Wire inputs S and R',
-      body: 'Red = S (Set), Blue = R (Reset). Tie to columns 2 and 3.',
-      show: ['bb', 'nand1', 'nand2', 'w_s', 'w_r'],
-    },
-    {
-      title: 'Cross-couple the outputs',
-      body: 'Q feeds back into NAND2 input A. Q-bar feeds back into NAND1 input B. This feedback creates memory.',
-      show: ['bb', 'nand1', 'nand2', 'w_s', 'w_r', 'w_q', 'w_qn'],
-      highlight: 'w_q',
-    },
-  ],
+export const srLatchExperiment: ExperimentDefinition = {
+  id: 'sr-latch',
+  title: 'SR Latch',
+  description: 'A Set-Reset latch from two cross-coupled NAND gates.',
 };`}</pre>
 
-      <h2>Step 2 — Register the circuit</h2>
+      <h2>Step 5 — Register in the catalog</h2>
 
       <p>
-        Open <code>src/labs/circuits/index.ts</code> and add two lines:
+        Open <code>src/labs/semesters/catalog.ts</code> and add an import + an
+        entry to the appropriate subject:
       </p>
 
-      <pre>{`import { SrLatch } from './sr-latch';   // ← add import
+      <pre>{`import {
+  SrLatchCircuit,
+  SrLatchContent,
+  srLatchExperiment,
+} from './semester-02/04-sequential-logic/sr-latch';
 
-export const ALL_CIRCUITS: Circuit[] = [
-  HalfAdder,
-  FullAdder,
-  // ... existing circuits
-  SrLatch,   // ← add here
-];
+// Then add to the experiments array of the relevant subject:
+fromBuilt(srLatchExperiment, SrLatchCircuit, SrLatchContent, [
+  'sr latch', 'nand', 'memory', 'sequential',
+]),`}</pre>
 
-export {
-  HalfAdder, FullAdder, /* ... */,
-  SrLatch,   // ← and here
-};`}</pre>
-
-      <h2>Step 3 — Done</h2>
+      <h2>Step 6 — Done</h2>
 
       <p>
-        The circuit appears automatically in the explore page sidebar and gets
-        its own step-by-step page at <code>/labs/sr-latch</code>. No other
-        changes needed.
+        The experiment appears automatically in the explore page and gets its
+        own full lab page with sidebar navigation, 3D scene, and all content
+        sections. No other changes needed.
       </p>
 
       <Callout $tone="tip">
         <strong>Generate with AI instead</strong>
         <p>
-          Paste <code>src/labs/COMPONENTS.md</code> into Claude and say
-          "Generate an SR latch circuit". Save the output directly to step 1's
-          file path. The AI knows the full schema, pin reference syntax, and
-          column layout rules.
+          Paste <code>src/labs/COMPONENTS.md</code> into Claude and describe the
+          experiment you want. It can generate the entire folder structure — all
+          six content sections plus the circuit definition. Save the output to
+          the experiment folder path and register in <code>catalog.ts</code>.
         </p>
       </Callout>
 
-      <h2>What if my component type doesn't exist yet?</h2>
+      <Callout $tone="tip">
+        <strong>Watch the video tutorial</strong>
+        <p>
+          See <Link href="/docs/video-tutorial">the video walkthrough</Link> for
+          a step-by-step screencast of adding an experiment.
+        </p>
+      </Callout>
+
+      <h2>What if my component type doesn&apos;t exist yet?</h2>
 
       <p>
-        If you need a part that isn't in the registry (e.g. a 7-segment
-        display), you need to add geometry for it first. See{" "}
+        If you need a part that isn&apos;t in the component library (e.g. a
+        relay), you need to add geometry for it first. See{" "}
         <Link href="/docs/geometry">Writing geometry</Link> and{" "}
         <Link href="/docs/registry">Registry &amp; renderer</Link>.
       </p>
@@ -151,8 +192,8 @@ export {
         <DocNavLink as={Link} href="/docs" data-dir="prev">
           Overview
         </DocNavLink>
-        <DocNavLink as={Link} href="/docs/components" data-dir="next">
-          Component types
+        <DocNavLink as={Link} href="/docs/video-tutorial" data-dir="next">
+          Video tutorial
         </DocNavLink>
       </DocNav>
     </Prose>

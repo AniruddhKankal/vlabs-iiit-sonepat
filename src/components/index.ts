@@ -35,3 +35,26 @@ export { buildSwitchStandalone } from "./switch";
 export { buildPushButtonStandalone } from "./button";
 export { buildPotentiometerStandalone } from "./potentiometer";
 export { buildMcuTrainerStandalone } from "./mcu-trainer";
+export {
+  buildDiode,
+  buildDiodeStandalone,
+  buildZenerDiode,
+  buildZenerDiodeStandalone,
+} from "./diode";
+export { buildAmmeter, buildAmmeterStandalone } from "./ammeter";
+export { buildVoltmeter, buildVoltmeterStandalone } from "./voltmeter";
+export { buildBjt, buildBjtStandalone } from "./bjt";
+export { buildMosfet, buildMosfetStandalone } from "./mosfet";
+export { buildOpAmpStandalone, buildOpAmp } from "./op-amp";
+export { buildSevenSegmentStandalone, buildSevenSegment } from "./sevensegment";
+export { buildOscilloscopeStandalone, buildOscilloscope } from "./oscilloscope";
+export {
+  buildFunctionGeneratorStandalone,
+  buildFunctionGenerator,
+} from "./function-generater";
+export { buildTransformerStandalone, buildTransformer } from "./transformer";
+export { buildDipSwitchStandalone, buildDipSwitch } from "./dip-switch";
+export {
+  buildLogicAnalyzerStandalone,
+  buildLogicAnalyzer,
+} from "./logic-analyser";

@@ -21,28 +21,29 @@ export default function GeometryPage() {
 
       <p>
         A geometry builder is a pure TypeScript function that returns a
-        <code> THREE.Group</code>. It receives the component's position data and
-        returns a fully-formed 3D mesh — no React, no hooks, no side effects.
+        <code> THREE.Group</code>. It receives the component&apos;s position
+        data and returns a fully-formed 3D mesh — no React, no hooks, no side
+        effects.
       </p>
 
       <hr />
 
-      <h2>The three-file edit</h2>
+      <h2>The three-step process</h2>
 
-      <p>
-        Adding a new renderable component type requires exactly three changes:
-      </p>
+      <p>Adding a new renderable component type requires three changes:</p>
 
       <ol>
         <li>
           <strong>
-            Add the variant to <code>types.ts</code>
+            Add the variant to <code>src/labs/types.ts</code>
           </strong>{" "}
           — extends the <code>ComponentInstance</code> discriminated union.
         </li>
         <li>
-          <strong>Write the geometry builder</strong> — in{" "}
-          <code>geometry/extra-components.ts</code> (or a new file).
+          <strong>
+            Create a component folder in <code>src/components/</code>
+          </strong>{" "}
+          — write the geometry builder and export it.
         </li>
         <li>
           <strong>
@@ -53,7 +54,8 @@ export default function GeometryPage() {
       </ol>
 
       <p>
-        The renderer itself never changes. That's the point of the registry.
+        The renderer itself never changes. That&apos;s the point of the
+        registry.
       </p>
 
       <hr />
@@ -70,66 +72,52 @@ export default function GeometryPage() {
 export type ComponentInstance =
   | { id: string; type: 'breadboard' }
   // ... existing types ...
-  | { id: string; type: '7seg-display'; mountedAt: MountPoint; digits?: number }
+  | { id: string; type: 'relay'; mountedAt: MountPoint; coilVoltage?: number }
   //                      ↑ new`}</pre>
 
-      <h2>Step 2 — Write the geometry builder</h2>
+      <h2>Step 2 — Create the component folder</h2>
 
       <p>
-        Add a function to <code>src/labs/geometry/extra-components.ts</code>.
-        Follow the established style exactly:
+        Create a new folder under <code>src/components/</code> following the
+        established pattern. Each component folder has an <code>index.ts</code>{" "}
+        that exports both the board-mounted and standalone builder functions:
       </p>
 
-      <pre>{`// src/labs/geometry/extra-components.ts
+      <pre>{`src/components/
+  relay/
+    index.ts    ← exports buildRelay() and buildRelayStandalone()`}</pre>
+
+      <p>Here&apos;s an example builder:</p>
+
+      <pre>{`// src/components/relay/index.ts
 
 import * as THREE from 'three';
-import { PITCH, BOARD_H, TOP_Y } from '../coords';
-import { M } from './materials';
-import { solidBox, solidCyl, textLabel } from './primitives';
+import { PITCH, TOP_Y, BOARD_H } from '@/labs/coords';
+import { M, solidBox, solidCyl, centreAtOrigin } from '@/components/shared';
 
-// ── 7-SEGMENT DISPLAY ─────────────────────────────────────────────────────
-// board(mountCol, mountRow)  — placed at exact hole position
-// standalone()               — centred at origin for showcase cards
+// ── RELAY ──────────────────────────────────────────────────────────────────
+// board(mountPos)   — placed at exact hole position
+// standalone()      — centred at origin for showcase cards
 
-export function build7SegDisplay(
+export function buildRelay(
   mountPos: THREE.Vector3,
 ): THREE.Group {
   const root = new THREE.Group();
 
-  // Body
-  const body = solidBox(PITCH * 3.2, PITCH * 4.8, PITCH * 0.5, M.dark());
-  body.position.set(mountPos.x, TOP_Y + PITCH * 2.4, mountPos.z);
+  // Body — dark housing
+  const body = solidBox(PITCH * 4, PITCH * 3, PITCH * 2.5, M.dark());
+  body.position.set(mountPos.x + PITCH, TOP_Y + PITCH * 1.5, mountPos.z);
   root.add(body);
 
-  // Segment outlines (seven rectangles — a through g)
-  const SEG_W = PITCH * 1.1, SEG_H = PITCH * 0.22;
-  const segPositions = [
-    // [x_offset, y_offset, rotate90]
-    [0,  PITCH * 2.0, false],   // a — top horizontal
-    [ PITCH * 0.6,  PITCH * 1.2, true],  // b — top-right vertical
-    [ PITCH * 0.6, -PITCH * 0.2, true],  // c — bot-right vertical
-    [0, -PITCH * 1.0, false],   // d — bottom horizontal
-    [-PITCH * 0.6, -PITCH * 0.2, true],  // e — bot-left vertical
-    [-PITCH * 0.6,  PITCH * 1.2, true],  // f — top-left vertical
-    [0,  PITCH * 0.4, false],   // g — middle horizontal
-  ];
+  // Coil indicator
+  const coil = solidCyl(PITCH * 0.6, PITCH * 2.2, M.hex(0x8b4513));
+  coil.position.set(mountPos.x + PITCH, TOP_Y + PITCH * 1.5, mountPos.z);
+  root.add(coil);
 
-  for (const [dx, dy, rot] of segPositions) {
-    const sw = rot ? SEG_H : SEG_W;
-    const sh = rot ? SEG_W : SEG_H;
-    const seg = solidBox(sw, sh, PITCH * 0.06, M.hex(0xd63b2a));
-    seg.position.set(
-      mountPos.x + (dx as number),
-      TOP_Y + PITCH * 2.4 + (dy as number),
-      mountPos.z + PITCH * 0.28,
-    );
-    root.add(seg);
-  }
-
-  // Leads (one per pin — DIP footprint, 5 pins per side)
+  // Leads (4 pins)
   const leadH = PITCH * 1.8 + BOARD_H * 0.6;
-  for (let i = 0; i < 5; i++) {
-    const lx = mountPos.x + (i - 2) * PITCH;
+  for (let i = 0; i < 4; i++) {
+    const lx = mountPos.x + (i - 1) * PITCH;
     const lead = new THREE.Mesh(
       new THREE.CylinderGeometry(PITCH * 0.07, PITCH * 0.07, leadH, 6),
       M.gold(),
@@ -141,9 +129,10 @@ export function build7SegDisplay(
   return root;
 }
 
-export function build7SegDisplayStandalone(): THREE.Group {
-  // Re-use board variant, pass origin position
-  return build7SegDisplay(new THREE.Vector3(0, 0, 0));
+export function buildRelayStandalone(): THREE.Group {
+  const g = buildRelay(new THREE.Vector3(0, 0, 0));
+  centreAtOrigin(g);
+  return g;
 }`}</pre>
 
       <h3>Geometry style rules</h3>
@@ -196,20 +185,17 @@ M.hex(0xrrggbb)  // arbitrary fill colour`}</pre>
       <pre>{`solidBox(w, h, d, mat)       // box mesh + edge lines
 solidCyl(r, h, mat, seg=14)  // cylinder mesh + edge lines
 textLabel(text, w, h, opts)  // canvas-texture plane (SSR-safe, returns null on server)
-centreAtOrigin(group)        // recentres a group's bounding box at (0,0,0)`}</pre>
+centreAtOrigin(group)        // recentres a group's bounding box at (0,0,0)
+instrumentWire(from, to)     // probe wire between two Vector3 points`}</pre>
 
       <h2>Step 3 — Export the builder</h2>
 
       <p>
-        Add the export to <code>src/labs/geometry/index.ts</code>:
+        Add the export to <code>src/components/index.ts</code>:
       </p>
 
-      <pre>{`// src/labs/geometry/index.ts
-export {
-  // ... existing exports ...
-  build7SegDisplay,
-  build7SegDisplayStandalone,
-} from './extra-components';`}</pre>
+      <pre>{`// src/components/index.ts
+export { buildRelay, buildRelayStandalone } from './relay';`}</pre>
 
       <h2>Step 4 — Add the registry entry</h2>
 
@@ -220,21 +206,21 @@ export {
 
       <pre>{`// src/labs/LabScene.tsx
 
-import { build7SegDisplay, /* ... */ } from './geometry/index';
+import { buildRelay, /* ... */ } from '@/components';
 
 const COMPONENT_REGISTRY: Record<string, BuildFn> = {
   // ... existing entries ...
 
-  '7seg-display': (inst) => {
-    const d = inst as Extract<ComponentInstance, { type: '7seg-display' }>;
-    return build7SegDisplay(hole(d.mountedAt.col, d.mountedAt.row));
+  'relay': (inst) => {
+    const d = inst as Extract<ComponentInstance, { type: 'relay' }>;
+    return buildRelay(hole(d.mountedAt.col, d.mountedAt.row));
   },
 };`}</pre>
 
       <Callout $tone="tip">
-        <strong>That's the entire change to the renderer</strong>
+        <strong>That&apos;s the entire change to the renderer</strong>
         <p>
-          One import and one object entry. The renderer's{" "}
+          One import and one object entry. The renderer&apos;s{" "}
           <code>buildInstance</code>
           function is generic — it calls{" "}
           <code>COMPONENT_REGISTRY[inst.type]</code>
@@ -248,7 +234,7 @@ const COMPONENT_REGISTRY: Record<string, BuildFn> = {
           Component types
         </DocNavLink>
         <DocNavLink as={Link} href="/docs/registry" data-dir="next">
-          Registry & renderer
+          Registry &amp; renderer
         </DocNavLink>
       </DocNav>
     </Prose>
