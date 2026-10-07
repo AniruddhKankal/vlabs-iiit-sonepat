@@ -150,7 +150,7 @@ Prefer the semester folder format for all new work.
 Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts`.
 
 > [!WARNING]
-> **3D Rendering Limitations:** Only breadboards, wires, basic passives (resistor, capacitor, LED), discrete actives (Diodes, BJTs, MOSFETs), basic logic gates (`not-gate` through `buffer-gate`), displays (7seg-display), switches/buttons, and bench instruments (`dc-jack`, meters, scopes, logic analyser) currently render in 3D. All other components (advanced ICs like adders/muxes/flip-flops, microprocessors) are **simulation-only**. They will *not* appear on the 3D breadboard, even though they have physical `mountedAt` footprints listed below.
+> **3D Rendering Limitations:** Only breadboards, wires, basic passives (resistor, capacitor, LED), discrete actives (Diodes, BJTs, MOSFETs), basic logic gates (`not-gate` through `buffer-gate`), displays (7seg-display), switches/buttons, and bench instruments (`dc-jack`, meters, scopes, logic analyser) currently render in 3D. All other components (advanced ICs like adders/muxes/flip-flops, microprocessors) are **simulation-only**. They will _not_ appear on the 3D breadboard, even though they have physical `mountedAt` footprints listed below.
 
 ---
 
