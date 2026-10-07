@@ -150,7 +150,7 @@ Prefer the semester folder format for all new work.
 Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts`.
 
 > [!WARNING]
-> **3D Rendering Limitations:** Only breadboards, wires, basic passives (resistor, capacitor, LED), basic logic gates (`not-gate` through `buffer-gate`), and bench instruments (`dc-jack`, meters, scopes) currently render in 3D. All other components (diodes, BJTs, Op-Amps, advanced ICs like adders/muxes/flip-flops, displays, switches, microprocessors) are **simulation-only**. They will *not* appear on the 3D breadboard, even though they have physical `mountedAt` footprints listed below. Use `type: 'led'` as a visual stand-in for missing outputs or diodes.
+> **3D Rendering Limitations:** Only breadboards, wires, basic passives (resistor, capacitor, LED), discrete actives (Diodes, BJTs, MOSFETs), basic logic gates (`not-gate` through `buffer-gate`), displays (7seg-display), switches/buttons, and bench instruments (`dc-jack`, meters, scopes, logic analyser) currently render in 3D. All other components (advanced ICs like adders/muxes/flip-flops, microprocessors) are **simulation-only**. They will *not* appear on the 3D breadboard, even though they have physical `mountedAt` footprints listed below.
 
 ---
 
@@ -201,8 +201,6 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 
 #### Diode / Zener
 
-**Note:** Diodes and Zeners are currently simulation-only (no 3D mesh in `LabScene`). Use `type: 'led'` as a visual stand-in on the breadboard.
-
 ```ts
 { id: 'd1', type: 'diode', mountedAt: { board: 'bb', col: 5, row: 'c' } }         // 1N4148
 { id: 'z1', type: 'zener', vz: 5.1, mountedAt: { board: 'bb', col: 10, row: 'c' } }
@@ -213,8 +211,6 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ---
 
 ### Discrete active components
-
-**Note:** BJTs and MOSFETs are currently simulation-only (no 3D mesh in `LabScene`). They will not render on the breadboard.
 
 #### BJT (Bipolar Junction Transistor)
 
@@ -384,8 +380,6 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 
 ### Op-Amp
 
-**Note:** Op-Amps are currently simulation-only (no 3D mesh in `LabScene`). They will not render on the breadboard.
-
 ```ts
 { id: 'op1', type: 'op-amp', mountedAt: { board: 'bb', col: 10, row: 'e' } }  // LM741, DIP-8
 ```
@@ -407,8 +401,6 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 
 ### Displays
 
-**Note:** Displays are currently simulation-only (no 3D mesh in `LabScene`). They will not render on the breadboard.
-
 ```ts
 { id: 'seg1', type: '7seg-display', mountedAt: { board: 'bb', col: 10, row: 'e' } }  // DIP-10
 { id: 'rgb1', type: 'rgb-led',      mountedAt: { board: 'bb', col: 20, row: 'c' } }  // 4-pin (R, G, B, GND)
@@ -428,8 +420,6 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 ---
 
 ### Switches & Buttons
-
-**Note:** Switches and Buttons are currently simulation-only (no 3D mesh in `LabScene`). They will not render on the breadboard.
 
 ```ts
 { id: 'sw1',  type: 'switch',      mountedAt: { board: 'bb', col: 25, row: 'c' } }  // slide switch
