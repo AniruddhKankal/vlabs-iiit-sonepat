@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
+import { createVisualRenderer } from "@/platform/visuals/three-runtime/create-visual-renderer";
 import {
   buildBreadboardStandalone,
   buildDip14Standalone,
@@ -18,18 +19,44 @@ import {
   buildIcMeterStandalone,
   buildDcPowerSupplyStandalone,
   buildMcuTrainerStandalone,
+  buildDiodeStandalone,
+  buildZenerDiodeStandalone,
+  buildAmmeterStandalone,
+  buildVoltmeterStandalone,
+  buildBjtStandalone,
+  buildMosfetStandalone,
+  buildOpAmpStandalone,
+  buildSevenSegmentStandalone,
+  buildOscilloscopeStandalone,
+  buildFunctionGeneratorStandalone,
+  buildTransformerStandalone,
+  buildDipSwitchStandalone,
+  buildLogicAnalyzerStandalone,
 } from "@/components";
 
 // ── Component kind type ───────────────────────────────────────────────────
 export type EceComponentKind =
   | "breadboard"
+  | "diode"
+  | "zener-diode"
   | "led"
+  | "dip-switch"
   | "resistor"
+  | "bjt"
+  | "mosfet"
+  | "op-amp"
+  | "seven-segment"
+  | "transformer"
+  | "function-generator"
   | "capacitor"
   | "potentiometer"
+  | "ammeter"
+  | "voltmeter"
+  | "logic-analyser"
   | "push-button"
   | "switch"
   | "battery"
+  | "oscilloscope"
   | "dc-jack"
   | "xor-gate"
   | "and-gate"
@@ -42,20 +69,46 @@ function buildStandalone(kind: EceComponentKind): THREE.Group {
   switch (kind) {
     case "breadboard":
       return buildBreadboardStandalone();
+    case "diode":
+      return buildDiodeStandalone();
+    case "zener-diode":
+      return buildZenerDiodeStandalone();
     case "led":
       return buildLedStandalone("green");
+    case "dip-switch":
+      return buildDipSwitchStandalone();
     case "resistor":
       return buildResistorStandalone(330);
+    case "bjt":
+      return buildBjtStandalone();
+    case "mosfet":
+      return buildMosfetStandalone();
+    case "op-amp":
+      return buildOpAmpStandalone();
+    case "seven-segment":
+      return buildSevenSegmentStandalone();
+    case "transformer":
+      return buildTransformerStandalone();
+    case "function-generator":
+      return buildFunctionGeneratorStandalone();
     case "capacitor":
       return buildCapacitorStandalone(100);
     case "potentiometer":
       return buildPotentiometerStandalone();
+    case "ammeter":
+      return buildAmmeterStandalone();
+    case "voltmeter":
+      return buildVoltmeterStandalone();
+    case "logic-analyser":
+      return buildLogicAnalyzerStandalone();
     case "push-button":
       return buildPushButtonStandalone();
     case "switch":
       return buildSwitchStandalone();
     case "battery":
       return buildBatteryStandalone();
+    case "oscilloscope":
+      return buildOscilloscopeStandalone();
     case "dc-jack":
       return buildDcJackStandalone();
     case "xor-gate":
@@ -74,13 +127,26 @@ function buildStandalone(kind: EceComponentKind): THREE.Group {
 // ── Camera presets ────────────────────────────────────────────────────────
 const CAM: Record<EceComponentKind, [number, number, number]> = {
   breadboard: [1.5, 2.2, 2.5],
+  diode: [1.5, 2.2, 2.5],
+  "zener-diode": [1.5, 2.5, 2.5],
   led: [1.2, 1.6, 2.0],
+  "dip-switch": [1.2, 1.6, 2.0],
   resistor: [1.5, 1.2, 1.8],
+  bjt: [1.4, 1.2, 1.8],
+  mosfet: [1.4, 1.2, 1.8],
+  "op-amp": [1.5, 2.2, 1.8],
+  "seven-segment": [1.5, 2.0, 2.2],
+  transformer: [1.5, 2.0, 2.2],
+  "function-generator": [1.5, 2.0, 2.2],
   capacitor: [1.2, 1.8, 2.2],
   potentiometer: [1.4, 2.0, 2.2],
+  ammeter: [1.4, 2.0, 2.2],
+  voltmeter: [1.4, 2.0, 2.2],
+  "logic-analyser": [1.4, 2.0, 2.2],
   "push-button": [1.2, 1.6, 2.0],
   switch: [1.4, 1.6, 2.2],
   battery: [1.4, 2.4, 2.8],
+  oscilloscope: [1.5, 2.2, 2.8],
   "dc-jack": [1.4, 1.6, 2.2],
   "xor-gate": [1.6, 1.8, 2.4],
   "and-gate": [1.6, 1.8, 2.4],
@@ -123,7 +189,8 @@ export function EceComponentViewer({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    const renderer = createVisualRenderer({ canvas, antialias: true });
+    if (!renderer) return;
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     renderer.setClearColor(background, 1);
 
@@ -134,6 +201,7 @@ export function EceComponentViewer({
     camera.lookAt(0, 0, 0);
     const restPosition = camera.position.clone();
     let zoom = 1;
+    const target = new THREE.Vector3(0, 0, 0);
 
     const pivot = new THREE.Group();
     pivot.rotation.x = TILT[kind] ?? 0.3;
@@ -151,28 +219,49 @@ export function EceComponentViewer({
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    let dragging = false,
+    let dragAction: "rotate" | "pan" | null = null,
       lx = 0,
       ly = 0,
       ry = 0,
       rx = TILT[kind] ?? 0.3;
     const onDown = (e: PointerEvent) => {
-      dragging = true;
+      dragAction = e.button === 2 ? "pan" : "rotate";
       lx = e.clientX;
       ly = e.clientY;
     };
     const onUp = () => {
-      dragging = false;
+      dragAction = null;
     };
     const onMove = (e: PointerEvent) => {
-      if (!dragging) return;
-      ry += (e.clientX - lx) * 0.012;
-      rx += (e.clientY - ly) * 0.007;
-      rx = Math.max(-0.8, Math.min(1.4, rx));
+      if (!dragAction) return;
+      if (dragAction === "rotate") {
+        ry += (e.clientX - lx) * 0.012;
+        rx += (e.clientY - ly) * 0.007;
+        rx = Math.max(-0.8, Math.min(1.4, rx));
+      } else if (dragAction === "pan") {
+        const dx = (-(e.clientX - lx) * 0.005) / zoom;
+        const dy = ((e.clientY - ly) * 0.005) / zoom;
+
+        const right = new THREE.Vector3(1, 0, 0).applyQuaternion(
+          camera.quaternion,
+        );
+        const up = new THREE.Vector3(0, 1, 0).applyQuaternion(
+          camera.quaternion,
+        );
+
+        target.addScaledVector(right, dx);
+        target.addScaledVector(up, dy);
+
+        applyZoom(zoom);
+      }
       lx = e.clientX;
       ly = e.clientY;
     };
+    const onContextMenu = (e: Event) => {
+      e.preventDefault();
+    };
     canvas.addEventListener("pointerdown", onDown);
+    canvas.addEventListener("contextmenu", onContextMenu);
     window.addEventListener("pointerup", onUp);
     window.addEventListener("pointermove", onMove);
 
@@ -181,8 +270,11 @@ export function EceComponentViewer({
     // scroll and a pinch land here as wheel events and have to be handled by hand.
     const applyZoom = (next: number) => {
       zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, next));
-      camera.position.copy(restPosition).multiplyScalar(1 / zoom);
-      camera.lookAt(0, 0, 0);
+      camera.position
+        .copy(restPosition)
+        .multiplyScalar(1 / zoom)
+        .add(target);
+      camera.lookAt(target);
     };
     const onWheel = (e: WheelEvent) => {
       if (!zoomEnabled) return;
@@ -191,6 +283,7 @@ export function EceComponentViewer({
       applyZoom(zoom * (e.deltaY > 0 ? 1 - step : 1 + step));
     };
     const onDblClick = () => {
+      target.set(0, 0, 0);
       applyZoom(1);
       ry = 0;
       rx = TILT[kind] ?? 0.3;
@@ -201,7 +294,7 @@ export function EceComponentViewer({
     let raf: number;
     function loop() {
       raf = requestAnimationFrame(loop);
-      if (!dragging && autoRotate) ry += 0.005;
+      if (!dragAction && autoRotate) ry += 0.005;
       pivot.rotation.y = ry;
       pivot.rotation.x = rx;
       renderer.render(scene, camera);
@@ -212,6 +305,7 @@ export function EceComponentViewer({
       cancelAnimationFrame(raf);
       ro.disconnect();
       canvas.removeEventListener("pointerdown", onDown);
+      canvas.removeEventListener("contextmenu", onContextMenu);
       window.removeEventListener("pointerup", onUp);
       window.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("wheel", onWheel);

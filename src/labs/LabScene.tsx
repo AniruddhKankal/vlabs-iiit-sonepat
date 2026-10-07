@@ -15,6 +15,22 @@ import {
   buildWire,
   buildDcPowerSupply,
   buildIcMeter,
+  buildAmmeter,
+  buildVoltmeter,
+  buildOscilloscope,
+  buildFunctionGenerator,
+  buildBjt,
+  buildMosfet,
+  buildDiode,
+  buildZenerDiode,
+  buildOpAmp,
+  buildSevenSegment,
+  buildDipSwitch,
+  buildLogicAnalyzer,
+  buildTransformer,
+  buildSwitchStandalone,
+  buildPushButtonStandalone,
+  buildMcuTrainerStandalone,
 } from "@/components";
 import { resolveIcPin } from "@/components/ic";
 import { simulate } from "./simulate";
@@ -119,6 +135,66 @@ function buildInstance(
       return buildDip14(col, labels[inst.type], cols);
     }
 
+    case "npn-bjt":
+    case "pnp-bjt": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildBjt(hole(col, row, cols));
+    }
+
+    case "n-mosfet":
+    case "p-mosfet": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildMosfet(hole(col, row, cols));
+    }
+
+    case "diode": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildDiode(hole(col, row, cols), hole(col + 3, row, cols));
+    }
+
+    case "zener": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildZenerDiode(hole(col, row, cols), hole(col + 3, row, cols));
+    }
+
+    case "op-amp": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildOpAmp(hole(col, row, cols));
+    }
+
+    case "7seg-display": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildSevenSegment(hole(col, row, cols));
+    }
+
+    case "dip-switch": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildDipSwitch(hole(col, row, cols), (inst as any).poles ?? 8);
+    }
+
+    case "switch": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      const group = buildSwitchStandalone();
+      group.position.copy(hole(col, row, cols));
+      return group;
+    }
+
+    case "push-button": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      const group = buildPushButtonStandalone();
+      group.position.copy(hole(col, row, cols));
+      return group;
+    }
+
     case "resistor": {
       const { col, row, board } = inst.mountedAt;
       const cols = colsForBoardId(board, all);
@@ -179,6 +255,44 @@ function buildInstance(
           }
         : undefined;
       return buildIcMeter("right", "--", targets);
+    }
+
+    case "ammeter": {
+      const p = (inst as any).probes as [any, any] | undefined;
+      const pos = p
+        ? (resolvePin(p[0], all) ?? new THREE.Vector3())
+        : new THREE.Vector3();
+      return buildAmmeter(pos);
+    }
+
+    case "voltmeter": {
+      const p = (inst as any).probes as [any, any] | undefined;
+      const pos = p
+        ? (resolvePin(p[0], all) ?? new THREE.Vector3())
+        : new THREE.Vector3();
+      return buildVoltmeter(pos);
+    }
+
+    case "oscilloscope": {
+      const pos = new THREE.Vector3();
+      return buildOscilloscope(pos);
+    }
+
+    case "function-generator": {
+      const pos = new THREE.Vector3();
+      return buildFunctionGenerator(pos);
+    }
+
+    case "logic-analyser": {
+      return buildLogicAnalyzer(new THREE.Vector3());
+    }
+
+    case "transformer": {
+      return buildTransformer(new THREE.Vector3());
+    }
+
+    case "mcu-trainer": {
+      return buildMcuTrainerStandalone();
     }
 
     default:
@@ -528,7 +642,11 @@ export function LabSceneCanvas({
       if (
         inst.type !== "dc-jack" &&
         inst.type !== "battery" &&
-        inst.type !== "potentiometer"
+        inst.type !== "potentiometer" &&
+        inst.type !== "ammeter" &&
+        inst.type !== "voltmeter" &&
+        inst.type !== "oscilloscope" &&
+        inst.type !== "function-generator"
       )
         continue;
       if (!visible.has(inst.id)) continue;
@@ -541,6 +659,7 @@ export function LabSceneCanvas({
 
       const displayVal = step.readings?.[inst.id] ?? "--";
       let fresh: THREE.Group;
+
       if (inst.type === "potentiometer") {
         const p = (inst as any).probes as [any, any] | undefined;
         const targets = p
@@ -552,7 +671,24 @@ export function LabSceneCanvas({
             }
           : undefined;
         fresh = buildIcMeter("right", displayVal, targets);
+      } else if (inst.type === "ammeter") {
+        const p = (inst as any).probes as [any, any] | undefined;
+        const pos = p
+          ? (resolvePin(p[0], circuit.components) ?? new THREE.Vector3())
+          : new THREE.Vector3();
+        fresh = buildAmmeter(pos);
+      } else if (inst.type === "voltmeter") {
+        const p = (inst as any).probes as [any, any] | undefined;
+        const pos = p
+          ? (resolvePin(p[0], circuit.components) ?? new THREE.Vector3())
+          : new THREE.Vector3();
+        fresh = buildVoltmeter(pos);
+      } else if (inst.type === "oscilloscope") {
+        fresh = buildOscilloscope(new THREE.Vector3());
+      } else if (inst.type === "function-generator") {
+        fresh = buildFunctionGenerator(new THREE.Vector3());
       } else {
+        // dc-jack / battery
         const t = (inst as any).terminals as [any, any] | undefined;
         const targets = t
           ? {

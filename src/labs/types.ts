@@ -291,7 +291,56 @@ export type ComponentInstance =
       /** Terminal wire targets [+, −] — resolved to Vector3 by LabScene */
       terminals?: [PinRef, PinRef];
     }
-  | { id: string; type: "dip-switch"; poles: number; mountedAt: MountPoint };
+  | { id: string; type: "dip-switch"; poles: number; mountedAt: MountPoint }
+
+  // ── Bench instruments ─────────────────────────────────────────────────
+  // Panel meters and lab instruments placed beside the breadboard.
+  // Use `probes` to draw wire leads from instrument to breadboard holes.
+  | {
+      id: string;
+      type: "ammeter";
+      mountedAt: MountPoint;
+      /** Probe wire targets [+, −] — resolved to Vector3 by LabScene */
+      probes?: [PinRef, PinRef];
+    }
+  | {
+      id: string;
+      type: "voltmeter";
+      mountedAt: MountPoint;
+      /** Probe wire targets [+, −] — resolved to Vector3 by LabScene */
+      probes?: [PinRef, PinRef];
+    }
+  | {
+      id: string;
+      type: "oscilloscope";
+      mountedAt: MountPoint;
+      /** Probe wire targets [CH1, GND] — resolved to Vector3 by LabScene */
+      probes?: [PinRef, PinRef];
+    }
+  | {
+      id: string;
+      type: "function-generator";
+      mountedAt: MountPoint;
+      /** Output wire targets [OUT, GND] — resolved to Vector3 by LabScene */
+      probes?: [PinRef, PinRef];
+    }
+  | {
+      id: string;
+      type: "logic-analyser";
+      mountedAt: MountPoint;
+      probes?: [PinRef, PinRef];
+    }
+  | {
+      id: string;
+      type: "transformer";
+      mountedAt: MountPoint;
+      terminals?: [PinRef, PinRef];
+    }
+  | {
+      id: string;
+      type: "mcu-trainer";
+      mountedAt: MountPoint;
+    };
 
 // ── Step ─────────────────────────────────────────────────────────────────
 export type Step = {
