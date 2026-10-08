@@ -242,7 +242,7 @@ export function buildDiode(
     14,
   );
 
-  const body = new THREE.Mesh(bodyGeo, M.white());
+  const body = new THREE.Mesh(bodyGeo, M.dark());
 
   body.rotation.z = Math.PI / 2;
 
