@@ -4,7 +4,15 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { hole, railHole, COLS, colsForBoardId, PITCH, TOP_Y } from "./coords";
+import {
+  hole,
+  railHole,
+  COLS,
+  colsForBoardId,
+  PITCH,
+  TOP_Y,
+  BOARD_D,
+} from "./coords";
 import {
   buildBreadboard,
   buildLongBreadboard,
@@ -35,6 +43,11 @@ import {
   buildMcuTrainerStandalone,
 } from "@/components";
 import { resolveIcPin } from "@/components/ic";
+// NOTE: adjust this path to wherever you saved oscilloscope.ts
+import {
+  OSCILLOSCOPE_CH1_ANCHOR,
+  OSCILLOSCOPE_GND_ANCHOR,
+} from "@/components/oscilloscope";
 import { simulate } from "./simulate";
 import {
   type Circuit,
@@ -74,7 +87,7 @@ function resolvePin(
   if ("ic" in pin) {
     const ip = pin as IcPin;
     const inst = all.find((c) => c.id === ip.ic);
-    if (!inst || !("mountedAt" in inst)) return null;
+    if (!inst || !("mountedAt" in inst) || !inst.mountedAt) return null;
     const cols = colsForBoardId(inst.mountedAt.board, all);
     return resolveIcPin(ip.pin, inst.mountedAt.col, inst.mountedAt.row, cols);
   }
@@ -82,7 +95,7 @@ function resolvePin(
   if ("component" in pin) {
     const pp = pin as PassivePin;
     const inst = all.find((c) => c.id === pp.component);
-    if (!inst || !("mountedAt" in inst)) return null;
+    if (!inst || !("mountedAt" in inst) || !inst.mountedAt) return null;
     const { col, row, board } = inst.mountedAt;
     const cols = colsForBoardId(board, all);
     return pp.end === "p1" ? hole(col, row, cols) : hole(col + 3, row, cols);
@@ -91,7 +104,7 @@ function resolvePin(
   if ("led" in pin) {
     const lp = pin as LedPin;
     const inst = all.find((c) => c.id === lp.led);
-    if (!inst || !("mountedAt" in inst)) return null;
+    if (!inst || !("mountedAt" in inst) || !inst.mountedAt) return null;
     const { col, row, board } = inst.mountedAt;
     const cols = colsForBoardId(board, all);
     return lp.end === "anode" ? hole(col, row, cols) : hole(col + 1, row, cols);
@@ -144,6 +157,47 @@ function benchSlotMap(all: ComponentInstance[]): Map<string, number> {
   const map = new Map<string, number>();
   withCol.forEach((entry, i) => map.set(entry.id, i));
   return map;
+}
+
+// ── Oscilloscope: stands on the bench, OUTSIDE the breadboard ─────────────
+// The scope body sits on the table behind the board. Only its two probe
+// cables (CH1 and GND) run to the breadboard holes listed in `probes`.
+const SCOPE_BENCH_Y = -TOP_Y + 0.045; // table surface + height of the feet
+const SCOPE_BENCH_Z = -(BOARD_D / 2) - 0.9; // behind the board, facing the viewer
+
+function buildBenchOscilloscope(
+  inst: ComponentInstance,
+  all: ComponentInstance[],
+): THREE.Group {
+  const p = (inst as any).probes as [PinRef, PinRef] | undefined;
+  const ch1Target = p ? resolvePin(p[0], all) : null;
+  const gndTarget = p ? resolvePin(p[1], all) : null;
+
+  // Stand behind the column being probed so the cables stay short.
+  const x = ch1Target ? ch1Target.x : 0;
+  const scope = buildOscilloscope(
+    new THREE.Vector3(x, SCOPE_BENCH_Y, SCOPE_BENCH_Z),
+  );
+
+  const wrapper = new THREE.Group();
+  wrapper.add(scope);
+  wrapper.updateMatrixWorld(true);
+
+  const ch1 = scope.getObjectByName(OSCILLOSCOPE_CH1_ANCHOR);
+  const gnd = scope.getObjectByName(OSCILLOSCOPE_GND_ANCHOR);
+
+  if (ch1 && ch1Target) {
+    wrapper.add(
+      buildWire(ch1.getWorldPosition(new THREE.Vector3()), ch1Target, "yellow"),
+    );
+  }
+  if (gnd && gndTarget) {
+    wrapper.add(
+      buildWire(gnd.getWorldPosition(new THREE.Vector3()), gndTarget, "black"),
+    );
+  }
+
+  return wrapper;
 }
 
 function buildInstance(
@@ -338,8 +392,9 @@ function buildInstance(
     }
 
     case "oscilloscope": {
-      const pos = new THREE.Vector3();
-      return buildOscilloscope(pos);
+      // Off-board: scope stands on the bench, only the probe cables
+      // (CH1 + GND) connect to the breadboard.
+      return buildBenchOscilloscope(inst, all);
     }
 
     case "function-generator": {
@@ -759,7 +814,7 @@ export function LabSceneCanvas({
           : undefined;
         fresh = buildVoltmeterSide(slotMap.get(inst.id) ?? 0, targets);
       } else if (inst.type === "oscilloscope") {
-        fresh = buildOscilloscope(new THREE.Vector3());
+        fresh = buildBenchOscilloscope(inst, circuit.components);
       } else if (inst.type === "function-generator") {
         fresh = buildFunctionGenerator(new THREE.Vector3());
       } else {

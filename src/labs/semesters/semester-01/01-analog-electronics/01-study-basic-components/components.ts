@@ -15,12 +15,32 @@ export const components: ComponentInstance[] = [
   },
 
   // Passive components
-  { id: "r1", type: "resistor", ohms: 330, mountedAt: { board: "bb", col: 3, row: "c" } },
-  { id: "r2", type: "resistor", ohms: 1000, mountedAt: { board: "bb", col: 9, row: "c" } },
-  { id: "c1", type: "capacitor", capacitance: 0.1, mountedAt: { board: "bb", col: 12, row: "c" } },
+  {
+    id: "r1",
+    type: "resistor",
+    ohms: 330,
+    mountedAt: { board: "bb", col: 3, row: "c" },
+  },
+  {
+    id: "r2",
+    type: "resistor",
+    ohms: 1000,
+    mountedAt: { board: "bb", col: 9, row: "c" },
+  },
+  {
+    id: "c1",
+    type: "capacitor",
+    capacitance: 0.1,
+    mountedAt: { board: "bb", col: 12, row: "c" },
+  },
 
   // Active components
-  { id: "led1", type: "led", color: "green", mountedAt: { board: "bb", col: 5, row: "c" } },
+  {
+    id: "led1",
+    type: "led",
+    color: "green",
+    mountedAt: { board: "bb", col: 5, row: "c" },
+  },
   { id: "d1", type: "diode", mountedAt: { board: "bb", col: 17, row: "c" } },
   { id: "q1", type: "npn-bjt", mountedAt: { board: "bb", col: 23, row: "c" } },
 
@@ -76,11 +96,10 @@ export const components: ComponentInstance[] = [
     to: { board: "bb", rail: "gnd_top", col: 13 },
   },
 
-  // CRO across C1
+  // CRO stands on the bench OUTSIDE the breadboard; only its probes touch the board
   {
     id: "cro",
     type: "oscilloscope",
-    mountedAt: { board: "bb", col: 1, row: "f" },
     probes: [
       { board: "bb", col: 12, row: "a" },
       { board: "bb", rail: "gnd_top", col: 13 },
