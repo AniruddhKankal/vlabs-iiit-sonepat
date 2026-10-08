@@ -166,13 +166,14 @@ function buildInstance(
       const { col, row, board } = inst.mountedAt;
       const cols = colsForBoardId(board, all);
       // buildBjt() seats the TO-92 body at mountPos with its three leads
-      // hanging LEAD_LENGTH below. Raise it so the lead tips meet the board
-      // surface (TOP_Y), then nudge half a pitch down-board so the body sits
-      // over the tie-point strip rather than the rail gap.
+      // (C, B, E from left to right) hanging LEAD_LENGTH below. Raise it so
+      // the lead tips meet the board surface (TOP_Y), and fan the leads out
+      // to one full column pitch so each lands in its own breadboard hole.
+      // The base (middle lead) sits on mountedAt.col, so collector = col-1
+      // and emitter = col+1.
       const mount = hole(col, row, cols);
       mount.y = TOP_Y + BJT_LEAD_LENGTH;
-      mount.z += PITCH * 0.5;
-      return buildBjt(mount);
+      return buildBjt(mount, { leadSpacing: PITCH });
     }
 
     case "wire": {
