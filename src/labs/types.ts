@@ -323,6 +323,23 @@ export type ComponentInstance =
       mountedAt: MountPoint;
       /** Output wire targets [OUT, GND] — resolved to Vector3 by LabScene */
       probes?: [PinRef, PinRef];
+    }
+  | {
+      id: string;
+      type: "logic-analyser";
+      mountedAt: MountPoint;
+      probes?: [PinRef, PinRef];
+    }
+  | {
+      id: string;
+      type: "transformer";
+      mountedAt: MountPoint;
+      terminals?: [PinRef, PinRef];
+    }
+  | {
+      id: string;
+      type: "mcu-trainer";
+      mountedAt: MountPoint;
     };
 
 // ── Step ─────────────────────────────────────────────────────────────────

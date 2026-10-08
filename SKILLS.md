@@ -54,25 +54,41 @@ These types **render** in the lab UI. Prefer only these in `show[]` unless you a
 | `dc-jack`                  | `mountedAt`, optional `terminals: [PinRef, PinRef]` | Bench PSU or AC source; **DO NOT USE WIRES to connect it.** Use `terminals` to connect straight to rails/holes.                          |
 | `battery`                  | same as `dc-jack`                                   | Same builder as PSU                                                                                                                      |
 | `potentiometer`            | `mountedAt`, optional `probes: [PinRef, PinRef]`    | Renders as **bench multimeter**; not a trimpot. **DO NOT USE WIRES.** Use `probes` to test two points.                                   |
+| `ammeter`                  | `mountedAt`, `probes: [PinRef, PinRef]`             | 0–100 mA panel meter (blue body). **DO NOT USE WIRES.** Use `probes` to connect in series.                                               |
+| `voltmeter`                | `mountedAt`, `probes: [PinRef, PinRef]`             | 0–15 V DC panel meter (grey body). **DO NOT USE WIRES.** Use `probes` to connect across components.                                      |
+| `oscilloscope`             | `mountedAt`, `probes: [PinRef, PinRef]`             | CRO with green screen. **DO NOT USE WIRES.** Use `probes` for CH1 and GND.                                                               |
+| `function-generator`       | `mountedAt`, `probes: [PinRef, PinRef]`             | Signal generator. **DO NOT USE WIRES.** Use `probes` for OUTPUT and GND.                                                                 |
+| `logic-analyser`           | `mountedAt`, `probes: [PinRef, PinRef]`             | Logic analyzer instrument.                                                                                                               |
+| `transformer`              | `mountedAt`, `terminals: [PinRef, PinRef]`          | AC transformer source.                                                                                                                   |
+| `mcu-trainer`              | `mountedAt`                                         | Microcontroller trainer board.                                                                                                           |
+| `diode` / `zener`          | `mountedAt`                                         | Spans col (anode) → col+3 (cathode).                                                                                                     |
+| `npn-bjt` / `pnp-bjt`      | `mountedAt`                                         | 3 pins: B (col), C (col+1), E (col+2).                                                                                                   |
+| `n-mosfet` / `p-mosfet`    | `mountedAt`                                         | 3 pins: G (col), D (col+1), S (col+2).                                                                                                   |
+| `op-amp`                   | `mountedAt`                                         | DIP-8 package, spans 4 columns, straddles centre gap.                                                                                    |
+| `7seg-display`             | `mountedAt`                                         | DIP-10 7-segment display.                                                                                                                |
+| `switch` / `push-button`   | `mountedAt`                                         | Slide switch or tactile push-button.                                                                                                     |
+| `dip-switch`               | `mountedAt`, `poles: number`                        | DIP switch.                                                                                                                              |
 
-**Visual stand-ins (current repo pattern):** diodes / Zeners on the breadboard use `type: 'led'` (e.g. yellow for signal diode, red for reverse-biased Zener). Theory schematics can use `{ type: 'zener', … }` inside `TheorySection.schematic` — that is 2D only, not the BOM.
+**Visual stand-ins:** In the past, diodes / Zeners used `type: 'led'` (e.g. yellow for signal diode, red for reverse-biased Zener) as stand-ins. They now have dedicated 3D meshes. Theory schematics can use `{ type: 'zener', … }` inside `TheorySection.schematic`.
 
 **Placement quick rules:** ICs row `e`, ≥2 col gap; passives/LEDs row `c`; resistor at col N → LED at col N+2; last wire in every `show[]`; gnd from each LED cathode to `gnd_top`.
 
 ### Sim schema only (in `types.ts` + netlist — no 3D mesh yet)
 
-Valid in `components.ts` for simulation/logic, but **`LabScene` returns null`** — invisible on breadboard. Do not rely on these for 3D unless you add a `LabScene`case +`src/components/` builder.
+> [!WARNING]
+> **3D Rendering Limitations:** The components listed below are **simulation-only**. They will function in logic/circuit simulations, but **`LabScene` returns null** so they are completely invisible on the 3D breadboard.
+> Do not use these in standard breadboard labs unless you first build a corresponding physical 3D mesh in `src/components/` and wire it up in `LabScene.tsx`.
 
 | Group               | `type` values                                                                                                                |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Passives / analog   | `inductor`, `diode`, `zener`, `npn-bjt`, `pnp-bjt`, `n-mosfet`, `p-mosfet`, `op-amp`                                         |
+| Passives / analog   | `inductor`                                                                                                                   |
 | Reduce / arithmetic | `and-reduce`, `or-reduce`, …, `adder`, `adder-4bit`, `subtractor`, `multiplier`, `negator`, `compare-*`                      |
 | Shift / bus         | `shift-left`, `shift-right`, `zero-extend`, `sign-extend`, `bus-slice`, `bus-group`, `bus-ungroup`                           |
 | MUX / decode        | `mux`, `mux-2to1-ic`, `mux-4to1`, `demux-1to4`, `demux-1to8`, `encoder-8to3`, `decoder-3to8`                                 |
 | Sequential          | `dff`, `jk-ff`, `sr-latch`, `counter-4bit-async`, `counter-4bit-sync`, `register-4bit`, `register-8bit`, `register-8bit-tri` |
 | Bus ICs             | `bus-transceiver`, `address-latch`                                                                                           |
 | I/O nodes           | `input-node`, `output-node`, `constant`, `clock`                                                                             |
-| Display / MCU       | `7seg-display`, `rgb-led`, `cpu-8085`, `ppi-8255`, `push-button`, `switch`, `dip-switch`                                     |
+| Display / MCU       | `rgb-led`, `cpu-8085`, `ppi-8255`                                                                                            |
 
 Extra fields vary — see `ComponentInstance` in `types.ts` (e.g. `bits`, `vz`, `poles`, `terminals`, `net`).
 

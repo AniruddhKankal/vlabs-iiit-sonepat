@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { type ComponentData, COMPONENTS_DATA } from "./components.data";
-import { useRef } from "react";
+import { type ComponentData } from "./components.data";
+import { ComponentDock } from "./component.dock";
 
 // Dynamically import the 3D viewer with SSR disabled
 const EceComponentViewer = dynamic(
@@ -81,18 +81,6 @@ function WarningIcon() {
 }
 
 export function ComponentShowcase({ data }: { data: ComponentData }) {
-  const dockScrollRef = useRef<HTMLDivElement>(null);
-
-  const scrollDock = (direction: "left" | "right") => {
-    if (dockScrollRef.current) {
-      const scrollAmount = direction === "left" ? -150 : 150;
-      dockScrollRef.current.scrollBy({
-        left: scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
     <div className="flex flex-col min-h-dvh bg-white lg:flex-row overflow-hidden relative">
       {/* ── Left: 3D Viewer ── */}
@@ -110,81 +98,7 @@ export function ComponentShowcase({ data }: { data: ComponentData }) {
         </div>
 
         {/* ── Bottom Dock ── */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 p-1 bg-transparent rounded-xl z-50 max-w-[60%]">
-          <button
-            className="text-black/25 hover:text-black/50 flex-shrink-0 transition-colors cursor-pointer"
-            onClick={() => scrollDock("left")}
-            aria-label="Scroll left"
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
-
-          <div
-            ref={dockScrollRef}
-            className="flex items-center gap-2 overflow-x-auto scroll-smooth dock-scroll"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            <style>{`
-              .dock-scroll::-webkit-scrollbar {
-                display: none;
-              }
-            `}</style>
-            {Object.values(COMPONENTS_DATA).map((comp) => {
-              const isActive = comp.slug === data.slug;
-              return (
-                <Link
-                  key={comp.slug}
-                  href={`/components/${comp.slug}`}
-                  className={`relative w-[64px] h-[64px] rounded-lg overflow-hidden flex-shrink-0 transition-all ${
-                    isActive
-                      ? "bg-white/80 border border-black/10 ring-1 ring-black/5 opacity-100 shadow-sm"
-                      : "bg-white/40 border border-black/5 hover:border-black/10 hover:bg-white/70 opacity-60 hover:opacity-100"
-                  }`}
-                  title={comp.name}
-                >
-                  <div className="absolute inset-0 pointer-events-none">
-                    <EceComponentViewer
-                      kind={comp.kind}
-                      background={isActive ? "#f7f6f3" : "#f7f6f3"}
-                      autoRotate={isActive}
-                      zoom={false}
-                    />
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-
-          <button
-            className="text-black/25 hover:text-black/50 flex-shrink-0 transition-colors cursor-pointer"
-            onClick={() => scrollDock("right")}
-            aria-label="Scroll right"
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
-        </div>
+        <ComponentDock currentSlug={data.slug} />
       </div>
 
       {/* ── Right: Info Panel ── */}
