@@ -19,5 +19,9 @@ export const exp01StudyBasicComponentsExperiment: ExperimentDefinition = {
   procedureSteps,
 };
 
-export const Exp01StudyBasicComponentsCircuit = buildCircuit(exp01StudyBasicComponentsExperiment);
-export const Exp01StudyBasicComponentsContent = buildLabContent(exp01StudyBasicComponentsExperiment);
+export const Exp01StudyBasicComponentsCircuit = buildCircuit(
+  exp01StudyBasicComponentsExperiment,
+);
+export const Exp01StudyBasicComponentsContent = buildLabContent(
+  exp01StudyBasicComponentsExperiment,
+);

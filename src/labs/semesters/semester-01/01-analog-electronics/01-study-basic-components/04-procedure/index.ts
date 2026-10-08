@@ -9,4 +9,13 @@ import { step as s06 } from "./06-multimeter";
 import { step as s07 } from "./07-function-generator";
 import { step as s08 } from "./08-cro";
 
-export const procedureSteps: SceneProcedureStep[] = [s01, s02, s03, s04, s05, s06, s07, s08];
+export const procedureSteps: SceneProcedureStep[] = [
+  s01,
+  s02,
+  s03,
+  s04,
+  s05,
+  s06,
+  s07,
+  s08,
+];
