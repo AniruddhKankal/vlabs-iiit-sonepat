@@ -30,8 +30,14 @@ function makeLead(x: number): THREE.Group {
 
 export function buildBjt(
   mountPos: THREE.Vector3 = new THREE.Vector3(),
+  options: { leadSpacing?: number } = {},
 ): THREE.Group {
   const root = new THREE.Group();
+
+  // Lead pitch: TO-92 real-world spacing is tight (PITCH * 0.28), but when the
+  // device is inserted into a breadboard the leads must fan out to three
+  // separate holes one column apart, so callers can override this.
+  const spacing = options.leadSpacing ?? LEAD_SPACING;
 
   // ── TO-92 body ───────────────────────────────────────────────────────────
 
@@ -76,9 +82,9 @@ export function buildBjt(
   //  2 = Base
   //  3 = Emitter
 
-  const collector = makeLead(-LEAD_SPACING);
+  const collector = makeLead(-spacing);
   const base = makeLead(0);
-  const emitter = makeLead(LEAD_SPACING);
+  const emitter = makeLead(spacing);
 
   root.add(collector);
   root.add(base);
@@ -86,9 +92,9 @@ export function buildBjt(
 
   // Small pin labels
   const labels = [
-    { text: "C", x: -LEAD_SPACING },
+    { text: "C", x: -spacing },
     { text: "B", x: 0 },
-    { text: "E", x: LEAD_SPACING },
+    { text: "E", x: spacing },
   ];
 
   for (const item of labels) {
