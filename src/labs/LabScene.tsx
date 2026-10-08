@@ -181,7 +181,6 @@ function buildInstance(
       return buildDip14(col, labels[inst.type], cols);
     }
 
-
     case "n-mosfet":
     case "p-mosfet": {
       const { col, row, board } = inst.mountedAt;

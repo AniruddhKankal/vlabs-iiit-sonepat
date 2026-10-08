@@ -29,17 +29,17 @@ function makeLead(targetX: number, naturalX: number): THREE.Group {
   // Bent lead
   const drop1 = LEAD_LENGTH * 0.15;
   const drop2 = LEAD_LENGTH - drop1;
-  
+
   const stub = solidCyl(LEAD_RADIUS, drop1, M.metal(), 10);
   stub.position.set(naturalX, -drop1 / 2, 0);
   group.add(stub);
-  
+
   const horizLen = Math.abs(targetX - naturalX);
   const horiz = solidCyl(LEAD_RADIUS, horizLen, M.metal(), 10);
   horiz.rotation.z = Math.PI / 2;
   horiz.position.set((naturalX + targetX) / 2, -drop1, 0);
   group.add(horiz);
-  
+
   const leg = solidCyl(LEAD_RADIUS, drop2, M.metal(), 10);
   leg.position.set(targetX, -drop1 - drop2 / 2, 0);
   group.add(leg);
