@@ -219,21 +219,9 @@ export function buildDiode(
   type: DiodeType = "1N4148",
 ): THREE.Group {
   const root = new THREE.Group();
-
   const spec = DIODE_SPECS[type];
-
-  /*
-   * Center of diode.
-   */
   const cx = (anodePos.x + cathodePos.x) / 2;
-
   const cz = (anodePos.z + cathodePos.z) / 2;
-
-  /*
-   * ───────────────────────────────────────────────────────────────────────
-   * BODY
-   * ───────────────────────────────────────────────────────────────────────
-   */
 
   const bodyGeo = new THREE.CylinderGeometry(
     spec.bodyRadius,
@@ -241,63 +229,33 @@ export function buildDiode(
     spec.bodyLength,
     14,
   );
-
-  // Body colour follows the diode type, so the mounted (breadboard) part looks
-  // the same as the standalone (apparatus) one: dark 1N4148 / 1N4007 bodies,
-  // red Zener body. See buildDiodeBody() above for the standalone equivalent.
   const bodyMaterial = type === "zener" ? M.red() : M.dark();
-
   const body = new THREE.Mesh(bodyGeo, bodyMaterial);
-
   body.rotation.z = Math.PI / 2;
-
   body.position.set(cx, TOP_Y + spec.bodyRadius, cz);
-
   body.add(
     new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo, 12), M.edge()),
   );
-
   root.add(body);
 
-  /*
-   * ───────────────────────────────────────────────────────────────────────
-   * CATHODE BAND
-   * ───────────────────────────────────────────────────────────────────────
-   */
-
   const bandWidth = spec.bodyLength * 0.16;
-
   const bandGeo = new THREE.CylinderGeometry(
     spec.bodyRadius + 0.006,
     spec.bodyRadius + 0.006,
     bandWidth,
     14,
   );
-
-  // Zener gets a dark cathode band; normal diodes keep the silver band.
   const band = new THREE.Mesh(
     bandGeo,
     type === "zener" ? M.dark() : M.silver(),
   );
-
   band.rotation.z = Math.PI / 2;
-
   const bandX = spec.bodyLength / 2 - bandWidth / 2;
-
   band.position.set(cx + bandX, TOP_Y + spec.bodyRadius, cz);
-
   band.add(
     new THREE.LineSegments(new THREE.EdgesGeometry(bandGeo, 12), M.edge()),
   );
-
   root.add(band);
-
-  /*
-   * Zener IDENTIFIER MARK
-   *
-   * The little tab on the cathode band that distinguishes a Zener from an
-   * ordinary diode. Mirrors the standalone build in buildDiodeBody().
-   */
 
   if (type === "zener") {
     const markerGeo = new THREE.BoxGeometry(
@@ -305,40 +263,23 @@ export function buildDiode(
       spec.bodyRadius * 1.9,
       spec.bodyRadius * 0.5,
     );
-
     const marker = new THREE.Mesh(markerGeo, M.edge());
-
     marker.position.set(
       cx + bandX,
       TOP_Y + spec.bodyRadius,
       cz + spec.bodyRadius * 0.7,
     );
-
     root.add(marker);
   }
 
-  /*
-   * ───────────────────────────────────────────────────────────────────────
-   * LEADS
-   * ───────────────────────────────────────────────────────────────────────
-   *
-   * Each lead is an L-bend: a vertical stub rising out of the breadboard hole
-   * to the body's height, then a horizontal run to the body end cap. This
-   * matches the mounted resistor (see src/components/resistor/index.ts) — a
-   * single straight cylinder sunk at the hole Y would be buried inside the
-   * board and read as "no pins".
-   */
-
   const leadRadius = PITCH * 0.07;
-
   const bodyY = TOP_Y + spec.bodyRadius;
-
   const holeY = TOP_Y - BOARD_H * 0.2;
-
-  const stubGeo = new THREE.CylinderGeometry(
+  const verticalLeadLength = bodyY - holeY;
+  const verticalLeadGeometry = new THREE.CylinderGeometry(
     leadRadius,
     leadRadius,
-    bodyY - holeY,
+    verticalLeadLength,
     6,
   );
 
@@ -346,24 +287,16 @@ export function buildDiode(
     [anodePos, cx - spec.bodyLength / 2],
     [cathodePos, cx + spec.bodyLength / 2],
   ] as const) {
-    // Vertical stub: hole up to body height
-    const stub = new THREE.Mesh(stubGeo, M.gold());
+    const verticalLead = new THREE.Mesh(verticalLeadGeometry, M.gold());
+    verticalLead.position.set(holePos.x, (bodyY + holeY) / 2, holePos.z);
+    root.add(verticalLead);
 
-    stub.position.set(holePos.x, (bodyY + holeY) / 2, holePos.z);
-
-    root.add(stub);
-
-    // Horizontal run: top of the stub across to the body end
     const dx = bodyEndX - holePos.x;
-
     if (Math.abs(dx) > 0.001) {
-      const run = solidCyl(leadRadius, Math.abs(dx), M.gold(), 6);
-
-      run.rotation.z = Math.PI / 2;
-
-      run.position.set((holePos.x + bodyEndX) / 2, bodyY, holePos.z);
-
-      root.add(run);
+      const horizontalLead = solidCyl(leadRadius, Math.abs(dx), M.gold(), 6);
+      horizontalLead.rotation.z = Math.PI / 2;
+      horizontalLead.position.set((holePos.x + bodyEndX) / 2, bodyY, holePos.z);
+      root.add(horizontalLead);
     }
   }
 
