@@ -34,3 +34,7 @@ export const Multiplexer4to1Circuit = buildCircuit(multiplexer4to1Experiment);
 export const Multiplexer4to1Content = buildLabContent(
   multiplexer4to1Experiment,
 );
+
+export const mux4to1IcExperiment = multiplexer4to1Experiment;
+export const Mux4to1IcCircuit = Multiplexer4to1Circuit;
+export const Mux4to1IcContent = Multiplexer4to1Content;
