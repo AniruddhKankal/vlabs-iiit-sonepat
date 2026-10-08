@@ -313,7 +313,11 @@ export type ComponentInstance =
   | {
       id: string;
       type: "oscilloscope";
-      mountedAt: MountPoint;
+      /**
+       * OPTIONAL. The oscilloscope stands on the bench, outside the breadboard,
+       * so it needs no breadboard hole. Only `probes` touch the board.
+       */
+      mountedAt?: MountPoint;
       /** Probe wire targets [CH1, GND] — resolved to Vector3 by LabScene */
       probes?: [PinRef, PinRef];
     }
