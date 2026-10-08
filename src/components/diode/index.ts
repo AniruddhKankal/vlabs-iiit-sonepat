@@ -290,50 +290,56 @@ export function buildDiode(
    */
 
   const leadRadius = PITCH * 0.07;
-
-  const leftLeadLength = Math.max(
-    PITCH * 0.4,
-    Math.abs(cx - spec.bodyLength / 2 - anodePos.x),
+  const bodyHeight = spec.bodyRadius;
+  const bodyEnds = [
+    new THREE.Vector3(cx - spec.bodyLength / 2, TOP_Y + bodyHeight, cz),
+    new THREE.Vector3(cx + spec.bodyLength / 2, TOP_Y + bodyHeight, cz),
+  ];
+  const verticalLeadLength = bodyHeight + BOARD_H * 0.4;
+  const verticalLeadGeometry = new THREE.CylinderGeometry(
+    leadRadius,
+    leadRadius,
+    verticalLeadLength,
+    6,
   );
 
-  const rightLeadLength = Math.max(
-    PITCH * 0.4,
-    Math.abs(cathodePos.x - (cx + spec.bodyLength / 2)),
-  );
+  for (const [holePos, bodyEnd] of [
+    [anodePos, bodyEnds[0]],
+    [cathodePos, bodyEnds[1]],
+  ] as const) {
+    const verticalLead = new THREE.Mesh(verticalLeadGeometry, M.gold());
+    verticalLead.position.set(
+      holePos.x,
+      TOP_Y - BOARD_H * 0.2 + verticalLeadLength / 2,
+      holePos.z,
+    );
+    root.add(verticalLead);
 
-  /*
-   * Anode lead
-   */
-  const leftLead = solidCyl(leadRadius, leftLeadLength, M.gold(), 6);
-
-  leftLead.rotation.z = Math.PI / 2;
-
-  leftLead.position.set(
-    (anodePos.x + cx - spec.bodyLength / 2) / 2,
-
-    TOP_Y - BOARD_H * 0.2,
-
-    anodePos.z,
-  );
-
-  root.add(leftLead);
-
-  /*
-   * Cathode lead
-   */
-  const rightLead = solidCyl(leadRadius, rightLeadLength, M.gold(), 6);
-
-  rightLead.rotation.z = Math.PI / 2;
-
-  rightLead.position.set(
-    (cathodePos.x + cx + spec.bodyLength / 2) / 2,
-
-    TOP_Y - BOARD_H * 0.2,
-
-    cathodePos.z,
-  );
-
-  root.add(rightLead);
+    const dx = bodyEnd.x - holePos.x;
+    const dz = bodyEnd.z - holePos.z;
+    const horizontalLeadLength = Math.hypot(dx, dz);
+    if (horizontalLeadLength > 0.001) {
+      const horizontalLead = new THREE.Mesh(
+        new THREE.CylinderGeometry(
+          leadRadius,
+          leadRadius,
+          horizontalLeadLength,
+          6,
+        ),
+        M.gold(),
+      );
+      horizontalLead.position.set(
+        (holePos.x + bodyEnd.x) / 2,
+        bodyEnd.y,
+        (holePos.z + bodyEnd.z) / 2,
+      );
+      horizontalLead.quaternion.setFromUnitVectors(
+        new THREE.Vector3(0, 1, 0),
+        new THREE.Vector3(dx, 0, dz).normalize(),
+      );
+      root.add(horizontalLead);
+    }
+  }
 
   return root;
 }
