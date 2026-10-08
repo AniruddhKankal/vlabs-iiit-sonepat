@@ -181,12 +181,6 @@ function buildInstance(
       return buildDip14(col, labels[inst.type], cols);
     }
 
-    case "npn-bjt":
-    case "pnp-bjt": {
-      const { col, row, board } = inst.mountedAt;
-      const cols = colsForBoardId(board, all);
-      return buildBjt(hole(col, row, cols));
-    }
 
     case "n-mosfet":
     case "p-mosfet": {
