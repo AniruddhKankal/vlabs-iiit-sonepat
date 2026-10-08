@@ -423,6 +423,8 @@ Every entry below is a valid `ComponentInstance` variant from `src/labs/types.ts
 
 ### Microprocessor / Interfacing
 
+**Note:** Microprocessors are currently simulation-only (no 3D mesh in `LabScene`). They will not render on the breadboard.
+
 ```ts
 { id: 'cpu1', type: 'cpu-8085', mountedAt: { board: 'bb', col: 1, row: 'e' } }   // Intel 8085
 { id: 'ppi1', type: 'ppi-8255', mountedAt: { board: 'bb', col: 20, row: 'e' } }  // Intel 8255 PPI

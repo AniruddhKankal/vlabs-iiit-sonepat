@@ -19,6 +19,18 @@ import {
   buildVoltmeter,
   buildOscilloscope,
   buildFunctionGenerator,
+  buildBjt,
+  buildMosfet,
+  buildDiode,
+  buildZenerDiode,
+  buildOpAmp,
+  buildSevenSegment,
+  buildDipSwitch,
+  buildLogicAnalyzer,
+  buildTransformer,
+  buildSwitchStandalone,
+  buildPushButtonStandalone,
+  buildMcuTrainerStandalone,
 } from "@/components";
 import { resolveIcPin } from "@/components/ic";
 import { simulate } from "./simulate";
@@ -123,6 +135,66 @@ function buildInstance(
       return buildDip14(col, labels[inst.type], cols);
     }
 
+    case "npn-bjt":
+    case "pnp-bjt": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildBjt(hole(col, row, cols));
+    }
+
+    case "n-mosfet":
+    case "p-mosfet": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildMosfet(hole(col, row, cols));
+    }
+
+    case "diode": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildDiode(hole(col, row, cols), hole(col + 3, row, cols));
+    }
+
+    case "zener": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildZenerDiode(hole(col, row, cols), hole(col + 3, row, cols));
+    }
+
+    case "op-amp": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildOpAmp(hole(col, row, cols));
+    }
+
+    case "7seg-display": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildSevenSegment(hole(col, row, cols));
+    }
+
+    case "dip-switch": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildDipSwitch(hole(col, row, cols), (inst as any).poles ?? 8);
+    }
+
+    case "switch": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      const group = buildSwitchStandalone();
+      group.position.copy(hole(col, row, cols));
+      return group;
+    }
+
+    case "push-button": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      const group = buildPushButtonStandalone();
+      group.position.copy(hole(col, row, cols));
+      return group;
+    }
+
     case "resistor": {
       const { col, row, board } = inst.mountedAt;
       const cols = colsForBoardId(board, all);
@@ -209,6 +281,18 @@ function buildInstance(
     case "function-generator": {
       const pos = new THREE.Vector3();
       return buildFunctionGenerator(pos);
+    }
+
+    case "logic-analyser": {
+      return buildLogicAnalyzer(new THREE.Vector3());
+    }
+
+    case "transformer": {
+      return buildTransformer(new THREE.Vector3());
+    }
+
+    case "mcu-trainer": {
+      return buildMcuTrainerStandalone();
     }
 
     default:
