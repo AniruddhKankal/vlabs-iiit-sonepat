@@ -49,57 +49,37 @@ function makeLead(targetX: number, naturalX: number): THREE.Group {
 
 export function buildBjt(
   mountPos: THREE.Vector3 = new THREE.Vector3(),
-  options: { leadSpacing?: number } = {},
+  options: { leadSpacing?: number; label?: string; pinLabels?: string[] } = {},
 ): THREE.Group {
   const root = new THREE.Group();
 
-  // Lead pitch: TO-92 real-world spacing is tight (PITCH * 0.28), but when the
-  // device is inserted into a breadboard the leads must fan out to three
-  // separate holes one column apart, so callers can override this.
   const spacing = options.leadSpacing ?? LEAD_SPACING;
-
-  // ── TO-92 body ───────────────────────────────────────────────────────────
+  const partLabel = options.label ?? "BC547";
+  const pinLabels = options.pinLabels ?? ["C", "B", "E"];
 
   const body = solidCyl(BODY_R, BODY_H, M.dark(), 32);
-
   body.position.set(0, BODY_H / 2, 0);
-
   root.add(body);
 
-  // Flatten one side slightly to make the TO-92 package silhouette
-  // feel less like a perfect cylinder.
   const flatSide = solidBox(
     BODY_R * 1.15,
     BODY_H * 0.82,
     PITCH * 0.08,
     M.dark(),
   );
-
   flatSide.position.set(0, BODY_H * 0.5, -BODY_R * 0.72);
-
   root.add(flatSide);
 
-  // ── Component marking ───────────────────────────────────────────────────
-
-  const marking = textLabel("BC547", PITCH * 0.72, PITCH * 0.28, {
+  const marking = textLabel(partLabel, PITCH * 0.72, PITCH * 0.28, {
     textColor: "#eeeeee",
-    fontSize: 28,
+    fontSize: partLabel.length > 5 ? 20 : 28,
   });
 
   if (marking) {
     marking.position.set(0, BODY_H * 0.48, BODY_R + PITCH * 0.015);
-
     marking.rotation.x = 0;
-
     root.add(marking);
   }
-
-  // ── Collector / Base / Emitter leads ────────────────────────────────────
-  //
-  // BC547 TO-92 pinout (flat side facing you):
-  //  1 = Collector
-  //  2 = Base
-  //  3 = Emitter
 
   const collector = makeLead(-spacing, -LEAD_SPACING);
   const base = makeLead(0, 0);
@@ -109,11 +89,10 @@ export function buildBjt(
   root.add(base);
   root.add(emitter);
 
-  // Small pin labels
   const labels = [
-    { text: "C", x: -spacing },
-    { text: "B", x: 0 },
-    { text: "E", x: spacing },
+    { text: pinLabels[0], x: -spacing },
+    { text: pinLabels[1], x: 0 },
+    { text: pinLabels[2], x: spacing },
   ];
 
   for (const item of labels) {
@@ -123,14 +102,11 @@ export function buildBjt(
     });
 
     if (!label) continue;
-
     label.position.set(item.x, -LEAD_LENGTH - PITCH * 0.08, PITCH * 0.04);
-
     root.add(label);
   }
 
   root.position.copy(mountPos);
-
   return root;
 }
 
