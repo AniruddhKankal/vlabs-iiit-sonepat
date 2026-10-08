@@ -20,4 +20,6 @@ export const pnJunctionDiodeExperiment: ExperimentDefinition = {
 };
 
 export const PnJunctionDiodeCircuit = buildCircuit(pnJunctionDiodeExperiment);
-export const PnJunctionDiodeContent = buildLabContent(pnJunctionDiodeExperiment);
+export const PnJunctionDiodeContent = buildLabContent(
+  pnJunctionDiodeExperiment,
+);
