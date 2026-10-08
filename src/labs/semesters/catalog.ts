@@ -44,7 +44,7 @@ import {
   HalfWaveAndCenterTappedRectifierCircuit,
   HalfWaveAndCenterTappedRectifierContent,
   halfWaveAndCenterTappedRectifierExperiment,
-} from "./semester-01/01-analog-electronics/half-wave-and-center-tapped-rectifier";
+} from "./semester-01/01-analog-electronics/04-half-wave-and-center-tapped-rectifier";
 
 import {
   OhmsLawCircuit,
