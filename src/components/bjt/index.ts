@@ -16,14 +16,33 @@ const LEAD_LENGTH = PITCH * 0.75;
 
 const LEAD_SPACING = PITCH * 0.28;
 
-function makeLead(x: number): THREE.Group {
+function makeLead(targetX: number, naturalX: number): THREE.Group {
   const group = new THREE.Group();
 
-  const lead = solidCyl(LEAD_RADIUS, LEAD_LENGTH, M.metal(), 10);
+  if (Math.abs(targetX - naturalX) < 0.001) {
+    const lead = solidCyl(LEAD_RADIUS, LEAD_LENGTH, M.metal(), 10);
+    lead.position.set(targetX, -LEAD_LENGTH / 2, 0);
+    group.add(lead);
+    return group;
+  }
 
-  lead.position.set(x, -LEAD_LENGTH / 2, 0);
+  // Bent lead
+  const drop1 = LEAD_LENGTH * 0.15;
+  const drop2 = LEAD_LENGTH - drop1;
 
-  group.add(lead);
+  const stub = solidCyl(LEAD_RADIUS, drop1, M.metal(), 10);
+  stub.position.set(naturalX, -drop1 / 2, 0);
+  group.add(stub);
+
+  const horizLen = Math.abs(targetX - naturalX);
+  const horiz = solidCyl(LEAD_RADIUS, horizLen, M.metal(), 10);
+  horiz.rotation.z = Math.PI / 2;
+  horiz.position.set((naturalX + targetX) / 2, -drop1, 0);
+  group.add(horiz);
+
+  const leg = solidCyl(LEAD_RADIUS, drop2, M.metal(), 10);
+  leg.position.set(targetX, -drop1 - drop2 / 2, 0);
+  group.add(leg);
 
   return group;
 }
@@ -82,9 +101,9 @@ export function buildBjt(
   //  2 = Base
   //  3 = Emitter
 
-  const collector = makeLead(-spacing);
-  const base = makeLead(0);
-  const emitter = makeLead(spacing);
+  const collector = makeLead(-spacing, -LEAD_SPACING);
+  const base = makeLead(0, 0);
+  const emitter = makeLead(spacing, LEAD_SPACING);
 
   root.add(collector);
   root.add(base);
