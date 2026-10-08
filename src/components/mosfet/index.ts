@@ -76,7 +76,7 @@ function makeTab(): THREE.Mesh {
 // Draw a cylindrical lead from the bottom of the lifted body down to the hole
 function makeLead(targetX: number, naturalX: number): THREE.Group {
   const g = new THREE.Group();
-  
+
   // Leads drop from the lifted body (Y=BODY_LIFT) down to the board (Y=0)
   const drop1 = BODY_LIFT * 0.3;
   const drop2 = BODY_LIFT - drop1;
@@ -112,7 +112,7 @@ export function buildMosfet(
   partNumber = "K3878",
 ): THREE.Group {
   const root = new THREE.Group();
-  
+
   // The physical body group, lifted above the board
   const bodyGroup = new THREE.Group();
   bodyGroup.position.y = BODY_LIFT;
@@ -154,8 +154,8 @@ export function buildMosfet(
   // We'll just drop the leads straight down since they perfectly match breadboard holes.
   root.add(
     makeLead(-PITCH, -PITCH), // Gate
-    makeLead(0, 0),           // Drain
-    makeLead(PITCH, PITCH),   // Source
+    makeLead(0, 0), // Drain
+    makeLead(PITCH, PITCH), // Source
   );
 
   // Pin labels
@@ -186,4 +186,3 @@ export function buildMosfetStandalone(): THREE.Group {
   root.position.y = TOP_Y + BOARD_H * 0.04;
   return root;
 }
-
