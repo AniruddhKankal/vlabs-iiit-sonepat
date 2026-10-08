@@ -875,4 +875,3 @@ Input tie-points: rows `a` and `b`.
 > Generate a complete semester experiment folder for **\<title\>**.
 > Output: `components.ts`, `04-procedure/*.ts`, section stubs, and `index.ts`.
 > Follow the schema in COMPONENTS.md. Register nothing — I will add it to `catalog.ts` myself.
-

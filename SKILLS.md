@@ -76,7 +76,7 @@ These types **render** in the lab UI. Prefer only these in `show[]` unless you a
 ### Sim schema only (in `types.ts` + netlist — no 3D mesh yet)
 
 > [!WARNING]
-> **3D Rendering Limitations:** The components listed below are **simulation-only**. They will function in logic/circuit simulations, but **`LabScene` returns null** so they are completely invisible on the 3D breadboard. 
+> **3D Rendering Limitations:** The components listed below are **simulation-only**. They will function in logic/circuit simulations, but **`LabScene` returns null** so they are completely invisible on the 3D breadboard.
 > Do not use these in standard breadboard labs unless you first build a corresponding physical 3D mesh in `src/components/` and wire it up in `LabScene.tsx`.
 
 | Group               | `type` values                                                                                                                |
@@ -392,4 +392,3 @@ Copy patterns from half-adder (digital breadboard) or the closest existing lab.
 - Marketing sections (`src/sections/`), onboarding, docs site copy — unless explicitly requested.
 - Changing simulation engine internals (`src/labs/simulate.ts`, `netlist.ts`) — unless the lab requires new gate types.
 - Git commit/push — only when the user asks.
-
