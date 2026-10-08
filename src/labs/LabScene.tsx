@@ -16,7 +16,9 @@ import {
   buildDcPowerSupply,
   buildIcMeter,
   buildAmmeter,
+  buildAmmeterSide,
   buildVoltmeter,
+  buildVoltmeterSide,
   buildOscilloscope,
   buildFunctionGenerator,
   buildBjt,
@@ -208,18 +210,24 @@ function buildInstance(
 
     case "ammeter": {
       const p = (inst as any).probes as [any, any] | undefined;
-      const pos = p
-        ? (resolvePin(p[0], all) ?? new THREE.Vector3())
-        : new THREE.Vector3();
-      return buildAmmeter(pos);
+      const targets = p
+        ? {
+            probe1: resolvePin(p[0], all) ?? new THREE.Vector3(),
+            probe2: resolvePin(p[1], all) ?? new THREE.Vector3(),
+          }
+        : undefined;
+      return buildAmmeterSide("right", targets);
     }
 
     case "voltmeter": {
       const p = (inst as any).probes as [any, any] | undefined;
-      const pos = p
-        ? (resolvePin(p[0], all) ?? new THREE.Vector3())
-        : new THREE.Vector3();
-      return buildVoltmeter(pos);
+      const targets = p
+        ? {
+            probe1: resolvePin(p[0], all) ?? new THREE.Vector3(),
+            probe2: resolvePin(p[1], all) ?? new THREE.Vector3(),
+          }
+        : undefined;
+      return buildVoltmeterSide("left", targets);
     }
 
     case "oscilloscope": {
@@ -610,16 +618,26 @@ export function LabSceneCanvas({
         fresh = buildIcMeter("right", displayVal, targets);
       } else if (inst.type === "ammeter") {
         const p = (inst as any).probes as [any, any] | undefined;
-        const pos = p
-          ? (resolvePin(p[0], circuit.components) ?? new THREE.Vector3())
-          : new THREE.Vector3();
-        fresh = buildAmmeter(pos);
+        const targets = p
+          ? {
+              probe1:
+                resolvePin(p[0], circuit.components) ?? new THREE.Vector3(),
+              probe2:
+                resolvePin(p[1], circuit.components) ?? new THREE.Vector3(),
+            }
+          : undefined;
+        fresh = buildAmmeterSide("right", targets);
       } else if (inst.type === "voltmeter") {
         const p = (inst as any).probes as [any, any] | undefined;
-        const pos = p
-          ? (resolvePin(p[0], circuit.components) ?? new THREE.Vector3())
-          : new THREE.Vector3();
-        fresh = buildVoltmeter(pos);
+        const targets = p
+          ? {
+              probe1:
+                resolvePin(p[0], circuit.components) ?? new THREE.Vector3(),
+              probe2:
+                resolvePin(p[1], circuit.components) ?? new THREE.Vector3(),
+            }
+          : undefined;
+        fresh = buildVoltmeterSide("left", targets);
       } else if (inst.type === "oscilloscope") {
         fresh = buildOscilloscope(new THREE.Vector3());
       } else if (inst.type === "function-generator") {
