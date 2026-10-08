@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { hole, railHole, COLS, colsForBoardId, PITCH } from "./coords";
+import { hole, railHole, COLS, colsForBoardId, PITCH, TOP_Y } from "./coords";
 import {
   buildBreadboard,
   buildLongBreadboard,
@@ -19,6 +19,7 @@ import {
   buildVoltmeter,
   buildOscilloscope,
   buildFunctionGenerator,
+  buildBjt,
 } from "@/components";
 import { resolveIcPin } from "@/components/ic";
 import { simulate } from "./simulate";
@@ -88,6 +89,11 @@ function resolvePin(
 
 // ── Component builder ─────────────────────────────────────────────────────
 // isOn map is passed for LEDs so they light up when the simulation says HIGH.
+//
+// Must match LEAD_LENGTH in src/components/bjt — used to seat the TO-92 body
+// so its three leads land on the board surface.
+const BJT_LEAD_LENGTH = PITCH * 0.75;
+
 function buildInstance(
   inst: ComponentInstance,
   all: ComponentInstance[],
@@ -153,6 +159,20 @@ function buildInstance(
         inst.color,
         isOn,
       );
+    }
+
+    case "npn-bjt":
+    case "pnp-bjt": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      // buildBjt() seats the TO-92 body at mountPos with its three leads
+      // hanging LEAD_LENGTH below. Raise it so the lead tips meet the board
+      // surface (TOP_Y), then nudge half a pitch down-board so the body sits
+      // over the tie-point strip rather than the rail gap.
+      const mount = hole(col, row, cols);
+      mount.y = TOP_Y + BJT_LEAD_LENGTH;
+      mount.z += PITCH * 0.5;
+      return buildBjt(mount);
     }
 
     case "wire": {
