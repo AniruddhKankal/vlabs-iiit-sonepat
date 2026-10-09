@@ -29,8 +29,16 @@ export const apparatus: ApparatusSection = {
       specification: "1 µF electrolytic or ceramic",
       quantity: "2",
     },
-    { name: "DC ammeter", specification: "0–100 mA panel meter", quantity: "1" },
-    { name: "DC voltmeter", specification: "0–15 V panel meter", quantity: "2" },
+    {
+      name: "DC ammeter",
+      specification: "0–100 mA panel meter",
+      quantity: "1",
+    },
+    {
+      name: "DC voltmeter",
+      specification: "0–15 V panel meter",
+      quantity: "2",
+    },
     {
       name: "Function generator",
       specification: "Sine wave, 1 kHz, adjustable amplitude",
