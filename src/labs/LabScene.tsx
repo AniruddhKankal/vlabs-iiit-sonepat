@@ -3,8 +3,17 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { benchPlacement } from "@/components/shared";
 
-import { hole, railHole, COLS, colsForBoardId, PITCH, TOP_Y } from "./coords";
+import {
+  hole,
+  railHole,
+  COLS,
+  colsForBoardId,
+  PITCH,
+  TOP_Y,
+  BOARD_D,
+} from "./coords";
 import {
   buildBreadboard,
   buildLongBreadboard,
@@ -20,7 +29,8 @@ import {
   buildVoltmeter,
   buildVoltmeterSide,
   buildOscilloscope,
-  buildFunctionGenerator,
+  buildFunctionGeneratorStandalone,
+  FG_OUT_ANCHOR,
   buildBjt,
   buildMosfet,
   buildDiode,
@@ -30,15 +40,16 @@ import {
   buildDipSwitch,
   buildLogicAnalyzer,
   buildTransformer,
-  buildTransformerStandalone,
-  buildOscilloscopeStandalone,
-  instrumentWire,
   buildSwitchStandalone,
   buildPushButtonStandalone,
   buildMcuTrainerStandalone,
 } from "@/components";
-import { benchPlacement } from "@/components/shared/bench-layout";
 import { resolveIcPin } from "@/components/ic";
+// NOTE: adjust this path to wherever you saved oscilloscope.ts
+import {
+  OSCILLOSCOPE_CH1_ANCHOR,
+  OSCILLOSCOPE_GND_ANCHOR,
+} from "@/components/oscilloscope";
 import { simulate } from "./simulate";
 import {
   type Circuit,
@@ -78,7 +89,7 @@ function resolvePin(
   if ("ic" in pin) {
     const ip = pin as IcPin;
     const inst = all.find((c) => c.id === ip.ic);
-    if (!inst || !("mountedAt" in inst)) return null;
+    if (!inst || !("mountedAt" in inst) || !inst.mountedAt) return null;
     const cols = colsForBoardId(inst.mountedAt.board, all);
     return resolveIcPin(ip.pin, inst.mountedAt.col, inst.mountedAt.row, cols);
   }
@@ -86,7 +97,7 @@ function resolvePin(
   if ("component" in pin) {
     const pp = pin as PassivePin;
     const inst = all.find((c) => c.id === pp.component);
-    if (!inst || !("mountedAt" in inst)) return null;
+    if (!inst || !("mountedAt" in inst) || !inst.mountedAt) return null;
     const { col, row, board } = inst.mountedAt;
     const cols = colsForBoardId(board, all);
     return pp.end === "p1" ? hole(col, row, cols) : hole(col + 3, row, cols);
@@ -95,7 +106,7 @@ function resolvePin(
   if ("led" in pin) {
     const lp = pin as LedPin;
     const inst = all.find((c) => c.id === lp.led);
-    if (!inst || !("mountedAt" in inst)) return null;
+    if (!inst || !("mountedAt" in inst) || !inst.mountedAt) return null;
     const { col, row, board } = inst.mountedAt;
     const cols = colsForBoardId(board, all);
     return lp.end === "anode" ? hole(col, row, cols) : hole(col + 1, row, cols);
@@ -148,6 +159,91 @@ function benchSlotMap(all: ComponentInstance[]): Map<string, number> {
   const map = new Map<string, number>();
   withCol.forEach((entry, i) => map.set(entry.id, i));
   return map;
+}
+
+// ── Oscilloscope: stands on the bench, OUTSIDE the breadboard ─────────────
+// The scope body sits on the table behind the board. Only its two probe
+// cables (CH1 and GND) run to the breadboard holes listed in `probes`.
+const SCOPE_BENCH_Y = -TOP_Y + 0.045; // table surface + height of the feet
+const SCOPE_BENCH_Z = -(BOARD_D / 2) - 0.9; // behind the board, facing the viewer
+
+function buildBenchOscilloscope(
+  inst: ComponentInstance,
+  all: ComponentInstance[],
+  slot: number,
+): THREE.Group {
+  const p = (inst as any).probes as [PinRef, PinRef] | undefined;
+  const ch1Target = p ? resolvePin(p[0], all) : null;
+  const gndTarget = p ? resolvePin(p[1], all) : null;
+
+  const placement = benchPlacement(slot);
+  const scope = buildOscilloscope(
+    new THREE.Vector3(placement.position.x, SCOPE_BENCH_Y, SCOPE_BENCH_Z),
+  );
+
+  const wrapper = new THREE.Group();
+  wrapper.add(scope);
+  wrapper.updateMatrixWorld(true);
+
+  const ch1 = scope.getObjectByName(OSCILLOSCOPE_CH1_ANCHOR);
+  const gnd = scope.getObjectByName(OSCILLOSCOPE_GND_ANCHOR);
+
+  if (ch1 && ch1Target) {
+    wrapper.add(
+      buildWire(ch1.getWorldPosition(new THREE.Vector3()), ch1Target, "yellow"),
+    );
+  }
+  if (gnd && gndTarget) {
+    wrapper.add(
+      buildWire(gnd.getWorldPosition(new THREE.Vector3()), gndTarget, "black"),
+    );
+  }
+
+  return wrapper;
+}
+
+function buildBenchFunctionGenerator(
+  inst: ComponentInstance,
+  all: ComponentInstance[],
+  slot: number,
+): THREE.Group {
+  const p = (inst as any).probes as [PinRef, PinRef] | undefined;
+  const outTarget = p ? resolvePin(p[0], all) : null;
+  const gndTarget = p ? resolvePin(p[1], all) : null;
+
+  const placement = benchPlacement(slot);
+
+  // Note: we can parse the display value from readings here if we want, but for now we rely on defaults.
+  // The user mainly cares about the scale and wiring.
+  const fg = buildFunctionGeneratorStandalone();
+  fg.position.set(placement.position.x, SCOPE_BENCH_Y, SCOPE_BENCH_Z);
+
+  const wrapper = new THREE.Group();
+  wrapper.add(fg);
+  wrapper.updateMatrixWorld(true);
+
+  const outAnchor = fg.getObjectByName(FG_OUT_ANCHOR);
+
+  if (outAnchor && outTarget) {
+    wrapper.add(
+      buildWire(
+        outAnchor.getWorldPosition(new THREE.Vector3()),
+        outTarget,
+        "red",
+      ),
+    );
+  }
+  if (outAnchor && gndTarget) {
+    wrapper.add(
+      buildWire(
+        outAnchor.getWorldPosition(new THREE.Vector3()),
+        gndTarget,
+        "black",
+      ),
+    );
+  }
+
+  return wrapper;
 }
 
 function buildInstance(
@@ -342,41 +438,15 @@ function buildInstance(
     }
 
     case "oscilloscope": {
-      const p = (inst as any).probes as any[] | undefined;
-      const targets = Array.isArray(p)
-        ? (p
-            .map((pin) => resolvePin(pin, all))
-            .filter(Boolean) as THREE.Vector3[])
-        : [];
+      // Off-board: scope stands on the bench, only the probe cables
+      // (CH1 + GND) connect to the breadboard.
       const slot = benchSlotMap(all).get(inst.id) ?? 0;
-      const { position: slotPos, scale } = benchPlacement(slot);
-      const wrapper = new THREE.Group();
-      const model = buildOscilloscopeStandalone();
-      wrapper.add(model);
-      wrapper.scale.setScalar(scale * 1.3);
-      wrapper.position.copy(slotPos);
-      const root = new THREE.Group();
-      root.add(wrapper);
-      if (targets.length >= 2) {
-        const origin1 = new THREE.Vector3(
-          slotPos.x - PITCH * 0.25,
-          TOP_Y + PITCH * 0.5,
-          slotPos.z,
-        );
-        const origin2 = new THREE.Vector3(
-          slotPos.x + PITCH * 0.25,
-          TOP_Y + PITCH * 0.5,
-          slotPos.z,
-        );
-        root.add(instrumentWire(origin1, targets[0], 0x22c55e));
-        root.add(instrumentWire(origin2, targets[1], 0x202020));
-      }
-      return root;
+      return buildBenchOscilloscope(inst, all, slot);
     }
 
     case "function-generator": {
-      const pos = new THREE.Vector3();
-      return buildFunctionGenerator(pos);
+      const slot = benchSlotMap(all).get(inst.id) ?? 0;
+      return buildBenchFunctionGenerator(inst, all, slot);
     }
 
     case "logic-analyser": {
@@ -796,9 +866,11 @@ export function LabSceneCanvas({
           : undefined;
         fresh = buildVoltmeterSide(slotMap.get(inst.id) ?? 0, targets);
       } else if (inst.type === "oscilloscope") {
-        fresh = buildOscilloscope(new THREE.Vector3());
+        const slot = slotMap.get(inst.id) ?? 0;
+        fresh = buildBenchOscilloscope(inst, circuit.components, slot);
       } else if (inst.type === "function-generator") {
-        fresh = buildFunctionGenerator(new THREE.Vector3());
+        const slot = slotMap.get(inst.id) ?? 0;
+        fresh = buildBenchFunctionGenerator(inst, circuit.components, slot);
       } else {
         // dc-jack / battery
         const t = (inst as any).terminals as [any, any] | undefined;
