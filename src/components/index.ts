@@ -41,8 +41,16 @@ export {
   buildZenerDiode,
   buildZenerDiodeStandalone,
 } from "./diode";
-export { buildAmmeter, buildAmmeterStandalone } from "./ammeter";
-export { buildVoltmeter, buildVoltmeterStandalone } from "./voltmeter";
+export {
+  buildAmmeter,
+  buildAmmeterStandalone,
+  buildAmmeterSide,
+} from "./ammeter";
+export {
+  buildVoltmeter,
+  buildVoltmeterStandalone,
+  buildVoltmeterSide,
+} from "./voltmeter";
 export { buildBjt, buildBjtStandalone } from "./bjt";
 export { buildMosfet, buildMosfetStandalone } from "./mosfet";
 export { buildOpAmpStandalone, buildOpAmp } from "./op-amp";
@@ -51,6 +59,7 @@ export { buildOscilloscopeStandalone, buildOscilloscope } from "./oscilloscope";
 export {
   buildFunctionGeneratorStandalone,
   buildFunctionGenerator,
+  FG_OUT_ANCHOR,
 } from "./function-generater";
 export { buildTransformerStandalone, buildTransformer } from "./transformer";
 export { buildDipSwitchStandalone, buildDipSwitch } from "./dip-switch";
