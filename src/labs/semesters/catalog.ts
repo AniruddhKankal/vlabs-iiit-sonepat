@@ -40,12 +40,6 @@ import {
 //   rectifiersCapacitorFiltersExperiment,
 // } from "./semester-01/01-analog-electronics/rectifiers-capacitor-filters";
 
-import {
-  HalfWaveAndCenterTappedRectifierCircuit,
-  HalfWaveAndCenterTappedRectifierContent,
-  halfWaveAndCenterTappedRectifierExperiment,
-} from "./semester-01/01-analog-electronics/04-half-wave-and-center-tapped-rectifier";
-
 // import {
 //   OhmsLawCircuit,
 //   OhmsLawContent,
@@ -561,7 +555,7 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         fullWaveRectifierExperiment,
         FullWaveRectifierCircuit,
         FullWaveRectifierContent,
-        ["rectifier", "bridge", "full-wave", "ripple"],
+        ["rectifier", "center-tapped", "full-wave", "ripple", "filter"],
       ),
       // fromBuilt(
       //   rectifiersCapacitorFiltersExperiment,
@@ -569,19 +563,6 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
       //   RectifiersCapacitorFiltersContent,
       //   ["rectifier", "filter", "capacitor", "ripple reduction"],
       // ),
-      fromBuilt(
-        halfWaveAndCenterTappedRectifierExperiment,
-        HalfWaveAndCenterTappedRectifierCircuit,
-        HalfWaveAndCenterTappedRectifierContent,
-        [
-          "rectifier",
-          "half-wave",
-          "center-tapped",
-          "full-wave",
-          "ripple",
-          "filter",
-        ],
-      ),
       // fromBuilt(ohmsLawExperiment, OhmsLawCircuit, OhmsLawContent, [
       //   "ohm",
       //   "resistance",
