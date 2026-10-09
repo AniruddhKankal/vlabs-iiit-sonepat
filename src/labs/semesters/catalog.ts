@@ -34,17 +34,17 @@ import {
   fullWaveRectifierExperiment,
 } from "./semester-01/01-analog-electronics/06-full-wave-rectifier";
 
-import {
-  RectifiersCapacitorFiltersCircuit,
-  RectifiersCapacitorFiltersContent,
-  rectifiersCapacitorFiltersExperiment,
-} from "./semester-01/01-analog-electronics/rectifiers-capacitor-filters";
+// import {
+//   RectifiersCapacitorFiltersCircuit,
+//   RectifiersCapacitorFiltersContent,
+//   rectifiersCapacitorFiltersExperiment,
+// } from "./semester-01/01-analog-electronics/rectifiers-capacitor-filters";
 
-import {
-  OhmsLawCircuit,
-  OhmsLawContent,
-  ohmsLawExperiment,
-} from "./semester-01/01-analog-electronics/ohms-law";
+// import {
+//   OhmsLawCircuit,
+//   OhmsLawContent,
+//   ohmsLawExperiment,
+// } from "./semester-01/01-analog-electronics/ohms-law";
 
 import {
   KirchhoffLawsCircuit,
@@ -70,29 +70,17 @@ import {
   nortonTheoremExperiment,
 } from "./semester-01/03-FEE/norton-theorem";
 
-import {
-  LogicGatesCircuit,
-  LogicGatesContent,
-  logicGatesExperiment,
-} from "./semester-01/02-computer-application/logic-gates";
-
-import {
-  FullAdderCircuit,
-  FullAdderContent,
-  fullAdderExperiment,
-} from "./semester-01/02-computer-application/full-adder";
+// import {
+//   LogicGatesCircuit,
+//   LogicGatesContent,
+//   logicGatesExperiment,
+// } from "./semester-01/02-computer-application/logic-gates";
 
 import {
   HalfSubtractorCircuit,
   HalfSubtractorContent,
   halfSubtractorExperiment,
 } from "./semester-01/02-computer-application/half-subtractor";
-
-import {
-  FullSubtractorCircuit,
-  FullSubtractorContent,
-  fullSubtractorExperiment,
-} from "./semester-01/02-computer-application/full-subtractor";
 
 import {
   Mux2to1Circuit,
@@ -147,6 +135,19 @@ import {
   OpampCircuitsContent,
   opampCircuitsExperiment,
 } from "./semester-01/01-analog-electronics/13-opamp-circuits";
+
+import {
+  FullAdderCircuit,
+  FullAdderContent,
+  fullAdderExperiment,
+} from "./semester-02/01-digital-electronics/04-01-full-adder";
+
+import {
+  FullSubtractorCircuit,
+  FullSubtractorContent,
+  fullSubtractorExperiment,
+} from "./semester-02/01-digital-electronics/04-02-full-subtractor";
+
 
 import {
   IntroLogicGatesCircuit,
@@ -642,16 +643,6 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
       "Implement and verify combinational logic circuits on a breadboard using 74HC-series ICs. Cover basic gates, adders, subtractors, multiplexers, and demultiplexers.",
     defaultCircuitId: "logic-gates",
     experiments: [
-      fromBuilt(logicGatesExperiment, LogicGatesCircuit, LogicGatesContent, [
-        "logic gates",
-        "and",
-        "or",
-        "not",
-        "nand",
-        "nor",
-        "xor",
-        "74hc",
-      ]),
       fromBuilt(fullAdderExperiment, FullAdderCircuit, FullAdderContent, [
         "adder",
         "carry-in",
@@ -770,6 +761,32 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
           "half adder",
           "half subtractor",
           "xor",
+          "combinational logic",
+        ],
+      ),
+      fromBuilt(
+        fullAdderExperiment,
+        FullAdderCircuit,
+        FullAdderContent,
+        [
+          "full adder",
+          "adder",
+          "carry-in",
+          "sum",
+          "carry-out",
+          "combinational logic",
+        ],
+      ),
+      fromBuilt(
+        fullSubtractorExperiment,
+        FullSubtractorCircuit,
+        FullSubtractorContent,
+        [
+          "full subtractor",
+          "subtractor",
+          "borrow-in",
+          "difference",
+          "borrow-out",
           "combinational logic",
         ],
       ),
