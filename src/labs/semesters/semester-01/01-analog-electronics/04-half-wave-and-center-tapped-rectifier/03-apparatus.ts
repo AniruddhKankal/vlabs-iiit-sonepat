@@ -28,7 +28,7 @@ export const apparatus: ApparatusSection = {
     {
       name: "Digital Multimeter (DMM)",
       specification: "Measurement of $V_{ac}$ and $V_{dc}$",
-      quantity: "2",
+      quantity: "1",
     },
     {
       name: "Cathode Ray Oscilloscope (CRO) / DSO",
@@ -43,7 +43,7 @@ export const apparatus: ApparatusSection = {
     {
       name: "Connecting Wires",
       specification: "22 AWG solid-core jumper wires",
-      quantity: "15",
+      quantity: "As required",
     },
   ],
 };
