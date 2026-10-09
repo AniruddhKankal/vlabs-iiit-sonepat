@@ -161,15 +161,15 @@ import {
 } from "./semester-02/01-digital-electronics/01-intro-logic-gates";
 
 import {
-  Encoder4to2Circuit,
-  Encoder4to2Content,
-  encoder4to2Experiment,
+  Exp11Encoder4to2Circuit,
+  Exp11Encoder4to2Content,
+  exp11Encoder4to2Experiment,
 } from "./semester-02/01-digital-electronics/11-encoder-4to2";
 
 import {
-  Decoder2to4Circuit,
-  Decoder2to4Content,
-  decoder2to4Experiment,
+  Exp12Decoder2to4Circuit,
+  Exp12Decoder2to4Content,
+  exp12Decoder2to4Experiment,
 } from "./semester-02/01-digital-electronics/12-decoder-2to4";
 
 import {
@@ -836,22 +836,18 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         DemuxAddressDecoderContent,
         ["demux", "address decoder", "bus", "peripheral select", "active-low"],
       ),
-      fromBuilt(encoder4to2Experiment, Encoder4to2Circuit, Encoder4to2Content, [
-        "encoder",
-        "priority",
-        "binary code",
-        "or gate",
-        "74hc32",
-      ]),
-      fromBuilt(decoder2to4Experiment, Decoder2to4Circuit, Decoder2to4Content, [
-        "decoder",
-        "binary",
-        "address decode",
-        "not",
-        "and",
-        "74hc04",
-        "74hc08",
-      ]),
+      fromBuilt(
+        exp11Encoder4to2Experiment,
+        Exp11Encoder4to2Circuit,
+        Exp11Encoder4to2Content,
+        ["encoder", "4to2", "or-gate", "combinational"],
+      ),
+      fromBuilt(
+        exp12Decoder2to4Experiment,
+        Exp12Decoder2to4Circuit,
+        Exp12Decoder2to4Content,
+        ["decoder", "2to4", "minterm", "combinational"],
+      ),
       fromBuilt(
         binaryAdder4bitExperiment,
         BinaryAdder4bitCircuit,
