@@ -12,7 +12,8 @@ import { components } from "./components";
 export const fullAdderExperiment: ExperimentDefinition = {
   id: "full-adder",
   title: "Full Adder",
-  description: "Study of a 1-bit full adder built from XOR, AND and OR gates: Sum = A ⊕ B ⊕ Cin, Cout = A·B + Cin·(A ⊕ B).",
+  description:
+    "Study of a 1-bit full adder built from XOR, AND and OR gates: Sum = A ⊕ B ⊕ Cin, Cout = A·B + Cin·(A ⊕ B).",
   components,
   sections: [aim, theory, apparatus, observations, conclusion],
   procedureSteps,

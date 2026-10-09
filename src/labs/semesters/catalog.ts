@@ -148,7 +148,6 @@ import {
   fullSubtractorExperiment,
 } from "./semester-02/01-digital-electronics/04-02-full-subtractor";
 
-
 import {
   IntroLogicGatesCircuit,
   IntroLogicGatesContent,
@@ -764,19 +763,14 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
           "combinational logic",
         ],
       ),
-      fromBuilt(
-        fullAdderExperiment,
-        FullAdderCircuit,
-        FullAdderContent,
-        [
-          "full adder",
-          "adder",
-          "carry-in",
-          "sum",
-          "carry-out",
-          "combinational logic",
-        ],
-      ),
+      fromBuilt(fullAdderExperiment, FullAdderCircuit, FullAdderContent, [
+        "full adder",
+        "adder",
+        "carry-in",
+        "sum",
+        "carry-out",
+        "combinational logic",
+      ]),
       fromBuilt(
         fullSubtractorExperiment,
         FullSubtractorCircuit,

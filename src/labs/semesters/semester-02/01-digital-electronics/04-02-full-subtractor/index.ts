@@ -12,7 +12,8 @@ import { components } from "./components";
 export const fullSubtractorExperiment: ExperimentDefinition = {
   id: "full-subtractor",
   title: "Full Subtractor",
-  description: "Study of a 1-bit full subtractor: Difference = A ⊕ B ⊕ Bin and Borrow = A'·B + Bin·(A ⊕ B)', built from XOR and AND gates.",
+  description:
+    "Study of a 1-bit full subtractor: Difference = A ⊕ B ⊕ Bin and Borrow = A'·B + Bin·(A ⊕ B)', built from XOR and AND gates.",
   components,
   sections: [aim, theory, apparatus, observations, conclusion],
   procedureSteps,
