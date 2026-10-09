@@ -5,9 +5,9 @@ import { type ExperimentDefinition } from "@/labs/experiments/types";
 import { type Circuit } from "@/labs/types";
 
 import {
-  StudyBasicComponentsCircuit,
-  StudyBasicComponentsContent,
-  studyBasicComponentsExperiment,
+  Exp01StudyBasicComponentsCircuit,
+  Exp01StudyBasicComponentsContent,
+  exp01StudyBasicComponentsExperiment,
 } from "./semester-01/01-analog-electronics/01-study-basic-components";
 
 import {
@@ -509,15 +509,16 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
     defaultCircuitId: "study-basic-components",
     experiments: [
       fromBuilt(
-        studyBasicComponentsExperiment,
-        StudyBasicComponentsCircuit,
-        StudyBasicComponentsContent,
+        exp01StudyBasicComponentsExperiment,
+        Exp01StudyBasicComponentsCircuit,
+        Exp01StudyBasicComponentsContent,
         [
-          "components",
-          "instruments",
-          "breadboard",
+          "CRO",
           "multimeter",
-          "oscilloscope",
+          "function generator",
+          "power supply",
+          "breadboard",
+          "components",
         ],
       ),
       fromBuilt(

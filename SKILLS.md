@@ -127,7 +127,7 @@ Values are `0 | 1` only. Keys must match `activeInputs` when both are used.
 | `type`        | Export shape                                                                                    | Notes                                                                                |
 | ------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | `text`        | `{ id, type:'text', title, paragraphs[] }`                                                      | Optional `schematic` for TheoryScene                                                 |
-| `apparatus`   | `{ id, type:'apparatus', title, items[] }`                                                      | `items: { name, specification?, quantity?, callouts? }`                              |
+| `apparatus`   | `{ id, type:'apparatus', title, items[] }`                                                      | `items: { name, specification?, quantity? : string, callouts? }`                     |
 | `procedure`   | built by `buildLabContent()` from `procedureSteps`                                              | Inserted **after apparatus**, before observations — do not hand-author in `sections` |
 | `observation` | `{ paragraphs[], table? }`                                                                      | `table: { headers, rows }`                                                           |
 | `conclusion`  | `{ paragraphs[] }`                                                                              |                                                                                      |
