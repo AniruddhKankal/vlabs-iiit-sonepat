@@ -613,13 +613,7 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         toStudyBjtFixedBiasAndVoltageDividerBiasConfigurationExperiment,
         ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationCircuit,
         ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationContent,
-        [
-          "bjt",
-          "fixed bias",
-          "voltage divider bias",
-          "q-point",
-          "stability",
-        ],
+        ["bjt", "fixed bias", "voltage divider bias", "q-point", "stability"],
       ),
       fromBuilt(
         mosfetCharacteristicsExperiment,

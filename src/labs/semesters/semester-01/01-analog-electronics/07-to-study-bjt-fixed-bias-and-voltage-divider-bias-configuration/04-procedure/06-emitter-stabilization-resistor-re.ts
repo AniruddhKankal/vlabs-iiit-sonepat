@@ -1,7 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: "Mount collector resistor R_C2, emitter resistor R_E, and second NPN transistor.",
+  label:
+    "Mount collector resistor R_C2, emitter resistor R_E, and second NPN transistor.",
   body:
     "Mount collector resistor $R_{C2} = 4.7\\text{ k}\\Omega$ at column 20 (row c) and emitter resistor $R_E = 1\\text{ k}\\Omega$ at column 20 (row h). " +
     "Connect red wire (w_vcc_rc2) from VCC to $R_{C2}$ pin 1, and black wire (w_re_gnd) from $R_E$ pin 2 to gnd_top at column 23. " +

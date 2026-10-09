@@ -1,7 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: "Measure the Fixed Bias operating point (Q-point) with the digital multimeter.",
+  label:
+    "Measure the Fixed Bias operating point (Q-point) with the digital multimeter.",
   body:
     "Connect the digital multimeter (dmm) in series via orange leads (w_amm_in, w_amm_out) to measure collector current $I_C$, " +
     "and measure the collector-to-emitter voltage $V_{CE}$. " +

@@ -21,9 +21,7 @@ export const toStudyBjtFixedBiasAndVoltageDividerBiasConfigurationExperiment: Ex
   };
 
 export const ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationCircuit =
-  buildCircuit(
-    toStudyBjtFixedBiasAndVoltageDividerBiasConfigurationExperiment,
-  );
+  buildCircuit(toStudyBjtFixedBiasAndVoltageDividerBiasConfigurationExperiment);
 export const ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationContent =
   buildLabContent(
     toStudyBjtFixedBiasAndVoltageDividerBiasConfigurationExperiment,

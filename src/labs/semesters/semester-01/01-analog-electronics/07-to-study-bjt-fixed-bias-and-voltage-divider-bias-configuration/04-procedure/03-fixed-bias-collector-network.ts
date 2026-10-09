@@ -1,7 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: "Connect the collector resistor R_C1 and NPN transistor for fixed bias.",
+  label:
+    "Connect the collector resistor R_C1 and NPN transistor for fixed bias.",
   body:
     "Mount collector resistor $R_{C1} = 4.7\\text{ k}\\Omega$ at column 7 (row c). " +
     "Connect a red jumper wire (w_vcc_rc1) from the top VCC rail to terminal p1 of $R_{C1}$. " +
