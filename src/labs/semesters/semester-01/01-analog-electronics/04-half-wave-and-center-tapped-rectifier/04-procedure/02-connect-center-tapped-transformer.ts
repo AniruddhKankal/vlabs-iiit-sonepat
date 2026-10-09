@@ -2,12 +2,12 @@ import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
   label:
-    "Connect the center-tapped transformer secondary and ground the center tap.",
+    "Mount the center-tapped step-down transformer and ground the center tap.",
   body:
-    "Place the step-down center-tapped transformer supply (ac_src) at column 1. " +
-    "Connect the two outer secondary terminals: AC1 to column 4 (row a) and AC2 to column 5 (row b). " +
-    "Connect the transformer center-tap lead (CT) at column 5 to the top ground rail (gnd_top) using a black jumper wire (w_ct_gnd). " +
-    "This establishes the center tap as the stable 0 V common ground reference between the two secondary windings.",
-  show: ["bb", "ac_src", "w_ct_gnd"],
-  highlight: "ac_src",
+    "Mount the compact center-tapped step-down transformer (transformer) on the left side of the breadboard at column 3 (row c). " +
+    "Its secondary terminals emerge at column 5: AC1 at row a, center tap (CT) at row c, and AC2 at row e. " +
+    "Connect the center tap (CT) lead at column 5 (row c) directly to the top ground rail (gnd_top) using a black jumper wire (w_ct_gnd). " +
+    "The center tap establishes our common 0 V reference node for symmetric bi-phase rectification.",
+  show: ["bb", "transformer", "w_ct_gnd"],
+  highlight: "transformer",
 };

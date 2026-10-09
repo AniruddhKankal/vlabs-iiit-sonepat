@@ -7,20 +7,18 @@ export const apparatus: ApparatusSection = {
   items: [
     {
       name: "NPN Bipolar Junction Transistor (BC547)",
-      specification:
-        "General-purpose silicon NPN transistor, TO-92 package, $\\beta \\approx 110\\text{–}800$",
-      quantity: "1",
+      specification: "General-purpose silicon NPN transistor, TO-92 package, $\\beta \\approx 110\\text{–}800$",
+      quantity: "2",
     },
     {
       name: "Regulated DC Power Supply",
-      specification: "0 – 30 V, 2 A dual output adjustable bench supply",
+      specification: "0 – 30 V, 2 A adjustable bench DC supply",
       quantity: "1",
     },
     {
       name: "Digital Multimeter (DMM)",
-      specification:
-        "DC voltage (mV/V) and current ($\\mu\\text{A}$/mA) measurement",
-      quantity: "2",
+      specification: "DC voltage (mV/V) and current ($\\mu\\text{A}$/mA) measurement",
+      quantity: "1",
     },
     {
       name: "Resistor $R_B$ (Fixed Bias Base Resistor)",
@@ -29,26 +27,22 @@ export const apparatus: ApparatusSection = {
     },
     {
       name: "Resistors $R_1, R_2$ (Voltage Divider Network)",
-      specification:
-        "$R_1 = 100\\text{ k}\\Omega$, $R_2 = 10\\text{ k}\\Omega$, 0.25 W (±5%)",
+      specification: "$R_1 = 100\\text{ k}\\Omega$, $R_2 = 10\\text{ k}\\Omega$, 0.25 W (±5%)",
       quantity: "1 each",
     },
     {
       name: "Resistor $R_C$ (Collector Load Resistor)",
-      specification:
-        "4.7 k$\\Omega$ (or 1 k$\\Omega$), 0.25 W carbon film (±5%)",
-      quantity: "1",
+      specification: "4.7 k$\\Omega$, 0.25 W carbon film (±5%)",
+      quantity: "2",
     },
     {
       name: "Resistor $R_E$ (Emitter Stabilizing Resistor)",
-      specification:
-        "1 k$\\Omega$ (or 470 $\\Omega$), 0.25 W carbon film (±5%)",
+      specification: "1 k$\\Omega$, 0.25 W carbon film (±5%)",
       quantity: "1",
     },
     {
       name: "Solderless Breadboard",
-      specification:
-        "Full size, 830 tie-points with standard power distribution rails",
+      specification: "Full size, 830 tie-points with standard power distribution rails",
       quantity: "1",
     },
     {

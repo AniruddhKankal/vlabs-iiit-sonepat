@@ -1,5 +1,27 @@
 import { type ComponentInstance } from "@/labs/types";
 
+/**
+ * To Study BJT Fixed Bias and Voltage Divider Bias Configuration
+ * ---------------------------------------------------------------
+ * Circuit Architecture (exact match to apparatus):
+ * - Regulated DC Power Supply (psu):
+ *     Bench supply behind the board feeding top distribution rails: VCC (+12 V) and GND (0 V)
+ * - Digital Multimeter (dmm):
+ *     Bench DMM measuring Q-point voltages (V_CE, V_B, V_E) and branch currents
+ * - Fixed Bias Configuration:
+ *     - Resistor R_B (470 kΩ, mounted at col 3, row c): Base bias resistor from VCC to Q1 base
+ *     - Resistor R_C1 (4.7 kΩ, mounted at col 7, row c): Collector load resistor from VCC to Q1 collector
+ *     - Transistor Q1 (BC547 NPN BJT, mounted at col 10, row e):
+ *         Collector (col 9), Base (col 10), Emitter (col 11 tied to GND)
+ * - Voltage Divider Bias Configuration:
+ *     - Resistor R1 (100 kΩ, mounted at col 15, row c): Upper divider resistor from VCC to base
+ *     - Resistor R2 (10 kΩ, mounted at col 18, row h): Lower divider resistor from base to GND
+ *     - Transistor Q2 (BC547 NPN BJT, mounted at col 20, row e):
+ *         Collector (col 19), Base (col 20), Emitter (col 21 tied to R_E)
+ *     - Resistor R_C2 (4.7 kΩ, mounted at col 19, row c): Collector load resistor from VCC to Q2 collector
+ *     - Resistor R_E (1 kΩ, mounted at col 21, row h): Emitter stabilizing feedback resistor to GND
+ */
+
 export const components: ComponentInstance[] = [
   {
     id: "bb",
@@ -32,21 +54,23 @@ export const components: ComponentInstance[] = [
     mountedAt: {
       board: "bb",
       col: 1,
-      row: "b",
+      row: "c",
     },
     probes: [
       {
         board: "bb",
-        col: 6,
+        col: 9,
         row: "c",
       },
       {
         board: "bb",
-        col: 6,
-        row: "d",
+        rail: "gnd_top",
+        col: 11,
       },
     ],
   },
+
+  // ── Fixed Bias Configuration ──────────────────────────────────────────────
   {
     id: "r_b",
     type: "resistor",
@@ -68,13 +92,12 @@ export const components: ComponentInstance[] = [
     },
   },
   {
-    id: "led_a",
-    type: "led",
-    color: "red",
+    id: "q1",
+    type: "npn-bjt",
     mountedAt: {
       board: "bb",
-      col: 12,
-      row: "c",
+      col: 10,
+      row: "e",
     },
   },
   {
@@ -92,6 +115,20 @@ export const components: ComponentInstance[] = [
     },
   },
   {
+    id: "w_rb_base",
+    type: "wire",
+    color: "orange",
+    from: {
+      component: "r_b",
+      end: "p2",
+    },
+    to: {
+      board: "bb",
+      col: 10,
+      row: "e",
+    },
+  },
+  {
     id: "w_vcc_rc1",
     type: "wire",
     color: "red",
@@ -106,36 +143,7 @@ export const components: ComponentInstance[] = [
     },
   },
   {
-    id: "w_amm_in",
-    type: "wire",
-    color: "orange",
-    from: {
-      board: "bb",
-      rail: "vcc_top",
-      col: 6,
-    },
-    to: {
-      board: "bb",
-      col: 6,
-      row: "d",
-    },
-  },
-  {
-    id: "w_amm_out",
-    type: "wire",
-    color: "orange",
-    from: {
-      board: "bb",
-      col: 6,
-      row: "c",
-    },
-    to: {
-      component: "r_c1",
-      end: "p1",
-    },
-  },
-  {
-    id: "w_rc1_leda",
+    id: "w_rc1_col",
     type: "wire",
     color: "green",
     from: {
@@ -143,24 +151,28 @@ export const components: ComponentInstance[] = [
       end: "p2",
     },
     to: {
-      led: "led_a",
-      end: "anode",
+      board: "bb",
+      col: 9,
+      row: "e",
     },
   },
   {
-    id: "w_leda_gnd",
+    id: "w_q1_gnd",
     type: "wire",
     color: "black",
     from: {
-      led: "led_a",
-      end: "cathode",
+      board: "bb",
+      col: 11,
+      row: "e",
     },
     to: {
       board: "bb",
       rail: "gnd_top",
-      col: 13,
+      col: 11,
     },
   },
+
+  // ── Voltage Divider Bias Configuration ────────────────────────────────────
   {
     id: "r1",
     type: "resistor",
@@ -177,8 +189,17 @@ export const components: ComponentInstance[] = [
     ohms: 10000,
     mountedAt: {
       board: "bb",
-      col: 15,
+      col: 18,
       row: "h",
+    },
+  },
+  {
+    id: "q2",
+    type: "npn-bjt",
+    mountedAt: {
+      board: "bb",
+      col: 20,
+      row: "e",
     },
   },
   {
@@ -187,7 +208,7 @@ export const components: ComponentInstance[] = [
     ohms: 4700,
     mountedAt: {
       board: "bb",
-      col: 20,
+      col: 19,
       row: "c",
     },
   },
@@ -197,18 +218,8 @@ export const components: ComponentInstance[] = [
     ohms: 1000,
     mountedAt: {
       board: "bb",
-      col: 20,
+      col: 21,
       row: "h",
-    },
-  },
-  {
-    id: "led_b",
-    type: "led",
-    color: "green",
-    mountedAt: {
-      board: "bb",
-      col: 25,
-      row: "c",
     },
   },
   {
@@ -226,6 +237,19 @@ export const components: ComponentInstance[] = [
     },
   },
   {
+    id: "w_r1_r2",
+    type: "wire",
+    color: "orange",
+    from: {
+      component: "r1",
+      end: "p2",
+    },
+    to: {
+      component: "r2",
+      end: "p1",
+    },
+  },
+  {
     id: "w_r2_gnd",
     type: "wire",
     color: "black",
@@ -236,7 +260,21 @@ export const components: ComponentInstance[] = [
     to: {
       board: "bb",
       rail: "gnd_top",
-      col: 18,
+      col: 21,
+    },
+  },
+  {
+    id: "w_div_base",
+    type: "wire",
+    color: "orange",
+    from: {
+      component: "r1",
+      end: "p2",
+    },
+    to: {
+      board: "bb",
+      col: 20,
+      row: "e",
     },
   },
   {
@@ -246,10 +284,38 @@ export const components: ComponentInstance[] = [
     from: {
       board: "bb",
       rail: "vcc_top",
-      col: 20,
+      col: 19,
     },
     to: {
       component: "r_c2",
+      end: "p1",
+    },
+  },
+  {
+    id: "w_rc2_col",
+    type: "wire",
+    color: "green",
+    from: {
+      component: "r_c2",
+      end: "p2",
+    },
+    to: {
+      board: "bb",
+      col: 19,
+      row: "e",
+    },
+  },
+  {
+    id: "w_em_re",
+    type: "wire",
+    color: "yellow",
+    from: {
+      board: "bb",
+      col: 21,
+      row: "e",
+    },
+    to: {
+      component: "r_e",
       end: "p1",
     },
   },
@@ -264,34 +330,7 @@ export const components: ComponentInstance[] = [
     to: {
       board: "bb",
       rail: "gnd_top",
-      col: 23,
-    },
-  },
-  {
-    id: "w_rc2_ledb",
-    type: "wire",
-    color: "green",
-    from: {
-      component: "r_c2",
-      end: "p2",
-    },
-    to: {
-      led: "led_b",
-      end: "anode",
-    },
-  },
-  {
-    id: "w_ledb_gnd",
-    type: "wire",
-    color: "black",
-    from: {
-      led: "led_b",
-      end: "cathode",
-    },
-    to: {
-      board: "bb",
-      rail: "gnd_top",
-      col: 26,
+      col: 24,
     },
   },
 ];

@@ -1,15 +1,12 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label:
-    "Connect the collector resistor R_C1 and NPN transistor for fixed bias.",
+  label: "Mount the BC547 NPN transistor Q1 and collector resistor R_C1.",
   body:
-    "Mount collector resistor $R_{C1} = 4.7\\text{ k}\\Omega$ at column 7 (row c). " +
-    "Connect a red jumper wire (w_vcc_rc1) from the top VCC rail to terminal p1 of $R_{C1}$. " +
-    "Insert the NPN transistor (represented by led_a) at column 12. " +
-    "Connect green wire (w_rc1_leda) from $R_{C1}$ terminal p2 to the transistor collector, " +
-    "and black wire (w_leda_gnd) from the emitter to the ground rail (gnd_top) at column 13. " +
-    "Notice that in fixed bias, the emitter is tied directly to 0 V common ground without degeneration.",
+    "Mount collector resistor $R_{C1} = 4.7\\text{ k}\\Omega$ at column 7 (row c) and wire its terminal p1 to VCC via red wire w_vcc_rc1. " +
+    "Insert the BC547 NPN transistor Q1 at column 10 (row e), where middle lead is Base (col 10), left lead is Collector (col 9), and right lead is Emitter (col 11). " +
+    "Connect orange wire w_rb_base from $R_B$ to Base (col 10), green wire w_rc1_col from $R_{C1}$ to Collector (col 9), " +
+    "and black wire w_q1_gnd from Emitter (col 11) directly to the ground rail (gnd_top).",
   show: [
     "bb",
     "psu",
@@ -17,9 +14,10 @@ export const step: SceneProcedureStep = {
     "w_vcc_rb",
     "r_c1",
     "w_vcc_rc1",
-    "led_a",
-    "w_rc1_leda",
-    "w_leda_gnd",
+    "q1",
+    "w_rb_base",
+    "w_rc1_col",
+    "w_q1_gnd",
   ],
-  highlight: "r_c1",
+  highlight: "q1",
 };

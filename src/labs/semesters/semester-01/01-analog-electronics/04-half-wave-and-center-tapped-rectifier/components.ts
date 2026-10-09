@@ -3,148 +3,146 @@ import { type ComponentInstance } from "@/labs/types";
 /**
  * Half-Wave and Center-Tapped Full-Wave Rectifiers
  * ---------------------------------------------------------------
- * Circuit Architecture:
- * - Center-Tapped Transformer secondary (ac_src):
- *     AC1 (terminal 1) at (bb, col 4, row a) — secondary top
- *     AC2 (terminal 2) at (bb, col 5, row b) — secondary bottom
- *     CT  (center tap) at (bb, col 5, row a) -> wired to gnd_top rail
- * - Diode D1 (signal diode stand-in: yellow LED):
- *     Anode connects to AC1 (col 4, row a), Cathode at col 9
- * - Diode D2 (signal diode stand-in: yellow LED):
- *     Anode connects to AC2 (col 5, row b), Cathode at col 13
- * - Common positive bus at (bb, col 16):
- *     Connected to both D1 cathode and D2 cathode
+ * Circuit Architecture (exact match to apparatus):
+ * - Center-Tapped Transformer secondary (transformer):
+ *     Mounted on breadboard at (col 3, row c) with compact footprint (cols 1–5).
+ *     Secondary pins emerge along column 5:
+ *       AC1 (terminal S1) at (col 5, row a) -> feeds Diode D1 anode
+ *       CT  (center tap)  at (col 5, row c) -> wired to gnd_top rail via w_ct_gnd
+ *       AC2 (terminal S2) at (col 5, row e) -> feeds Diode D2 anode
+ * - Semiconductor Diode D1 (1N4007):
+ *     Mounted at col 8, row c (anode at col 8, cathode at col 11)
+ * - Semiconductor Diode D2 (1N4007):
+ *     Mounted at col 13, row c (anode at col 13, cathode at col 16)
  * - Load resistor R_load (1 kΩ):
- *     p1 at col 17 connects to positive bus (col 16)
- *     p2 at col 20 connects to common ground (gnd_top rail)
- * - Multimeter (dmm):
- *     Probes placed across R_load to measure rectified DC voltage
- * - Shunt filter capacitor C1 (100 µF):
- *     p1 at col 22 connects to R_load p1, p2 at col 23 connects to gnd_top
+ *     Mounted at col 18, row c (spans col 18 -> 21)
+ *     p1 (col 18) receives rectified pulses from D1 and D2 cathodes
+ *     p2 (col 21) returns to common ground rail (gnd_top) via w_r_gnd
+ * - Electrolytic Filter Capacitor C1 (100 µF):
+ *     Mounted at col 23, row c in parallel across R_load
+ * - Digital Multimeter (dmm):
+ *     Measures DC and AC RMS rectified voltages across R_load
+ * - Cathode Ray Oscilloscope (cro):
+ *     Displays rectified output voltage waveforms across R_load
  */
 
 export const components: ComponentInstance[] = [
   { id: "bb", type: "breadboard" },
 
-  // Center-tapped AC source stand-in.
-  // Terminals are connected directly to breadboard holes via terminals array.
+  // Center-tapped step-down transformer mounted compactly on the breadboard (cols 1–5)
   {
-    id: "ac_src",
-    type: "dc-jack",
-    mountedAt: { board: "bb", col: 1, row: "a" },
-    terminals: [
-      { board: "bb", col: 4, row: "a" }, // AC1
-      { board: "bb", col: 5, row: "b" }, // AC2
-    ],
+    id: "transformer",
+    type: "transformer",
+    mountedAt: { board: "bb", col: 3, row: "c" },
   },
 
-  // Diode D1 — Rectifier diode 1 (1N4007 stand-in as yellow LED, row c)
+  // Diode D1 — 1N4007 semiconductor rectifier diode (spans col 8 -> 11)
   {
     id: "d1",
-    type: "led",
-    color: "yellow",
+    type: "diode",
     mountedAt: { board: "bb", col: 8, row: "c" },
   },
 
-  // Diode D2 — Rectifier diode 2 (1N4007 stand-in as yellow LED, row c)
+  // Diode D2 — 1N4007 semiconductor rectifier diode (spans col 13 -> 16)
   {
     id: "d2",
-    type: "led",
-    color: "yellow",
-    mountedAt: { board: "bb", col: 12, row: "c" },
+    type: "diode",
+    mountedAt: { board: "bb", col: 13, row: "c" },
   },
 
-  // Load resistor across the rectified output (spans col 17 -> 20)
+  // Load resistor R_load (1 kΩ, spans col 18 -> 21)
   {
     id: "r_load",
     type: "resistor",
     ohms: 1000,
-    mountedAt: { board: "bb", col: 17, row: "c" },
+    mountedAt: { board: "bb", col: 18, row: "c" },
   },
 
-  // Smoothing filter capacitor C1 in parallel with R_load (spans col 22 -> 23)
+  // Electrolytic filter capacitor C1 (100 µF, spans col 23 -> 24)
   {
     id: "c1",
     type: "capacitor",
     capacitance: 100,
-    mountedAt: { board: "bb", col: 22, row: "c" },
+    mountedAt: { board: "bb", col: 23, row: "c" },
   },
 
-  // Bench multimeter across the load resistor measuring DC output voltage
+  // Digital Multimeter (DMM) measuring rectified DC voltage across R_load
   {
     id: "dmm",
     type: "potentiometer",
-    mountedAt: { board: "bb", col: 1, row: "b" },
+    mountedAt: { board: "bb", col: 1, row: "c" },
     probes: [
-      { board: "bb", col: 17, row: "c" }, // R_load positive side
-      { board: "bb", rail: "gnd_top", col: 20 }, // Ground side
+      { board: "bb", col: 18, row: "c" }, // R_load positive side
+      { board: "bb", rail: "gnd_top", col: 21 }, // Ground side
     ],
   },
 
-  // Center-tap to ground rail
+  // Cathode Ray Oscilloscope (CRO) displaying output waveforms
+  {
+    id: "cro",
+    type: "oscilloscope",
+    mountedAt: { board: "bb", col: 1, row: "f" },
+    probes: [
+      { board: "bb", col: 18, row: "b" }, // CH1 probe
+      { board: "bb", rail: "gnd_top", col: 21 }, // GND reference
+    ],
+  },
+
+  // Center-tap to ground rail (straight vertical jumper from col 5, row c to top ground rail)
   {
     id: "w_ct_gnd",
     type: "wire",
     color: "black",
-    from: { board: "bb", col: 5, row: "a" },
+    from: { board: "bb", col: 5, row: "c" },
     to: { board: "bb", rail: "gnd_top", col: 5 },
   },
 
-  // AC1 to D1 anode
+  // Secondary AC1 (top winding, col 5 row a) to Diode D1 anode (col 8 row c)
   {
     id: "w_ac1_d1",
     type: "wire",
     color: "red",
-    from: { board: "bb", col: 4, row: "a" },
-    to: { led: "d1", end: "anode" },
+    from: { board: "bb", col: 5, row: "a" },
+    to: { component: "d1", end: "p1" },
   },
 
-  // AC2 to D2 anode
+  // Secondary AC2 (bottom winding, col 5 row e) to Diode D2 anode (col 13 row c)
   {
     id: "w_ac2_d2",
     type: "wire",
     color: "blue",
-    from: { board: "bb", col: 5, row: "b" },
-    to: { led: "d2", end: "anode" },
+    from: { board: "bb", col: 5, row: "e" },
+    to: { component: "d2", end: "p1" },
   },
 
-  // D1 cathode to common positive node (col 16, row a)
+  // D1 cathode (p2) to R_load input (p1)
   {
     id: "w_d1_pos",
     type: "wire",
     color: "yellow",
-    from: { led: "d1", end: "cathode" },
-    to: { board: "bb", col: 16, row: "a" },
+    from: { component: "d1", end: "p2" },
+    to: { component: "r_load", end: "p1" },
   },
 
-  // D2 cathode to common positive node (col 16, row b)
+  // D2 cathode (p2) to R_load input (p1)
   {
     id: "w_d2_pos",
     type: "wire",
     color: "yellow",
-    from: { led: "d2", end: "cathode" },
-    to: { board: "bb", col: 16, row: "b" },
-  },
-
-  // Common positive node to load resistor input (col 17, p1)
-  {
-    id: "w_pos_r",
-    type: "wire",
-    color: "orange",
-    from: { board: "bb", col: 16, row: "c" },
+    from: { component: "d2", end: "p2" },
     to: { component: "r_load", end: "p1" },
   },
 
-  // Load resistor return (col 20, p2) to ground rail
+  // R_load return (p2) to ground rail
   {
     id: "w_r_gnd",
     type: "wire",
     color: "black",
     from: { component: "r_load", end: "p2" },
-    to: { board: "bb", rail: "gnd_top", col: 20 },
+    to: { board: "bb", rail: "gnd_top", col: 21 },
   },
 
-  // Capacitor positive lead to R_load p1
+  // Filter capacitor C1 positive lead to R_load input (p1)
   {
     id: "w_c1_pos",
     type: "wire",
@@ -153,12 +151,12 @@ export const components: ComponentInstance[] = [
     to: { component: "r_load", end: "p1" },
   },
 
-  // Capacitor negative lead to ground rail
+  // Filter capacitor C1 negative lead to ground rail
   {
     id: "w_c1_gnd",
     type: "wire",
     color: "black",
     from: { component: "c1", end: "p2" },
-    to: { board: "bb", rail: "gnd_top", col: 23 },
+    to: { board: "bb", rail: "gnd_top", col: 24 },
   },
 ];
