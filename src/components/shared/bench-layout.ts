@@ -8,7 +8,7 @@ import { BOARD_W, BOARD_D, PITCH } from "@/labs/coords";
 // whole row is scaled up and pushed back far enough to clear the board.
 
 /** How many instrument slots fit across the back of the bench. */
-export const BENCH_SLOTS = 6;
+export const BENCH_SLOTS = 8;
 
 /** Uniform scale applied to each instrument model. */
 export const BENCH_SCALE = 0.34;
