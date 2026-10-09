@@ -34,11 +34,11 @@ import {
   fullWaveRectifierExperiment,
 } from "./semester-01/01-analog-electronics/06-full-wave-rectifier";
 
-import {
-  RectifiersCapacitorFiltersCircuit,
-  RectifiersCapacitorFiltersContent,
-  rectifiersCapacitorFiltersExperiment,
-} from "./semester-01/01-analog-electronics/rectifiers-capacitor-filters";
+// import {
+//   RectifiersCapacitorFiltersCircuit,
+//   RectifiersCapacitorFiltersContent,
+//   rectifiersCapacitorFiltersExperiment,
+// } from "./semester-01/01-analog-electronics/rectifiers-capacitor-filters";
 
 import {
   HalfWaveAndCenterTappedRectifierCircuit,
@@ -557,12 +557,12 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         FullWaveRectifierContent,
         ["rectifier", "bridge", "full-wave", "ripple"],
       ),
-      fromBuilt(
-        rectifiersCapacitorFiltersExperiment,
-        RectifiersCapacitorFiltersCircuit,
-        RectifiersCapacitorFiltersContent,
-        ["rectifier", "filter", "capacitor", "ripple reduction"],
-      ),
+      // fromBuilt(
+      //   rectifiersCapacitorFiltersExperiment,
+      //   RectifiersCapacitorFiltersCircuit,
+      //   RectifiersCapacitorFiltersContent,
+      //   ["rectifier", "filter", "capacitor", "ripple reduction"],
+      // ),
       fromBuilt(
         halfWaveAndCenterTappedRectifierExperiment,
         HalfWaveAndCenterTappedRectifierCircuit,
