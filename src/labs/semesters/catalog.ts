@@ -143,6 +143,12 @@ import {
 } from "./semester-01/01-analog-electronics/11-mosfet-characteristics";
 
 import {
+  MosfetCommonSourceCircuit,
+  MosfetCommonSourceContent,
+  mosfetCommonSourceExperiment,
+} from "./semester-01/01-analog-electronics/12-mosfet-common-source";
+
+import {
   OpampCircuitsCircuit,
   OpampCircuitsContent,
   opampCircuitsExperiment,
@@ -582,6 +588,19 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
           "transfer characteristics",
           "2N7000",
           "threshold voltage",
+        ],
+      ),
+      fromBuilt(
+        mosfetCommonSourceExperiment,
+        MosfetCommonSourceCircuit,
+        MosfetCommonSourceContent,
+        [
+          "mosfet",
+          "common source",
+          "amplifier",
+          "voltage gain",
+          "phase shift",
+          "2N7000",
         ],
       ),
       fromBuilt(
