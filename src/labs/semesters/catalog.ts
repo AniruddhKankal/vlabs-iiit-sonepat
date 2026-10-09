@@ -746,7 +746,7 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
     subjectLabel: "Digital Electronics",
     subjectDescription:
       "Implement encoders, decoders, and MUX/DEMUX-based logic on a breadboard. Explore Boolean minimisation and address decoding used in memory systems.",
-    defaultCircuitId: "encoder-4to2",
+    defaultCircuitId: "11-encoder-4to2",
     experiments: [
       fromBuilt(
         introLogicGatesExperiment,
