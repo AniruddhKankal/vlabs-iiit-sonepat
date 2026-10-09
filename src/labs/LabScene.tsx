@@ -18,6 +18,7 @@ import {
   buildBreadboard,
   buildLongBreadboard,
   buildDip14,
+  buildDip16,
   buildLed,
   buildResistor,
   buildCapacitor,
@@ -91,7 +92,13 @@ function resolvePin(
     const inst = all.find((c) => c.id === ip.ic);
     if (!inst || !("mountedAt" in inst) || !inst.mountedAt) return null;
     const cols = colsForBoardId(inst.mountedAt.board, all);
-    return resolveIcPin(ip.pin, inst.mountedAt.col, inst.mountedAt.row, cols);
+    return resolveIcPin(
+      ip.pin,
+      inst.mountedAt.col,
+      inst.mountedAt.row,
+      cols,
+      inst.type,
+    );
   }
 
   if ("component" in pin) {
@@ -279,6 +286,12 @@ function buildInstance(
         "buffer-gate": "BUF",
       };
       return buildDip14(col, labels[inst.type], cols);
+    }
+
+    case "mux-4to1": {
+      const { col, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildDip16(col, "74HC153", cols);
     }
 
     case "n-mosfet":
