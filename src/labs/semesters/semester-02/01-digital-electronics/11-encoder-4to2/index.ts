@@ -12,7 +12,8 @@ import { procedureSteps } from "./04-procedure";
 export const exp11Encoder4to2Experiment: ExperimentDefinition = {
   id: "11-encoder-4to2",
   title: "4-to-2 Line Encoder",
-  description: "Designs a 4-to-2 line encoder using two OR gates: Y1 = D2 + D3 and Y0 = D1 + D3. Verifies the truth table on a breadboard with LED outputs.",
+  description:
+    "Designs a 4-to-2 line encoder using two OR gates: Y1 = D2 + D3 and Y0 = D1 + D3. Verifies the truth table on a breadboard with LED outputs.",
   components,
   sections: [aim, theory, apparatus, observations, conclusion],
   procedureSteps,
@@ -29,4 +30,6 @@ export const exp11Encoder4to2Experiment: ExperimentDefinition = {
 };
 
 export const Exp11Encoder4to2Circuit = buildCircuit(exp11Encoder4to2Experiment);
-export const Exp11Encoder4to2Content = buildLabContent(exp11Encoder4to2Experiment);
+export const Exp11Encoder4to2Content = buildLabContent(
+  exp11Encoder4to2Experiment,
+);
