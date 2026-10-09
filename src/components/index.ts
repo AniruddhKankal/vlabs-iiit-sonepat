@@ -23,7 +23,13 @@ export { buildWire, buildWireStandalone } from "./wire";
 export { buildResistor, buildResistorStandalone } from "./resistor";
 export { buildCapacitor, buildCapacitorStandalone } from "./capacitor";
 export { buildLed, buildLedStandalone } from "./led";
-export { buildDip14, buildDip14Standalone, resolveIcPin } from "./ic";
+export {
+  buildDip14,
+  buildDip14Standalone,
+  buildDip16,
+  buildDip16Standalone,
+  resolveIcPin,
+} from "./ic";
 export {
   buildDcPowerSupply,
   buildDcPowerSupplyStandalone,
