@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { hole, railHole, COLS, colsForBoardId, PITCH } from "./coords";
+import { hole, railHole, COLS, colsForBoardId, PITCH, TOP_Y } from "./coords";
 import {
   buildBreadboard,
   buildLongBreadboard,
@@ -16,7 +16,9 @@ import {
   buildDcPowerSupply,
   buildIcMeter,
   buildAmmeter,
+  buildAmmeterSide,
   buildVoltmeter,
+  buildVoltmeterSide,
   buildOscilloscope,
   buildFunctionGenerator,
   buildBjt,
@@ -100,6 +102,50 @@ function resolvePin(
 
 // ── Component builder ─────────────────────────────────────────────────────
 // isOn map is passed for LEDs so they light up when the simulation says HIGH.
+//
+// Must match LEAD_LENGTH in src/components/bjt — used to seat the TO-92 body
+// so its three leads land on the board surface.
+const BJT_LEAD_LENGTH = PITCH * 0.75;
+
+// Bench instruments stand behind the board in a row of slots (see
+// bench-layout). This assigns each instrument a stable slot index, ordered
+// left-to-right by the smallest board column it connects to, so the row on
+// the bench mirrors the layout on the board.
+const BENCH_TYPES = new Set([
+  "dc-jack",
+  "battery",
+  "potentiometer",
+  "ammeter",
+  "voltmeter",
+  "oscilloscope",
+  "function-generator",
+]);
+
+function benchPins(
+  inst: ComponentInstance,
+): { board?: string; col?: number }[] {
+  const anyInst = inst as any;
+  if (Array.isArray(anyInst.terminals)) return anyInst.terminals;
+  if (Array.isArray(anyInst.probes)) return anyInst.probes;
+  if (anyInst.mountedAt) return [anyInst.mountedAt];
+  return [];
+}
+
+function benchSlotMap(all: ComponentInstance[]): Map<string, number> {
+  const bench = all.filter((c) => BENCH_TYPES.has(c.type));
+  const withCol = bench.map((inst) => {
+    const cols = benchPins(inst)
+      .map((p) => (typeof p?.col === "number" ? p.col : Infinity))
+      .filter((c) => Number.isFinite(c));
+    return { id: inst.id, col: cols.length ? Math.min(...cols) : Infinity };
+  });
+  withCol.sort((a, b) => a.col - b.col || a.id.localeCompare(b.id));
+
+  const map = new Map<string, number>();
+  withCol.forEach((entry, i) => map.set(entry.id, i));
+  return map;
+}
+
 function buildInstance(
   inst: ComponentInstance,
   all: ComponentInstance[],
@@ -133,13 +179,6 @@ function buildInstance(
         "buffer-gate": "BUF",
       };
       return buildDip14(col, labels[inst.type], cols);
-    }
-
-    case "npn-bjt":
-    case "pnp-bjt": {
-      const { col, row, board } = inst.mountedAt;
-      const cols = colsForBoardId(board, all);
-      return buildBjt(hole(col, row, cols));
     }
 
     case "n-mosfet":
@@ -227,6 +266,21 @@ function buildInstance(
       );
     }
 
+    case "npn-bjt":
+    case "pnp-bjt": {
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      // buildBjt() seats the TO-92 body at mountPos with its three leads
+      // (C, B, E from left to right) hanging LEAD_LENGTH below. Raise it so
+      // the lead tips meet the board surface (TOP_Y), and fan the leads out
+      // to one full column pitch so each lands in its own breadboard hole.
+      // The base (middle lead) sits on mountedAt.col, so collector = col-1
+      // and emitter = col+1.
+      const mount = hole(col, row, cols);
+      mount.y = TOP_Y + BJT_LEAD_LENGTH;
+      return buildBjt(mount, { leadSpacing: PITCH });
+    }
+
     case "wire": {
       const from = resolvePin(inst.from, all);
       const to = resolvePin(inst.to, all);
@@ -234,7 +288,7 @@ function buildInstance(
       return buildWire(from, to, inst.color);
     }
 
-    // ── Instruments (placed beside the breadboard) ────────────────────
+    // ── Instruments (placed on the bench behind the breadboard) ───────
     case "dc-jack":
     case "battery": {
       const t = (inst as any).terminals as [any, any] | undefined;
@@ -244,7 +298,8 @@ function buildInstance(
             gnd: resolvePin(t[1], all) ?? new THREE.Vector3(),
           }
         : undefined;
-      return buildDcPowerSupply("left", "--", targets);
+      const slot = benchSlotMap(all).get(inst.id) ?? 0;
+      return buildDcPowerSupply(slot, "--", targets);
     }
     case "potentiometer": {
       const p = (inst as any).probes as [any, any] | undefined;
@@ -254,23 +309,32 @@ function buildInstance(
             probe2: resolvePin(p[1], all) ?? new THREE.Vector3(),
           }
         : undefined;
-      return buildIcMeter("right", "--", targets);
+      const slot = benchSlotMap(all).get(inst.id) ?? 0;
+      return buildIcMeter(slot, "--", targets);
     }
 
     case "ammeter": {
       const p = (inst as any).probes as [any, any] | undefined;
-      const pos = p
-        ? (resolvePin(p[0], all) ?? new THREE.Vector3())
-        : new THREE.Vector3();
-      return buildAmmeter(pos);
+      const targets = p
+        ? {
+            probe1: resolvePin(p[0], all) ?? new THREE.Vector3(),
+            probe2: resolvePin(p[1], all) ?? new THREE.Vector3(),
+          }
+        : undefined;
+      const slot = benchSlotMap(all).get(inst.id) ?? 0;
+      return buildAmmeterSide(slot, targets);
     }
 
     case "voltmeter": {
       const p = (inst as any).probes as [any, any] | undefined;
-      const pos = p
-        ? (resolvePin(p[0], all) ?? new THREE.Vector3())
-        : new THREE.Vector3();
-      return buildVoltmeter(pos);
+      const targets = p
+        ? {
+            probe1: resolvePin(p[0], all) ?? new THREE.Vector3(),
+            probe2: resolvePin(p[1], all) ?? new THREE.Vector3(),
+          }
+        : undefined;
+      const slot = benchSlotMap(all).get(inst.id) ?? 0;
+      return buildVoltmeterSide(slot, targets);
     }
 
     case "oscilloscope": {
@@ -638,6 +702,7 @@ export function LabSceneCanvas({
     }
 
     // ── Rebuild instruments with dynamic display values ───────────────
+    const slotMap = benchSlotMap(circuit.components);
     for (const inst of circuit.components) {
       if (
         inst.type !== "dc-jack" &&
@@ -670,19 +735,29 @@ export function LabSceneCanvas({
                 resolvePin(p[1], circuit.components) ?? new THREE.Vector3(),
             }
           : undefined;
-        fresh = buildIcMeter("right", displayVal, targets);
+        fresh = buildIcMeter(slotMap.get(inst.id) ?? 0, displayVal, targets);
       } else if (inst.type === "ammeter") {
         const p = (inst as any).probes as [any, any] | undefined;
-        const pos = p
-          ? (resolvePin(p[0], circuit.components) ?? new THREE.Vector3())
-          : new THREE.Vector3();
-        fresh = buildAmmeter(pos);
+        const targets = p
+          ? {
+              probe1:
+                resolvePin(p[0], circuit.components) ?? new THREE.Vector3(),
+              probe2:
+                resolvePin(p[1], circuit.components) ?? new THREE.Vector3(),
+            }
+          : undefined;
+        fresh = buildAmmeterSide(slotMap.get(inst.id) ?? 0, targets);
       } else if (inst.type === "voltmeter") {
         const p = (inst as any).probes as [any, any] | undefined;
-        const pos = p
-          ? (resolvePin(p[0], circuit.components) ?? new THREE.Vector3())
-          : new THREE.Vector3();
-        fresh = buildVoltmeter(pos);
+        const targets = p
+          ? {
+              probe1:
+                resolvePin(p[0], circuit.components) ?? new THREE.Vector3(),
+              probe2:
+                resolvePin(p[1], circuit.components) ?? new THREE.Vector3(),
+            }
+          : undefined;
+        fresh = buildVoltmeterSide(slotMap.get(inst.id) ?? 0, targets);
       } else if (inst.type === "oscilloscope") {
         fresh = buildOscilloscope(new THREE.Vector3());
       } else if (inst.type === "function-generator") {
@@ -696,7 +771,11 @@ export function LabSceneCanvas({
               gnd: resolvePin(t[1], circuit.components) ?? new THREE.Vector3(),
             }
           : undefined;
-        fresh = buildDcPowerSupply("left", displayVal, targets);
+        fresh = buildDcPowerSupply(
+          slotMap.get(inst.id) ?? 0,
+          displayVal,
+          targets,
+        );
       }
       fresh.visible = true;
       pivot.add(fresh);
