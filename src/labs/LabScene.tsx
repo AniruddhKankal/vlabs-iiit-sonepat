@@ -30,10 +30,14 @@ import {
   buildDipSwitch,
   buildLogicAnalyzer,
   buildTransformer,
+  buildTransformerStandalone,
+  buildOscilloscopeStandalone,
+  instrumentWire,
   buildSwitchStandalone,
   buildPushButtonStandalone,
   buildMcuTrainerStandalone,
 } from "@/components";
+import { benchPlacement } from "@/components/shared/bench-layout";
 import { resolveIcPin } from "@/components/ic";
 import { simulate } from "./simulate";
 import {
@@ -338,8 +342,36 @@ function buildInstance(
     }
 
     case "oscilloscope": {
-      const pos = new THREE.Vector3();
-      return buildOscilloscope(pos);
+      const p = (inst as any).probes as any[] | undefined;
+      const targets = Array.isArray(p)
+        ? (p
+            .map((pin) => resolvePin(pin, all))
+            .filter(Boolean) as THREE.Vector3[])
+        : [];
+      const slot = benchSlotMap(all).get(inst.id) ?? 0;
+      const { position: slotPos, scale } = benchPlacement(slot);
+      const wrapper = new THREE.Group();
+      const model = buildOscilloscopeStandalone();
+      wrapper.add(model);
+      wrapper.scale.setScalar(scale * 1.3);
+      wrapper.position.copy(slotPos);
+      const root = new THREE.Group();
+      root.add(wrapper);
+      if (targets.length >= 2) {
+        const origin1 = new THREE.Vector3(
+          slotPos.x - PITCH * 0.25,
+          TOP_Y + PITCH * 0.5,
+          slotPos.z,
+        );
+        const origin2 = new THREE.Vector3(
+          slotPos.x + PITCH * 0.25,
+          TOP_Y + PITCH * 0.5,
+          slotPos.z,
+        );
+        root.add(instrumentWire(origin1, targets[0], 0x22c55e));
+        root.add(instrumentWire(origin2, targets[1], 0x202020));
+      }
+      return root;
     }
 
     case "function-generator": {
@@ -352,7 +384,12 @@ function buildInstance(
     }
 
     case "transformer": {
-      return buildTransformer(new THREE.Vector3());
+      const { col, row, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      const pos = hole(col, row, cols);
+      pos.y = TOP_Y;
+      // Resized to a compact footprint on the breadboard so it never covers other components
+      return buildTransformer(pos, "12-0-12V", "2 VA", 0.35);
     }
 
     case "mcu-trainer": {
