@@ -14,7 +14,11 @@ export const apparatus: LabSection = {
     { name: "Resistor", specification: "330 Ω", quantity: 3 },
     { name: "LED", specification: "Red, yellow, green", quantity: 3 },
     { name: "DC power supply", specification: "5 V", quantity: 1 },
-    { name: "Function generator", specification: "1 Hz square wave, 0–5 V", quantity: 1 },
+    {
+      name: "Function generator",
+      specification: "1 Hz square wave, 0–5 V",
+      quantity: 1,
+    },
     { name: "Connecting wires", quantity: 1 },
   ],
 };
