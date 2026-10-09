@@ -161,9 +161,9 @@ import {
 } from "./semester-02/01-digital-electronics/11-encoder-4to2";
 
 import {
-  Decoder2to4Circuit,
-  Decoder2to4Content,
-  decoder2to4Experiment,
+  Exp12Decoder2to4Circuit,
+  Exp12Decoder2to4Content,
+  exp12Decoder2to4Experiment,
 } from "./semester-02/01-digital-electronics/12-decoder-2to4";
 
 import {
@@ -812,15 +812,12 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         Exp11Encoder4to2Content,
         ["encoder", "4to2", "or-gate", "combinational"],
       ),
-      fromBuilt(decoder2to4Experiment, Decoder2to4Circuit, Decoder2to4Content, [
-        "decoder",
-        "binary",
-        "address decode",
-        "not",
-        "and",
-        "74hc04",
-        "74hc08",
-      ]),
+      fromBuilt(
+        exp12Decoder2to4Experiment,
+        Exp12Decoder2to4Circuit,
+        Exp12Decoder2to4Content,
+        ["decoder", "2to4", "minterm", "combinational"],
+      ),
       fromBuilt(
         binaryAdder4bitExperiment,
         BinaryAdder4bitCircuit,
