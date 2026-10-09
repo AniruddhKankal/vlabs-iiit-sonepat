@@ -1,7 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: "Wire the half-wave rectifier using 1N4007 diode D1 and load resistor R_L.",
+  label:
+    "Wire the half-wave rectifier using 1N4007 diode D1 and load resistor R_L.",
   body:
     "Insert semiconductor diode D1 (1N4007) across columns 8 to 11 on row c, with its anode at column 8 and cathode at column 11. " +
     "Connect a red jumper wire (w_ac1_d1) from transformer secondary AC1 (col 5, row a) to the anode of D1. " +

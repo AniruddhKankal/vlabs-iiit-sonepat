@@ -7,7 +7,8 @@ export const apparatus: ApparatusSection = {
   items: [
     {
       name: "NPN Bipolar Junction Transistor (BC547)",
-      specification: "General-purpose silicon NPN transistor, TO-92 package, $\\beta \\approx 110\\text{–}800$",
+      specification:
+        "General-purpose silicon NPN transistor, TO-92 package, $\\beta \\approx 110\\text{–}800$",
       quantity: "2",
     },
     {
@@ -17,7 +18,8 @@ export const apparatus: ApparatusSection = {
     },
     {
       name: "Digital Multimeter (DMM)",
-      specification: "DC voltage (mV/V) and current ($\\mu\\text{A}$/mA) measurement",
+      specification:
+        "DC voltage (mV/V) and current ($\\mu\\text{A}$/mA) measurement",
       quantity: "1",
     },
     {
@@ -27,7 +29,8 @@ export const apparatus: ApparatusSection = {
     },
     {
       name: "Resistors $R_1, R_2$ (Voltage Divider Network)",
-      specification: "$R_1 = 100\\text{ k}\\Omega$, $R_2 = 10\\text{ k}\\Omega$, 0.25 W (±5%)",
+      specification:
+        "$R_1 = 100\\text{ k}\\Omega$, $R_2 = 10\\text{ k}\\Omega$, 0.25 W (±5%)",
       quantity: "1 each",
     },
     {
@@ -42,7 +45,8 @@ export const apparatus: ApparatusSection = {
     },
     {
       name: "Solderless Breadboard",
-      specification: "Full size, 830 tie-points with standard power distribution rails",
+      specification:
+        "Full size, 830 tie-points with standard power distribution rails",
       quantity: "1",
     },
     {
