@@ -29,11 +29,10 @@ import { type ComponentInstance } from "@/labs/types";
 export const components: ComponentInstance[] = [
   { id: "bb", type: "breadboard" },
 
-  // Center-tapped step-down transformer mounted compactly on the breadboard (cols 1–5)
+  // Center-tapped step-down transformer placed separately on the bench beside the breadboard
   {
     id: "transformer",
     type: "transformer",
-    mountedAt: { board: "bb", col: 3, row: "c" },
   },
 
   // Diode D1 — 1N4007 semiconductor rectifier diode (spans col 8 -> 11)
@@ -88,30 +87,30 @@ export const components: ComponentInstance[] = [
     ],
   },
 
-  // Center-tap to ground rail (straight vertical jumper from col 5, row c to top ground rail)
+  // Center-tap to ground rail (black lead from transformer CT terminal to top ground rail)
   {
     id: "w_ct_gnd",
     type: "wire",
     color: "black",
-    from: { board: "bb", col: 5, row: "c" },
+    from: { component: "transformer", end: "ct" },
     to: { board: "bb", rail: "gnd_top", col: 5 },
   },
 
-  // Secondary AC1 (top winding, col 5 row a) to Diode D1 anode (col 8 row c)
+  // Secondary AC1 (red lead from transformer S1 terminal to Diode D1 anode)
   {
     id: "w_ac1_d1",
     type: "wire",
     color: "red",
-    from: { board: "bb", col: 5, row: "a" },
+    from: { component: "transformer", end: "s1" },
     to: { component: "d1", end: "p1" },
   },
 
-  // Secondary AC2 (bottom winding, col 5 row e) to Diode D2 anode (col 13 row c)
+  // Secondary AC2 (blue lead from transformer S2 terminal to Diode D2 anode)
   {
     id: "w_ac2_d2",
     type: "wire",
     color: "blue",
-    from: { board: "bb", col: 5, row: "e" },
+    from: { component: "transformer", end: "s2" },
     to: { component: "d2", end: "p1" },
   },
 
