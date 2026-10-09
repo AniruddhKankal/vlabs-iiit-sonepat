@@ -172,7 +172,7 @@ function benchSlotMap(all: ComponentInstance[]): Map<string, number> {
 // The scope body sits on the table behind the board. Only its two probe
 // cables (CH1 and GND) run to the breadboard holes listed in `probes`.
 const SCOPE_BENCH_Y = -TOP_Y + 0.045; // table surface + height of the feet
-const SCOPE_BENCH_Z = -(BOARD_D / 2) - 0.9; // behind the board, facing the viewer
+const SCOPE_BENCH_Z = -(BOARD_D / 2) - 1.5; // behind the board, facing the viewer
 
 function buildBenchOscilloscope(
   inst: ComponentInstance,
