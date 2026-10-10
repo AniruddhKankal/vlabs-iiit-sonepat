@@ -1,0 +1,7 @@
+import { type SceneProcedureStep } from "@/labs/experiments/types";
+
+export const step: SceneProcedureStep = {
+  label: "Wire the full adder for bit 3.",
+  body: "Bit 3: connect $A_3$ (column 8) and $B_3$ (column 9) to gate 4 of the first XOR and AND ICs. The carry-in is $C_3$ from OR gate 3 (yellow). Complete the $P_3$, $G_3$, $T_3$ wires into OR gate 4, whose output $C_4$ is the final carry-out $C_{out}$.",
+  show: ["bb", "psu", "xor_p", "xor_s", "and_g", "and_p", "or_c", "r_cout", "r_s3", "r_s2", "r_s1", "r_s0", "led_cout", "led_s3", "led_s2", "led_s1", "led_s0", "w_a_xp0", "w_a_ag0", "w_b_xp0", "w_b_ag0", "w_p_xs0", "w_p_ap0", "w_c_xs0", "w_c_ap0", "w_g_oc0", "w_t_oc0", "w_a_xp1", "w_a_ag1", "w_b_xp1", "w_b_ag1", "w_p_xs1", "w_p_ap1", "w_c_xs1", "w_c_ap1", "w_g_oc1", "w_t_oc1", "w_a_xp2", "w_a_ag2", "w_b_xp2", "w_b_ag2", "w_p_xs2", "w_p_ap2", "w_c_xs2", "w_c_ap2", "w_g_oc2", "w_t_oc2", "w_a_xp3", "w_a_ag3", "w_b_xp3", "w_b_ag3", "w_p_xs3", "w_p_ap3", "w_c_xs3", "w_c_ap3", "w_g_oc3", "w_t_oc3"],
+};

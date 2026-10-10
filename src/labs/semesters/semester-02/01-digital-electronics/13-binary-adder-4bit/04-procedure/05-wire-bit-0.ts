@@ -1,0 +1,8 @@
+import { type SceneProcedureStep } from "@/labs/experiments/types";
+
+export const step: SceneProcedureStep = {
+  label: "Wire the full adder for bit 0.",
+  body: "Bit 0 is the first full adder. Connect $A_0$ (column 2) and $B_0$ (column 3) to the first gate of the XOR and AND ICs, then route the carry-in $C_{in}$ (column 1, orange wire) to the second XOR and second AND gate. Wire $P_0 = A_0 \\oplus B_0$ to both second-level gates, and $G_0 = A_0 \\cdot B_0$ and $T_0 = P_0 \\cdot C_{in}$ into the OR gate that produces $C_1$.",
+  show: ["bb", "psu", "xor_p", "xor_s", "and_g", "and_p", "or_c", "r_cout", "r_s3", "r_s2", "r_s1", "r_s0", "led_cout", "led_s3", "led_s2", "led_s1", "led_s0", "w_a_xp0", "w_a_ag0", "w_b_xp0", "w_b_ag0", "w_p_xs0", "w_p_ap0", "w_c_xs0", "w_c_ap0", "w_g_oc0", "w_t_oc0"],
+  highlight: "xor_p",
+};
