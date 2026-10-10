@@ -604,6 +604,18 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         ["bjt", "fixed bias", "voltage divider bias", "q-point", "stability"],
       ),
       fromBuilt(
+        invertingNonInvertingOpampExperiment,
+        InvertingNonInvertingOpampCircuit,
+        InvertingNonInvertingOpampContent,
+        [
+          "op-amp",
+          "lm741",
+          "inverting amplifier",
+          "non-inverting amplifier",
+          "voltage gain",
+        ],
+      ),
+      fromBuilt(
         mosfetCharacteristicsExperiment,
         MosfetCharacteristicsCircuit,
         MosfetCharacteristicsContent,
