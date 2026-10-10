@@ -1,28 +1,23 @@
-import { type ObservationSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const observations: ObservationSection = {
+export const observations: LabSection = {
   id: "observations",
   type: "observation",
   title: "Observations",
   paragraphs: [
-    "Supply voltage VCC = +5 V. C0 = 0 (tied to GND). No carry-in.",
-    "Sum LEDs represent S4 (MSB, blue) down to S1 (LSB, red). C4 (white) is the 5th bit.",
-    "LED ON = logic HIGH = 1; LED OFF = logic LOW = 0.",
+    "Apply each input combination, note the state of the four sum LEDs and the carry LED (1 = ON, 0 = OFF) and complete the table. The last column gives the expected result as decimal arithmetic and as the 5-bit binary result $C_{out}S_3S_2S_1S_0$.",
   ],
   table: {
-    headers: [
-      "A (decimal)",
-      "B (decimal)",
-      "A+B",
-      "S4 S3 S2 S1",
-      "C4",
-      "Result",
-    ],
+    headers: ["Test", "A3A2A1A0", "B3B2B1B0", "Cin", "S3S2S1S0 (observed)", "Cout (observed)", "Expected (decimal)"],
     rows: [
-      [3, 5, 8, "1 0 0 0", 0, "8 (no overflow)"],
-      [7, 9, 16, "0 0 0 0", 1, "16 (overflow)"],
-      [10, 2, 12, "1 1 0 0", 0, "12 (no overflow)"],
-      [15, 15, 30, "1 1 1 0", 1, "30 (overflow)"],
+        ["1", "0000", "0000", "0", "", "", "0 + 0 = 0 (00000)"],
+        ["2", "0101", "0011", "0", "", "", "5 + 3 = 8 (01000)"],
+        ["3", "1001", "0110", "0", "", "", "9 + 6 = 15 (01111)"],
+        ["4", "0111", "0001", "0", "", "", "7 + 1 = 8 (01000)"],
+        ["5", "1010", "0101", "1", "", "", "10 + 5 + 1 = 16 (10000)"],
+        ["6", "1111", "0001", "0", "", "", "15 + 1 = 16 (10000)"],
+        ["7", "1111", "1111", "1", "", "", "15 + 15 + 1 = 31 (11111)"],
+        ["8", "1100", "1100", "0", "", "", "12 + 12 = 24 (11000)"],
     ],
   },
 };
