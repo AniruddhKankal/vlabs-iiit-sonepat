@@ -1,27 +1,19 @@
-import { type LabSection } from "@/labs/lab-content.types";
+import { type ObservationSection } from "@/labs/lab-content.types";
 
-export const observations: LabSection = {
+export const observations: ObservationSection = {
   id: "observations",
   type: "observation",
   title: "Observations",
   paragraphs: [
-    "Record the value of D immediately before each rising clock edge and observe Q after the edge. Change D between rising edges to verify that the output retains its state. LED ON = logic 1.",
+    "Supply: +5 V. 74HC74 rising-edge triggered. CLK driven manually (hole-to-VCC pulse).",
   ],
   table: {
-    headers: [
-      "D",
-      "Clock transition",
-      "Previous Q",
-      "Expected Q",
-      "Expected Q̅",
-      "Operation",
-      "Observed",
-    ],
+    headers: ["D", "CLK Edge", "$Q_{n+1}$", "Green LED", "Red LED"],
     rows: [
-      ["0", "0 → 1", "X", "0", "1", "Store 0", ""],
-      ["1", "0 → 1", "X", "1", "0", "Store 1", ""],
-      ["0", "No rising edge", "1", "1", "0", "Hold", ""],
-      ["1", "No rising edge", "0", "0", "1", "Hold", ""],
+      [0, "↑ (Rising)", 0, "OFF", "ON"],
+      [1, "↑ (Rising)", 1, "ON", "OFF"],
+      [0, "None (no edge)", "$Q_n$", "Unchanged", "Unchanged"],
+      [1, "None (no edge)", "$Q_n$", "Unchanged", "Unchanged"],
     ],
   },
 };

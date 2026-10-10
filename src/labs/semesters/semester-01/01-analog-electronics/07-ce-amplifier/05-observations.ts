@@ -1,61 +1,27 @@
-import { type LabSection } from "@/labs/lab-content.types";
+import { type ObservationSection } from "@/labs/lab-content.types";
 
-export const observations: LabSection = {
-  id: "observations-input",
+export const observations: ObservationSection = {
+  id: "observations",
   type: "observation",
-  title: "Observations — Input Characteristics",
+  title: "Observations",
   paragraphs: [
-    "Base resistor $R_B = 100\\,k\\Omega$. Keep $V_{CE}$ constant while varying $V_{BB}$.",
-    "Representative readings for a typical BC547 are shown; actual values vary between transistors.",
+    "Transistor BC547, β ≈ 220. V_CC = 12 V. R1=100kΩ, R2=10kΩ, R_C=4.7kΩ, R_E=1kΩ.",
+    "Theoretical Q-point: V_B≈1.09 V, V_E≈0.39 V, I_C≈0.39 mA, V_CE≈9.8 V.",
+    "Theoretical mid-band gain: A_v = −g_m × (R_C || R_L) = −(0.39/26) × (4700 || 10000) ≈ −44 (≈ 33 dB).",
   ],
   table: {
     headers: [
-      "S.No.",
-      "V_BE (V) at V_CE = 0 V",
-      "I_B (µA) at V_CE = 0 V",
-      "V_BE (V) at V_CE = 5 V",
-      "I_B (µA) at V_CE = 5 V",
+      "Frequency (Hz)",
+      "V_in (mV pp)",
+      "V_out (mV pp)",
+      "Gain A_v",
+      "Gain (dB)",
     ],
     rows: [
-      ["1", "0.55", "0.8", "0.55", "0.9"],
-      ["2", "0.57", "1.5", "0.57", "1.7"],
-      ["3", "0.59", "3.0", "0.59", "3.4"],
-      ["4", "0.61", "6.0", "0.61", "6.5"],
-      ["5", "0.63", "12", "0.63", "13"],
-      ["6", "0.65", "24", "0.65", "26"],
-      ["7", "0.67", "48", "0.67", "51"],
-      ["8", "0.69", "90", "0.69", "95"],
-    ],
-  },
-};
-
-export const outputObservations: LabSection = {
-  id: "observations-output",
-  type: "observation",
-  title: "Observations — Output Characteristics",
-  paragraphs: [
-    "Keep $I_B$ constant at each of the three values while varying $V_{CC}$.",
-    "Representative readings for a typical BC547 are shown; actual values vary between transistors.",
-  ],
-  table: {
-    headers: [
-      "S.No.",
-      "V_CE (V)",
-      "I_C (mA) at I_B = 20 µA",
-      "I_C (mA) at I_B = 40 µA",
-      "I_C (mA) at I_B = 60 µA",
-    ],
-    rows: [
-      ["1", "0.0", "0.0", "0.0", "0.0"],
-      ["2", "0.1", "0.6", "1.2", "1.8"],
-      ["3", "0.2", "1.6", "3.2", "4.8"],
-      ["4", "0.5", "3.4", "6.8", "10.2"],
-      ["5", "1.0", "3.8", "7.6", "11.4"],
-      ["6", "2.0", "4.0", "8.0", "12.0"],
-      ["7", "4.0", "4.1", "8.2", "12.3"],
-      ["8", "6.0", "4.2", "8.4", "12.6"],
-      ["9", "8.0", "4.3", "8.6", "12.9"],
-      ["10", "10.0", "4.4", "8.8", "13.2"],
+      [100, 10, "—", "—", "—"],
+      [1000, 10, "—", "—", "—"],
+      [10000, 10, "—", "—", "—"],
+      [100000, 10, "—", "—", "—"],
     ],
   },
 };

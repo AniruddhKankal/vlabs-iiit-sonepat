@@ -7,14 +7,16 @@ import { apparatus } from "./03-apparatus";
 import { procedureSteps } from "./04-procedure";
 import { observations } from "./05-observations";
 import { conclusion } from "./06-conclusion";
-import { components } from "./components";
 
+// Text lab: flip-flops (jk-ff / dff) have no 3D mesh in LabScene yet,
+// so this experiment uses the sidebar-only (labType: 'text') layout.
 export const mod5AsyncUpDownCounterExperiment: ExperimentDefinition = {
   id: "mod5-async-up-down-counter",
-  title: "MOD-5 Asynchronous Up/Down Counter",
+  title: "MOD-5 Asynchronous UP and DOWN Counters",
   description:
-    "Builds a MOD-5 ripple counter from D flip-flops with an XOR-selected up/down direction and gate-based reset logic.",
-  components,
+    "Design and verify a MOD-5 asynchronous UP counter and a MOD-5 asynchronous DOWN counter using JK flip-flops and NAND gates.",
+  labType: "text",
+  components: [],
   sections: [aim, theory, apparatus, observations, conclusion],
   procedureSteps,
 };

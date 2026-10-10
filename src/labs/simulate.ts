@@ -108,7 +108,8 @@ export function simulate(
   // ── 2. Seed user inputs ─────────────────────────────────────────────
   // For each input wire: identify the signal name from the wire ID
   // (namePart convention: "w_a_xor" → 'a' → input 'A'), then write
-  // the signal value to the destination IC pin or breadboard hole.
+  // the signal value to the DESTINATION IC pin's net (not the source
+  // TiePin, which may be merged with other IC pins via earlier wires).
   //
   // Writing to the destination net directly avoids the "column merge
   // corruption" where a TiePin source column overlaps with another
@@ -120,11 +121,8 @@ export function simulate(
 
     // Must be TiePin source (input wire, not internal wire)
     if (!("col" in from && "row" in from)) continue;
-    // Input wires may terminate at either a named IC pin or its breadboard
-    // hole, depending on whether the circuit emphasizes simulation or layout.
-    const isIcPin = "ic" in to && "pin" in to;
-    const isTiePoint = "col" in to && "row" in to;
-    if (!isIcPin && !isTiePoint) continue;
+    // Must be IcPin destination
+    if (!("ic" in to && "pin" in to)) continue;
 
     // Extract signal name from wire ID: "w_cin_xor2" → parts[1] = "cin"
     const parts = inst.id.split("_");
@@ -136,14 +134,10 @@ export function simulate(
     );
     if (inputKey === undefined) continue;
 
-    // Write to the destination net, avoiding conflicts at the source input
-    // column when it is shared with other circuit connections.
-    const net = isIcPin
-      ? nl.componentPinNet(to.ic as string, to.pin as string)
-      : nl.netOf(
-          to.col as number,
-          to.row as "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j",
-        );
+    // Write to the DESTINATION IC pin's net — avoids TiePin column conflicts
+    const icId = to.ic as string;
+    const pin = to.pin as string;
+    const net = nl.componentPinNet(icId, pin);
     if (net) nv.set(net, activeInputs[inputKey] === 1 ? HIGH : LOW);
   }
 

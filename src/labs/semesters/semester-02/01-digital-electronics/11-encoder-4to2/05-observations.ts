@@ -1,19 +1,29 @@
-import { type LabSection } from "@/labs/lab-content.types";
+import { type ObservationSection } from "@/labs/lab-content.types";
 
-export const observations: LabSection = {
+export const observations: ObservationSection = {
   id: "observations",
   type: "observation",
   title: "Observations",
   paragraphs: [
-    "Apply each input combination and verify the output logic levels (LED ON = 1, LED OFF = 0).",
+    "4:2 Priority Encoder truth table. A = I2+I3 (MSB), B = I1+I3 (LSB). One input active at a time for basic encoding.",
   ],
   table: {
-    headers: ["D3", "D2", "D1", "D0", "Y1 (output)", "Y0 (output)"],
+    headers: [
+      "I3",
+      "I2",
+      "I1",
+      "I0",
+      "A (observed)",
+      "B (observed)",
+      "A (expected)",
+      "B (expected)",
+      "Binary code",
+    ],
     rows: [
-      ["0", "0", "0", "1", "0", "0"],
-      ["0", "0", "1", "0", "0", "1"],
-      ["0", "1", "0", "0", "1", "0"],
-      ["1", "0", "0", "0", "1", "1"],
+      [0, 0, 0, 1, 0, 0, 0, 0, "00 → I0"],
+      [0, 0, 1, 0, 0, 1, 0, 1, "01 → I1"],
+      [0, 1, 0, 0, 1, 0, 1, 0, "10 → I2"],
+      [1, 0, 0, 0, 1, 1, 1, 1, "11 → I3"],
     ],
   },
 };

@@ -5,9 +5,9 @@ export const theory: TheorySection = {
   type: "text",
   title: "Theory",
   paragraphs: [
-    "A JK flip-flop stores one bit and has inputs J, K and CLK, with outputs Q and Q̅. At the active clock edge, J=0 and K=0 holds the state, J=0 and K=1 resets Q to 0, J=1 and K=0 sets Q to 1, and J=1 and K=1 toggles Q.",
-    "A clocked JK circuit can be formed from two cross-coupled NAND gates (the storage latch) and input-gating logic. Since the available AND and NAND primitives are two-input gates, each input path first forms J·CLK or K·CLK with an AND gate, then NANDs that result with the opposite feedback output to produce an active-low latch input.",
-    "A T flip-flop is obtained by connecting J and K together. The common input is T: T=0 holds the stored state and T=1 toggles it at each active clock edge.",
-    "Characteristic equations: JK: Q(next)=JQ̅ + K̅Q. T: Q(next)=T ⊕ Q. Outputs should be complementary in normal operation. This experiment's 3D scene is a gate-level visual wiring guide; validate electrical simulation behavior separately if the renderer does not model logic propagation.",
+    "The JK flip-flop is the most versatile sequential element. It extends the SR latch by replacing the forbidden state with a **toggle** action. When both J=K=1, Q toggles on each active clock edge. The 74HC76 is a dual falling-edge-triggered JK flip-flop with active-low asynchronous SET ($\\overline{SET}$) and CLR ($\\overline{CLR}$) inputs.",
+    "JK characteristic equation: $$Q_{n+1} = J\\bar{Q}_n + \\bar{K}Q_n$$ The four operating modes are: J=0 K=0 → Hold (Q unchanged). J=0 K=1 → Reset (Q=0). J=1 K=0 → Set (Q=1). J=1 K=1 → Toggle (Q flips). All transitions occur on the **falling** clock edge.",
+    "The **T flip-flop** is a special case of the JK flip-flop with J and K inputs tied together as the single T input. When T=1 the output toggles on every active clock edge; when T=0 the output holds. The T flip-flop is widely used as a binary frequency divider: each stage divides the clock frequency by 2. $$Q_{n+1} = T\\bar{Q}_n + \\bar{T}Q_n = T \\oplus Q_n$$",
+    "Applications: JK flip-flops form the basis of synchronous counters, sequence detectors, and state machines. T flip-flops implement ripple and synchronous counters and are used wherever clean frequency division is needed.",
   ],
 };

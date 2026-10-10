@@ -34,17 +34,17 @@ import {
   fullWaveRectifierExperiment,
 } from "./semester-01/01-analog-electronics/06-full-wave-rectifier";
 
-// import {
-//   RectifiersCapacitorFiltersCircuit,
-//   RectifiersCapacitorFiltersContent,
-//   rectifiersCapacitorFiltersExperiment,
-// } from "./semester-01/01-analog-electronics/rectifiers-capacitor-filters";
+import {
+  RectifiersCapacitorFiltersCircuit,
+  RectifiersCapacitorFiltersContent,
+  rectifiersCapacitorFiltersExperiment,
+} from "./semester-01/01-analog-electronics/rectifiers-capacitor-filters";
 
-// import {
-//   OhmsLawCircuit,
-//   OhmsLawContent,
-//   ohmsLawExperiment,
-// } from "./semester-01/01-analog-electronics/ohms-law";
+import {
+  OhmsLawCircuit,
+  OhmsLawContent,
+  ohmsLawExperiment,
+} from "./semester-01/01-analog-electronics/ohms-law";
 
 import {
   KirchhoffLawsCircuit,
@@ -70,17 +70,29 @@ import {
   nortonTheoremExperiment,
 } from "./semester-01/03-FEE/norton-theorem";
 
-// import {
-//   LogicGatesCircuit,
-//   LogicGatesContent,
-//   logicGatesExperiment,
-// } from "./semester-01/02-computer-application/logic-gates";
+import {
+  LogicGatesCircuit,
+  LogicGatesContent,
+  logicGatesExperiment,
+} from "./semester-01/02-computer-application/logic-gates";
+
+import {
+  FullAdderCircuit,
+  FullAdderContent,
+  fullAdderExperiment,
+} from "./semester-01/02-computer-application/full-adder";
 
 import {
   HalfSubtractorCircuit,
   HalfSubtractorContent,
   halfSubtractorExperiment,
 } from "./semester-01/02-computer-application/half-subtractor";
+
+import {
+  FullSubtractorCircuit,
+  FullSubtractorContent,
+  fullSubtractorExperiment,
+} from "./semester-01/02-computer-application/full-subtractor";
 
 import {
   Mux2to1Circuit,
@@ -101,9 +113,9 @@ import {
 } from "./semester-01/01-analog-electronics/04-zener-voltage-regulator";
 
 import {
-  Exp07CeAmplifierCircuit,
-  Exp07CeAmplifierContent,
-  exp07CeAmplifierExperiment,
+  CeAmplifierCircuit,
+  CeAmplifierContent,
+  ceAmplifierExperiment,
 } from "./semester-01/01-analog-electronics/07-ce-amplifier";
 
 import {
@@ -125,12 +137,6 @@ import {
 } from "./semester-01/01-analog-electronics/10-bjt-bias";
 
 import {
-  ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationCircuit,
-  ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationContent,
-  toStudyBjtFixedBiasAndVoltageDividerBiasConfigurationExperiment,
-} from "./semester-01/01-analog-electronics/07-to-study-bjt-fixed-bias-and-voltage-divider-bias-configuration";
-
-import {
   MosfetCharacteristicsCircuit,
   MosfetCharacteristicsContent,
   mosfetCharacteristicsExperiment,
@@ -149,39 +155,21 @@ import {
 } from "./semester-01/01-analog-electronics/13-opamp-circuits";
 
 import {
-  FullAdderCircuit,
-  FullAdderContent,
-  fullAdderExperiment,
-} from "./semester-02/01-digital-electronics/04-01-full-adder";
-
-import {
-  InvertingNonInvertingOpampCircuit,
-  InvertingNonInvertingOpampContent,
-  invertingNonInvertingOpampExperiment,
-} from "./semester-01/01-analog-electronics/10-inverting-non-inverting-opamp";
-
-import {
-  Exp11Encoder4to2Circuit,
-  Exp11Encoder4to2Content,
-  exp11Encoder4to2Experiment,
-} from "./semester-02/01-digital-electronics/11-encoder-4to2";
-
-import {
-  FullSubtractorCircuit,
-  FullSubtractorContent,
-  fullSubtractorExperiment,
-} from "./semester-02/01-digital-electronics/04-02-full-subtractor";
-
-import {
   IntroLogicGatesCircuit,
   IntroLogicGatesContent,
   introLogicGatesExperiment,
 } from "./semester-02/01-digital-electronics/01-intro-logic-gates";
 
 import {
-  Exp12Decoder2to4Circuit,
-  Exp12Decoder2to4Content,
-  exp12Decoder2to4Experiment,
+  Encoder4to2Circuit,
+  Encoder4to2Content,
+  encoder4to2Experiment,
+} from "./semester-02/01-digital-electronics/11-encoder-4to2";
+
+import {
+  Decoder2to4Circuit,
+  Decoder2to4Content,
+  decoder2to4Experiment,
 } from "./semester-02/01-digital-electronics/12-decoder-2to4";
 
 import {
@@ -254,7 +242,7 @@ import {
   SrLatchCircuit,
   SrLatchContent,
   srLatchExperiment,
-} from "./semester-02/01-digital-electronics/sr-flip-flop";
+} from "./semester-02/01-digital-electronics/sr-latch";
 
 import {
   DFlipFlopCircuit,
@@ -561,27 +549,15 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         fullWaveRectifierExperiment,
         FullWaveRectifierCircuit,
         FullWaveRectifierContent,
-        ["rectifier", "center-tapped", "full-wave", "ripple", "filter"],
+        ["rectifier", "bridge", "full-wave", "ripple"],
       ),
-      // fromBuilt(
-      //   rectifiersCapacitorFiltersExperiment,
-      //   RectifiersCapacitorFiltersCircuit,
-      //   RectifiersCapacitorFiltersContent,
-      //   ["rectifier", "filter", "capacitor", "ripple reduction"],
-      // ),
-      // fromBuilt(ohmsLawExperiment, OhmsLawCircuit, OhmsLawContent, [
-      //   "ohm",
-      //   "resistance",
-      //   "voltage",
-      //   "current",
-      //   "v-i graph",
-      // ]),
-      fromBuilt(
-        exp07CeAmplifierExperiment,
-        Exp07CeAmplifierCircuit,
-        Exp07CeAmplifierContent,
-        ["bjt", "common-emitter", "transistor", "characteristics", "analog"],
-      ),
+      fromBuilt(ceAmplifierExperiment, CeAmplifierCircuit, CeAmplifierContent, [
+        "bjt",
+        "amplifier",
+        "common emitter",
+        "frequency response",
+        "gain",
+      ]),
       fromBuilt(cbAmplifierExperiment, CbAmplifierCircuit, CbAmplifierContent, [
         "bjt",
         "amplifier",
@@ -602,24 +578,6 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         "voltage divider",
         "stability",
       ]),
-      fromBuilt(
-        toStudyBjtFixedBiasAndVoltageDividerBiasConfigurationExperiment,
-        ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationCircuit,
-        ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationContent,
-        ["bjt", "fixed bias", "voltage divider bias", "q-point", "stability"],
-      ),
-      fromBuilt(
-        invertingNonInvertingOpampExperiment,
-        InvertingNonInvertingOpampCircuit,
-        InvertingNonInvertingOpampContent,
-        [
-          "op-amp",
-          "lm741",
-          "inverting amplifier",
-          "non-inverting amplifier",
-          "voltage gain",
-        ],
-      ),
       fromBuilt(
         mosfetCharacteristicsExperiment,
         MosfetCharacteristicsCircuit,
@@ -704,6 +662,16 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
       "Implement and verify combinational logic circuits on a breadboard using 74HC-series ICs. Cover basic gates, adders, subtractors, multiplexers, and demultiplexers.",
     defaultCircuitId: "logic-gates",
     experiments: [
+      fromBuilt(logicGatesExperiment, LogicGatesCircuit, LogicGatesContent, [
+        "logic gates",
+        "and",
+        "or",
+        "not",
+        "nand",
+        "nor",
+        "xor",
+        "74hc",
+      ]),
       fromBuilt(fullAdderExperiment, FullAdderCircuit, FullAdderContent, [
         "adder",
         "carry-in",
@@ -788,7 +756,7 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
     subjectLabel: "Digital Electronics",
     subjectDescription:
       "Implement encoders, decoders, and MUX/DEMUX-based logic on a breadboard. Explore Boolean minimisation and address decoding used in memory systems.",
-    defaultCircuitId: "11-encoder-4to2",
+    defaultCircuitId: "encoder-4to2",
     experiments: [
       fromBuilt(
         introLogicGatesExperiment,
@@ -825,27 +793,6 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
           "combinational logic",
         ],
       ),
-      fromBuilt(fullAdderExperiment, FullAdderCircuit, FullAdderContent, [
-        "full adder",
-        "adder",
-        "carry-in",
-        "sum",
-        "carry-out",
-        "combinational logic",
-      ]),
-      fromBuilt(
-        fullSubtractorExperiment,
-        FullSubtractorCircuit,
-        FullSubtractorContent,
-        [
-          "full subtractor",
-          "subtractor",
-          "borrow-in",
-          "difference",
-          "borrow-out",
-          "combinational logic",
-        ],
-      ),
       fromBuilt(
         bcdXs3ConverterExperiment,
         BcdXs3ConverterCircuit,
@@ -878,18 +825,22 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         DemuxAddressDecoderContent,
         ["demux", "address decoder", "bus", "peripheral select", "active-low"],
       ),
-      fromBuilt(
-        exp11Encoder4to2Experiment,
-        Exp11Encoder4to2Circuit,
-        Exp11Encoder4to2Content,
-        ["encoder", "4to2", "or-gate", "combinational"],
-      ),
-      fromBuilt(
-        exp12Decoder2to4Experiment,
-        Exp12Decoder2to4Circuit,
-        Exp12Decoder2to4Content,
-        ["decoder", "2to4", "minterm", "combinational"],
-      ),
+      fromBuilt(encoder4to2Experiment, Encoder4to2Circuit, Encoder4to2Content, [
+        "encoder",
+        "priority",
+        "binary code",
+        "or gate",
+        "74hc32",
+      ]),
+      fromBuilt(decoder2to4Experiment, Decoder2to4Circuit, Decoder2to4Content, [
+        "decoder",
+        "binary",
+        "address decode",
+        "not",
+        "and",
+        "74hc04",
+        "74hc08",
+      ]),
       fromBuilt(
         binaryAdder4bitExperiment,
         BinaryAdder4bitCircuit,

@@ -1,106 +1,202 @@
 import { type ComponentInstance } from "@/labs/types";
 
-/*
- * Layout (single 30-col breadboard, top rails = GND):
- *   col 6-9   : R_B (100 kΩ)       p1 = col 6, p2 = col 9
- *   col 12-14 : Q1 BC547           B = 12, C = 13, E = 14
- *   col 18    : V_CC entry strip
- *
- * Base loop   : V_BB(+) -> col 6 -> R_B -> col 9 -> I_B meter -> col 12 (B)
- * Collector   : V_CC(+) -> col 18 -> I_C meter -> col 13 (C)
- * Emitter     : col 14 -> GND rail (common to both loops)
- * Meters      : V_BE across col 12 / col 14, V_CE across col 13 / col 14
- *
- * Instruments connect through terminals/probes (no wires).
- */
 export const components: ComponentInstance[] = [
-  { id: "bb", type: "breadboard" },
-
-  // --- Transistor and base resistor ---
+  {
+    id: "bb",
+    type: "breadboard",
+  },
   {
     id: "q1",
     type: "npn-bjt",
-    mountedAt: { board: "bb", col: 13, row: "c" },
+    mountedAt: {
+      board: "bb",
+      col: 7,
+      row: "e",
+    },
   },
   {
-    id: "rb",
+    id: "r1",
     type: "resistor",
     ohms: 100000,
-    mountedAt: { board: "bb", col: 6, row: "c" },
+    mountedAt: {
+      board: "bb",
+      col: 3,
+      row: "c",
+    },
   },
-
-  // --- Emitter to common ground ---
   {
-    id: "w_e_gnd",
+    id: "r2",
+    type: "resistor",
+    ohms: 10000,
+    mountedAt: {
+      board: "bb",
+      col: 3,
+      row: "h",
+    },
+  },
+  {
+    id: "rc",
+    type: "resistor",
+    ohms: 4700,
+    mountedAt: {
+      board: "bb",
+      col: 10,
+      row: "c",
+    },
+  },
+  {
+    id: "re",
+    type: "resistor",
+    ohms: 1000,
+    mountedAt: {
+      board: "bb",
+      col: 10,
+      row: "h",
+    },
+  },
+  {
+    id: "led_out",
+    type: "led",
+    color: "red",
+    mountedAt: {
+      board: "bb",
+      col: 15,
+      row: "c",
+    },
+  },
+  {
+    id: "w_vcc_r1",
+    type: "wire",
+    color: "red",
+    from: {
+      board: "bb",
+      rail: "vcc_top",
+      col: 3,
+    },
+    to: {
+      component: "r1",
+      end: "p1",
+    },
+  },
+  {
+    id: "w_r2_gnd",
     type: "wire",
     color: "black",
-    from: { board: "bb", col: 14, row: "a" },
-    to: { board: "bb", rail: "gnd_top", col: 14 },
+    from: {
+      component: "r2",
+      end: "p2",
+    },
+    to: {
+      board: "bb",
+      rail: "gnd_top",
+      col: 6,
+    },
   },
-
-  // --- Base supply V_BB ---
   {
-    id: "psu_vbb",
-    type: "dc-jack",
-    mountedAt: { board: "bb", col: 1, row: "a" },
-    terminals: [
-      { board: "bb", col: 6, row: "a" }, // + to R_B p1
-      { board: "bb", rail: "gnd_top", col: 6 }, // - to GND
-    ],
+    id: "w_r1_base",
+    type: "wire",
+    color: "orange",
+    from: {
+      component: "r1",
+      end: "p2",
+    },
+    to: {
+      ic: "q1",
+      pin: "B",
+    },
   },
-
-  // --- Base ammeter I_B (series: R_B p2 -> base) ---
   {
-    id: "am_b",
-    type: "ammeter",
-    mountedAt: { board: "bb", col: 1, row: "c" },
-    probes: [
-      { board: "bb", col: 9, row: "b" },
-      { board: "bb", col: 12, row: "b" },
-    ],
+    id: "w_r2_base",
+    type: "wire",
+    color: "orange",
+    from: {
+      component: "r2",
+      end: "p1",
+    },
+    to: {
+      ic: "q1",
+      pin: "B",
+    },
   },
-
-  // --- V_BE voltmeter (base to emitter) ---
   {
-    id: "vm_be",
-    type: "voltmeter",
-    mountedAt: { board: "bb", col: 1, row: "e" },
-    probes: [
-      { board: "bb", col: 12, row: "d" },
-      { board: "bb", col: 14, row: "e" },
-    ],
+    id: "w_vcc_rc",
+    type: "wire",
+    color: "red",
+    from: {
+      board: "bb",
+      rail: "vcc_top",
+      col: 10,
+    },
+    to: {
+      component: "rc",
+      end: "p1",
+    },
   },
-
-  // --- Collector supply V_CC ---
   {
-    id: "psu_vcc",
-    type: "dc-jack",
-    mountedAt: { board: "bb", col: 1, row: "b" },
-    terminals: [
-      { board: "bb", col: 18, row: "a" }, // + to collector loop
-      { board: "bb", rail: "gnd_top", col: 18 }, // - to GND
-    ],
+    id: "w_rc_col",
+    type: "wire",
+    color: "green",
+    from: {
+      component: "rc",
+      end: "p2",
+    },
+    to: {
+      ic: "q1",
+      pin: "C",
+    },
   },
-
-  // --- Collector ammeter I_C (series: V_CC -> collector) ---
   {
-    id: "am_c",
-    type: "ammeter",
-    mountedAt: { board: "bb", col: 1, row: "d" },
-    probes: [
-      { board: "bb", col: 18, row: "b" },
-      { board: "bb", col: 13, row: "b" },
-    ],
+    id: "w_em_re",
+    type: "wire",
+    color: "yellow",
+    from: {
+      ic: "q1",
+      pin: "E",
+    },
+    to: {
+      component: "re",
+      end: "p1",
+    },
   },
-
-  // --- V_CE voltmeter (collector to emitter) ---
   {
-    id: "vm_ce",
-    type: "voltmeter",
-    mountedAt: { board: "bb", col: 1, row: "f" },
-    probes: [
-      { board: "bb", col: 13, row: "d" },
-      { board: "bb", col: 14, row: "d" },
-    ],
+    id: "w_re_gnd",
+    type: "wire",
+    color: "black",
+    from: {
+      component: "re",
+      end: "p2",
+    },
+    to: {
+      board: "bb",
+      rail: "gnd_top",
+      col: 13,
+    },
+  },
+  {
+    id: "w_col_led",
+    type: "wire",
+    color: "green",
+    from: {
+      component: "rc",
+      end: "p2",
+    },
+    to: {
+      led: "led_out",
+      end: "anode",
+    },
+  },
+  {
+    id: "w_led_gnd",
+    type: "wire",
+    color: "black",
+    from: {
+      led: "led_out",
+      end: "cathode",
+    },
+    to: {
+      board: "bb",
+      rail: "gnd_top",
+      col: 16,
+    },
   },
 ];
