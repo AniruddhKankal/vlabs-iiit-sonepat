@@ -1,12 +1,11 @@
-import { type ConclusionSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const conclusion: ConclusionSection = {
+export const conclusion: LabSection = {
   id: "conclusion",
   type: "conclusion",
   title: "Conclusion",
   paragraphs: [
-    "The 4-bit binary adder using the 74HC283 IC was successfully demonstrated. The sum LEDs S1–S4 and carry-out LED C4 correctly displayed binary addition results for all tested input combinations, confirming the IC's arithmetic operation.",
-    "The carry-lookahead architecture of the 74HC283 provides faster results than a simple ripple-carry adder, with all sum bits computed simultaneously rather than sequentially. This was evident in the immediate LED response upon input changes.",
-    "The experiment demonstrates the role of carry-out in multi-precision arithmetic: two 74HC283 ICs can be cascaded by connecting C4 of the lower IC to C0 of the upper IC, forming an 8-bit adder capable of summing values from 0 to 510.",
+    "The 4-bit binary adder was designed with two 74HC86, two 74HC08 and one 74HC32 IC and its operation was verified for the test inputs. The observed sum and carry outputs matched the expected results $C_{out}S_3S_2S_1S_0 = A + B + C_{in}$.",
+    "Additions that generate a carry in the lower bits, such as 15 + 1, show the ripple of the carry through all four stages. The carry-out LED lights when the result exceeds 15.",
   ],
 };
