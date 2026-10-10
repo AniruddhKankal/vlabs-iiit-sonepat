@@ -326,6 +326,12 @@ function buildInstance(
       return buildDip16(col, "74HC153", cols);
     }
 
+    case "demux-1to4": {
+      const { col, board } = inst.mountedAt;
+      const cols = colsForBoardId(board, all);
+      return buildDip16(col, "74HC139", cols);
+    }
+
     case "n-mosfet":
     case "p-mosfet": {
       const { col, row, board } = inst.mountedAt;

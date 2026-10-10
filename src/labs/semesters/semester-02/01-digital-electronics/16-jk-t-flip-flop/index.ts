@@ -4,66 +4,25 @@ import { type ExperimentDefinition } from "@/labs/experiments/types";
 import { aim } from "./01-aim";
 import { theory } from "./02-theory";
 import { apparatus } from "./03-apparatus";
+import { procedureSteps } from "./04-procedure";
 import { observations } from "./05-observations";
 import { conclusion } from "./06-conclusion";
 import { components } from "./components";
-import { procedureSteps } from "./04-procedure";
 
-export const jkTFlipFlopExperiment: ExperimentDefinition = {
-  id: "jk-t-flip-flop",
-  title: "JK Flip-Flop and T Flip-Flop using 74HC76",
+export const jkAndTFlipFlopExperiment: ExperimentDefinition = {
+  id: "jk-and-t-flip-flop",
+  title: "JK and T Flip-Flop",
   description:
-    "Implement a JK flip-flop using 74HC76 and derive a T flip-flop by connecting J=K=T.",
-  truthTable: {
-    inputs: ["J", "K", "CLK"],
-    outputs: ["Q"],
-    rows: [
-      {
-        inputs: {
-          J: 0,
-          K: 0,
-          CLK: 0,
-        },
-        outputs: {
-          Q: 0,
-        },
-      },
-      {
-        inputs: {
-          J: 0,
-          K: 1,
-          CLK: 0,
-        },
-        outputs: {
-          Q: 0,
-        },
-      },
-      {
-        inputs: {
-          J: 1,
-          K: 0,
-          CLK: 0,
-        },
-        outputs: {
-          Q: 1,
-        },
-      },
-      {
-        inputs: {
-          J: 1,
-          K: 1,
-          CLK: 0,
-        },
-        outputs: {
-          Q: 1,
-        },
-      },
-    ],
-  },
+    "Construct a gate-level JK flip-flop and verify its operation in JK mode and T mode.",
   components,
   sections: [aim, theory, apparatus, observations, conclusion],
   procedureSteps,
 };
 
-export const JkTFlipFlopCircuit = buildCircuit(jkTFlipFlopExperiment);
-export const JkTFlipFlopContent = buildLabContent(jkTFlipFlopExperiment);
+export const JKAndTFlipFlopCircuit = buildCircuit(jkAndTFlipFlopExperiment);
+export const JKAndTFlipFlopContent = buildLabContent(jkAndTFlipFlopExperiment);
+
+// Backward-compatible exports for catalog.ts
+export const JkTFlipFlopCircuit = JKAndTFlipFlopCircuit;
+export const JkTFlipFlopContent = JKAndTFlipFlopContent;
+export const jkTFlipFlopExperiment = jkAndTFlipFlopExperiment;

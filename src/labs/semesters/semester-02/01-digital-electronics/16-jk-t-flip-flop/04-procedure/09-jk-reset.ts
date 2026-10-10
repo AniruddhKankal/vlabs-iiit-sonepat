@@ -1,0 +1,54 @@
+import { type SceneProcedureStep } from "@/labs/experiments/types";
+
+export const step: SceneProcedureStep = {
+  label: "Verify JK reset",
+  body: "Set J = 0 and K = 1, then apply the active clock edge. Q should become 0 and Q̅ should become 1.",
+
+  show: [
+    "bb",
+    "psu",
+    "and_jclk",
+    "nand_sbar",
+    "and_kclk",
+    "nand_rbar",
+    "nand_q",
+    "nand_qb",
+    "r_q",
+    "led_q",
+    "r_qb",
+    "led_qb",
+    "w_j_and",
+    "w_clk_andj",
+    "w_andj_sbar",
+    "w_qb_sbar",
+    "w_k_and",
+    "w_clk_andk",
+    "w_andk_rbar",
+    "w_q_rbar",
+    "w_sbar_q",
+    "w_qb_q",
+    "w_rbar_qb",
+    "w_q_qb",
+    "w_q_led",
+    "w_r_led_q",
+    "w_qb_led",
+    "w_r_led_qb",
+    "w_gnd_q",
+    "w_gnd_qb",
+  ],
+
+  highlight: "nand_q",
+
+  activeInputs: {
+    J: 0,
+    K: 1,
+    CLK: 1,
+  },
+
+  supplyVoltage: 5.0,
+
+  ledBrightness: {
+    led_q: 0,
+    led_qb: 1,
+  },
+};

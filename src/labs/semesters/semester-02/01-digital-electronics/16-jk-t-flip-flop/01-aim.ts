@@ -1,10 +1,10 @@
-import { type TheorySection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const aim: TheorySection = {
+export const aim: LabSection = {
   id: "aim",
   type: "text",
   title: "Aim",
   paragraphs: [
-    "To study and verify jk flip-flop and t flip-flop using 74hc76 on a breadboard.",
+    "To construct a clocked JK flip-flop using supported logic-gate primitives and verify hold, reset, set and toggle operations. Then connect J and K together and verify the resulting T flip-flop hold and toggle operations.",
   ],
 };

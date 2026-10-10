@@ -1,12 +1,10 @@
-import { type ConclusionSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const conclusion: ConclusionSection = {
+export const conclusion: LabSection = {
   id: "conclusion",
   type: "conclusion",
   title: "Conclusion",
   paragraphs: [
-    "The D flip-flop built with 74HC74 correctly captured the D input value on each rising clock edge. Q=D was confirmed after every clock pulse regardless of the prior state.",
-    "The hold behaviour was verified: changing D between clock pulses produced no change in Q — the output was stable until the next rising edge. The Q and Q_bar outputs remained complementary throughout.",
-    "The rising-edge-triggered D flip-flop is the fundamental building block of registers and pipeline stages. It eliminates the SR latch's forbidden state and provides clean, predictable synchronous operation.",
+    "The D flip-flop was studied using a master-slave arrangement. The output Q followed the D input at the active rising clock edge and retained the stored value between clock edges. In normal operation, Q and Q̅ were complementary, verifying the data-storage property of the D flip-flop.",
   ],
 };

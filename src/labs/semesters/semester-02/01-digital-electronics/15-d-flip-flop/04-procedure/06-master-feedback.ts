@@ -1,0 +1,31 @@
+import { type SceneProcedureStep } from "@/labs/experiments/types";
+
+export const step: SceneProcedureStep = {
+  label: "Complete the master latch",
+  body: "Connect the master-stage feedback paths. Cross-coupled NAND feedback allows the master stage to retain the sampled data while the clock is LOW.",
+  show: [
+    "bb",
+    "psu",
+    "bb2",
+    "nand1",
+    "nand2",
+    "nand3",
+    "not_d",
+    "nand4",
+    "nand5",
+    "nand6",
+    "not_clk",
+    "w_d_not",
+    "w_d_master",
+    "w_clk_not",
+    "w_clk_master",
+    "w_clkbar_master",
+    "w_notd_master",
+    "w_master_set",
+    "w_master_reset",
+    "w_master_fb1",
+    "w_master_fb2",
+  ],
+  highlight: "w_master_set",
+  activeInputs: { D: 0, CLK: 0 },
+};
