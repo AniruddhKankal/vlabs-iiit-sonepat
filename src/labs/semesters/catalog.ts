@@ -101,9 +101,9 @@ import {
 } from "./semester-01/01-analog-electronics/04-zener-voltage-regulator";
 
 import {
-  CeAmplifierCircuit,
-  CeAmplifierContent,
-  ceAmplifierExperiment,
+  Exp07CeAmplifierCircuit,
+  Exp07CeAmplifierContent,
+  exp07CeAmplifierExperiment,
 } from "./semester-01/01-analog-electronics/07-ce-amplifier";
 
 import {
@@ -570,13 +570,12 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
       //   "current",
       //   "v-i graph",
       // ]),
-      fromBuilt(ceAmplifierExperiment, CeAmplifierCircuit, CeAmplifierContent, [
-        "bjt",
-        "amplifier",
-        "common emitter",
-        "frequency response",
-        "gain",
-      ]),
+      fromBuilt(
+        exp07CeAmplifierExperiment,
+        Exp07CeAmplifierCircuit,
+        Exp07CeAmplifierContent,
+        ["bjt", "common-emitter", "transistor", "characteristics", "analog"],
+      ),
       fromBuilt(cbAmplifierExperiment, CbAmplifierCircuit, CbAmplifierContent, [
         "bjt",
         "amplifier",
