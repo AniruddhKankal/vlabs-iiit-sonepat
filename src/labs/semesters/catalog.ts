@@ -158,7 +158,7 @@ import {
   InvertingNonInvertingOpampCircuit,
   InvertingNonInvertingOpampContent,
   invertingNonInvertingOpampExperiment,
-} from './semester-01/01-analog-electronics/inverting-non-inverting-opamp';
+} from './semester-01/01-analog-electronics/10-inverting-non-inverting-opamp';
 
 import {
   Encoder4to2Circuit,
