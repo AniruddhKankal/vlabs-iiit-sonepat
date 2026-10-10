@@ -1,8 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: "Wire output LEDs and test.",
-  body: "Wire five LED paths for S1–S4 and C4 to the GND rail via 330 Ω resistors. Apply +5 V. With A=B, the result should be 0000 with C4=1 (borrow cleared). Verify the LED pattern represents the correct difference.",
+  label: "Check the edge cases",
+  body: "Try $7 - 7$ (expect $S = 0000$, $C_4 = 1$), $15 - 0$ (expect $S = 1111$, $C_4 = 1$) and $0 - 1$ (expect $S = 1111$, $C_4 = 0$, i.e. $-1$). Note how $C_4$ separates $15 - 0 = +15$ from $0 - 1 = -1$, even though both show $S = 1111$.",
   show: [
     "bb",
     "xor_b1",
@@ -53,14 +53,7 @@ export const step: SceneProcedureStep = {
     "w_c4_led",
     "w_c4_gnd",
   ],
-  activeInputs: {
-    A4: 1,
-    A3: 0,
-    A2: 0,
-    A1: 0,
-    B4: 0,
-    B3: 1,
-    B2: 0,
-    B1: 1,
-  },
+  highlight: "led_c4",
+  supplyVoltage: 5.0,
+  activeInputs: { A4: 0, A3: 1, A2: 1, A1: 1, B4: 0, B3: 1, B2: 1, B1: 1 },
 };

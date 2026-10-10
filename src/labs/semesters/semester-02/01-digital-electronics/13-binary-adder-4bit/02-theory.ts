@@ -1,13 +1,14 @@
-import { type TheorySection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const theory: TheorySection = {
+export const theory: LabSection = {
   id: "theory",
   type: "text",
   title: "Theory",
   paragraphs: [
-    "A binary adder is a digital circuit that performs addition of binary numbers. A 4-bit adder adds two 4-bit operands A (A4–A1) and B (B4–B1) along with a carry-in C0 to produce a 4-bit sum S (S4–S1) and a carry-out C4. The sum is a 5-bit result when C4 is included, allowing values from 0+0+0=0 to 15+15+1=31.",
-    "The 74HC283 is a high-speed CMOS 4-bit binary full adder using carry-lookahead logic. Unlike a ripple-carry adder where each stage must wait for the previous carry, the 74HC283 generates all carries simultaneously based on the propagate (P=A⊕B) and generate (G=A·B) signals, reducing the critical path delay to a nearly constant time. This makes it suitable for use in ALUs and arithmetic pipelines.",
-    "Pin description: A1–A4 and B1–B4 are the two 4-bit inputs (1=LSB, 4=MSB). C0 is carry-in (tie to GND for no initial carry). S1–S4 are the sum outputs. C4 is the carry-out, indicating overflow when the result exceeds 15. VCC (pin 16) and GND (pin 8) supply the 2–6 V operating voltage.",
-    "Example: 3 + 5 = 8. A = 0011, B = 0101, C0 = 0. Sum S = 1000, C4 = 0. Example: 7 + 9 = 16. A = 0111, B = 1001, C0 = 0. Sum S = 0000, C4 = 1 (overflow). The full 5-bit result 10000 = 16 is correct when C4 is included as bit 5.",
+    "A **binary adder** adds two binary numbers. A **full adder** adds three 1-bit inputs, the two operands $A_i$ and $B_i$ and a carry-in $C_i$, and produces a sum bit $S_i$ and a carry-out $C_{i+1}$. A **4-bit ripple-carry adder** is made by cascading four full adders so that the carry-out of each stage becomes the carry-in of the next stage.",
+    "Full-adder equations for bit $i$: $P_i = A_i \\oplus B_i$ (propagate), $G_i = A_i \\cdot B_i$ (generate), $S_i = P_i \\oplus C_i$ and $C_{i+1} = G_i + P_i \\cdot C_i$. Each full adder therefore needs two XOR gates, two AND gates and one OR gate.",
+    "For the 4-bit adder, $A = A_3A_2A_1A_0$ and $B = B_3B_2B_1B_0$ are added with an external carry-in $C_0 = C_{in}$. The result is a 5-bit number $C_{out}\\,S_3S_2S_1S_0$ where $C_{out} = C_4$. The result ranges from 0 (0 + 0 + 0) to 31 (15 + 15 + 1), so the carry-out is needed to represent sums above 15.",
+    "The experiment uses discrete gates: **74HC86** (quad 2-input XOR), **74HC08** (quad 2-input AND) and **74HC32** (quad 2-input OR). Four full adders need 8 XOR, 8 AND and 4 OR gates, which is exactly two 74HC86, two 74HC08 and one 74HC32. The same function is available in a single IC, the 74HC283 (7483) 4-bit binary adder, which uses carry look-ahead internally.",
+    "In a ripple-carry adder the carry must pass through every stage in turn. The worst-case delay is therefore about $4 \\times (t_{AND} + t_{OR})$ for the carry chain plus one XOR delay for the last sum bit, and it grows linearly with the number of bits. This is why wide adders use carry look-ahead.",
   ],
 };

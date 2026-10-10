@@ -1,21 +1,23 @@
-import { type ObservationSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const observations: ObservationSection = {
+export const observations: LabSection = {
   id: "observations",
   type: "observation",
   title: "Observations",
   paragraphs: [
-    "Supply: VCC = +5 V. C0 = 1 (tied to VCC for two's complement).",
-    "C4=1 → result ≥ 0 (A ≥ B, no borrow). C4=0 → result < 0 (A < B, borrow occurred).",
-    "For negative results, the 4-bit output is the two's complement of the magnitude.",
+    "Apply each pair of inputs, with $C_0 = 1$, and record the outputs. Borrow $= \\overline{C_4}$. When Borrow = 1, the result is the negative of the 2's complement of $S$.",
   ],
   table: {
-    headers: ["A", "B", "A−B", "S4 S3 S2 S1", "C4", "Interpretation"],
+    headers: ["A", "B", "~B", "S3 S2 S1 S0", "C4", "Borrow", "A - B"],
     rows: [
-      [8, 5, 3, "0 0 1 1", 1, "+3 (no borrow)"],
-      [5, 8, -3, "1 1 0 1", 0, "−3 (borrow, 2's comp)"],
-      [15, 9, 6, "0 1 1 0", 1, "+6 (no borrow)"],
-      [4, 4, 0, "0 0 0 0", 1, "0 (equal)"],
+      ["1001 (9)", "0101 (5)", "1010", "0100", "1", "0", "+4"],
+      ["0110 (6)", "0010 (2)", "1101", "0100", "1", "0", "+4"],
+      ["1000 (8)", "0011 (3)", "1100", "0101", "1", "0", "+5"],
+      ["0111 (7)", "0111 (7)", "1000", "0000", "1", "0", "0"],
+      ["1111 (15)", "0000 (0)", "1111", "1111", "1", "0", "+15"],
+      ["0101 (5)", "1001 (9)", "0110", "1100", "0", "1", "-4"],
+      ["0011 (3)", "1000 (8)", "0111", "1011", "0", "1", "-5"],
+      ["0000 (0)", "0001 (1)", "1110", "1111", "0", "1", "-1"],
     ],
   },
 };

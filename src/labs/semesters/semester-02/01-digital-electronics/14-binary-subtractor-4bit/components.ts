@@ -3,7 +3,7 @@ import { type ComponentInstance } from "@/labs/types";
 export const components: ComponentInstance[] = [
   {
     id: "bb",
-    type: "breadboard",
+    type: "long-breadboard",
   },
   {
     id: "xor_b1",
@@ -226,7 +226,7 @@ export const components: ComponentInstance[] = [
     color: "orange",
     from: {
       board: "bb",
-      col: 1,
+      col: 52,
       row: "a",
     },
     to: {
@@ -240,7 +240,7 @@ export const components: ComponentInstance[] = [
     color: "orange",
     from: {
       board: "bb",
-      col: 2,
+      col: 53,
       row: "a",
     },
     to: {
@@ -254,7 +254,7 @@ export const components: ComponentInstance[] = [
     color: "orange",
     from: {
       board: "bb",
-      col: 3,
+      col: 54,
       row: "a",
     },
     to: {
@@ -268,7 +268,7 @@ export const components: ComponentInstance[] = [
     color: "orange",
     from: {
       board: "bb",
-      col: 4,
+      col: 55,
       row: "a",
     },
     to: {
@@ -282,8 +282,8 @@ export const components: ComponentInstance[] = [
     color: "blue",
     from: {
       board: "bb",
-      col: 1,
-      row: "b",
+      col: 48,
+      row: "f",
     },
     to: {
       ic: "xor_b1",
@@ -296,8 +296,8 @@ export const components: ComponentInstance[] = [
     color: "blue",
     from: {
       board: "bb",
-      col: 2,
-      row: "b",
+      col: 49,
+      row: "f",
     },
     to: {
       ic: "xor_b2",
@@ -310,8 +310,8 @@ export const components: ComponentInstance[] = [
     color: "blue",
     from: {
       board: "bb",
-      col: 3,
-      row: "b",
+      col: 50,
+      row: "f",
     },
     to: {
       ic: "xor_b3",
@@ -324,8 +324,8 @@ export const components: ComponentInstance[] = [
     color: "blue",
     from: {
       board: "bb",
-      col: 4,
-      row: "b",
+      col: 51,
+      row: "f",
     },
     to: {
       ic: "xor_b4",

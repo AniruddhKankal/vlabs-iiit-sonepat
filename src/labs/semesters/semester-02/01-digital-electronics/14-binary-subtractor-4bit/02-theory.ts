@@ -1,13 +1,15 @@
-import { type TheorySection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const theory: TheorySection = {
+export const theory: LabSection = {
   id: "theory",
   type: "text",
   title: "Theory",
   paragraphs: [
-    "Binary subtraction can be performed using an adder by exploiting two's complement representation. The two's complement of a number N is obtained by inverting all bits (one's complement) and adding 1. Therefore: A − B = A + (two's complement of B) = A + B' + 1, where B' denotes the bitwise complement of B.",
-    "XOR gates implement programmable inversion: when one input of an XOR is tied HIGH (1), the output is the complement of the other input (X ⊕ 1 = X'). When tied LOW (0), the XOR passes the input unchanged (X ⊕ 0 = X). In this circuit, the B-input of each XOR gate is permanently tied to VCC, so all four XOR gates act as inverters for B1–B4.",
-    "The carry-in C0 of the 74HC283 is tied to VCC (HIGH), providing the +1 needed to complete the two's complement. The adder therefore computes: A + B' + 1 = A − B (in two's complement arithmetic). The carry-out C4 indicates the sign of the result: C4=1 means A ≥ B (positive or zero result); C4=0 means A < B (negative result in 4-bit unsigned).",
-    "For signed 4-bit arithmetic (−8 to +7), results outside this range indicate overflow. When A ≥ B, the result S4–S1 is the correct magnitude. When A < B, S4–S1 holds the two's complement of (B−A); to recover the magnitude, invert S4–S1 and add 1. This experiment demonstrates both cases.",
+    "Binary subtraction can be done with an adder. In 2's complement arithmetic, subtracting $B$ is the same as adding the 2's complement of $B$: $A - B = A + \\overline{B} + 1$, where $\\overline{B}$ is the bitwise complement (1's complement) of $B$.",
+    "A 1-bit full subtractor has inputs $A$, $B$ and borrow-in $B_{in}$. Its outputs are $D = A \\oplus B \\oplus B_{in}$ and $B_{out} = \\overline{A}\\,B + \\overline{(A \\oplus B)}\\,B_{in}$. Chaining four of them (ripple borrow) gives a 4-bit subtractor, but needs about 20 gates.",
+    "The adder-based design is smaller. Invert each bit of $B$ with a 74HC04 (four NOT gates), feed the result to the $B$ inputs of a 74HC283 4-bit adder, connect $A$ to its $A$ inputs, and tie the carry-in $C_0$ to logic 1 (+5 V). The adder then computes $S = A + \\overline{B} + 1$.",
+    "Reading the result: the carry-out $C_4$ tells you whether a borrow happened. If $C_4 = 1$, then $A \\ge B$, there is no borrow, and $S_3S_2S_1S_0$ is the true difference. If $C_4 = 0$, then $A < B$, a borrow occurred (Borrow $= \\overline{C_4} = 1$), and $S$ is the 2's complement of the magnitude: the true difference is $-(\\overline{S} + 1)$.",
+    "Worked examples: $9 - 5$: $1001 + 1010 + 1 = 1\\,0100$, so $S = 0100$ and $C_4 = 1$, giving $+4$. $5 - 9$: $0101 + 0110 + 1 = 0\\,1100$, so $S = 1100$ and $C_4 = 0$; the magnitude is $\\overline{1100} + 1 = 0100$, giving $-4$.",
+    "Extension: replacing the inverters with 74HC86 XOR gates controlled by a mode line $M$ gives an adder/subtractor ($M = 0$ adds, $M = 1$ subtracts), with $M$ also wired to $C_0$.",
   ],
 };

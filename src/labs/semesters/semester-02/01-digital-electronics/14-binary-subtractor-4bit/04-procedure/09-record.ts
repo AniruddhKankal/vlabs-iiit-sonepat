@@ -1,8 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: "Test 5 − 8 = −3.",
-  body: "Set A=0101 (A3=A1=1) and B=1000 (B4=1). Result in 4-bit two's complement = 1101 (unsigned value 13). Led_s4, led_s3, led_s1 light. C4=0 (white LED OFF) indicates borrow — A < B. To read the signed magnitude: invert 1101 = 0010, add 1 → 0011 = 3. So result = −3.",
+  label: "Record the observations",
+  body: "Fill the observation table for all test pairs. For each row compute Borrow $= \\overline{C_4}$ and the signed result, and compare with the expected $A - B$.",
   show: [
     "bb",
     "xor_b1",
@@ -53,15 +53,6 @@ export const step: SceneProcedureStep = {
     "w_c4_led",
     "w_c4_gnd",
   ],
-  highlight: "led_s4",
-  activeInputs: {
-    A4: 0,
-    A3: 1,
-    A2: 0,
-    A1: 1,
-    B4: 1,
-    B3: 0,
-    B2: 0,
-    B1: 0,
-  },
+  highlight: "led_c4",
+  supplyVoltage: 5.0,
 };

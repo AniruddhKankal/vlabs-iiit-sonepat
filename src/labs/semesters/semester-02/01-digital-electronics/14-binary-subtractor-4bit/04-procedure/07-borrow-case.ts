@@ -1,8 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: "Test 8 − 5 = 3.",
-  body: "Set A=1000 (A4=1) and B=0101 (B3=1, B1=1). Expected result: 3 = 0011. Led_s2 (yellow) and led_s1 (red) should light. C4=1 (white LED ON) confirms no borrow — A ≥ B.",
+  label: "Test a case with borrow",
+  body: "Set $A = 0101$ (5) and $B = 1001$ (9). The carry-out $C_4$ LED is OFF ($C_4 = 0$), so Borrow $= \\overline{C_4} = 1$ and $A < B$. The sum LEDs read $1100$, which is the 2's complement of the magnitude: $\\overline{1100} + 1 = 0100 = 4$, so $A - B = -4$. Repeat for $3 - 8$.",
   show: [
     "bb",
     "xor_b1",
@@ -53,15 +53,7 @@ export const step: SceneProcedureStep = {
     "w_c4_led",
     "w_c4_gnd",
   ],
-  highlight: "led_s2",
-  activeInputs: {
-    A4: 1,
-    A3: 0,
-    A2: 0,
-    A1: 0,
-    B4: 0,
-    B3: 1,
-    B2: 0,
-    B1: 1,
-  },
+  highlight: "led_c4",
+  supplyVoltage: 5.0,
+  activeInputs: { A4: 0, A3: 1, A2: 0, A1: 1, B4: 1, B3: 0, B2: 0, B1: 1 },
 };

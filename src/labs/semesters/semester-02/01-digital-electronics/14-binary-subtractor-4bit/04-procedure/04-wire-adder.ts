@@ -1,8 +1,8 @@
 import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: "Wire B inputs through XOR inverters.",
-  body: "Blue wires from row b: col 1 → xor_b1 pin A, col 2 → xor_b2 pin A, col 3 → xor_b3 pin A, col 4 → xor_b4 pin A. White wires from each XOR output to the adder b-pins: xor_b1.Y → b1, etc. B is the subtrahend; it is inverted before entering the adder.",
+  label: "Wire the adder inputs",
+  body: "Connect $A_1$–$A_4$ from the A switches (row a, cols 1–4) directly to the adder A inputs with orange wires — these bypass the inverters. Tie the carry-in $C_0$ (col 19 row e) to the +5 V rail with a red wire. $C_0 = 1$ adds the extra +1 of the 2's complement, so the adder now computes $A + \\overline{B} + 1 = A - B$.",
   show: [
     "bb",
     "xor_b1",
@@ -28,14 +28,5 @@ export const step: SceneProcedureStep = {
     "w_xb3_adder",
     "w_xb4_adder",
   ],
-  activeInputs: {
-    A4: 1,
-    A3: 0,
-    A2: 0,
-    A1: 0,
-    B4: 0,
-    B3: 1,
-    B2: 0,
-    B1: 1,
-  },
+  highlight: "w_c0_vcc",
 };
