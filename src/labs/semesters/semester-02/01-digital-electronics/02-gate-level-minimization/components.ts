@@ -26,7 +26,7 @@ export const components: ComponentInstance[] = [
       { board: "bb", rail: "gnd_top", col: 1 },
     ],
   },
-  
+
   // ── Rail link: top + rail feeds bottom + rail ────────
   {
     id: "w_rail_link_vcc",
@@ -44,13 +44,25 @@ export const components: ComponentInstance[] = [
   },
 
   // --- Two-level network (AND-OR) ---
-  { id: "and1", type: "and-gate", mountedAt: { board: "bb", col: 6, row: "e" } },
-  { id: "and2", type: "and-gate", mountedAt: { board: "bb", col: 15, row: "e" } },
+  {
+    id: "and1",
+    type: "and-gate",
+    mountedAt: { board: "bb", col: 6, row: "e" },
+  },
+  {
+    id: "and2",
+    type: "and-gate",
+    mountedAt: { board: "bb", col: 15, row: "e" },
+  },
   { id: "or1", type: "or-gate", mountedAt: { board: "bb", col: 24, row: "e" } },
 
   // --- Multi-level network (factored) ---
   { id: "or2", type: "or-gate", mountedAt: { board: "bb", col: 33, row: "e" } },
-  { id: "and3", type: "and-gate", mountedAt: { board: "bb", col: 42, row: "e" } },
+  {
+    id: "and3",
+    type: "and-gate",
+    mountedAt: { board: "bb", col: 42, row: "e" },
+  },
 
   // --- Output indicators ---
   {
@@ -77,7 +89,6 @@ export const components: ComponentInstance[] = [
     color: "yellow",
     mountedAt: { board: "bb", col: 57, row: "c" },
   },
-
 
   // --- Inputs to the two-level network ---
   {
@@ -200,18 +211,78 @@ export const components: ComponentInstance[] = [
   },
 
   // --- Power for ICs ---
-  { id: "w_vcc_and1", type: "wire", color: "purple", from: { board: "bb", rail: "vcc_bot", col: 6 }, to: { board: "bb", col: 6, row: "h" } },
-  { id: "w_gnd_and1", type: "wire", color: "black", from: { board: "bb", col: 12, row: "b" }, to: { board: "bb", rail: "gnd_top", col: 12 } },
+  {
+    id: "w_vcc_and1",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_bot", col: 6 },
+    to: { board: "bb", col: 6, row: "h" },
+  },
+  {
+    id: "w_gnd_and1",
+    type: "wire",
+    color: "black",
+    from: { board: "bb", col: 12, row: "b" },
+    to: { board: "bb", rail: "gnd_top", col: 12 },
+  },
 
-  { id: "w_vcc_and2", type: "wire", color: "purple", from: { board: "bb", rail: "vcc_bot", col: 15 }, to: { board: "bb", col: 15, row: "h" } },
-  { id: "w_gnd_and2", type: "wire", color: "black", from: { board: "bb", col: 21, row: "b" }, to: { board: "bb", rail: "gnd_top", col: 21 } },
+  {
+    id: "w_vcc_and2",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_bot", col: 15 },
+    to: { board: "bb", col: 15, row: "h" },
+  },
+  {
+    id: "w_gnd_and2",
+    type: "wire",
+    color: "black",
+    from: { board: "bb", col: 21, row: "b" },
+    to: { board: "bb", rail: "gnd_top", col: 21 },
+  },
 
-  { id: "w_vcc_or1", type: "wire", color: "purple", from: { board: "bb", rail: "vcc_bot", col: 24 }, to: { board: "bb", col: 24, row: "h" } },
-  { id: "w_gnd_or1", type: "wire", color: "black", from: { board: "bb", col: 30, row: "b" }, to: { board: "bb", rail: "gnd_top", col: 30 } },
+  {
+    id: "w_vcc_or1",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_bot", col: 24 },
+    to: { board: "bb", col: 24, row: "h" },
+  },
+  {
+    id: "w_gnd_or1",
+    type: "wire",
+    color: "black",
+    from: { board: "bb", col: 30, row: "b" },
+    to: { board: "bb", rail: "gnd_top", col: 30 },
+  },
 
-  { id: "w_vcc_or2", type: "wire", color: "purple", from: { board: "bb", rail: "vcc_bot", col: 33 }, to: { board: "bb", col: 33, row: "h" } },
-  { id: "w_gnd_or2", type: "wire", color: "black", from: { board: "bb", col: 39, row: "b" }, to: { board: "bb", rail: "gnd_top", col: 39 } },
+  {
+    id: "w_vcc_or2",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_bot", col: 33 },
+    to: { board: "bb", col: 33, row: "h" },
+  },
+  {
+    id: "w_gnd_or2",
+    type: "wire",
+    color: "black",
+    from: { board: "bb", col: 39, row: "b" },
+    to: { board: "bb", rail: "gnd_top", col: 39 },
+  },
 
-  { id: "w_vcc_and3", type: "wire", color: "purple", from: { board: "bb", rail: "vcc_bot", col: 42 }, to: { board: "bb", col: 42, row: "h" } },
-  { id: "w_gnd_and3", type: "wire", color: "black", from: { board: "bb", col: 48, row: "b" }, to: { board: "bb", rail: "gnd_top", col: 48 } },
+  {
+    id: "w_vcc_and3",
+    type: "wire",
+    color: "purple",
+    from: { board: "bb", rail: "vcc_bot", col: 42 },
+    to: { board: "bb", col: 42, row: "h" },
+  },
+  {
+    id: "w_gnd_and3",
+    type: "wire",
+    color: "black",
+    from: { board: "bb", col: 48, row: "b" },
+    to: { board: "bb", rail: "gnd_top", col: 48 },
+  },
 ];

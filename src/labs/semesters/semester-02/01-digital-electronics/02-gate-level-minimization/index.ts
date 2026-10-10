@@ -11,7 +11,8 @@ import { components } from "./components";
 
 export const gateLevelMinimizationExperiment: ExperimentDefinition = {
   id: "gate-level-minimization",
-  title: "Gate-Level Minimization: Two-Level and Multi-Level Implementation of Boolean Functions",
+  title:
+    "Gate-Level Minimization: Two-Level and Multi-Level Implementation of Boolean Functions",
   description:
     "Minimize F(A,B,C) = Σm(5,6,7) with a K-map to F = AB + AC, build it as a two-level AND-OR network and as a multi-level factored network F = A(B + C), and compare cost and truth tables.",
   components,
