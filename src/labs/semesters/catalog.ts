@@ -149,10 +149,23 @@ import {
 } from "./semester-01/01-analog-electronics/13-opamp-circuits";
 
 import {
+<<<<<<< HEAD
   FullAdderCircuit,
   FullAdderContent,
   fullAdderExperiment,
 } from "./semester-02/01-digital-electronics/04-01-full-adder";
+=======
+  InvertingNonInvertingOpampCircuit,
+  InvertingNonInvertingOpampContent,
+  invertingNonInvertingOpampExperiment,
+} from './semester-01/01-analog-electronics/inverting-non-inverting-opamp';
+
+import {
+  Encoder4to2Circuit,
+  Encoder4to2Content,
+  encoder4to2Experiment,
+} from './semester-02/01-digital-electronics/encoder-4to2';
+>>>>>>> 2736520 (fix op-amp experiment catalog import)
 
 import {
   FullSubtractorCircuit,
