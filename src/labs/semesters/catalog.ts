@@ -239,9 +239,9 @@ import {
 } from "./semester-02/01-digital-electronics/13-binary-adder-4bit";
 
 import {
-  FourBitSubtractorCircuit,
-  FourBitSubtractorContent,
-  fourBitSubtractorExperiment,
+  BinarySubtractor4bitCircuit,
+  BinarySubtractor4bitContent,
+  binarySubtractor4bitExperiment,
 } from "./semester-02/01-digital-electronics/14-binary-subtractor-4bit";
 
 import {
@@ -880,9 +880,9 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         ["adder", "4-bit", "74hc283", "carry-out", "combinational"],
       ),
       fromBuilt(
-        fourBitSubtractorExperiment,
-        FourBitSubtractorCircuit,
-        FourBitSubtractorContent,
+        binarySubtractor4bitExperiment,
+        BinarySubtractor4bitCircuit,
+        BinarySubtractor4bitContent,
         ["2's complement", "subtractor", "4-bit", "xor", "74hc283"],
       ),
       fromBuilt(dFlipFlopExperiment, DFlipFlopCircuit, DFlipFlopContent, [
