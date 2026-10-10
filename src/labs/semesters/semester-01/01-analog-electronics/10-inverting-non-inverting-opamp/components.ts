@@ -33,7 +33,7 @@ export const components: ComponentInstance[] = [
     type: "op-amp",
     mountedAt: {
       board: "bb",
-      col: 25,
+      col: 18,
       row: "e",
     },
   },
@@ -115,7 +115,7 @@ export const components: ComponentInstance[] = [
     type: "voltmeter",
     mountedAt: {
       board: "bb",
-      col: 55,
+      col: 26,
       row: "f",
     },
     probes: [
@@ -127,7 +127,7 @@ export const components: ComponentInstance[] = [
       {
         board: "bb",
         rail: "gnd_top",
-        col: 45,
+        col: 28,
       },
     ],
   },

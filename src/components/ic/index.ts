@@ -292,11 +292,11 @@ export function resolveIcPin(
 
       case "6":
       case "OUT":
-        return hole(startCol + 1, sideB, cols);
+        return hole(startCol + 2, sideB, cols);
 
       case "7":
       case "V+":
-        return hole(startCol + 0, sideB, cols);
+        return hole(startCol + 1, sideB, cols);
     }
   }
 
