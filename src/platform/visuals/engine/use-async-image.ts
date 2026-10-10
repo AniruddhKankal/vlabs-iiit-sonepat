@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useAsyncResource } from './use-async-resource';
+import { useAsyncResource } from "./use-async-resource";
 
 export function useAsyncImage(
   loader: (() => Promise<HTMLImageElement>) | null,

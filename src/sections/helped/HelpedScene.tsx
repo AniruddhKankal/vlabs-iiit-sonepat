@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef } from "react";
 
-import { useScheduledOnScroll } from '@/platform/motion';
-import { Eyebrow, GuideCrosshair, Heading } from '@/ui';
+import { useScheduledOnScroll } from "@/platform/motion";
+import { Eyebrow, GuideCrosshair, Heading } from "@/ui";
 
-import { HelpedCard } from './HelpedCard';
+import { HelpedCard } from "./HelpedCard";
 import {
   applyHelpedSceneLayout,
   type HelpedSceneLayoutState,
-} from './helped-scene-layout';
-import { HELPED_CARDS } from './helped.data';
+} from "./helped-scene-layout";
+import { HELPED_CARDS } from "./helped.data";
 
 export function HelpedScene() {
   const sectionRef = useRef<HTMLDivElement>(null);

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { createContext } from 'react';
+import { createContext } from "react";
 
-import { type Scheme } from '@/tokens';
+import { type Scheme } from "@/tokens";
 
 export type MenuStyleOverride = {
   scheme?: Scheme;

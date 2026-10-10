@@ -46,15 +46,15 @@ stubs/
 
 ## Tech stack
 
-| Thing | What |
-|---|---|
-| Framework | Next.js 16 (App Router, Turbopack) |
-| Styling | Linaria (zero-runtime CSS-in-JS) |
-| 3D / WebGL | Three.js |
-| UI primitives | @base-ui/react |
-| Icons | @tabler/icons-react |
-| Language | TypeScript (strict: false) |
-| Fonts | next/font/local from public/fonts/ |
+| Thing         | What                               |
+| ------------- | ---------------------------------- |
+| Framework     | Next.js 16 (App Router, Turbopack) |
+| Styling       | Linaria (zero-runtime CSS-in-JS)   |
+| 3D / WebGL    | Three.js                           |
+| UI primitives | @base-ui/react                     |
+| Icons         | @tabler/icons-react                |
+| Language      | TypeScript (strict: false)         |
+| Fonts         | next/font/local from public/fonts/ |
 
 ---
 
@@ -67,10 +67,12 @@ npm start       # serve production build
 ```
 
 If you get a `No Lingui config found` error after install:
+
 ```bash
 Remove-Item -Recurse -Force .next
 npm run build
 ```
+
 This is a stale cache issue — deleting `.next` fixes it every time.
 
 ---
@@ -97,15 +99,16 @@ This is a stale cache issue — deleting `.next` fixes it every time.
 
 ### Audio Narration
 
-All lab sections (`01-aim.ts`, `02-theory.ts`, etc.) and procedure steps (`04-procedure/...`) support an optional `audioPath` property for voiceovers. 
+All lab sections (`01-aim.ts`, `02-theory.ts`, etc.) and procedure steps (`04-procedure/...`) support an optional `audioPath` property for voiceovers.
 
 1. Save `.mp3` files in the `public/` directory, mirroring the experiment's folder structure (e.g., `public/semesters/semester-01/01-analog-electronics/half-wave-rectifier/01-aim.mp3`).
 2. Link them in the struct using the absolute public path:
    ```ts
    export const aim: LabSection = {
-     id: 'aim',
-     title: 'Aim',
-     audioPath: '/semesters/semester-01/01-analog-electronics/half-wave-rectifier/01-aim.mp3',
+     id: "aim",
+     title: "Aim",
+     audioPath:
+       "/semesters/semester-01/01-analog-electronics/half-wave-rectifier/01-aim.mp3",
      // ...
    };
    ```
@@ -130,20 +133,22 @@ export function buildXorGate(): THREE.Group {
 }
 
 export const XorGateSpec = {
-  id: 'xor-gate',
-  description: 'XOR logic gate (74HC86). Output is HIGH when inputs differ.',
-  pins: { A: 'input', B: 'input', Y: 'output' },
-  usage: 'mountedAt: { board, col, row } — straddles centre gap',
-}
+  id: "xor-gate",
+  description: "XOR logic gate (74HC86). Output is HIGH when inputs differ.",
+  pins: { A: "input", B: "input", Y: "output" },
+  usage: "mountedAt: { board, col, row } — straddles centre gap",
+};
 ```
 
 Then:
+
 1. Register it in `src/labs/components/index.ts`
 2. Add its spec to `src/labs/COMPONENTS.md` (this is what Claude reads)
 
 ### Geometry style guide
 
 Follow bob-the-builder's approach exactly:
+
 - **White fill** (`0xffffff`) + **black wireframe edges** (`0x141414`)
 - Geometry only from Three.js primitives: `BoxGeometry`, `CylinderGeometry`, `SphereGeometry`, `TorusGeometry`
 - No `.glb` files, no textures, no external assets
@@ -155,6 +160,7 @@ Follow bob-the-builder's approach exactly:
 ## How the existing 3D showcase cards work
 
 The three cards on the landing page (`src/sections/three-cards/`) show:
+
 - **Breadboard** — solderless breadboard with hole grid, power rails, centre gap
 - **LED** — dome + body + leads
 - **Resistor** — body + colour bands + leads
@@ -180,31 +186,38 @@ template to follow for the `LabScene` renderer.
 
 ## Landing page sections (what's on the home page)
 
-| Section | What it shows |
-|---|---|
-| `Menu` | Nav bar with logo, links, GitHub/Discord stats |
-| `HomeHero` | Headline + CTA + hero bridge backdrop (WebGL halftone) + mockup placeholder |
-| `TrustedBy` | Logo bar of companies using VLabs |
-| `Problem` | The problem statement with masked WebGL visual |
-| `ThreeCards` | 3 ECE component showcase cards (breadboard, LED, resistor) |
-| `FeatureCards` | 3 feature cards (familiar interface, live data, fast path) |
-| `Helped` | Customer story cards (W3villa, AC&T, NetZero) with scroll animation |
-| `Testimonials` | Quote carousel |
-| `Footer` | Simple footer (logo, links, copyright) |
+| Section        | What it shows                                                               |
+| -------------- | --------------------------------------------------------------------------- |
+| `Menu`         | Nav bar with logo, links, GitHub/Discord stats                              |
+| `HomeHero`     | Headline + CTA + hero bridge backdrop (WebGL halftone) + mockup placeholder |
+| `TrustedBy`    | Logo bar of companies using VLabs                                           |
+| `Problem`      | The problem statement with masked WebGL visual                              |
+| `ThreeCards`   | 3 ECE component showcase cards (breadboard, LED, resistor)                  |
+| `FeatureCards` | 3 feature cards (familiar interface, live data, fast path)                  |
+| `Helped`       | Customer story cards (W3villa, AC&T, NetZero) with scroll animation         |
+| `Testimonials` | Quote carousel                                                              |
+| `Footer`       | Simple footer (logo, links, copyright)                                      |
 
 ---
 
 ## Design system quick reference
 
 ```ts
-import { color, spacing, radius, mediaUp, fontFamily, FONT_WEIGHT } from '@/tokens';
+import {
+  color,
+  spacing,
+  radius,
+  mediaUp,
+  fontFamily,
+  FONT_WEIGHT,
+} from "@/tokens";
 
-color('blue')           // CSS variable reference
-color('gray', 400)      // shade variant
-spacing(4)              // 4 × base unit
-radius(2)               // border-radius scale
-mediaUp('md')           // @media (min-width: 768px)
-fontFamily('sans')      // var(--font-sans)
+color("blue"); // CSS variable reference
+color("gray", 400); // shade variant
+spacing(4); // 4 × base unit
+radius(2); // border-radius scale
+mediaUp("md"); // @media (min-width: 768px)
+fontFamily("sans"); // var(--font-sans)
 ```
 
 Schemes: `data-scheme="light"` | `"dark"` | `"muted"` — components respond automatically.

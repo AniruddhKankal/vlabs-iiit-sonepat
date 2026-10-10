@@ -1,8 +1,8 @@
-import { type ReactNode } from 'react';
+import { type ReactNode } from "react";
 
-import { type Scheme } from '@/tokens';
+import { type Scheme } from "@/tokens";
 
-import { Container } from './Container';
+import { Container } from "./Container";
 
 export type SectionShellProps = {
   ariaLabel?: string;
@@ -12,7 +12,7 @@ export type SectionShellProps = {
   flushInline?: boolean;
   fullBleedBackground?: boolean;
   keepsTopRhythm?: boolean;
-  rhythm?: 'section' | 'hero' | 'spacious' | 'flush';
+  rhythm?: "section" | "hero" | "spacious" | "flush";
   scheme?: Scheme;
 };
 
@@ -24,15 +24,15 @@ export function SectionShell({
   flushInline = false,
   fullBleedBackground = false,
   keepsTopRhythm = false,
-  rhythm = 'section',
-  scheme = 'light',
+  rhythm = "section",
+  scheme = "light",
 }: SectionShellProps) {
   return (
     <section
       aria-label={ariaLabel}
       className="section-shell bg-[var(--surface)] min-w-0 overflow-clip relative w-full"
-      data-connect-up={connectsUp ? '' : undefined}
-      data-keep-top-rhythm={keepsTopRhythm ? '' : undefined}
+      data-connect-up={connectsUp ? "" : undefined}
+      data-keep-top-rhythm={keepsTopRhythm ? "" : undefined}
       data-menu-surface=""
       data-rhythm={rhythm}
       data-scheme={scheme}
@@ -41,11 +41,11 @@ export function SectionShell({
         <div
           aria-hidden
           className={[
-            'absolute inset-0 mx-auto max-w-[1512px] overflow-clip pointer-events-none z-0',
-            fullBleedBackground && 'max-w-none',
+            "absolute inset-0 mx-auto max-w-[1512px] overflow-clip pointer-events-none z-0",
+            fullBleedBackground && "max-w-none",
           ]
             .filter(Boolean)
-            .join(' ')}
+            .join(" ")}
           data-background-layer=""
         >
           {background}
@@ -53,7 +53,7 @@ export function SectionShell({
       )}
       <Container
         className="relative z-[1]"
-        data-flush-inline={flushInline ? '' : undefined}
+        data-flush-inline={flushInline ? "" : undefined}
       >
         {children}
       </Container>

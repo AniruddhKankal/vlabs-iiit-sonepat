@@ -1,7 +1,7 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
-import { buildBreadboard } from '@/components/breadboard';
-import { LONG_COLS, TOP_Y } from '@/labs/coords';
+import { buildBreadboard } from "@/components/breadboard";
+import { LONG_COLS, TOP_Y } from "@/labs/coords";
 
 /** Full-size solderless breadboard — 60 columns, same row layout as `breadboard`. */
 export function buildLongBreadboard(): THREE.Group {

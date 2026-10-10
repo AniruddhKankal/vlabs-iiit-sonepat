@@ -1,4 +1,4 @@
-type SlotPriority = 'priority' | 'normal';
+type SlotPriority = "priority" | "normal";
 
 type SlotRequest = {
   priority?: SlotPriority;
@@ -8,7 +8,7 @@ type SlotRequest = {
 type SlotRecord = {
   priority: SlotPriority;
   onGranted: () => void;
-  state: 'pending' | 'held' | 'settled';
+  state: "pending" | "held" | "settled";
 };
 
 export type WebGlContextBudget = {
@@ -48,11 +48,11 @@ const NORMAL_GRANT_TIMEOUT_MS = 80;
 function getDefaultHost(): BudgetHost {
   return {
     requestIdleCallback:
-      typeof requestIdleCallback === 'function'
+      typeof requestIdleCallback === "function"
         ? (callback, options) => requestIdleCallback(callback, options)
         : undefined,
     cancelIdleCallback:
-      typeof cancelIdleCallback === 'function'
+      typeof cancelIdleCallback === "function"
         ? (handle) => cancelIdleCallback(handle)
         : undefined,
     setTimeout: (callback, delayMs) => setTimeout(callback, delayMs),
@@ -75,19 +75,19 @@ export function createWebGlContextBudget({
   const held = new Set<SlotRecord>();
 
   let scheduledDrain:
-    | { kind: 'idle'; handle: number }
-    | { kind: 'timeout'; handle: TimeoutHandle }
+    | { kind: "idle"; handle: number }
+    | { kind: "timeout"; handle: TimeoutHandle }
     | null = null;
   let scheduledDrainPriority: SlotPriority | null = null;
 
   const nextPending = (): SlotRecord | undefined =>
-    pending.find((record) => record.priority === 'priority') ?? pending[0];
+    pending.find((record) => record.priority === "priority") ?? pending[0];
 
   const cancelScheduledDrain = () => {
     if (scheduledDrain === null) {
       return;
     }
-    if (scheduledDrain.kind === 'idle') {
+    if (scheduledDrain.kind === "idle") {
       host.cancelIdleCallback?.(scheduledDrain.handle);
     } else {
       host.clearTimeout(scheduledDrain.handle);
@@ -109,7 +109,7 @@ export function createWebGlContextBudget({
     }
 
     pending.splice(pending.indexOf(record), 1);
-    record.state = 'held';
+    record.state = "held";
     held.add(record);
     record.onGranted();
 
@@ -128,8 +128,8 @@ export function createWebGlContextBudget({
     // A waiting priority request preempts an already-scheduled normal drain.
     if (scheduledDrain !== null) {
       if (
-        record.priority === 'priority' &&
-        scheduledDrainPriority === 'normal'
+        record.priority === "priority" &&
+        scheduledDrainPriority === "normal"
       ) {
         cancelScheduledDrain();
       } else {
@@ -138,18 +138,18 @@ export function createWebGlContextBudget({
     }
 
     const timeout =
-      record.priority === 'priority'
+      record.priority === "priority"
         ? PRIORITY_GRANT_TIMEOUT_MS
         : NORMAL_GRANT_TIMEOUT_MS;
 
     if (host.requestIdleCallback) {
       scheduledDrain = {
-        kind: 'idle',
+        kind: "idle",
         handle: host.requestIdleCallback(drainOne, { timeout }),
       };
     } else {
       scheduledDrain = {
-        kind: 'timeout',
+        kind: "timeout",
         handle: host.setTimeout(drainOne, timeout),
       };
     }
@@ -157,26 +157,26 @@ export function createWebGlContextBudget({
   };
 
   return {
-    request({ priority = 'normal', onGranted }) {
-      const record: SlotRecord = { priority, onGranted, state: 'pending' };
+    request({ priority = "normal", onGranted }) {
+      const record: SlotRecord = { priority, onGranted, state: "pending" };
       pending.push(record);
       scheduleDrain();
 
       return function settle() {
-        if (record.state === 'settled') {
+        if (record.state === "settled") {
           return;
         }
-        if (record.state === 'pending') {
+        if (record.state === "pending") {
           const index = pending.indexOf(record);
           if (index !== -1) {
             pending.splice(index, 1);
           }
-          record.state = 'settled';
+          record.state = "settled";
           return;
         }
         // held → release exactly this record's slot, then let the queue move.
         held.delete(record);
-        record.state = 'settled';
+        record.state = "settled";
         scheduleDrain();
       };
     },

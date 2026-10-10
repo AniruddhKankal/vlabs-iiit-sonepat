@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
-import { type ReactNode } from 'react';
+import dynamic from "next/dynamic";
+import { type ReactNode } from "react";
 
-import { type ImageSessionSettings } from '../halftone/create-image-session';
-import { VisualMount } from '../engine/VisualMount';
+import { type ImageSessionSettings } from "../halftone/create-image-session";
+import { VisualMount } from "../engine/VisualMount";
 
 // The ONLY import() of the heavy image pipeline.
 const HalftoneImageScene = dynamic(
   () =>
-    import('../halftone/HalftoneImageScene').then(
+    import("../halftone/HalftoneImageScene").then(
       (module) => module.HalftoneImageScene,
     ),
   { ssr: false },
@@ -22,10 +22,10 @@ export type HalftoneImageBackdropProps = {
   onFirstFrame?: () => void;
   poster?: ReactNode;
   priority?: boolean;
-  loading?: 'lazy' | 'eager';
+  loading?: "lazy" | "eager";
   detachFromLayout?: boolean;
   // Backdrops keep their artwork under reduced motion as a frozen frame.
-  reducedMotionMode?: 'poster' | 'designed';
+  reducedMotionMode?: "poster" | "designed";
 };
 
 export function HalftoneImageBackdrop({
@@ -35,9 +35,9 @@ export function HalftoneImageBackdrop({
   onFirstFrame,
   poster = null,
   priority = false,
-  loading = 'lazy',
+  loading = "lazy",
   detachFromLayout = false,
-  reducedMotionMode = 'designed',
+  reducedMotionMode = "designed",
 }: HalftoneImageBackdropProps) {
   return (
     <VisualMount

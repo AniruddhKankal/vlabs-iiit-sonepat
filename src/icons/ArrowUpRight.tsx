@@ -1,4 +1,4 @@
-const ARROW_PATH = 'M6.069.5.5 6.068M6.069.5H1.738m4.33 0v4.331';
+const ARROW_PATH = "M6.069.5.5 6.068M6.069.5H1.738m4.33 0v4.331";
 
 export type ArrowUpRightProps = {
   sizePx?: number;

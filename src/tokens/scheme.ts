@@ -1,1 +1,1 @@
-export type Scheme = 'light' | 'muted' | 'dark';
+export type Scheme = "light" | "muted" | "dark";

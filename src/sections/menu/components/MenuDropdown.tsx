@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { NavigationMenu } from '@base-ui/react/navigation-menu';
-import NextImage from 'next/image';
-import { useState } from 'react';
+import { NavigationMenu } from "@base-ui/react/navigation-menu";
+import NextImage from "next/image";
+import { useState } from "react";
 
-import { ArrowUpRight } from '@/icons';
-import { usePathname } from 'next/navigation';
-import { ExternalLink } from '@/ui';
+import { ArrowUpRight } from "@/icons";
+import { usePathname } from "next/navigation";
+import { ExternalLink } from "@/ui";
 
-import { type MenuNavChild } from '../types/menu-nav-child';
+import { type MenuNavChild } from "../types/menu-nav-child";
 
 export type MenuDropdownProps = {
   items: readonly MenuNavChild[];
@@ -16,7 +16,7 @@ export type MenuDropdownProps = {
 
 export function MenuDropdown({ items }: MenuDropdownProps) {
   const pathname = usePathname();
-  const [activeHref, setActiveHref] = useState(items[0]?.href ?? '');
+  const [activeHref, setActiveHref] = useState(items[0]?.href ?? "");
   const activeItem =
     items.find((item) => item.href === activeHref) ?? items[0] ?? null;
 
@@ -37,7 +37,7 @@ export function MenuDropdown({ items }: MenuDropdownProps) {
             >
               <NavigationMenu.Link
                 className="grid grid-cols-[auto_1fr] items-center gap-x-[12px] rounded-[calc(var(--radius-base)*2)] p-[12px] no-underline transition-[background] duration-[0.18s] ease-standard hover:bg-[var(--color-black-5)] focus-visible:outline-1 focus-visible:outline-[var(--color-blue)] focus-visible:-outline-offset-1"
-                data-active={isCurrentPage ? '' : undefined}
+                data-active={isCurrentPage ? "" : undefined}
                 render={
                   child.external === true ? (
                     <ExternalLink href={child.href} />
@@ -88,13 +88,13 @@ export function MenuDropdown({ items }: MenuDropdownProps) {
               sizes="720px"
               src={activeItem.preview.image}
               style={{
-                objectFit: 'cover',
-                objectPosition: activeItem.preview.imagePosition ?? 'top left',
+                objectFit: "cover",
+                objectPosition: activeItem.preview.imagePosition ?? "top left",
                 transform:
                   activeItem.preview.imageScale === undefined
                     ? undefined
                     : `scale(${activeItem.preview.imageScale})`,
-                transformOrigin: 'center',
+                transformOrigin: "center",
               }}
             />
           </div>

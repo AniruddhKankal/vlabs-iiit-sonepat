@@ -1,4 +1,4 @@
-import { type CSSProperties } from 'react';
+import { type CSSProperties } from "react";
 
 export type GuideCrosshairProps = {
   // Bounds the lines to the content max-width instead of the full section, so
@@ -16,7 +16,7 @@ export function GuideCrosshair({
   crossY,
   verticalLines = true,
 }: GuideCrosshairProps) {
-  const lineBase = 'absolute bg-[var(--line)]';
+  const lineBase = "absolute bg-[var(--line)]";
 
   const crosshair = (
     <div
@@ -24,9 +24,9 @@ export function GuideCrosshair({
       className="hidden md:block md:absolute md:inset-0 md:pointer-events-none"
       style={
         {
-          '--cross-x': crossX,
-          '--cross-y': crossY,
-          '--cross-gap': '18px',
+          "--cross-x": crossX,
+          "--cross-y": crossY,
+          "--cross-gap": "18px",
         } as CSSProperties
       }
     >
@@ -53,19 +53,17 @@ export function GuideCrosshair({
       {/* v-eraser: re-creates the designed gap around the plus when a scene
          draws its own full-height guide behind this crosshair */}
       {!verticalLines && (
-        <span
-          className="absolute bg-[var(--surface)] h-[calc(var(--cross-gap)*2)] left-[var(--cross-x)] top-[var(--cross-y)] w-[3px] -translate-x-1/2 -translate-y-1/2"
-        />
+        <span className="absolute bg-[var(--surface)] h-[calc(var(--cross-gap)*2)] left-[var(--cross-x)] top-[var(--cross-y)] w-[3px] -translate-x-1/2 -translate-y-1/2" />
       )}
       {/* CSS-drawn full-bleed plus */}
-      <span
-        className="absolute h-3 w-3 left-[var(--cross-x)] top-[var(--cross-y)] -translate-x-1/2 -translate-y-1/2 before:absolute before:bg-[var(--color-blue)] before:h-full before:left-1/2 before:top-0 before:-translate-x-1/2 before:w-px before:content-[''] after:absolute after:bg-[var(--color-blue)] after:h-px after:left-0 after:top-1/2 after:-translate-y-1/2 after:w-full after:content-['']"
-      />
+      <span className="absolute h-3 w-3 left-[var(--cross-x)] top-[var(--cross-y)] -translate-x-1/2 -translate-y-1/2 before:absolute before:bg-[var(--color-blue)] before:h-full before:left-1/2 before:top-0 before:-translate-x-1/2 before:w-px before:content-[''] after:absolute after:bg-[var(--color-blue)] after:h-px after:left-0 after:top-1/2 after:-translate-y-1/2 after:w-full after:content-['']" />
     </div>
   );
 
   return contained ? (
-    <div className="h-full mx-auto max-w-[1512px] relative w-full">{crosshair}</div>
+    <div className="h-full mx-auto max-w-[1512px] relative w-full">
+      {crosshair}
+    </div>
   ) : (
     crosshair
   );

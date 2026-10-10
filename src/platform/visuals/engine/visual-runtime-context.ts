@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { createContext } from 'react';
+import { createContext } from "react";
 
 export type VisualRuntimeValue = {
   // True when the visitor prefers reduced motion AND the mount opted into a

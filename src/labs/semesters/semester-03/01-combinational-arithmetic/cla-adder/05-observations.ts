@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -17,13 +17,7 @@ export const observations: ObservationSection = {
       "32-bit delay",
     ],
     rows: [
-      [
-        "Ripple Carry (RCA)",
-        "4 × t_FA",
-        "8 × t_FA",
-        "16 × t_FA",
-        "32 × t_FA",
-      ],
+      ["Ripple Carry (RCA)", "4 × t_FA", "8 × t_FA", "16 × t_FA", "32 × t_FA"],
       [
         "Carry Look-Ahead (CLA)",
         "~4 levels",

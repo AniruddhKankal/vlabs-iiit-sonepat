@@ -1,10 +1,10 @@
-import { createAnimationFrameLoop } from '@/platform/motion';
+import { createAnimationFrameLoop } from "@/platform/motion";
 
 import {
   observeElementVisibility,
   type ObserveElementVisibilityOptions,
-} from './observe-element-visibility';
-import { visualTestInstrumentation } from './visual-test-instrumentation';
+} from "./observe-element-visibility";
+import { visualTestInstrumentation } from "./visual-test-instrumentation";
 
 export type VisualFrame = {
   deltaSeconds: number;
@@ -34,8 +34,8 @@ type CreateVisualFrameLoopOptions = {
 const MAX_FRAME_DELTA_SECONDS = 0.1;
 
 const reportFrameErrorInDevelopment = (error: unknown) => {
-  if (process.env.NODE_ENV !== 'production') {
-    console.error('Visual frame loop failed:', error);
+  if (process.env.NODE_ENV !== "production") {
+    console.error("Visual frame loop failed:", error);
   }
 };
 
@@ -48,7 +48,7 @@ export function createVisualFrameLoop({
   let disposed = false;
   let wantsRunning = false;
   let isDocumentVisible =
-    typeof document === 'undefined' ? true : !document.hidden;
+    typeof document === "undefined" ? true : !document.hidden;
   let isTargetVisible = true;
   let firstFrameAt: DOMHighResTimeStamp | null = null;
   let previousFrameAt: DOMHighResTimeStamp | null = null;
@@ -97,8 +97,8 @@ export function createVisualFrameLoop({
     syncRunning();
   };
 
-  if (typeof document !== 'undefined') {
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+  if (typeof document !== "undefined") {
+    document.addEventListener("visibilitychange", handleVisibilityChange);
   }
 
   const unobserveTarget =
@@ -127,9 +127,9 @@ export function createVisualFrameLoop({
       wantsRunning = false;
       syncRunning();
       unobserveTarget?.();
-      if (typeof document !== 'undefined') {
+      if (typeof document !== "undefined") {
         document.removeEventListener(
-          'visibilitychange',
+          "visibilitychange",
           handleVisibilityChange,
         );
       }

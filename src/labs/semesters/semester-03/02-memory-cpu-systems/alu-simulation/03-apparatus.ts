@@ -1,4 +1,4 @@
-import { type ApparatusSection } from '@/labs/lab-content.types';
+import { type ApparatusSection } from "@/labs/lab-content.types";
 
 export const apparatus: ApparatusSection = {
   id: "apparatus",
@@ -15,7 +15,8 @@ export const apparatus: ApparatusSection = {
     },
     {
       name: "Operation Selector",
-      specification: "8-operation multiplexer: ADD, SUB, AND, OR, XOR, NOT, NAND, NOR",
+      specification:
+        "8-operation multiplexer: ADD, SUB, AND, OR, XOR, NOT, NAND, NOR",
     },
     {
       name: "Flag Register",

@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -8,62 +8,12 @@ export const observations: ObservationSection = {
     "Combined truth table for all basic logic gates. Output 1 = LED ON, Output 0 = LED OFF. All observations match the theoretical truth tables.",
   ],
   table: {
-    headers: [
-      "A",
-      "B",
-      "AND",
-      "OR",
-      "NOT A",
-      "NAND",
-      "NOR",
-      "XOR",
-      "XNOR",
-    ],
+    headers: ["A", "B", "AND", "OR", "NOT A", "NAND", "NOR", "XOR", "XNOR"],
     rows: [
-      [
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        0,
-        1,
-      ],
-      [
-        0,
-        1,
-        0,
-        1,
-        1,
-        1,
-        0,
-        1,
-        0,
-      ],
-      [
-        1,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        1,
-        0,
-      ],
-      [
-        1,
-        1,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-      ],
+      [0, 0, 0, 0, 1, 1, 1, 0, 1],
+      [0, 1, 0, 1, 1, 1, 0, 1, 0],
+      [1, 0, 0, 1, 0, 1, 0, 1, 0],
+      [1, 1, 1, 1, 0, 0, 0, 0, 1],
     ],
   },
 };

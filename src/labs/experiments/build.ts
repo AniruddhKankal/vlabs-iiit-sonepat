@@ -1,15 +1,23 @@
-import { type LabContent, type LabSection, type ProcedureSection } from '@/labs/lab-content.types';
-import { type Circuit } from '@/labs/types';
+import {
+  type LabContent,
+  type LabSection,
+  type ProcedureSection,
+} from "@/labs/lab-content.types";
+import { type Circuit } from "@/labs/types";
 
-import { type ExperimentDefinition, type SceneProcedureStep } from './types';
+import { type ExperimentDefinition, type SceneProcedureStep } from "./types";
 
 /** Procedure belongs after apparatus (04), before simulation / observations (05+). */
 function procedureInsertIndex(sections: readonly LabSection[]): number {
-  const apparatusIdx = sections.findIndex((s) => s.type === 'apparatus');
+  const apparatusIdx = sections.findIndex((s) => s.type === "apparatus");
   if (apparatusIdx >= 0) return apparatusIdx + 1;
 
-  const afterTheory = sections.findIndex((s) =>
-    s.type === 'simulation' || s.type === 'code-lab' || s.type === 'observation' || s.type === 'conclusion',
+  const afterTheory = sections.findIndex(
+    (s) =>
+      s.type === "simulation" ||
+      s.type === "code-lab" ||
+      s.type === "observation" ||
+      s.type === "conclusion",
   );
   if (afterTheory >= 0) return afterTheory;
 
@@ -42,13 +50,13 @@ export function buildCircuit(experiment: ExperimentDefinition): Circuit {
 
 export function buildLabContent(experiment: ExperimentDefinition): LabContent {
   const procedure: ProcedureSection = {
-    id: 'procedure',
-    type: 'procedure',
-    title: 'Procedure',
+    id: "procedure",
+    type: "procedure",
+    title: "Procedure",
     steps: experiment.procedureSteps,
   };
 
-  const labType = experiment.labType ?? 'breadboard';
+  const labType = experiment.labType ?? "breadboard";
 
   let sections = [...experiment.sections];
   if (experiment.procedureSteps.length > 0) {
@@ -59,8 +67,8 @@ export function buildLabContent(experiment: ExperimentDefinition): LabContent {
   return {
     id: experiment.id,
     title: experiment.title,
-    circuitId: labType === 'breadboard' ? experiment.id : undefined,
-    labType: labType === 'breadboard' ? undefined : labType,
+    circuitId: labType === "breadboard" ? experiment.id : undefined,
+    labType: labType === "breadboard" ? undefined : labType,
     sections,
   };
 }

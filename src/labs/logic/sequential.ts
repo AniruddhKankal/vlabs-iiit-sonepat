@@ -11,9 +11,16 @@
 
 import {
   type Signal,
-  fromBin, sigX, HIGH, LOW, sigAnd, sigOr, sigNot,
-  isFullyDefined, getBit,
-} from './3vl';
+  fromBin,
+  sigX,
+  HIGH,
+  LOW,
+  sigAnd,
+  sigOr,
+  sigNot,
+  isFullyDefined,
+  getBit,
+} from "./3vl";
 
 // ── Base interface ────────────────────────────────────────────────────────
 
@@ -41,49 +48,50 @@ export interface SequentialState {
 // Async set/clear override clock.
 
 export type DffConfig = {
-  bits?:    number;
-  initial?: string;      // binary string e.g. "0" or "x"
+  bits?: number;
+  initial?: string; // binary string e.g. "0" or "x"
   polarity?: {
-    clock?: boolean;     // true=rising, false=falling, undefined=level-sensitive
-    set?:   boolean;     // true=active-high, false=active-low
-    clr?:   boolean;     // true=active-high, false=active-low
-    enable?: boolean;    // true=active-high enable
-    arst?:  boolean;     // async reset polarity
+    clock?: boolean; // true=rising, false=falling, undefined=level-sensitive
+    set?: boolean; // true=active-high, false=active-low
+    clr?: boolean; // true=active-high, false=active-low
+    enable?: boolean; // true=active-high enable
+    arst?: boolean; // async reset polarity
   };
 };
 
 export class DffState implements SequentialState {
-  private q:       Signal;
-  private lastClk: 0 | 1 | 'x' = 'x';
-  private bits:    number;
-  private config:  DffConfig;
+  private q: Signal;
+  private lastClk: 0 | 1 | "x" = "x";
+  private bits: number;
+  private config: DffConfig;
 
   constructor(config: DffConfig = {}) {
-    this.bits   = config.bits ?? 1;
+    this.bits = config.bits ?? 1;
     this.config = config;
-    const init  = config.initial ?? 'x';
-    this.q      = init === 'x' ? sigX(this.bits) : fromBin(init.padStart(this.bits, '0'));
+    const init = config.initial ?? "x";
+    this.q =
+      init === "x" ? sigX(this.bits) : fromBin(init.padStart(this.bits, "0"));
   }
 
   evaluate(inputs: Record<string, Signal>): Record<string, Signal> {
-    const pol     = this.config.polarity ?? {};
-    const clkPol  = pol.clock  !== false ? 1 : 0;   // default rising edge
-    const setPol  = pol.set    !== false ? 1 : 0;
-    const clrPol  = pol.clr    !== false ? 1 : 0;
-    const enPol   = pol.enable !== false ? 1 : 0;
-    const arstPol = pol.arst   !== false ? 1 : 0;
+    const pol = this.config.polarity ?? {};
+    const clkPol = pol.clock !== false ? 1 : 0; // default rising edge
+    const setPol = pol.set !== false ? 1 : 0;
+    const clrPol = pol.clr !== false ? 1 : 0;
+    const enPol = pol.enable !== false ? 1 : 0;
+    const arstPol = pol.arst !== false ? 1 : 0;
 
-    const d   = inputs.in  ?? sigX(this.bits);
+    const d = inputs.in ?? sigX(this.bits);
     const clk = inputs.clk ?? sigX(1);
-    const set = inputs.set ?? (setPol === 1 ? LOW : HIGH);  // default inactive
+    const set = inputs.set ?? (setPol === 1 ? LOW : HIGH); // default inactive
     const clr = inputs.clr ?? (clrPol === 1 ? LOW : HIGH);
-    const en  = inputs.en  ?? (enPol  === 1 ? HIGH : LOW);
+    const en = inputs.en ?? (enPol === 1 ? HIGH : LOW);
     const arst = inputs.arst ?? (arstPol === 1 ? LOW : HIGH);
 
     // Async reset has highest priority
     if (pol.arst !== undefined && getBit(arst, 0) === arstPol) {
-      this.q = sigX(this.bits).map(() => 0) as Signal;  // reset to 0
-      this.lastClk = 'x';
+      this.q = sigX(this.bits).map(() => 0) as Signal; // reset to 0
+      this.lastClk = "x";
       return this._outputs();
     }
 
@@ -96,16 +104,20 @@ export class DffState implements SequentialState {
       this.q = this.q.map(() => 0) as Signal;
     }
     // If both set and clear active simultaneously: undefined
-    if (pol.set !== undefined && pol.clr !== undefined &&
-        getBit(set, 0) === setPol && getBit(clr, 0) === clrPol) {
+    if (
+      pol.set !== undefined &&
+      pol.clr !== undefined &&
+      getBit(set, 0) === setPol &&
+      getBit(clr, 0) === clrPol
+    ) {
       this.q = sigX(this.bits);
     }
 
     // Clock edge detection
     if (pol.clock !== undefined) {
       const curClk = getBit(clk, 0);
-      const edge   = curClk === clkPol && this.lastClk === (clkPol === 1 ? 0 : 1);
-      this.lastClk = curClk as 0 | 1 | 'x';
+      const edge = curClk === clkPol && this.lastClk === (clkPol === 1 ? 0 : 1);
+      this.lastClk = curClk as 0 | 1 | "x";
 
       if (edge) {
         // Check enable
@@ -127,11 +139,14 @@ export class DffState implements SequentialState {
     return { out: this.q, q_bar: sigNot(this.q) };
   }
 
-  getOutputs(): Record<string, Signal> { return this._outputs(); }
+  getOutputs(): Record<string, Signal> {
+    return this._outputs();
+  }
   reset() {
-    const init = this.config.initial ?? 'x';
-    this.q = init === 'x' ? sigX(this.bits) : fromBin(init.padStart(this.bits, '0'));
-    this.lastClk = 'x';
+    const init = this.config.initial ?? "x";
+    this.q =
+      init === "x" ? sigX(this.bits) : fromBin(init.padStart(this.bits, "0"));
+    this.lastClk = "x";
   }
 }
 
@@ -146,41 +161,64 @@ export class DffState implements SequentialState {
 //   J=1, K=1 → Q = NOT Q (toggle)
 
 export class JKFlipFlopState implements SequentialState {
-  private q:       Signal = LOW;
-  private lastClk: 0 | 1 | 'x' = 'x';
+  private q: Signal = LOW;
+  private lastClk: 0 | 1 | "x" = "x";
 
   evaluate(inputs: Record<string, Signal>): Record<string, Signal> {
-    const j   = inputs.j   ?? ['x'];
-    const k   = inputs.k   ?? ['x'];
-    const clk = inputs.clk ?? ['x'];
-    const set = inputs.set ?? HIGH;   // active-low async set
-    const clr = inputs.clr ?? HIGH;  // active-low async clear
+    const j = inputs.j ?? ["x"];
+    const k = inputs.k ?? ["x"];
+    const clk = inputs.clk ?? ["x"];
+    const set = inputs.set ?? HIGH; // active-low async set
+    const clr = inputs.clr ?? HIGH; // active-low async clear
 
     // Async override (active-low)
-    if (getBit(set, 0) === 0 && getBit(clr, 0) === 1) { this.q = HIGH; return this._out(); }
-    if (getBit(set, 0) === 1 && getBit(clr, 0) === 0) { this.q = LOW;  return this._out(); }
-    if (getBit(set, 0) === 0 && getBit(clr, 0) === 0) { this.q = ['x']; return this._out(); }
+    if (getBit(set, 0) === 0 && getBit(clr, 0) === 1) {
+      this.q = HIGH;
+      return this._out();
+    }
+    if (getBit(set, 0) === 1 && getBit(clr, 0) === 0) {
+      this.q = LOW;
+      return this._out();
+    }
+    if (getBit(set, 0) === 0 && getBit(clr, 0) === 0) {
+      this.q = ["x"];
+      return this._out();
+    }
 
     // Falling edge detection
     const curClk = getBit(clk, 0);
-    const edge   = curClk === 0 && this.lastClk === 1;
-    this.lastClk = curClk as 0 | 1 | 'x';
+    const edge = curClk === 0 && this.lastClk === 1;
+    this.lastClk = curClk as 0 | 1 | "x";
 
     if (edge) {
-      const jb = getBit(j, 0), kb = getBit(k, 0);
-      if (jb === 'x' || kb === 'x') { this.q = ['x']; }
-      else if (jb === 0 && kb === 0) { /* hold */ }
-      else if (jb === 0 && kb === 1) { this.q = LOW; }
-      else if (jb === 1 && kb === 0) { this.q = HIGH; }
-      else                           { this.q = sigNot(this.q); }  // toggle
+      const jb = getBit(j, 0),
+        kb = getBit(k, 0);
+      if (jb === "x" || kb === "x") {
+        this.q = ["x"];
+      } else if (jb === 0 && kb === 0) {
+        /* hold */
+      } else if (jb === 0 && kb === 1) {
+        this.q = LOW;
+      } else if (jb === 1 && kb === 0) {
+        this.q = HIGH;
+      } else {
+        this.q = sigNot(this.q);
+      } // toggle
     }
 
     return this._out();
   }
 
-  private _out() { return { out: this.q, q_bar: sigNot(this.q) }; }
-  getOutputs()   { return this._out(); }
-  reset()        { this.q = LOW; this.lastClk = 'x'; }
+  private _out() {
+    return { out: this.q, q_bar: sigNot(this.q) };
+  }
+  getOutputs() {
+    return this._out();
+  }
+  reset() {
+    this.q = LOW;
+    this.lastClk = "x";
+  }
 }
 
 // ── SR Latch (74HC279) ────────────────────────────────────────────────────
@@ -191,25 +229,36 @@ export class JKFlipFlopState implements SequentialState {
 // S_bar=0, R_bar=0 → Q=x (forbidden/undefined)
 
 export class SRLatchState implements SequentialState {
-  private q: Signal = ['x'];
+  private q: Signal = ["x"];
 
   evaluate(inputs: Record<string, Signal>): Record<string, Signal> {
-    const s_bar = inputs.s ?? HIGH;  // active-low set
-    const r_bar = inputs.r ?? HIGH;  // active-low reset
+    const s_bar = inputs.s ?? HIGH; // active-low set
+    const r_bar = inputs.r ?? HIGH; // active-low reset
 
-    const sb = getBit(s_bar, 0), rb = getBit(r_bar, 0);
+    const sb = getBit(s_bar, 0),
+      rb = getBit(r_bar, 0);
 
-    if (sb === 0 && rb === 1)       { this.q = HIGH; }
-    else if (sb === 1 && rb === 0)  { this.q = LOW; }
-    else if (sb === 0 && rb === 0)  { this.q = ['x']; }
+    if (sb === 0 && rb === 1) {
+      this.q = HIGH;
+    } else if (sb === 1 && rb === 0) {
+      this.q = LOW;
+    } else if (sb === 0 && rb === 0) {
+      this.q = ["x"];
+    }
     // sb=1, rb=1 → hold
 
     return this._out();
   }
 
-  private _out() { return { q: this.q, q_bar: sigNot(this.q) }; }
-  getOutputs()   { return this._out(); }
-  reset()        { this.q = ['x']; }
+  private _out() {
+    return { q: this.q, q_bar: sigNot(this.q) };
+  }
+  getOutputs() {
+    return this._out();
+  }
+  reset() {
+    this.q = ["x"];
+  }
 }
 
 // ── 4-bit Asynchronous Counter (74HC93) ──────────────────────────────────
@@ -220,20 +269,22 @@ export class SRLatchState implements SequentialState {
 
 export class Counter4BitAsyncState implements SequentialState {
   private count = 0;
-  private lastClkA: 0 | 1 | 'x' = 'x';
-  private lastClkB: 0 | 1 | 'x' = 'x';
-  private qa = 0;   // QA driven by CLK A
+  private lastClkA: 0 | 1 | "x" = "x";
+  private lastClkB: 0 | 1 | "x" = "x";
+  private qa = 0; // QA driven by CLK A
 
   evaluate(inputs: Record<string, Signal>): Record<string, Signal> {
-    const clkA = inputs.clk_a ?? ['x'];
-    const clkB = inputs.clk_b ?? ['x'];
-    const r01  = inputs.r01   ?? LOW;
-    const r02  = inputs.r02   ?? LOW;
+    const clkA = inputs.clk_a ?? ["x"];
+    const clkB = inputs.clk_b ?? ["x"];
+    const r01 = inputs.r01 ?? LOW;
+    const r02 = inputs.r02 ?? LOW;
 
     // Master reset: both reset inputs HIGH
     if (getBit(r01, 0) === 1 && getBit(r02, 0) === 1) {
-      this.count = 0; this.qa = 0;
-      this.lastClkA = 'x'; this.lastClkB = 'x';
+      this.count = 0;
+      this.qa = 0;
+      this.lastClkA = "x";
+      this.lastClkB = "x";
       return this._out();
     }
 
@@ -242,28 +293,35 @@ export class Counter4BitAsyncState implements SequentialState {
     if (curA === 0 && this.lastClkA === 1) {
       this.qa = this.qa ^ 1;
     }
-    this.lastClkA = curA as 0 | 1 | 'x';
+    this.lastClkA = curA as 0 | 1 | "x";
 
     // QB–QD: toggle on falling edge of CLK B (externally usually QA)
     const curB = getBit(clkB, 0);
     if (curB === 0 && this.lastClkB === 1) {
-      this.count = (this.count + 1) & 0x7;  // 3-bit counter for QB,QC,QD
+      this.count = (this.count + 1) & 0x7; // 3-bit counter for QB,QC,QD
     }
-    this.lastClkB = curB as 0 | 1 | 'x';
+    this.lastClkB = curB as 0 | 1 | "x";
 
     return this._out();
   }
 
   private _out() {
-    const qa: Signal = [this.qa as 0|1];
-    const qb: Signal = [((this.count >> 0) & 1) as 0|1];
-    const qc: Signal = [((this.count >> 1) & 1) as 0|1];
-    const qd: Signal = [((this.count >> 2) & 1) as 0|1];
+    const qa: Signal = [this.qa as 0 | 1];
+    const qb: Signal = [((this.count >> 0) & 1) as 0 | 1];
+    const qc: Signal = [((this.count >> 1) & 1) as 0 | 1];
+    const qd: Signal = [((this.count >> 2) & 1) as 0 | 1];
     return { qa, qb, qc, qd };
   }
 
-  getOutputs() { return this._out(); }
-  reset() { this.count = 0; this.qa = 0; this.lastClkA = 'x'; this.lastClkB = 'x'; }
+  getOutputs() {
+    return this._out();
+  }
+  reset() {
+    this.count = 0;
+    this.qa = 0;
+    this.lastClkA = "x";
+    this.lastClkB = "x";
+  }
 }
 
 // ── 4-bit Synchronous Counter (74HC161) ──────────────────────────────────
@@ -272,30 +330,31 @@ export class Counter4BitAsyncState implements SequentialState {
 // RCO: ripple carry out = 1 when count=15 and ENT=1.
 
 export class Counter4BitSyncState implements SequentialState {
-  private count   = 0;
-  private lastClk: 0 | 1 | 'x' = 'x';
-  private lastEnt: 0 | 1 | 'x' = 0;  // store last ENT for RCO in getOutputs()
+  private count = 0;
+  private lastClk: 0 | 1 | "x" = "x";
+  private lastEnt: 0 | 1 | "x" = 0; // store last ENT for RCO in getOutputs()
 
   evaluate(inputs: Record<string, Signal>): Record<string, Signal> {
-    const clk    = inputs.clk     ?? ['x'];
-    const clr_b  = inputs.clr_bar ?? HIGH;
-    const ld_b   = inputs.ld_bar  ?? HIGH;
-    const enp    = inputs.enp     ?? LOW;
-    const ent    = inputs.ent     ?? LOW;
-    const d      = inputs.d       ?? sigX(4);   // parallel load data
+    const clk = inputs.clk ?? ["x"];
+    const clr_b = inputs.clr_bar ?? HIGH;
+    const ld_b = inputs.ld_bar ?? HIGH;
+    const enp = inputs.enp ?? LOW;
+    const ent = inputs.ent ?? LOW;
+    const d = inputs.d ?? sigX(4); // parallel load data
 
     // Store ENT for RCO calculation
-    this.lastEnt = getBit(ent, 0) as 0 | 1 | 'x';
+    this.lastEnt = getBit(ent, 0) as 0 | 1 | "x";
 
     // Async clear
     if (getBit(clr_b, 0) === 0) {
-      this.count = 0; this.lastClk = 'x';
+      this.count = 0;
+      this.lastClk = "x";
       return this._out();
     }
 
     const curClk = getBit(clk, 0);
-    const edge   = curClk === 1 && this.lastClk === 0;  // rising edge
-    this.lastClk = curClk as 0 | 1 | 'x';
+    const edge = curClk === 1 && this.lastClk === 0; // rising edge
+    this.lastClk = curClk as 0 | 1 | "x";
 
     if (edge) {
       if (getBit(ld_b, 0) === 0) {
@@ -306,7 +365,7 @@ export class Counter4BitSyncState implements SequentialState {
         }
       } else if (getBit(enp, 0) === 1 && getBit(ent, 0) === 1) {
         // Count
-        this.count = (this.count + 1) & 0xF;
+        this.count = (this.count + 1) & 0xf;
       }
     }
 
@@ -315,36 +374,42 @@ export class Counter4BitSyncState implements SequentialState {
 
   private _out() {
     const q: Signal = [
-      ((this.count >> 0) & 1) as 0|1,
-      ((this.count >> 1) & 1) as 0|1,
-      ((this.count >> 2) & 1) as 0|1,
-      ((this.count >> 3) & 1) as 0|1,
+      ((this.count >> 0) & 1) as 0 | 1,
+      ((this.count >> 1) & 1) as 0 | 1,
+      ((this.count >> 2) & 1) as 0 | 1,
+      ((this.count >> 3) & 1) as 0 | 1,
     ];
     // RCO = HIGH when count=15 AND ENT=1
     const rco: Signal = [this.count === 15 && this.lastEnt === 1 ? 1 : 0];
     return { q, rco };
   }
 
-  getOutputs() { return this._out(); }
-  reset() { this.count = 0; this.lastClk = 'x'; this.lastEnt = 0; }
+  getOutputs() {
+    return this._out();
+  }
+  reset() {
+    this.count = 0;
+    this.lastClk = "x";
+    this.lastEnt = 0;
+  }
 }
 
 // ── 8-bit Register (74HC273) ─────────────────────────────────────────────
 // 8 D flip-flops, common CLK (rising edge) and MR_bar (active-low master reset).
 
 export class Register8BitState implements SequentialState {
-  private q:       Signal = sigX(8);
-  private lastClk: 0 | 1 | 'x' = 'x';
+  private q: Signal = sigX(8);
+  private lastClk: 0 | 1 | "x" = "x";
 
   evaluate(inputs: Record<string, Signal>): Record<string, Signal> {
-    const d    = inputs.d    ?? sigX(8);
-    const clk  = inputs.clk  ?? ['x'];
+    const d = inputs.d ?? sigX(8);
+    const clk = inputs.clk ?? ["x"];
     const mr_b = inputs.mr_bar ?? HIGH;
 
     // Async master reset
     if (getBit(mr_b, 0) === 0) {
       this.q = sigX(8).map(() => 0) as Signal;
-      this.lastClk = 'x';
+      this.lastClk = "x";
       return { q: this.q };
     }
 
@@ -352,31 +417,51 @@ export class Register8BitState implements SequentialState {
     if (curClk === 1 && this.lastClk === 0) {
       this.q = d.slice(0, 8) as Signal;
     }
-    this.lastClk = curClk as 0 | 1 | 'x';
+    this.lastClk = curClk as 0 | 1 | "x";
     return { q: this.q };
   }
 
-  getOutputs() { return { q: this.q }; }
-  reset() { this.q = sigX(8); this.lastClk = 'x'; }
+  getOutputs() {
+    return { q: this.q };
+  }
+  reset() {
+    this.q = sigX(8);
+    this.lastClk = "x";
+  }
 }
 
 // ── Factory ───────────────────────────────────────────────────────────────
 
-export function createSequentialState(type: string, config?: Record<string, unknown>): SequentialState | null {
+export function createSequentialState(
+  type: string,
+  config?: Record<string, unknown>,
+): SequentialState | null {
   switch (type) {
-    case 'dff':                   return new DffState(config as DffConfig ?? {});
-    case 'jk-ff':                 return new JKFlipFlopState();
-    case 'sr-latch':              return new SRLatchState();
-    case 'counter-4bit-async':    return new Counter4BitAsyncState();
-    case 'counter-4bit-sync':     return new Counter4BitSyncState();
-    case 'register-8bit':
-    case 'register-8bit-tri':     return new Register8BitState();
-    default:                      return null;
+    case "dff":
+      return new DffState((config as DffConfig) ?? {});
+    case "jk-ff":
+      return new JKFlipFlopState();
+    case "sr-latch":
+      return new SRLatchState();
+    case "counter-4bit-async":
+      return new Counter4BitAsyncState();
+    case "counter-4bit-sync":
+      return new Counter4BitSyncState();
+    case "register-8bit":
+    case "register-8bit-tri":
+      return new Register8BitState();
+    default:
+      return null;
   }
 }
 
 export const SEQUENTIAL_TYPES = new Set([
-  'dff', 'jk-ff', 'sr-latch',
-  'counter-4bit-async', 'counter-4bit-sync',
-  'register-4bit', 'register-8bit', 'register-8bit-tri',
+  "dff",
+  "jk-ff",
+  "sr-latch",
+  "counter-4bit-async",
+  "counter-4bit-sync",
+  "register-4bit",
+  "register-8bit",
+  "register-8bit-tri",
 ]);

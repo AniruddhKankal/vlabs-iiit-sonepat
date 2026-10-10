@@ -12,7 +12,6 @@ type VisualTestInstrumentation = {
 declare global {
   // Window augmentation requires declaration merging — the codebase-wide
   // types-over-interfaces rule explicitly excepts third-party extension.
-  // eslint-disable-next-line typescript-eslint/consistent-type-definitions
   interface Window {
     __visualRuntimeTest?: {
       getActiveContextCount: () => number;
@@ -27,7 +26,7 @@ declare global {
 // ticks). In production every method is a no-op and nothing attaches to
 // window.
 function createVisualTestInstrumentation(): VisualTestInstrumentation {
-  if (process.env.NODE_ENV === 'production' || typeof window === 'undefined') {
+  if (process.env.NODE_ENV === "production" || typeof window === "undefined") {
     return {
       registerContextBudget: () => {},
       countFrameTick: () => {},

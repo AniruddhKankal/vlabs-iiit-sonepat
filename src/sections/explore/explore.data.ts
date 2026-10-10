@@ -1,13 +1,13 @@
 // ── Explore page data ──────────────────────────────────────────────────────
 // All subjects and experiments come from the semester tree.
 
-import { getSemesterExploreSemesters } from '@/labs/semesters';
+import { getSemesterExploreSemesters } from "@/labs/semesters";
 
 export type {
   ExploreExperiment,
   ExploreSemester,
   ExploreSubject,
-} from './explore.types';
+} from "./explore.types";
 
 export const EXPLORE_SEMESTERS = getSemesterExploreSemesters();
 

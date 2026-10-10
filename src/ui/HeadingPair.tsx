@@ -9,12 +9,9 @@ export function HeadingPair({
 }) {
   return (
     <div
-      className={[
-        'grid grid-cols-1 [&>*+*]:mt-3',
-        className,
-      ]
+      className={["grid grid-cols-1 [&>*+*]:mt-3", className]
         .filter(Boolean)
-        .join(' ')}
+        .join(" ")}
     >
       {children}
     </div>

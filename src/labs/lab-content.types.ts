@@ -1,5 +1,5 @@
-import { type StepMarker } from '@/labs/LabScene';
-import { type SchematicSpec } from '@/labs/TheoryScene';
+import { type StepMarker } from "@/labs/LabScene";
+import { type SchematicSpec } from "@/labs/TheoryScene";
 
 // ── Lab content types ──────────────────────────────────────────────────────
 // Sections are displayed in the sidebar in order.
@@ -15,10 +15,10 @@ export type LabSection =
 
 export type CodeLabSection = {
   id: string;
-  type: 'code-lab';
+  type: "code-lab";
   title: string;
   audioPath?: string;
-  language: '8085';
+  language: "8085";
   starterCode: string;
   description: string;
   memoryInit?: Record<string, number>;
@@ -27,17 +27,17 @@ export type CodeLabSection = {
 
 export type SimulationSection = {
   id: string;
-  type: 'simulation';
+  type: "simulation";
   title: string;
   audioPath?: string;
-  simType: 'alu' | 'memory' | 'cache-direct' | 'cache-assoc' | 'cpu' | 'fsm';
+  simType: "alu" | "memory" | "cache-direct" | "cache-assoc" | "cpu" | "fsm";
   description?: string;
 };
 
 // Theory: paragraphs with optional inline math ($$...$$ blocks) + 3D schematic spec
 export type TheorySection = {
   id: string;
-  type: 'text';
+  type: "text";
   title: string;
   audioPath?: string;
   /** Each paragraph may contain $$...$$ for display math and $...$ for inline math */
@@ -49,7 +49,7 @@ export type TheorySection = {
 // Apparatus: list of items — rendered as 3D slider in ApparatusScene
 export type ApparatusSection = {
   id: string;
-  type: 'apparatus';
+  type: "apparatus";
   title: string;
   audioPath?: string;
   items: ApparatusItem[];
@@ -58,7 +58,7 @@ export type ApparatusSection = {
 // Procedure: steps that drive the 3D scene
 export type ProcedureSection = {
   id: string;
-  type: 'procedure';
+  type: "procedure";
   title: string;
   audioPath?: string;
   steps: ProcedureStep[];
@@ -67,7 +67,7 @@ export type ProcedureSection = {
 // Observation: data paragraphs + optional table
 export type ObservationSection = {
   id: string;
-  type: 'observation';
+  type: "observation";
   title: string;
   audioPath?: string;
   paragraphs: string[];
@@ -77,7 +77,7 @@ export type ObservationSection = {
 // Conclusion: summary paragraphs
 export type ConclusionSection = {
   id: string;
-  type: 'conclusion';
+  type: "conclusion";
   title: string;
   audioPath?: string;
   paragraphs: string[];
@@ -146,6 +146,6 @@ export type LabContent = {
    * - 'code': code editor / programming lab
    * - 'simulation': circuit simulation without physical breadboard
    */
-  labType?: 'breadboard' | 'text' | 'code' | 'simulation';
+  labType?: "breadboard" | "text" | "code" | "simulation";
   sections: LabSection[];
 };

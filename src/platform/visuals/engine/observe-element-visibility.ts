@@ -8,9 +8,9 @@ export type ObserveElementVisibilityOptions = {
 export function observeElementVisibility(
   element: Element,
   onChange: (isVisible: boolean) => void,
-  { rootMargin = '0px', threshold = 0 }: ObserveElementVisibilityOptions = {},
+  { rootMargin = "0px", threshold = 0 }: ObserveElementVisibilityOptions = {},
 ): () => void {
-  if (typeof IntersectionObserver === 'undefined') {
+  if (typeof IntersectionObserver === "undefined") {
     onChange(true);
     return () => {};
   }

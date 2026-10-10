@@ -1,15 +1,15 @@
-import { type ReactNode } from 'react';
+import { type ReactNode } from "react";
 
-import { MenuStyleProvider } from '@/platform/menu-style';
-import { Menu } from '@/sections/menu';
-import { Footer } from '@/sections/footer';
-import { DocsSidebar } from '@/sections/docs/DocsSidebar';
+import { MenuStyleProvider } from "@/platform/menu-style";
+import { Menu } from "@/sections/menu";
+import { Footer } from "@/sections/footer";
+import { DocsSidebar } from "@/sections/docs/DocsSidebar";
 
 export const metadata = {
-  title: 'Docs — VLabs',
+  title: "Docs — VLabs",
   description:
-    'Developer reference for adding components, writing circuit definitions, ' +
-    'and working with the VLabs lab system.',
+    "Developer reference for adding components, writing circuit definitions, " +
+    "and working with the VLabs lab system.",
 };
 
 export default function DocsLayout({ children }: { children: ReactNode }) {

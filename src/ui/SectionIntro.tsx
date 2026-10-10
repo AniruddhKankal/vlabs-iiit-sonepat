@@ -11,12 +11,9 @@ export function SectionIntro({
 }) {
   return (
     <div
-      className={[
-        'grid grid-cols-1 [&>*+*]:mt-6',
-        className,
-      ]
+      className={["grid grid-cols-1 [&>*+*]:mt-6", className]
         .filter(Boolean)
-        .join(' ')}
+        .join(" ")}
     >
       {children}
     </div>

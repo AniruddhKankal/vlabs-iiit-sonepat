@@ -1,7 +1,7 @@
-import { notFound } from 'next/navigation';
-import { ALL_CONTENTS } from '@/labs/content/index';
-import { ALL_CIRCUITS }  from '@/labs/circuits/index';
-import { LabPage }       from '@/labs/LabPage';
+import { notFound } from "next/navigation";
+import { ALL_CONTENTS } from "@/labs/content/index";
+import { ALL_CIRCUITS } from "@/labs/circuits/index";
+import { LabPage } from "@/labs/LabPage";
 
 // ── Static params — pre-render a page for every registered experiment ──────
 export function generateStaticParams() {
@@ -9,18 +9,27 @@ export function generateStaticParams() {
 }
 
 // ── Dynamic metadata from circuit + content ────────────────────────────────
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const content = ALL_CONTENTS[slug];
   if (!content) return {};
   return {
     title: `${content.title} — VLabs`,
-    description: ALL_CIRCUITS.find((c) => c.id === slug)?.description ?? content.title,
+    description:
+      ALL_CIRCUITS.find((c) => c.id === slug)?.description ?? content.title,
   };
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────
-export default async function LabSlugPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function LabSlugPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const content = ALL_CONTENTS[slug];
   if (!content) notFound();

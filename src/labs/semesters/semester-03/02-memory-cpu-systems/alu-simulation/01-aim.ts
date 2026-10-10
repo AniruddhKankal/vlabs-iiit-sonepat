@@ -1,10 +1,8 @@
-import { type TheorySection } from '@/labs/lab-content.types';
+import { type TheorySection } from "@/labs/lab-content.types";
 
 export const aim: TheorySection = {
   id: "aim",
   type: "text",
   title: "Aim",
-  paragraphs: [
-    "To study 4-bit alu operations.",
-  ],
+  paragraphs: ["To study 4-bit alu operations."],
 };

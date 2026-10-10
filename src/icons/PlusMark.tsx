@@ -1,4 +1,4 @@
-const PLUS_PATH = 'M1.5 7.5H13.5M7.5 13.5V1.5';
+const PLUS_PATH = "M1.5 7.5H13.5M7.5 13.5V1.5";
 
 export type PlusMarkProps = {
   sizePx?: number;
@@ -12,7 +12,7 @@ export function PlusMark({ sizePx = 12 }: PlusMarkProps) {
       fill="none"
       height={sizePx}
       overflow="visible"
-      style={{ display: 'block' }}
+      style={{ display: "block" }}
       viewBox="0 0 15 15"
       width={sizePx}
       xmlns="http://www.w3.org/2000/svg"

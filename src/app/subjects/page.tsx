@@ -1,9 +1,9 @@
-import { type Metadata } from 'next';
+import { type Metadata } from "next";
 
-import { Body, Button, Heading } from '@/ui';
+import { Body, Button, Heading } from "@/ui";
 
 export const metadata: Metadata = {
-  title: 'Subjects — VLabs',
+  title: "Subjects — VLabs",
 };
 
 export default function SubjectsPage() {

@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -17,38 +17,10 @@ export const observations: ObservationSection = {
       "Bout (expected)",
     ],
     rows: [
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-      ],
-      [
-        0,
-        1,
-        1,
-        1,
-        1,
-        1,
-      ],
-      [
-        1,
-        0,
-        1,
-        0,
-        1,
-        0,
-      ],
-      [
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-      ],
+      [0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1],
+      [1, 0, 1, 0, 1, 0],
+      [1, 1, 0, 0, 0, 0],
     ],
   },
 };

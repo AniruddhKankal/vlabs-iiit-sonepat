@@ -6,8 +6,12 @@
 
 import {
   type Signal,
-  zeroExtend, signExtend, concat, slice, sigX,
-} from './3vl';
+  zeroExtend,
+  signExtend,
+  concat,
+  slice,
+  sigX,
+} from "./3vl";
 
 // ── Zero-Extend ───────────────────────────────────────────────────────────
 // Pads the high bits with 0 to widen a signal.
@@ -59,5 +63,9 @@ export function opBusUngroup(s: Signal, groups: number[]): Signal[] {
 }
 
 export const BUS_TYPES = new Set([
-  'zero-extend', 'sign-extend', 'bus-slice', 'bus-group', 'bus-ungroup',
+  "zero-extend",
+  "sign-extend",
+  "bus-slice",
+  "bus-group",
+  "bus-ungroup",
 ]);

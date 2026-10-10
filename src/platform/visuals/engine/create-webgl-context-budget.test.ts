@@ -1,4 +1,4 @@
-import { createWebGlContextBudget } from './create-webgl-context-budget';
+import { createWebGlContextBudget } from "./create-webgl-context-budget";
 
 type ScheduledJob = { callback: () => void };
 
@@ -33,8 +33,8 @@ function createFakeHost() {
   };
 }
 
-describe('createWebGlContextBudget', () => {
-  it('should grant up to maxActive and queue the rest', () => {
+describe("createWebGlContextBudget", () => {
+  it("should grant up to maxActive and queue the rest", () => {
     const { host, drain } = createFakeHost();
     const budget = createWebGlContextBudget({ maxActive: 2, host });
     const granted: number[] = [];
@@ -49,23 +49,23 @@ describe('createWebGlContextBudget', () => {
     expect(budget.getPendingCount()).toBe(1);
   });
 
-  it('should grant a queued request when a held slot settles', () => {
+  it("should grant a queued request when a held slot settles", () => {
     const { host, drain } = createFakeHost();
     const budget = createWebGlContextBudget({ maxActive: 1, host });
     const granted: string[] = [];
 
-    const settleA = budget.request({ onGranted: () => granted.push('a') });
-    budget.request({ onGranted: () => granted.push('b') });
+    const settleA = budget.request({ onGranted: () => granted.push("a") });
+    budget.request({ onGranted: () => granted.push("b") });
     drain();
-    expect(granted).toEqual(['a']);
+    expect(granted).toEqual(["a"]);
 
     settleA();
     drain();
-    expect(granted).toEqual(['a', 'b']);
+    expect(granted).toEqual(["a", "b"]);
     expect(budget.getActiveCount()).toBe(1);
   });
 
-  it('REGRESSION (acquire race): a slot released while another consumer is between try and subscribe is never missed', () => {
+  it("REGRESSION (acquire race): a slot released while another consumer is between try and subscribe is never missed", () => {
     // The old engine's consumer did tryAcquire() then subscribed; a release
     // in the gap was lost. Here the queue owns the request from the first
     // call, so the release always reaches it.
@@ -73,15 +73,15 @@ describe('createWebGlContextBudget', () => {
     const budget = createWebGlContextBudget({ maxActive: 1, host });
     const granted: string[] = [];
 
-    const settleA = budget.request({ onGranted: () => granted.push('a') });
+    const settleA = budget.request({ onGranted: () => granted.push("a") });
     drain();
 
     // B requests and, before any scheduler runs, A releases (the old gap).
-    budget.request({ onGranted: () => granted.push('b') });
+    budget.request({ onGranted: () => granted.push("b") });
     settleA();
     drain();
 
-    expect(granted).toEqual(['a', 'b']);
+    expect(granted).toEqual(["a", "b"]);
     expect(budget.getActiveCount()).toBe(1);
     expect(budget.getPendingCount()).toBe(0);
   });
@@ -95,17 +95,17 @@ describe('createWebGlContextBudget', () => {
     const granted: string[] = [];
 
     const settleOldEpoch = budget.request({
-      onGranted: () => granted.push('old'),
+      onGranted: () => granted.push("old"),
     });
     drain();
 
     // Context lost: old epoch settles, new epoch requests and is granted.
     settleOldEpoch();
     const settleNewEpoch = budget.request({
-      onGranted: () => granted.push('new'),
+      onGranted: () => granted.push("new"),
     });
     drain();
-    expect(granted).toEqual(['old', 'new']);
+    expect(granted).toEqual(["old", "new"]);
     expect(budget.getActiveCount()).toBe(1);
 
     // The stale cleanup fires again (and again) — must not free 'new'.
@@ -118,7 +118,7 @@ describe('createWebGlContextBudget', () => {
     expect(budget.getActiveCount()).toBe(0);
   });
 
-  it('should never exceed maxActive across fuzzed interleavings', () => {
+  it("should never exceed maxActive across fuzzed interleavings", () => {
     const { host, drainOne } = createFakeHost();
     const budget = createWebGlContextBudget({ maxActive: 3, host });
     const settles: Array<() => void> = [];
@@ -153,37 +153,37 @@ describe('createWebGlContextBudget', () => {
     expect(maxObserved).toBeLessThanOrEqual(3);
   });
 
-  it('should settle a pending request without it ever granting', () => {
+  it("should settle a pending request without it ever granting", () => {
     const { host, drain } = createFakeHost();
     const budget = createWebGlContextBudget({ maxActive: 1, host });
     const granted: string[] = [];
 
-    budget.request({ onGranted: () => granted.push('a') });
-    const settleB = budget.request({ onGranted: () => granted.push('b') });
+    budget.request({ onGranted: () => granted.push("a") });
+    const settleB = budget.request({ onGranted: () => granted.push("b") });
     settleB();
     drain();
 
-    expect(granted).toEqual(['a']);
+    expect(granted).toEqual(["a"]);
     expect(budget.getPendingCount()).toBe(0);
   });
 
-  it('should drain the priority class before normal, FIFO within class', () => {
+  it("should drain the priority class before normal, FIFO within class", () => {
     const { host, drain } = createFakeHost();
     const budget = createWebGlContextBudget({ maxActive: 4, host });
     const granted: string[] = [];
 
-    budget.request({ onGranted: () => granted.push('n1') });
-    budget.request({ onGranted: () => granted.push('n2') });
+    budget.request({ onGranted: () => granted.push("n1") });
+    budget.request({ onGranted: () => granted.push("n2") });
     budget.request({
-      priority: 'priority',
-      onGranted: () => granted.push('p1'),
+      priority: "priority",
+      onGranted: () => granted.push("p1"),
     });
     budget.request({
-      priority: 'priority',
-      onGranted: () => granted.push('p2'),
+      priority: "priority",
+      onGranted: () => granted.push("p2"),
     });
     drain();
 
-    expect(granted).toEqual(['p1', 'p2', 'n1', 'n2']);
+    expect(granted).toEqual(["p1", "p2", "n1", "n2"]);
   });
 });

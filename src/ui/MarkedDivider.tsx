@@ -1,4 +1,4 @@
-import { PlusMark } from '@/icons';
+import { PlusMark } from "@/icons";
 
 export function MarkedDivider() {
   return (

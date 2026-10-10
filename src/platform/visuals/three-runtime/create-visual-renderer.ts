@@ -1,6 +1,6 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
-import { WEBGL_CONTEXT_LOST_EVENT } from '../engine/webgl-context-lost-event';
+import { WEBGL_CONTEXT_LOST_EVENT } from "../engine/webgl-context-lost-event";
 
 type VisualRendererParameters = THREE.WebGLRendererParameters;
 
@@ -14,9 +14,10 @@ export function createVisualRenderer(
   let renderer: THREE.WebGLRenderer;
   try {
     renderer = new THREE.WebGLRenderer(parameters);
+    if (!renderer) return null;
   } catch (error) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('WebGL renderer creation failed:', error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("WebGL renderer creation failed:", error);
     }
     return null;
   }
@@ -30,7 +31,7 @@ export function createVisualRenderer(
       return;
     }
     disposed = true;
-    canvas.removeEventListener('webglcontextlost', handleContextLost);
+    canvas.removeEventListener("webglcontextlost", handleContextLost);
     try {
       originalDispose();
     } catch {
@@ -40,7 +41,7 @@ export function createVisualRenderer(
   };
 
   const handleContextLost = (event: Event) => {
-    if (typeof event.preventDefault === 'function') {
+    if (typeof event.preventDefault === "function") {
       event.preventDefault();
     }
     canvas.dispatchEvent(
@@ -49,7 +50,7 @@ export function createVisualRenderer(
     safeDispose();
   };
 
-  canvas.addEventListener('webglcontextlost', handleContextLost, false);
+  canvas.addEventListener("webglcontextlost", handleContextLost, false);
   renderer.dispose = safeDispose;
 
   return renderer;

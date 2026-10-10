@@ -1,10 +1,10 @@
-import { ALL_CONTENTS } from '@/labs/content';
-import { type ProcedureSection } from '@/labs/lab-content.types';
-import { type Circuit } from '@/labs/types';
+import { ALL_CONTENTS } from "@/labs/content";
+import { type ProcedureSection } from "@/labs/lab-content.types";
+import { type Circuit } from "@/labs/types";
 
 function getProcedureSection(circuitId: string): ProcedureSection | undefined {
   const procedure = ALL_CONTENTS[circuitId]?.sections.find(
-    (section): section is ProcedureSection => section.type === 'procedure',
+    (section): section is ProcedureSection => section.type === "procedure",
   );
   return procedure;
 }
@@ -40,8 +40,5 @@ export function resolveFinalCircuitStepIndex(circuit: Circuit): number {
     return Math.max(circuit.steps.length - 1, 0);
   }
 
-  return resolveProcedureCircuitStepIndex(
-    circuit,
-    procedure.steps.length - 1,
-  );
+  return resolveProcedureCircuitStepIndex(circuit, procedure.steps.length - 1);
 }

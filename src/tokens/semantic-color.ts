@@ -1,4 +1,4 @@
-import { cssVariableName } from './css-variable-name';
+import { cssVariableName } from "./css-variable-name";
 
 export const semanticColor: {
   divider: string;

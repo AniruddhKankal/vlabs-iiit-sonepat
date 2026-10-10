@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -18,27 +18,9 @@ export const observations: ObservationSection = {
       "Gate count",
     ],
     rows: [
-      [
-        "Array (ripple)",
-        "O(n)",
-        "O(n)",
-        "O(n)",
-        "O(n²)",
-      ],
-      [
-        "Wallace Tree",
-        "O(log n)",
-        "O(log n)",
-        "O(log n)",
-        "O(n² log n)",
-      ],
-      [
-        "Booth + Wallace",
-        "O(log n)",
-        "O(log n)",
-        "O(log n)",
-        "O(n²/2)",
-      ],
+      ["Array (ripple)", "O(n)", "O(n)", "O(n)", "O(n²)"],
+      ["Wallace Tree", "O(log n)", "O(log n)", "O(log n)", "O(n² log n)"],
+      ["Booth + Wallace", "O(log n)", "O(log n)", "O(log n)", "O(n²/2)"],
     ],
   },
 };

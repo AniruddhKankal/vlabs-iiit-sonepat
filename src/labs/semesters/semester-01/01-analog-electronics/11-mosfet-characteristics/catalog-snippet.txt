@@ -1,0 +1,9 @@
+// 1) Add to the imports in src/labs/semesters/catalog.ts:
+import {
+  MosfetCharacteristicsCircuit,
+  MosfetCharacteristicsContent,
+  mosfetCharacteristicsExperiment,
+} from './semester-01/01-analog-electronics/mosfet-characteristics';
+
+// 2) Add to the experiments array of the Semester 1 Analog Electronics subject:
+fromBuilt(mosfetCharacteristicsExperiment, MosfetCharacteristicsCircuit, MosfetCharacteristicsContent, ['mosfet', 'drain characteristics', 'transfer characteristics', 'fet', 'analog']),

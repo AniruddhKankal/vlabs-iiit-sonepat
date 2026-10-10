@@ -1,10 +1,8 @@
-import { type TheorySection } from '@/labs/lab-content.types';
+import { type TheorySection } from "@/labs/lab-content.types";
 
 export const aim: TheorySection = {
   id: "aim",
   type: "text",
   title: "Aim",
-  paragraphs: [
-    "To study and verify 4-bit ripple carry adder on a breadboard.",
-  ],
+  paragraphs: ["To study and verify 4-bit ripple carry adder on a breadboard."],
 };

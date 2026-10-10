@@ -1,6 +1,6 @@
-import { paletteColorNumber } from '@/tokens';
+import { paletteColorNumber } from "@/tokens";
 
-import { type HalftoneImageBackdropProps } from '@/platform/visuals/rigs/HalftoneImageBackdrop';
+import { type HalftoneImageBackdropProps } from "@/platform/visuals/rigs/HalftoneImageBackdrop";
 
 // Authored framing per viewport band — same crop language as the bridge
 // hero so the dashed silhouette sits under the mockup, not over the copy.
@@ -30,7 +30,7 @@ const FRAME_TUNES = [
 
 function resolveFrameTune() {
   const viewportWidth =
-    typeof window === 'undefined'
+    typeof window === "undefined"
       ? Number.POSITIVE_INFINITY
       : window.innerWidth;
   const tune =
@@ -49,12 +49,12 @@ function resolveFrameTune() {
 // The copy block opts out via [data-halftone-exclude].
 export const HERO_BACKDROP: Pick<
   HalftoneImageBackdropProps,
-  'imageUrl' | 'settings'
+  "imageUrl" | "settings"
 > = {
-  imageUrl: '/images/home/hero-campus.webp',
+  imageUrl: "/images/home/hero-campus.webp",
   settings: {
     previewDistance: 3.2,
-    imageFit: 'width',
+    imageFit: "width",
     verticalAnchor: 0.5,
     applyToDarkAreas: true,
     contrast: 1,
@@ -63,8 +63,8 @@ export const HERO_BACKDROP: Pick<
       power: -0.07,
       width: 0.34,
       minimumTone: 0,
-      dashColor: paletteColorNumber('blue'),
-      hoverDashColor: paletteColorNumber('blue'),
+      dashColor: paletteColorNumber("blue"),
+      hoverDashColor: paletteColorNumber("blue"),
     },
     hover: {
       halftoneEnabled: false,
@@ -88,7 +88,7 @@ export const HERO_BACKDROP: Pick<
       speed: 1,
     },
     responsiveFrame: resolveFrameTune,
-    pointerExcludeSelector: '[data-halftone-exclude]',
-    pointerScope: 'window',
+    pointerExcludeSelector: "[data-halftone-exclude]",
+    pointerScope: "window",
   },
 };

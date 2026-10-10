@@ -1,12 +1,12 @@
 type LoadVisualImageOptions = {
-  crossOrigin?: HTMLImageElement['crossOrigin'];
+  crossOrigin?: HTMLImageElement["crossOrigin"];
   label?: string;
 };
 
 const visualImageCache = new Map<string, Promise<HTMLImageElement>>();
 
 async function settleImageDecode(image: HTMLImageElement) {
-  if (typeof image.decode !== 'function') {
+  if (typeof image.decode !== "function") {
     return;
   }
   try {
@@ -21,7 +21,7 @@ async function settleImageDecode(image: HTMLImageElement) {
 // request retries instead of replaying the rejection forever.
 export function loadVisualImage(
   imageUrl: string,
-  { crossOrigin, label = 'visual image' }: LoadVisualImageOptions = {},
+  { crossOrigin, label = "visual image" }: LoadVisualImageOptions = {},
 ): Promise<HTMLImageElement> {
   const cacheKey = JSON.stringify({
     crossOrigin: crossOrigin ?? null,
@@ -34,14 +34,14 @@ export function loadVisualImage(
 
   const imagePromise = new Promise<HTMLImageElement>((resolve, reject) => {
     const image = new Image();
-    image.decoding = 'async';
+    image.decoding = "async";
     if (crossOrigin !== undefined) {
       image.crossOrigin = crossOrigin;
     }
-    image.addEventListener('load', () => {
+    image.addEventListener("load", () => {
       void settleImageDecode(image).then(() => resolve(image));
     });
-    image.addEventListener('error', () => {
+    image.addEventListener("error", () => {
       reject(new Error(`Failed to load ${label}: ${imageUrl}`));
     });
     image.src = imageUrl;

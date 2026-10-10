@@ -1,16 +1,13 @@
-'use client';
+"use client";
 
-import { ArrowLeft, ArrowRight } from '@/icons';
-import { useState } from 'react';
+import { ArrowLeft, ArrowRight } from "@/icons";
+import { useState } from "react";
 
-import {
-  semanticColor,
-  typeRampDeclarations,
-} from '@/tokens';
-import { EceViewer } from '@/labs/previews/EceViewer';
-import { Body, Eyebrow, IconButton, MarkedDivider } from '@/ui';
+import { semanticColor, typeRampDeclarations } from "@/tokens";
+import { EceViewer } from "@/labs/previews/EceViewer";
+import { Body, Eyebrow, IconButton, MarkedDivider } from "@/ui";
 
-import { type TestimonialRecord } from './testimonials.data';
+import { type TestimonialRecord } from "./testimonials.data";
 
 export function TestimonialsCarousel({
   testimonials,
@@ -24,8 +21,11 @@ export function TestimonialsCarousel({
   const current = testimonials[index];
 
   // Pre-extract type ramp values
-  const headingMdFontSize = typeRampDeclarations('headingMd').match(/font-size:\s*(.+?);/)?.[1];
-  const headingMdLineHeight = typeRampDeclarations('headingMd').match(/line-height:\s*(.+?);/)?.[1];
+  const headingMdFontSize =
+    typeRampDeclarations("headingMd").match(/font-size:\s*(.+?);/)?.[1];
+  const headingMdLineHeight = typeRampDeclarations("headingMd").match(
+    /line-height:\s*(.+?);/,
+  )?.[1];
 
   return (
     <div
@@ -40,7 +40,10 @@ export function TestimonialsCarousel({
         <div className="order-1 min-[921px]:order-2">
           <p
             className="font-[var(--font-sans),sans-serif] font-light whitespace-nowrap min-[921px]:text-center"
-            style={{ fontSize: headingMdFontSize, lineHeight: headingMdLineHeight }}
+            style={{
+              fontSize: headingMdFontSize,
+              lineHeight: headingMdLineHeight,
+            }}
             aria-live="polite"
           >
             {index + 1}/{total}
@@ -58,7 +61,11 @@ export function TestimonialsCarousel({
       {/* SeparatorSlot */}
       <div
         className="w-full min-[921px]:h-full min-[921px]:w-auto"
-        style={{ '--marked-divider-line': semanticColor.lineStrong } as React.CSSProperties}
+        style={
+          {
+            "--marked-divider-line": semanticColor.lineStrong,
+          } as React.CSSProperties
+        }
       >
         <MarkedDivider />
       </div>
@@ -71,12 +78,15 @@ export function TestimonialsCarousel({
           {testimonials.map((testimonial, testimonialIndex) => (
             <div
               className="[grid-area:1/1] opacity-0 pointer-events-none translate-y-[8px] transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] invisible data-[active]:opacity-100 data-[active]:pointer-events-auto data-[active]:translate-y-0 data-[active]:visible"
-              data-active={testimonialIndex === index ? '' : undefined}
+              data-active={testimonialIndex === index ? "" : undefined}
               key={testimonial.author.name}
             >
               <p
                 className="font-[var(--font-sans),sans-serif] font-light text-wrap-balance"
-                style={{ fontSize: headingMdFontSize, lineHeight: headingMdLineHeight }}
+                style={{
+                  fontSize: headingMdFontSize,
+                  lineHeight: headingMdLineHeight,
+                }}
               >
                 {testimonial.quote}
               </p>

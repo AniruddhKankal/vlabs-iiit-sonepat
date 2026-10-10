@@ -1,10 +1,10 @@
-import { HeroBackdrop } from './HeroBackdrop';
+import { HeroBackdrop } from "./HeroBackdrop";
 
-import { SITE_URLS } from '@/platform/site-urls';
-import { GRADIENT, HERO_COMPOSITION } from '@/tokens';
-import { APP_PREVIEW_STAGE } from '@/tokens/app-preview/app-preview-stage';
-import { Body, Button, Heading, HeadingPair, SectionShell } from '@/ui';
-import { HeroPreviewClient } from './hero-preview/HeroPreviewClient';
+import { SITE_URLS } from "@/platform/site-urls";
+import { GRADIENT, HERO_COMPOSITION } from "@/tokens";
+import { APP_PREVIEW_STAGE } from "@/tokens/app-preview/app-preview-stage";
+import { Body, Button, Heading, HeadingPair, SectionShell } from "@/ui";
+import { HeroPreviewClient } from "./hero-preview/HeroPreviewClient";
 
 const MOCKUP_WIDTH_PX = APP_PREVIEW_STAGE.windowScene.widthPx;
 
@@ -35,8 +35,9 @@ export function HomeHero() {
           </div>
           <div className="mx-auto max-w-[591px]">
             <Body muted size="sm">
-              Explore, interact, and experiment with complex engineering concepts
-              through immersive virtual experiences built for the modern learner.
+              Explore, interact, and experiment with complex engineering
+              concepts through immersive virtual experiences built for the
+              modern learner.
             </Body>
           </div>
         </HeadingPair>

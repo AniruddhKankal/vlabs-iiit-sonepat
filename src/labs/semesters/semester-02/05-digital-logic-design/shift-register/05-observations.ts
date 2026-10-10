@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -19,34 +19,10 @@ export const observations: ObservationSection = {
       "LEDs ON (bit positions)",
     ],
     rows: [
-      [
-        "0000 0000",
-        "0x00",
-        "Rising",
-        "0000 0000",
-        "None",
-      ],
-      [
-        "1111 1111",
-        "0xFF",
-        "Rising",
-        "1111 1111",
-        "Q7–Q0 all ON",
-      ],
-      [
-        "1011 0100",
-        "0xB4",
-        "Rising",
-        "1011 0100",
-        "Q7, Q5, Q4, Q2",
-      ],
-      [
-        "0101 0101",
-        "0x55",
-        "Rising",
-        "0101 0101",
-        "Q6, Q4, Q2, Q0",
-      ],
+      ["0000 0000", "0x00", "Rising", "0000 0000", "None"],
+      ["1111 1111", "0xFF", "Rising", "1111 1111", "Q7–Q0 all ON"],
+      ["1011 0100", "0xB4", "Rising", "1011 0100", "Q7, Q5, Q4, Q2"],
+      ["0101 0101", "0x55", "Rising", "0101 0101", "Q6, Q4, Q2, Q0"],
     ],
   },
 };

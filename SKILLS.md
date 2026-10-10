@@ -15,7 +15,7 @@ Use this section to pick types and fields. Use `COMPONENTS.md` for layout diagra
 ### Shared fields (all placed parts)
 
 ```ts
-type Row = 'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j';  // cols 1–30 (`breadboard`) or 1–60 (`long-breadboard`)
+type Row = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j"; // cols 1–30 (`breadboard`) or 1–60 (`long-breadboard`)
 type MountPoint = { board: string; col: number; row: Row };
 ```
 
@@ -23,13 +23,13 @@ Every BOM entry has a unique string `id` (used in `show[]`, wires, `highlight`, 
 
 ### PinRef — wire endpoints (`from` / `to`)
 
-| Form | Example | Use |
-|------|---------|-----|
-| Tie hole | `{ board: 'bb', col: 3, row: 'a' }` | Breadboard hole |
-| Power rail | `{ board: 'bb', rail: 'gnd_top', col: 1 }` | `vcc_top` / `gnd_top` / `vcc_bot` / `gnd_bot` |
-| IC pin | `{ ic: 'xor1', pin: 'A' }` | Gate input/output (`A`, `B`, `Y` or `1A`, `1Y`, …) |
-| Resistor/cap | `{ component: 'r1', end: 'p1' }` | `p1` = mount col, `p2` = far end |
-| LED | `{ led: 'led1', end: 'anode' }` | `anode` = col, `cathode` = col+1 |
+| Form         | Example                                    | Use                                                |
+| ------------ | ------------------------------------------ | -------------------------------------------------- |
+| Tie hole     | `{ board: 'bb', col: 3, row: 'a' }`        | Breadboard hole                                    |
+| Power rail   | `{ board: 'bb', rail: 'gnd_top', col: 1 }` | `vcc_top` / `gnd_top` / `vcc_bot` / `gnd_bot`      |
+| IC pin       | `{ ic: 'xor1', pin: 'A' }`                 | Gate input/output (`A`, `B`, `Y` or `1A`, `1Y`, …) |
+| Resistor/cap | `{ component: 'r1', end: 'p1' }`           | `p1` = mount col, `p2` = far end                   |
+| LED          | `{ led: 'led1', end: 'anode' }`            | `anode` = col, `cathode` = col+1                   |
 
 ```ts
 { id: 'w1', type: 'wire', color: 'red', from: { board:'bb', col:3, row:'a' }, to: { ic:'xor1', pin:'A' } }
@@ -42,37 +42,53 @@ Convention: A=red, B=blue, Cin=orange, sum=green, carry=yellow, gnd=black.
 
 These types **render** in the lab UI. Prefer only these in `show[]` unless you add geometry.
 
-| `type` | Required fields | Footprint / notes |
-|--------|-----------------|-------------------|
-| `breadboard` | — | 30 columns; `{ id: 'bb', type: 'breadboard' }` first in BOM |
-| `long-breadboard` | — | 60 columns; same rows/rails as `breadboard` — use for wide circuits (cols > 30) |
-| `wire` | `from`, `to`, `color` | One wire = one component |
-| `resistor` | `ohms`, `mountedAt` | Spans col → col+3 |
-| `capacitor` | `capacitance` (µF), `mountedAt` | Spans col → col+1 |
-| `led` | `color`, `mountedAt` | Spans col (anode) → col+1; use for outputs **and diode stand-ins** |
-| `not-gate` … `buffer-gate` | `mountedAt` | DIP-14 at row **`e`**, 7 cols; types: `not-gate`, `and-gate`, `or-gate`, `nand-gate`, `nor-gate`, `xor-gate`, `xnor-gate`, `buffer-gate` |
-| `dc-jack` | `mountedAt`, optional `terminals: [PinRef, PinRef]` | Bench PSU or AC source; **DO NOT USE WIRES to connect it.** Use `terminals` to connect straight to rails/holes. |
-| `battery` | same as `dc-jack` | Same builder as PSU |
-| `potentiometer` | `mountedAt`, optional `probes: [PinRef, PinRef]` | Renders as **bench multimeter**; not a trimpot. **DO NOT USE WIRES.** Use `probes` to test two points. |
+| `type`                     | Required fields                                     | Footprint / notes                                                                                                                        |
+| -------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `breadboard`               | —                                                   | 30 columns; `{ id: 'bb', type: 'breadboard' }` first in BOM                                                                              |
+| `long-breadboard`          | —                                                   | 60 columns; same rows/rails as `breadboard` — use for wide circuits (cols > 30)                                                          |
+| `wire`                     | `from`, `to`, `color`                               | One wire = one component                                                                                                                 |
+| `resistor`                 | `ohms`, `mountedAt`                                 | Spans col → col+3                                                                                                                        |
+| `capacitor`                | `capacitance` (µF), `mountedAt`                     | Spans col → col+1                                                                                                                        |
+| `led`                      | `color`, `mountedAt`                                | Spans col (anode) → col+1; use for outputs **and diode stand-ins**                                                                       |
+| `not-gate` … `buffer-gate` | `mountedAt`                                         | DIP-14 at row **`e`**, 7 cols; types: `not-gate`, `and-gate`, `or-gate`, `nand-gate`, `nor-gate`, `xor-gate`, `xnor-gate`, `buffer-gate` |
+| `dc-jack`                  | `mountedAt`, optional `terminals: [PinRef, PinRef]` | Bench PSU or AC source; **DO NOT USE WIRES to connect it.** Use `terminals` to connect straight to rails/holes.                          |
+| `battery`                  | same as `dc-jack`                                   | Same builder as PSU                                                                                                                      |
+| `potentiometer`            | `mountedAt`, optional `probes: [PinRef, PinRef]`    | Renders as **bench multimeter**; not a trimpot. **DO NOT USE WIRES.** Use `probes` to test two points.                                   |
+| `ammeter`                  | `mountedAt`, `probes: [PinRef, PinRef]`             | 0–100 mA panel meter (blue body). **DO NOT USE WIRES.** Use `probes` to connect in series.                                               |
+| `voltmeter`                | `mountedAt`, `probes: [PinRef, PinRef]`             | 0–15 V DC panel meter (grey body). **DO NOT USE WIRES.** Use `probes` to connect across components.                                      |
+| `oscilloscope`             | `mountedAt`, `probes: [PinRef, PinRef]`             | CRO with green screen. **DO NOT USE WIRES.** Use `probes` for CH1 and GND.                                                               |
+| `function-generator`       | `mountedAt`, `probes: [PinRef, PinRef]`             | Signal generator. **DO NOT USE WIRES.** Use `probes` for OUTPUT and GND.                                                                 |
+| `logic-analyser`           | `mountedAt`, `probes: [PinRef, PinRef]`             | Logic analyzer instrument.                                                                                                               |
+| `transformer`              | `mountedAt`, `terminals: [PinRef, PinRef]`          | AC transformer source.                                                                                                                   |
+| `mcu-trainer`              | `mountedAt`                                         | Microcontroller trainer board.                                                                                                           |
+| `diode` / `zener`          | `mountedAt`                                         | Spans col (anode) → col+3 (cathode).                                                                                                     |
+| `npn-bjt` / `pnp-bjt`      | `mountedAt`                                         | 3 pins: B (col), C (col+1), E (col+2).                                                                                                   |
+| `n-mosfet` / `p-mosfet`    | `mountedAt`                                         | 3 pins: G (col), D (col+1), S (col+2).                                                                                                   |
+| `op-amp`                   | `mountedAt`                                         | DIP-8 package, spans 4 columns, straddles centre gap.                                                                                    |
+| `7seg-display`             | `mountedAt`                                         | DIP-10 7-segment display.                                                                                                                |
+| `switch` / `push-button`   | `mountedAt`                                         | Slide switch or tactile push-button.                                                                                                     |
+| `dip-switch`               | `mountedAt`, `poles: number`                        | DIP switch.                                                                                                                              |
 
-**Visual stand-ins (current repo pattern):** diodes / Zeners on the breadboard use `type: 'led'` (e.g. yellow for signal diode, red for reverse-biased Zener). Theory schematics can use `{ type: 'zener', … }` inside `TheorySection.schematic` — that is 2D only, not the BOM.
+**Visual stand-ins:** In the past, diodes / Zeners used `type: 'led'` (e.g. yellow for signal diode, red for reverse-biased Zener) as stand-ins. They now have dedicated 3D meshes. Theory schematics can use `{ type: 'zener', … }` inside `TheorySection.schematic`.
 
 **Placement quick rules:** ICs row `e`, ≥2 col gap; passives/LEDs row `c`; resistor at col N → LED at col N+2; last wire in every `show[]`; gnd from each LED cathode to `gnd_top`.
 
 ### Sim schema only (in `types.ts` + netlist — no 3D mesh yet)
 
-Valid in `components.ts` for simulation/logic, but **`LabScene` returns null`** — invisible on breadboard. Do not rely on these for 3D unless you add a `LabScene` case + `src/components/` builder.
+> [!WARNING]
+> **3D Rendering Limitations:** The components listed below are **simulation-only**. They will function in logic/circuit simulations, but **`LabScene` returns null** so they are completely invisible on the 3D breadboard.
+> Do not use these in standard breadboard labs unless you first build a corresponding physical 3D mesh in `src/components/` and wire it up in `LabScene.tsx`.
 
-| Group | `type` values |
-|-------|----------------|
-| Passives / analog | `inductor`, `diode`, `zener`, `npn-bjt`, `pnp-bjt`, `n-mosfet`, `p-mosfet`, `op-amp` |
-| Reduce / arithmetic | `and-reduce`, `or-reduce`, …, `adder`, `adder-4bit`, `subtractor`, `multiplier`, `negator`, `compare-*` |
-| Shift / bus | `shift-left`, `shift-right`, `zero-extend`, `sign-extend`, `bus-slice`, `bus-group`, `bus-ungroup` |
-| MUX / decode | `mux`, `mux-2to1-ic`, `mux-4to1`, `demux-1to4`, `demux-1to8`, `encoder-8to3`, `decoder-3to8` |
-| Sequential | `dff`, `jk-ff`, `sr-latch`, `counter-4bit-async`, `counter-4bit-sync`, `register-4bit`, `register-8bit`, `register-8bit-tri` |
-| Bus ICs | `bus-transceiver`, `address-latch` |
-| I/O nodes | `input-node`, `output-node`, `constant`, `clock` |
-| Display / MCU | `7seg-display`, `rgb-led`, `cpu-8085`, `ppi-8255`, `push-button`, `switch`, `dip-switch` |
+| Group               | `type` values                                                                                                                |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Passives / analog   | `inductor`                                                                                                                   |
+| Reduce / arithmetic | `and-reduce`, `or-reduce`, …, `adder`, `adder-4bit`, `subtractor`, `multiplier`, `negator`, `compare-*`                      |
+| Shift / bus         | `shift-left`, `shift-right`, `zero-extend`, `sign-extend`, `bus-slice`, `bus-group`, `bus-ungroup`                           |
+| MUX / decode        | `mux`, `mux-2to1-ic`, `mux-4to1`, `demux-1to4`, `demux-1to8`, `encoder-8to3`, `decoder-3to8`                                 |
+| Sequential          | `dff`, `jk-ff`, `sr-latch`, `counter-4bit-async`, `counter-4bit-sync`, `register-4bit`, `register-8bit`, `register-8bit-tri` |
+| Bus ICs             | `bus-transceiver`, `address-latch`                                                                                           |
+| I/O nodes           | `input-node`, `output-node`, `constant`, `clock`                                                                             |
+| Display / MCU       | `rgb-led`, `cpu-8085`, `ppi-8255`                                                                                            |
 
 Extra fields vary — see `ComponentInstance` in `types.ts` (e.g. `bits`, `vz`, `poles`, `terminals`, `net`).
 
@@ -108,15 +124,15 @@ Values are `0 | 1` only. Keys must match `activeInputs` when both are used.
 
 ### Lab content sections (`LabSection`)
 
-| `type` | Export shape | Notes |
-|--------|--------------|-------|
-| `text` | `{ id, type:'text', title, paragraphs[] }` | Optional `schematic` for TheoryScene |
-| `apparatus` | `{ id, type:'apparatus', title, items[] }` | `items: { name, specification?, quantity?, callouts? }` |
-| `procedure` | built by `buildLabContent()` from `procedureSteps` | Inserted **after apparatus**, before observations — do not hand-author in `sections` |
-| `observation` | `{ paragraphs[], table? }` | `table: { headers, rows }` |
-| `conclusion` | `{ paragraphs[] }` | |
-| `code-lab` | `{ type:'code-lab', language:'8085', starterCode, description, memoryInit?, expectedOutputs? }` | `labType: 'code'` |
-| `simulation` | `{ type:'simulation', simType, description? }` | `simType`: `alu` \| `memory` \| `cache-direct` \| `cache-assoc` \| `cpu` \| `fsm` |
+| `type`        | Export shape                                                                                    | Notes                                                                                |
+| ------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `text`        | `{ id, type:'text', title, paragraphs[] }`                                                      | Optional `schematic` for TheoryScene                                                 |
+| `apparatus`   | `{ id, type:'apparatus', title, items[] }`                                                      | `items: { name, specification?, quantity? : string, callouts? }`                     |
+| `procedure`   | built by `buildLabContent()` from `procedureSteps`                                              | Inserted **after apparatus**, before observations — do not hand-author in `sections` |
+| `observation` | `{ paragraphs[], table? }`                                                                      | `table: { headers, rows }`                                                           |
+| `conclusion`  | `{ paragraphs[] }`                                                                              |                                                                                      |
+| `code-lab`    | `{ type:'code-lab', language:'8085', starterCode, description, memoryInit?, expectedOutputs? }` | `labType: 'code'`                                                                    |
+| `simulation`  | `{ type:'simulation', simType, description? }`                                                  | `simType`: `alu` \| `memory` \| `cache-direct` \| `cache-assoc` \| `cpu` \| `fsm`    |
 
 ### ExperimentDefinition (`index.ts`)
 
@@ -141,12 +157,12 @@ Build exports: `buildCircuit(experiment)` → `Circuit`; `buildLabContent(experi
 
 VLabs is a Next.js virtual-lab app. Each **experiment** is data (TypeScript), not a separate page:
 
-| Layer | Path | Role |
-|-------|------|------|
-| 3D geometry | `src/components/{type}/` | How parts render (Three.js builders) |
+| Layer           | Path                             | Role                                 |
+| --------------- | -------------------------------- | ------------------------------------ |
+| 3D geometry     | `src/components/{type}/`         | How parts render (Three.js builders) |
 | Experiment data | `src/labs/semesters/.../<slug>/` | BOM, procedure, theory, registration |
-| Registries | `src/labs/semesters/catalog.ts` | Explore + `/labs/<slug>` |
-| Route | `src/app/labs/[slug]/page.tsx` | One dynamic route for all labs |
+| Registries      | `src/labs/semesters/catalog.ts`  | Explore + `/labs/<slug>`             |
+| Route           | `src/app/labs/[slug]/page.tsx`   | One dynamic route for all labs       |
 
 `src/labs/circuits/` and `src/labs/content/` are **thin re-exports** only (`ALL_CIRCUITS` / `ALL_CONTENTS` → semester tree). **Do not add legacy split circuit/content files.**
 
@@ -154,19 +170,19 @@ VLabs is a Next.js virtual-lab app. Each **experiment** is data (TypeScript), no
 
 ## When to read what
 
-| Goal | Read |
-|------|------|
-| Pick component `type` + fields | **This file → Component & API reference** |
-| Column layout, wire examples, constraints | `src/labs/COMPONENTS.md` |
-| Full `ComponentInstance` union | `src/labs/types.ts` |
-| Experiment / section types | `src/labs/experiments/types.ts`, `src/labs/lab-content.types.ts` |
-| Breadboard example | `src/labs/semesters/semester-01/02-computer-application/half-adder/` |
-| Analog + markers | `src/labs/semesters/semester-01/01-analog-electronics/zener-diode/` |
-| Code lab (8085) | `src/labs/semesters/semester-04/01-8085-assembly-programming/8085-add-sub-8bit/` |
-| Simulation lab | `src/labs/semesters/semester-03/02-memory-cpu-systems/alu-simulation/` |
-| Text-only theory lab | `src/labs/semesters/semester-03/01-combinational-arithmetic/cla-adder/` |
-| Register in explore | `src/labs/semesters/catalog.ts` |
-| Subject list / tags | `src/labs/semesters/catalog.ts` → `SEMESTER_SUBJECTS` |
+| Goal                                      | Read                                                                             |
+| ----------------------------------------- | -------------------------------------------------------------------------------- |
+| Pick component `type` + fields            | **This file → Component & API reference**                                        |
+| Column layout, wire examples, constraints | `src/labs/COMPONENTS.md`                                                         |
+| Full `ComponentInstance` union            | `src/labs/types.ts`                                                              |
+| Experiment / section types                | `src/labs/experiments/types.ts`, `src/labs/lab-content.types.ts`                 |
+| Breadboard example                        | `src/labs/semesters/semester-01/02-computer-application/half-adder/`             |
+| Analog + markers                          | `src/labs/semesters/semester-01/01-analog-electronics/zener-diode/`              |
+| Code lab (8085)                           | `src/labs/semesters/semester-04/01-8085-assembly-programming/8085-add-sub-8bit/` |
+| Simulation lab                            | `src/labs/semesters/semester-03/02-memory-cpu-systems/alu-simulation/`           |
+| Text-only theory lab                      | `src/labs/semesters/semester-03/01-combinational-arithmetic/cla-adder/`          |
+| Register in explore                       | `src/labs/semesters/catalog.ts`                                                  |
+| Subject list / tags                       | `src/labs/semesters/catalog.ts` → `SEMESTER_SUBJECTS`                            |
 
 ---
 
@@ -236,13 +252,13 @@ Each step is a `SceneProcedureStep`:
 
 ```ts
 export const step: SceneProcedureStep = {
-  label: '…',
-  body: '…',
-  show: ['bb', 'xor1', 'w_a_xor'],  // cumulative — never remove earlier ids
-  highlight: 'xor1',                 // optional
-  activeInputs: { A: 0, B: 0 },      // optional (digital)
-  supplyVoltage: 5.0,                // optional (analog)
-  readings: { dmm: '2.4 V' },        // optional
+  label: "…",
+  body: "…",
+  show: ["bb", "xor1", "w_a_xor"], // cumulative — never remove earlier ids
+  highlight: "xor1", // optional
+  activeInputs: { A: 0, B: 0 }, // optional (digital)
+  supplyVoltage: 5.0, // optional (analog)
+  readings: { dmm: "2.4 V" }, // optional
 };
 ```
 
@@ -294,12 +310,12 @@ Open `/labs/<slug>` locally.
 
 Set `labType` on `ExperimentDefinition`:
 
-| `labType` | UI | Extra section file | `components` |
-|-----------|----|--------------------|--------------|
-| *(omit)* / breadboard | 3D breadboard lab | — | full BOM |
-| `text` | Sidebar sections only | theory, optional procedure | `[]` |
-| `code` | In-browser 8085 editor | `03-code-lab.ts` (`CodeLabSection`) | `[]` |
-| `simulation` | ALU / CPU / cache sim | `03-simulation.ts` (`SimulationSection`) | `[]` |
+| `labType`             | UI                     | Extra section file                       | `components` |
+| --------------------- | ---------------------- | ---------------------------------------- | ------------ |
+| _(omit)_ / breadboard | 3D breadboard lab      | —                                        | full BOM     |
+| `text`                | Sidebar sections only  | theory, optional procedure               | `[]`         |
+| `code`                | In-browser 8085 editor | `03-code-lab.ts` (`CodeLabSection`)      | `[]`         |
+| `simulation`          | ALU / CPU / cache sim  | `03-simulation.ts` (`SimulationSection`) | `[]`         |
 
 Procedure steps for text/code/sim may use `show: []`. `buildLabContent()` omits `circuitId` for non-breadboard types.
 

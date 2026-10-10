@@ -1,6 +1,6 @@
-import { type CSSProperties } from 'react';
+import { type CSSProperties } from "react";
 
-import { type Scheme, semanticColor } from '@/tokens';
+import { type Scheme, semanticColor } from "@/tokens";
 
 const CAP_HEIGHT_PX = 20;
 
@@ -8,42 +8,42 @@ const LEFT_SLOPE_WIDTH_PX = 74;
 const RIGHT_SLOPE_WIDTH_PX = 73;
 
 const LEFT_SLOPE_PATH =
-  'M0 0 C4.197 0 8.369 0.66 12.361 1.958 L61.861 18.042 A40 40 0 0 0 74.222 20 L0 20 Z';
+  "M0 0 C4.197 0 8.369 0.66 12.361 1.958 L61.861 18.042 A40 40 0 0 0 74.222 20 L0 20 Z";
 const RIGHT_SLOPE_PATH =
-  'M0 20 A40 40 0 0 1 12.63 17.953 L60.418 2.047 A40 40 0 0 1 73.048 0 L73.048 20 Z';
+  "M0 20 A40 40 0 0 1 12.63 17.953 L60.418 2.047 A40 40 0 0 1 73.048 0 L73.048 20 Z";
 
 const SCHEME_VARS: Record<Scheme, CSSProperties> = {
   light: {
-    '--surface': 'var(--color-white)',
-    '--ink': 'var(--color-black)',
-    '--ink-muted': 'var(--color-black-60)',
-    '--ink-subtle': 'var(--color-black-40)',
-    '--line': 'var(--color-black-10)',
-    '--line-strong': 'var(--color-black-20)',
-    '--divider': 'var(--color-black-40)',
+    "--surface": "var(--color-white)",
+    "--ink": "var(--color-black)",
+    "--ink-muted": "var(--color-black-60)",
+    "--ink-subtle": "var(--color-black-40)",
+    "--line": "var(--color-black-10)",
+    "--line-strong": "var(--color-black-20)",
+    "--divider": "var(--color-black-40)",
   } as CSSProperties,
   muted: {
-    '--surface': 'var(--color-neutral)',
-    '--ink': 'var(--color-black)',
-    '--ink-muted': 'var(--color-black-60)',
-    '--ink-subtle': 'var(--color-black-40)',
-    '--line': 'var(--color-black-10)',
-    '--line-strong': 'var(--color-black-20)',
-    '--divider': 'var(--color-black-40)',
+    "--surface": "var(--color-neutral)",
+    "--ink": "var(--color-black)",
+    "--ink-muted": "var(--color-black-60)",
+    "--ink-subtle": "var(--color-black-40)",
+    "--line": "var(--color-black-10)",
+    "--line-strong": "var(--color-black-20)",
+    "--divider": "var(--color-black-40)",
   } as CSSProperties,
   dark: {
-    '--surface': 'var(--color-black)',
-    '--ink': 'var(--color-white)',
-    '--ink-muted': 'var(--color-white-60)',
-    '--ink-subtle': 'var(--color-white-40)',
-    '--line': 'var(--color-white-10)',
-    '--line-strong': 'var(--color-white-20)',
-    '--divider': 'var(--color-white-40)',
+    "--surface": "var(--color-black)",
+    "--ink": "var(--color-white)",
+    "--ink-muted": "var(--color-white-60)",
+    "--ink-subtle": "var(--color-white-40)",
+    "--line": "var(--color-white-10)",
+    "--line-strong": "var(--color-white-20)",
+    "--divider": "var(--color-white-40)",
   } as CSSProperties,
 };
 
 export function NotchedCardShape({
-  cardScheme = 'light',
+  cardScheme = "light",
 }: {
   cardScheme?: Scheme;
 }) {

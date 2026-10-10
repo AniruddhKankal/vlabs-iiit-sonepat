@@ -1,4 +1,4 @@
-const CHEVRON_DOWN_PATH = 'm3 4.5 3 3 3-3';
+const CHEVRON_DOWN_PATH = "m3 4.5 3 3 3-3";
 
 export type ChevronDownProps = {
   sizePx?: number;
@@ -10,7 +10,7 @@ export function ChevronDown({ sizePx = 12 }: ChevronDownProps) {
     <svg
       fill="none"
       height={sizePx}
-      style={{ display: 'block' }}
+      style={{ display: "block" }}
       viewBox="0 0 12 12"
       width={sizePx}
       xmlns="http://www.w3.org/2000/svg"

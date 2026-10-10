@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from "react";
 
-import { usePrefersReducedMotion } from '@/platform/motion';
+import { usePrefersReducedMotion } from "@/platform/motion";
 
-import { isWebGlSupported } from './webgl-policy';
+import { isWebGlSupported } from "./webgl-policy";
 
 export type WebGlGate = {
   allowed: boolean;

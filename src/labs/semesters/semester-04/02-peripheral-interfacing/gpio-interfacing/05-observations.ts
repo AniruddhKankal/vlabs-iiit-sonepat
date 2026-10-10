@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -30,13 +30,7 @@ export const observations: ObservationSection = {
         "≤ 0.1 V",
         "Yes",
       ],
-      [
-        "LED current",
-        "330Ω, Vcc=5V, V_f=2V",
-        "9.1 mA",
-        "9.1 mA",
-        "Yes",
-      ],
+      ["LED current", "330Ω, Vcc=5V, V_f=2V", "9.1 mA", "9.1 mA", "Yes"],
       [
         "Input voltage (switch pressed)",
         "Switch to Vcc, 10kΩ pull-down",

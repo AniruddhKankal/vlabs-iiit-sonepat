@@ -1,30 +1,38 @@
-import { type ExploreExperiment, type ExploreSemester, type ExploreSubject } from '@/sections/explore/explore.types';
+import {
+  type ExploreExperiment,
+  type ExploreSemester,
+  type ExploreSubject,
+} from "@/sections/explore/explore.types";
 
-import { SEMESTER_SUBJECTS } from './catalog';
+import { SEMESTER_SUBJECTS } from "./catalog";
 
 function toExploreExperiment(
-  entry: (typeof SEMESTER_SUBJECTS)[number]['experiments'][number],
+  entry: (typeof SEMESTER_SUBJECTS)[number]["experiments"][number],
   defaultCircuitId: string,
 ): ExploreExperiment {
   const { experiment, tags } = entry;
-  const labType = experiment.labType ?? 'breadboard';
+  const labType = experiment.labType ?? "breadboard";
   return {
     id: experiment.id,
     title: experiment.title,
     description: experiment.description,
-    circuitId: labType === 'breadboard' ? experiment.id : defaultCircuitId,
+    circuitId: labType === "breadboard" ? experiment.id : defaultCircuitId,
     labRoute: `/labs/${experiment.id}`,
     tags,
   };
 }
 
-function subjectToExplore(subject: (typeof SEMESTER_SUBJECTS)[number]): ExploreSubject {
+function subjectToExplore(
+  subject: (typeof SEMESTER_SUBJECTS)[number],
+): ExploreSubject {
   return {
     id: subject.subjectId,
     title: subject.subjectLabel,
     description: subject.subjectDescription,
     circuitId: subject.defaultCircuitId,
-    experiments: subject.experiments.map((entry) => toExploreExperiment(entry, subject.defaultCircuitId)),
+    experiments: subject.experiments.map((entry) =>
+      toExploreExperiment(entry, subject.defaultCircuitId),
+    ),
   };
 }
 
@@ -32,8 +40,12 @@ export function getSemesterExploreSubjects(): ExploreSubject[] {
   return SEMESTER_SUBJECTS.map(subjectToExplore);
 }
 
-export function getSemesterExploreSubjectsBySemester(semesterId: string): ExploreSubject[] {
-  return SEMESTER_SUBJECTS.filter((subject) => subject.semesterId === semesterId).map(subjectToExplore);
+export function getSemesterExploreSubjectsBySemester(
+  semesterId: string,
+): ExploreSubject[] {
+  return SEMESTER_SUBJECTS.filter(
+    (subject) => subject.semesterId === semesterId,
+  ).map(subjectToExplore);
 }
 
 export function getSemesterExploreSemesters(): ExploreSemester[] {

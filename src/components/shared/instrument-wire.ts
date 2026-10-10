@@ -1,5 +1,5 @@
-import * as THREE from 'three';
-import { PITCH } from '@/labs/coords';
+import * as THREE from "three";
+import { PITCH } from "@/labs/coords";
 
 // ── Instrument connection wire helper ─────────────────────────────────────
 // Draws a smooth TubeGeometry wire from an instrument position to a board hole.

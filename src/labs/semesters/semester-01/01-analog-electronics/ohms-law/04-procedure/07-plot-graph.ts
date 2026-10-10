@@ -1,11 +1,20 @@
-import { type SceneProcedureStep } from '@/labs/experiments/types';
+import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const step: SceneProcedureStep = {
-  label: 'Plot V-I graph and calculate slope.',
+  label: "Plot V-I graph and calculate slope.",
   body:
-    'On graph paper (or a spreadsheet), plot $V$ (y-axis, volts) against $I$ (x-axis, mA). '
-    + 'Draw the best-fit straight line through the data points. '
-    + 'Calculate slope $\\Delta V / \\Delta I$ for each resistor (convert mA → A first). '
-    + 'Compare the experimental $R$ with the nominal value and compute the percentage error.',
-  show: ['bb', 'r1', 'led1', 'w_vcc', 'w_r1_led', 'w_gnd', 'w_vm_pos', 'w_vm_neg'],
+    "On graph paper (or a spreadsheet), plot $V$ (y-axis, volts) against $I$ (x-axis, mA). " +
+    "Draw the best-fit straight line through the data points. " +
+    "Calculate slope $\\Delta V / \\Delta I$ for each resistor (convert mA → A first). " +
+    "Compare the experimental $R$ with the nominal value and compute the percentage error.",
+  show: [
+    "bb",
+    "r1",
+    "led1",
+    "w_vcc",
+    "w_r1_led",
+    "w_gnd",
+    "w_vm_pos",
+    "w_vm_neg",
+  ],
 };

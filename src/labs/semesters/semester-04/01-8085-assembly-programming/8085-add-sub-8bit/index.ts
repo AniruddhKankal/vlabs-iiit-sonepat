@@ -1,22 +1,27 @@
-import { buildCircuit, buildLabContent } from '@/labs/experiments/build';
-import { type ExperimentDefinition } from '@/labs/experiments/types';
+import { buildCircuit, buildLabContent } from "@/labs/experiments/build";
+import { type ExperimentDefinition } from "@/labs/experiments/types";
 
-import { aim } from './01-aim';
-import { theory } from './02-theory';
-import { codeLab } from './03-code-lab';
-import { observations } from './05-observations';
-import { conclusion } from './06-conclusion';
-import { procedureSteps } from './04-procedure';
+import { aim } from "./01-aim";
+import { theory } from "./02-theory";
+import { codeLab } from "./03-code-lab";
+import { observations } from "./05-observations";
+import { conclusion } from "./06-conclusion";
+import { procedureSteps } from "./04-procedure";
 
 export const exp8085AddSub8bitExperiment: ExperimentDefinition = {
-  id: '8085-add-sub-8bit',
+  id: "8085-add-sub-8bit",
   title: "Addition & Subtraction of Two 8-bit Numbers",
-  description: "The Intel 8085 microprocessor is an 8-bit processor that performs arithmetic operations through its Arithmetic and Logic Unit (ALU). The accumulator register A is the central register in all arithmeti",
-  labType: 'code',
+  description:
+    "The Intel 8085 microprocessor is an 8-bit processor that performs arithmetic operations through its Arithmetic and Logic Unit (ALU). The accumulator register A is the central register in all arithmeti",
+  labType: "code",
   components: [],
   sections: [aim, theory, codeLab, observations, conclusion],
   procedureSteps,
 };
 
-export const Exp8085AddSub8bitCircuit = buildCircuit(exp8085AddSub8bitExperiment);
-export const Exp8085AddSub8bitContent = buildLabContent(exp8085AddSub8bitExperiment);
+export const Exp8085AddSub8bitCircuit = buildCircuit(
+  exp8085AddSub8bitExperiment,
+);
+export const Exp8085AddSub8bitContent = buildLabContent(
+  exp8085AddSub8bitExperiment,
+);

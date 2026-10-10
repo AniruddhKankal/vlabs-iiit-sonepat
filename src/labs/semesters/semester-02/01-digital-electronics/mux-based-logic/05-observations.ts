@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -18,42 +18,10 @@ export const observations: ObservationSection = {
       "A=1,B=1",
     ],
     rows: [
-      [
-        "AND(A,B)",
-        "0",
-        "B",
-        0,
-        0,
-        0,
-        1,
-      ],
-      [
-        "OR(A,B)",
-        "B",
-        "1",
-        0,
-        1,
-        1,
-        1,
-      ],
-      [
-        "XOR(A,B)",
-        "B",
-        "B'",
-        0,
-        1,
-        1,
-        0,
-      ],
-      [
-        "NAND(A,B)",
-        "1",
-        "B'",
-        1,
-        1,
-        1,
-        0,
-      ],
+      ["AND(A,B)", "0", "B", 0, 0, 0, 1],
+      ["OR(A,B)", "B", "1", 0, 1, 1, 1],
+      ["XOR(A,B)", "B", "B'", 0, 1, 1, 0],
+      ["NAND(A,B)", "1", "B'", 1, 1, 1, 0],
     ],
   },
 };

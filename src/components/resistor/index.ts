@@ -1,7 +1,7 @@
-import * as THREE from 'three';
-import { PITCH, BOARD_H, TOP_Y } from '@/labs/coords';
-import { M, WIRE_HEX } from '@/components/shared/materials';
-import { solidBox, solidCyl, textLabel } from '@/components/shared/primitives';
+import * as THREE from "three";
+import { PITCH, BOARD_H, TOP_Y } from "@/labs/coords";
+import { M, WIRE_HEX } from "@/components/shared/materials";
+import { solidBox, solidCyl, textLabel } from "@/components/shared/primitives";
 
 // ── Resistor colour-band lookup ───────────────────────────────────────────
 // 4-band E24/E96 resistor colour code.
@@ -20,7 +20,7 @@ import { solidBox, solidCyl, textLabel } from '@/components/shared/primitives';
 //   10kΩ → brown(1) black(0) orange(×1k) gold
 
 const BAND_COLOURS: Record<number, () => THREE.Material> = {
-  0: M.dark,     // black
+  0: M.dark, // black
   1: () => new THREE.MeshBasicMaterial({ color: 0x8b4513 }), // brown
   2: M.red,
   3: M.orange,
@@ -32,22 +32,32 @@ const BAND_COLOURS: Record<number, () => THREE.Material> = {
   9: () => new THREE.MeshBasicMaterial({ color: 0xffffff }), // white
 };
 
-function resistorBands(ohms: number): [() => THREE.Material, () => THREE.Material, () => THREE.Material, () => THREE.Material] {
+function resistorBands(
+  ohms: number,
+): [
+  () => THREE.Material,
+  () => THREE.Material,
+  () => THREE.Material,
+  () => THREE.Material,
+] {
   // Find the best 2-digit mantissa and multiplier
   // e.g. 330 = 33 × 10^1 → d1=3, d2=3, mult=1
   //      470 = 47 × 10^1 → d1=4, d2=7, mult=1
   //      1000= 10 × 10^2 → d1=1, d2=0, mult=2
   let mult = 0;
-  let val  = ohms;
-  while (val >= 100) { val = Math.round(val / 10); mult++; }
+  let val = ohms;
+  while (val >= 100) {
+    val = Math.round(val / 10);
+    mult++;
+  }
 
   const d1 = Math.floor(val / 10);
   const d2 = val % 10;
 
-  const b1 = BAND_COLOURS[d1]  ?? M.dark;
-  const b2 = BAND_COLOURS[d2]  ?? M.dark;
+  const b1 = BAND_COLOURS[d1] ?? M.dark;
+  const b2 = BAND_COLOURS[d2] ?? M.dark;
   const b3 = BAND_COLOURS[mult] ?? M.dark;
-  const b4 = M.gold;  // gold = ±5% tolerance
+  const b4 = M.gold; // gold = ±5% tolerance
 
   return [b1, b2, b3, b4];
 }
@@ -58,38 +68,48 @@ export function buildResistor(
   lead2: THREE.Vector3,
   ohms = 330,
 ): THREE.Group {
-  const root  = new THREE.Group();
-  const midX  = (lead1.x + lead2.x) / 2;
-  const midZ  = (lead1.z + lead2.z) / 2;
+  const root = new THREE.Group();
+  const midX = (lead1.x + lead2.x) / 2;
+  const midZ = (lead1.z + lead2.z) / 2;
   const spanX = lead2.x - lead1.x;
   const spanZ = lead2.z - lead1.z;
-  const span  = Math.sqrt(spanX * spanX + spanZ * spanZ);
+  const span = Math.sqrt(spanX * spanX + spanZ * spanZ);
   const angle = Math.atan2(spanZ, spanX);
 
-  const BODY_R = PITCH * 0.40;
-  const BODY_L = span * 0.58;  // realistic body proportion for through-hole resistor
-  const bodyH  = PITCH * 0.22; // sit much closer to the board surface
+  const BODY_R = PITCH * 0.4;
+  const BODY_L = span * 0.58; // realistic body proportion for through-hole resistor
+  const bodyH = PITCH * 0.22; // sit much closer to the board surface
 
   const bodyGrp = new THREE.Group();
   const bodyGeo = new THREE.CylinderGeometry(BODY_R, BODY_R, BODY_L, 14);
   bodyGrp.add(new THREE.Mesh(bodyGeo, M.cream()));
-  bodyGrp.add(new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo, 20), M.edge()));
+  bodyGrp.add(
+    new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo, 20), M.edge()),
+  );
   bodyGrp.rotation.z = Math.PI / 2;
 
   // Correct 4-band resistor colour code
   const [b1, b2, b3, b4] = resistorBands(ohms);
-  const bandOffsets = [-0.30, -0.13, 0.06, 0.26].map(f => f * BODY_L);
-  const bandMats    = [b1(), b2(), b3(), b4()];
+  const bandOffsets = [-0.3, -0.13, 0.06, 0.26].map((f) => f * BODY_L);
+  const bandMats = [b1(), b2(), b3(), b4()];
   for (let i = 0; i < 4; i++) {
-    const bGeo = new THREE.CylinderGeometry(BODY_R + 0.009, BODY_R + 0.009, PITCH * 0.13, 14);
-    const bm   = new THREE.Mesh(bGeo, bandMats[i]);
+    const bGeo = new THREE.CylinderGeometry(
+      BODY_R + 0.009,
+      BODY_R + 0.009,
+      PITCH * 0.13,
+      14,
+    );
+    const bm = new THREE.Mesh(bGeo, bandMats[i]);
     bm.position.y = bandOffsets[i];
     bodyGrp.add(bm);
   }
 
   // Ohm value label
-  const ohmText  = ohms >= 1000 ? `${ohms / 1000}kΩ` : `${ohms}Ω`;
-  const ohmLabel = textLabel(ohmText, BODY_R * 5, BODY_R * 1.6, { textColor: '#444', fontSize: 42 });
+  const ohmText = ohms >= 1000 ? `${ohms / 1000}kΩ` : `${ohms}Ω`;
+  const ohmLabel = textLabel(ohmText, BODY_R * 5, BODY_R * 1.6, {
+    textColor: "#444",
+    fontSize: 42,
+  });
   if (ohmLabel) {
     ohmLabel.rotation.z = -Math.PI / 2;
     ohmLabel.position.set(0, 0, BODY_R + 0.022);
@@ -116,14 +136,27 @@ export function buildResistor(
     midZ + Math.sin(angle) * halfBodyLen,
   );
 
-  const leadR    = PITCH * 0.07;
-  const leadGeoV = new THREE.CylinderGeometry(leadR, leadR, bodyH + BOARD_H * 0.4, 6);
-  const leadGeoH1 = (len: number) => new THREE.CylinderGeometry(leadR, leadR, len, 6);
+  const leadR = PITCH * 0.07;
+  const leadGeoV = new THREE.CylinderGeometry(
+    leadR,
+    leadR,
+    bodyH + BOARD_H * 0.4,
+    6,
+  );
+  const leadGeoH1 = (len: number) =>
+    new THREE.CylinderGeometry(leadR, leadR, len, 6);
 
-  for (const [holePos, bodyEnd] of [[lead1, bodyEndL], [lead2, bodyEndR]] as const) {
+  for (const [holePos, bodyEnd] of [
+    [lead1, bodyEndL],
+    [lead2, bodyEndR],
+  ] as const) {
     // Vertical part: from hole up to body height
     const vLead = new THREE.Mesh(leadGeoV, M.gold());
-    vLead.position.set(holePos.x, TOP_Y - BOARD_H * 0.2 + (bodyH + BOARD_H * 0.4) / 2, holePos.z);
+    vLead.position.set(
+      holePos.x,
+      TOP_Y - BOARD_H * 0.2 + (bodyH + BOARD_H * 0.4) / 2,
+      holePos.z,
+    );
     root.add(vLead);
 
     // Horizontal part: from top of vertical lead to body endpoint
@@ -148,27 +181,31 @@ export function buildResistor(
 
 export function buildResistorStandalone(ohms = 330): THREE.Group {
   const root = new THREE.Group();
-  const P    = PITCH;
-  const R    = P * 0.42, L = P * 3.2;
+  const P = PITCH;
+  const R = P * 0.42,
+    L = P * 3.2;
 
   const bodyGeo = new THREE.CylinderGeometry(R, R, L, 14);
   const bodyMesh = new THREE.Mesh(bodyGeo, M.cream());
-  const bodyEdge = new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo, 20), M.edge());
+  const bodyEdge = new THREE.LineSegments(
+    new THREE.EdgesGeometry(bodyGeo, 20),
+    M.edge(),
+  );
   root.add(bodyMesh);
   root.add(bodyEdge);
   root.rotation.z = Math.PI / 2;
 
   // Correct colour bands
   const [b1, b2, b3, b4] = resistorBands(ohms);
-  const bandOffsets = [-0.30, -0.13, 0.06, 0.26].map(f => f * L);
-  const bandMats    = [b1(), b2(), b3(), b4()];
+  const bandOffsets = [-0.3, -0.13, 0.06, 0.26].map((f) => f * L);
+  const bandMats = [b1(), b2(), b3(), b4()];
   for (let i = 0; i < 4; i++) {
     const bm = new THREE.Mesh(
       new THREE.CylinderGeometry(R + 0.009, R + 0.009, P * 0.13, 14),
       bandMats[i],
     );
     bm.position.y = bandOffsets[i];
-    bodyMesh.add(bm);  // add to mesh, not edge geometry
+    bodyMesh.add(bm); // add to mesh, not edge geometry
   }
 
   // Leads
@@ -182,8 +219,11 @@ export function buildResistorStandalone(ohms = 330): THREE.Group {
   }
 
   // Value label
-  const ohmText  = ohms >= 1000 ? `${ohms / 1000}kΩ` : `${ohms}Ω`;
-  const ohmLabel = textLabel(ohmText, R * 5, R * 1.6, { textColor: '#444', fontSize: 42 });
+  const ohmText = ohms >= 1000 ? `${ohms / 1000}kΩ` : `${ohms}Ω`;
+  const ohmLabel = textLabel(ohmText, R * 5, R * 1.6, {
+    textColor: "#444",
+    fontSize: 42,
+  });
   if (ohmLabel) {
     ohmLabel.rotation.z = -Math.PI / 2;
     ohmLabel.position.set(0, 0, R + 0.022);

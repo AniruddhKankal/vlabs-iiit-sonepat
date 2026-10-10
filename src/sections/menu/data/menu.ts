@@ -1,13 +1,10 @@
-import {
-  IconBulb,
-  IconCode,
-} from '@tabler/icons-react';
+import { IconBulb, IconCode } from "@tabler/icons-react";
 
-import { DiscordMark, GitHubMark } from '@/icons';
-import { SITE_URLS } from '@/platform/site-urls';
+import { DiscordMark, GitHubMark } from "@/icons";
+import { SITE_URLS } from "@/platform/site-urls";
 
-import { type MenuNavItem } from '../types/menu-nav-item';
-import { type MenuSocialLink } from '../types/menu-social-link';
+import { type MenuNavItem } from "../types/menu-nav-item";
+import { type MenuSocialLink } from "../types/menu-social-link";
 
 export const MENU: {
   appUrl: string;
@@ -16,37 +13,41 @@ export const MENU: {
 } = {
   appUrl: SITE_URLS.appWelcome,
   navItems: [
-    { href: '/', label: 'Home' },
+    { href: "/", label: "Home" },
+    { href: "/blog", label: "Blog" },
+    { href: "/community", label: "Community" },
     {
-      label: 'Resources',
+      label: "Resources",
       children: [
         {
-          label: 'User Guide',
-          description: 'Learn how to use VLabs',
+          label: "User Guide",
+          description: "Learn how to use VLabs",
           href: SITE_URLS.docsUserGuide,
           external: true,
           icon: IconCode,
           preview: {
-            image: '/images/menu/user-guide.webp',
-            imageAlt: 'VLabs user guide preview',
-            imagePosition: 'center',
-            title: 'Master every corner of VLabs',
-            description: 'Step-by-step guides and playbooks to help your team get the most out of their workspace.',
+            image: "/images/menu/user-guide.webp",
+            imageAlt: "VLabs user guide preview",
+            imagePosition: "center",
+            title: "Master every corner of VLabs",
+            description:
+              "Step-by-step guides and playbooks to help your team get the most out of their workspace.",
           },
         },
         {
-          label: 'Developers',
-          description: 'Contribute to VLabs',
+          label: "Developers",
+          description: "Contribute to VLabs",
           href: SITE_URLS.docsDevelopers,
           external: true,
           icon: IconCode,
           preview: {
-            image: '/images/menu/developers.webp',
-            imageAlt: 'Blue developer illustration with branching arrows',
-            imagePosition: 'center',
+            image: "/images/menu/developers.webp",
+            imageAlt: "Blue developer illustration with branching arrows",
+            imagePosition: "center",
             imageScale: 1.6,
-            title: 'Build on an open platform',
-            description: 'Explore the source, open issues, and contribute to VLabs on GitHub.',
+            title: "Build on an open platform",
+            description:
+              "Explore the source, open issues, and contribute to VLabs on GitHub.",
           },
         },
       ],
@@ -54,13 +55,13 @@ export const MENU: {
   ],
   socialLinks: [
     {
-      ariaLabel: 'GitHub (opens in new tab)',
+      ariaLabel: "GitHub (opens in new tab)",
       href: SITE_URLS.github,
       icon: GitHubMark,
       showInDesktop: true,
     },
     {
-      ariaLabel: 'Discord (opens in new tab)',
+      ariaLabel: "Discord (opens in new tab)",
       href: SITE_URLS.discord,
       icon: DiscordMark,
       showInDesktop: true,

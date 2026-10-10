@@ -1,17 +1,16 @@
-import { EceModel } from './ece/EceModel';
+import { EceModel } from "./ece/EceModel";
 
-import { ArrowRight } from '@/icons';
+import { ArrowRight } from "@/icons";
 
-import { Body } from '@/ui';
-import { ButtonShape } from '@/ui/ButtonShape';
+import { Body } from "@/ui";
+import { ButtonShape } from "@/ui/ButtonShape";
 
-import { CardShape } from './CardShape';
-import { type IllustrationCardRecord } from './three-cards.data';
+import { CardShape } from "./CardShape";
+import { type IllustrationCardRecord } from "./three-cards.data";
 
 const ACTION_SIZE_PX = 40;
 
 export function IllustrationCard({ card }: { card: IllustrationCardRecord }) {
-
   return (
     <div className="bg-[var(--color-white)] rounded-[calc(var(--radius-base)*2)] flex flex-col gap-[calc(var(--spacing-base)*4)] h-full isolate min-h-0 min-w-0 p-[calc(var(--spacing-base)*4)] relative">
       <CardShape />
@@ -20,15 +19,18 @@ export function IllustrationCard({ card }: { card: IllustrationCardRecord }) {
       <h3
         className="font-[var(--font-sans),sans-serif] font-medium"
         style={{
-          fontSize: 'clamp(1.125rem, 0.9415rem + 0.753vw, 1.375rem)',
-          lineHeight: 'clamp(1.5rem, 1.3165rem + 0.753vw, 1.75rem)',
+          fontSize: "clamp(1.125rem, 0.9415rem + 0.753vw, 1.375rem)",
+          lineHeight: "clamp(1.5rem, 1.3165rem + 0.753vw, 1.75rem)",
         }}
       >
         {card.heading}
       </h3>
 
       {/* CardRule */}
-      <div className="border-t border-dotted border-[var(--divider)] h-0 w-full" aria-hidden />
+      <div
+        className="border-t border-dotted border-[var(--divider)] h-0 w-full"
+        aria-hidden
+      />
 
       {/* CardStage */}
       <div
@@ -39,7 +41,10 @@ export function IllustrationCard({ card }: { card: IllustrationCardRecord }) {
       </div>
 
       {/* CardRule */}
-      <div className="border-t border-dotted border-[var(--divider)] h-0 w-full" aria-hidden />
+      <div
+        className="border-t border-dotted border-[var(--divider)] h-0 w-full"
+        aria-hidden
+      />
 
       {/* CardLower */}
       <div className="flex flex-1 flex-col gap-[calc(var(--spacing-base)*4)] min-w-0">
@@ -51,15 +56,18 @@ export function IllustrationCard({ card }: { card: IllustrationCardRecord }) {
             </Body>
 
             {/* AttributionPipe */}
-            <span className="block border-l border-[var(--divider)] h-[21px] w-0" aria-hidden />
+            <span
+              className="block border-l border-[var(--divider)] h-[21px] w-0"
+              aria-hidden
+            />
 
             <Body size="xs">{card.attribution.company}</Body>
 
-            {card.caseStudySlug !== undefined ? (
+            {card.actionHref !== undefined ? (
               <div className="justify-self-end">
                 <ActionLink
-                  company={card.attribution.company}
-                  slug={card.caseStudySlug}
+                  label={card.attribution.company}
+                  href={card.actionHref}
                 />
               </div>
             ) : null}
@@ -70,7 +78,7 @@ export function IllustrationCard({ card }: { card: IllustrationCardRecord }) {
   );
 }
 
-function ActionLink({ company, slug }: { company: string; slug: string }) {
+function ActionLink({ label, href }: { label: string; href: string }) {
   return (
     <>
       <style>{`
@@ -111,8 +119,8 @@ function ActionLink({ company, slug }: { company: string; slug: string }) {
       <a
         className="action-link inline-flex items-center justify-center shrink-0 overflow-hidden relative no-underline text-[var(--color-black-80)] transition-[color,transform] duration-200 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
         style={{ width: ACTION_SIZE_PX, height: ACTION_SIZE_PX }}
-        aria-label={`${company} case study`}
-        href={`/customers/${slug}`}
+        aria-label={`View ${label} details`}
+        href={href}
       >
         <ButtonShape heightPx={ACTION_SIZE_PX} outlined />
         <span

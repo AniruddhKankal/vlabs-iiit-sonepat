@@ -1,9 +1,9 @@
-import { type RefObject } from 'react';
+import { type RefObject } from "react";
 
-import { getReducedMotionSnapshot } from '@/platform/motion/reduced-motion-snapshot';
-import { BREAKPOINT_PX } from '@/tokens';
+import { getReducedMotionSnapshot } from "@/platform/motion/reduced-motion-snapshot";
+import { BREAKPOINT_PX } from "@/tokens";
 
-import { cardReveal } from './card-reveal-frame';
+import { cardReveal } from "./card-reveal-frame";
 
 export type CardRevealLayoutRefs = {
   cardRefs: RefObject<(HTMLDivElement | null)[]>;
@@ -12,7 +12,7 @@ export type CardRevealLayoutRefs = {
 
 const setStyleProperty = (
   node: HTMLElement,
-  property: 'opacity' | 'transform',
+  property: "opacity" | "transform",
   value: string,
 ) => {
   if (node.style[property] === value) return;
@@ -45,8 +45,8 @@ export function applyCardRevealLayout(
       if (!node) {
         continue;
       }
-      setStyleProperty(node, 'opacity', '1');
-      setStyleProperty(node, 'transform', 'none');
+      setStyleProperty(node, "opacity", "1");
+      setStyleProperty(node, "transform", "none");
     }
     return;
   }
@@ -63,10 +63,10 @@ export function applyCardRevealLayout(
       continue;
     }
     const frame = cardReveal.frameAt(progress, index);
-    setStyleProperty(node, 'opacity', String(frame.opacity));
+    setStyleProperty(node, "opacity", String(frame.opacity));
     setStyleProperty(
       node,
-      'transform',
+      "transform",
       `translateY(${frame.translateYPx}px) scale(${frame.scale})`,
     );
   }

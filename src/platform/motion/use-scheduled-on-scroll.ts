@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-import { createAnimationFrameLoop } from './animation-frame-loop';
+import { createAnimationFrameLoop } from "./animation-frame-loop";
 
 // Runs the callback on scroll/resize, batched to one call per animation
 // frame regardless of event rate.
@@ -24,11 +24,11 @@ export function useScheduledOnScroll(
     const schedule = frameTask.start;
 
     callback();
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
     return () => {
-      window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
       frameTask.stop();
     };
   }, [callback, enabled]);

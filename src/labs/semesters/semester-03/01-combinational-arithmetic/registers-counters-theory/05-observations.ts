@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -25,13 +25,7 @@ export const observations: ObservationSection = {
         "Yes (for MOD-k)",
         "General counting, frequency division",
       ],
-      [
-        "Ring counter (n-bit)",
-        "n",
-        "n",
-        "No",
-        "Sequencer, state machine",
-      ],
+      ["Ring counter (n-bit)", "n", "n", "No", "Sequencer, state machine"],
       [
         "Johnson counter (n-bit)",
         "2n",
@@ -39,13 +33,7 @@ export const observations: ObservationSection = {
         "Minimal",
         "Glitch-free frequency divider",
       ],
-      [
-        "LFSR (n-bit)",
-        "2ⁿ−1",
-        "n",
-        "No",
-        "Pseudo-random number generation",
-      ],
+      ["LFSR (n-bit)", "2ⁿ−1", "n", "No", "Pseudo-random number generation"],
     ],
   },
 };

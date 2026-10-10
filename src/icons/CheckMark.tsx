@@ -1,4 +1,4 @@
-const CHECK_PATH = 'm2.5 6 2.5 2.5 4.5-5';
+const CHECK_PATH = "m2.5 6 2.5 2.5 4.5-5";
 
 export type CheckMarkProps = {
   sizePx?: number;
@@ -11,7 +11,7 @@ export function CheckMark({ sizePx = 10 }: CheckMarkProps) {
     <svg
       fill="none"
       height={sizePx}
-      style={{ display: 'block' }}
+      style={{ display: "block" }}
       viewBox="0 0 12 12"
       width={sizePx}
       xmlns="http://www.w3.org/2000/svg"

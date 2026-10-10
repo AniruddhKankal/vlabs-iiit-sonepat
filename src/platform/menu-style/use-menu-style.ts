@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useContext } from 'react';
+import { useContext } from "react";
 
-import { type Scheme } from '@/tokens';
+import { type Scheme } from "@/tokens";
 
-import { MenuStyleContext, type MenuStyleOverride } from './menu-style-context';
+import { MenuStyleContext, type MenuStyleOverride } from "./menu-style-context";
 
 const NO_OVERRIDE: MenuStyleOverride = {};
 

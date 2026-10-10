@@ -1,17 +1,9 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
-import {
-  PITCH,
-  BOARD_H,
-  COLS,
-  TOP_Y,
-  Z,
-  colToX,
-  BOARD_D,
-} from '@/labs/coords';
+import { PITCH, BOARD_H, COLS, TOP_Y, Z, colToX, BOARD_D } from "@/labs/coords";
 
-import { M } from '@/components/shared/materials';
-import { solidBox, textLabel } from '@/components/shared/primitives';
+import { M } from "@/components/shared/materials";
+import { solidBox, textLabel } from "@/components/shared/primitives";
 
 const SURF = TOP_Y + 0.0005;
 const LIFT = 0.002;
@@ -22,17 +14,9 @@ function holeGrid(
   size: number,
   depth: number,
 ): THREE.InstancedMesh {
-  const geometry = new THREE.BoxGeometry(
-    size,
-    depth,
-    size,
-  );
+  const geometry = new THREE.BoxGeometry(size, depth, size);
 
-  const mesh = new THREE.InstancedMesh(
-    geometry,
-    M.hole(),
-    cols * rows.length,
-  );
+  const mesh = new THREE.InstancedMesh(geometry, M.hole(), cols * rows.length);
 
   const dummy = new THREE.Object3D();
 
@@ -40,11 +24,7 @@ function holeGrid(
 
   for (let c = 1; c <= cols; c++) {
     for (const row of rows) {
-      dummy.position.set(
-        colToX(c, cols),
-        TOP_Y - depth / 2 + LIFT,
-        Z[row],
-      );
+      dummy.position.set(colToX(c, cols), TOP_Y - depth / 2 + LIFT, Z[row]);
 
       dummy.updateMatrix();
       mesh.setMatrixAt(index++, dummy.matrix);
@@ -56,28 +36,21 @@ function holeGrid(
   return mesh;
 }
 
-function railHoles(
-  cols: number,
-  row: string,
-): THREE.InstancedMesh {
+function railHoles(cols: number, row: string): THREE.InstancedMesh {
   const geometry = new THREE.BoxGeometry(
     PITCH * 0.48,
     BOARD_H * 0.62,
     PITCH * 0.48,
   );
 
-  const mesh = new THREE.InstancedMesh(
-    geometry,
-    M.hole(),
-    cols,
-  );
+  const mesh = new THREE.InstancedMesh(geometry, M.hole(), cols);
 
   const dummy = new THREE.Object3D();
 
   for (let c = 1; c <= cols; c++) {
     dummy.position.set(
       colToX(c, cols),
-      TOP_Y - BOARD_H * 0.62 / 2 + LIFT,
+      TOP_Y - (BOARD_H * 0.62) / 2 + LIFT,
       Z[row],
     );
 
@@ -110,12 +83,12 @@ function railMarkings(cols: number): THREE.Group {
 
   const railPairs = [
     {
-      row1: 'rail_top_red',
-      row2: 'rail_top_blue',
+      row1: "rail_top_red",
+      row2: "rail_top_blue",
     },
     {
-      row1: 'rail_bot_red',
-      row2: 'rail_bot_blue',
+      row1: "rail_bot_red",
+      row2: "rail_bot_blue",
     },
   ];
 
@@ -130,36 +103,20 @@ function railMarkings(cols: number): THREE.Group {
     const redZ = bottomHoleZ + lineOffset;
 
     const blueLine = new THREE.Mesh(
-      new THREE.BoxGeometry(
-        width,
-        0.006,
-        0.022,
-      ),
+      new THREE.BoxGeometry(width, 0.006, 0.022),
       blueMaterial,
     );
 
-    blueLine.position.set(
-      (startX + endX) / 2,
-      SURF + 0.006,
-      blueZ,
-    );
+    blueLine.position.set((startX + endX) / 2, SURF + 0.006, blueZ);
 
     group.add(blueLine);
 
     const redLine = new THREE.Mesh(
-      new THREE.BoxGeometry(
-        width,
-        0.006,
-        0.022,
-      ),
+      new THREE.BoxGeometry(width, 0.006, 0.022),
       redMaterial,
     );
 
-    redLine.position.set(
-      (startX + endX) / 2,
-      SURF + 0.006,
-      redZ,
-    );
+    redLine.position.set((startX + endX) / 2, SURF + 0.006, redZ);
 
     group.add(redLine);
   }
@@ -170,21 +127,14 @@ function railMarkings(cols: number): THREE.Group {
 function centreGap(cols: number): THREE.Group {
   const group = new THREE.Group();
 
-  const gapZ =
-    (Z['e'] + Z['f']) / 2;
+  const gapZ = (Z["e"] + Z["f"]) / 2;
 
-  const width =
-    colToX(cols, cols) - colToX(1, cols) + PITCH;
+  const width = colToX(cols, cols) - colToX(1, cols) + PITCH;
 
-  const gapDepth =
-    Math.abs(Z['f'] - Z['e']) * 0.72;
+  const gapDepth = Math.abs(Z["f"] - Z["e"]) * 0.72;
 
   const channel = new THREE.Mesh(
-    new THREE.BoxGeometry(
-      width + 0.16,
-      0.012,
-      gapDepth,
-    ),
+    new THREE.BoxGeometry(width + 0.16, 0.012, gapDepth),
     new THREE.MeshBasicMaterial({
       color: 0xcfc8ba,
       polygonOffset: true,
@@ -202,11 +152,7 @@ function centreGap(cols: number): THREE.Group {
   group.add(channel);
 
   const shadow = new THREE.Mesh(
-    new THREE.BoxGeometry(
-      width,
-      0.003,
-      gapDepth * 0.22,
-    ),
+    new THREE.BoxGeometry(width, 0.003, gapDepth * 0.22),
     new THREE.MeshBasicMaterial({
       color: 0xaaa397,
       transparent: true,
@@ -228,47 +174,25 @@ function centreGap(cols: number): THREE.Group {
 function rowLabels(cols: number): THREE.Group {
   const group = new THREE.Group();
 
-  const rows = [
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'h',
-    'i',
-    'j',
-  ] as const;
+  const rows = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"] as const;
 
-  const leftX =
-    colToX(1, cols) - PITCH * 1.45;
+  const leftX = colToX(1, cols) - PITCH * 1.45;
 
-  const rightX =
-    colToX(cols, cols) + PITCH * 1.45;
+  const rightX = colToX(cols, cols) + PITCH * 1.45;
 
   for (const row of rows) {
     for (const x of [leftX, rightX]) {
-      const label = textLabel(
-        row.toUpperCase(),
-        PITCH * 1.15,
-        PITCH * 0.72,
-        {
-          textColor: '#171717',
-          fontSize: 52,
-          bold: true,
-        },
-      );
+      const label = textLabel(row.toUpperCase(), PITCH * 1.15, PITCH * 0.72, {
+        textColor: "#171717",
+        fontSize: 52,
+        bold: true,
+      });
 
       if (!label) continue;
 
       label.rotation.x = -Math.PI / 2;
 
-      label.position.set(
-        x,
-        SURF + 0.008,
-        Z[row],
-      );
+      label.position.set(x, SURF + 0.008, Z[row]);
 
       group.add(label);
     }
@@ -284,36 +208,25 @@ function columnLabels(cols: number): THREE.Group {
   for (let n = 5; n < cols; n += 5) numbers.add(n);
   const columnNumbers = [...numbers].sort((a, b) => a - b);
 
-  const topZ =
-    Z['a'] - PITCH * 1.15;
+  const topZ = Z["a"] - PITCH * 1.15;
 
-  const bottomZ =
-    Z['j'] + PITCH * 1.15;
+  const bottomZ = Z["j"] + PITCH * 1.15;
 
   for (const number of columnNumbers) {
     const x = colToX(number, cols);
 
     for (const z of [topZ, bottomZ]) {
-      const label = textLabel(
-        String(number),
-        PITCH * 1.15,
-        PITCH * 0.72,
-        {
-          textColor: '#171717',
-          fontSize: 48,
-          bold: true,
-        },
-      );
+      const label = textLabel(String(number), PITCH * 1.15, PITCH * 0.72, {
+        textColor: "#171717",
+        fontSize: 48,
+        bold: true,
+      });
 
       if (!label) continue;
 
       label.rotation.x = -Math.PI / 2;
 
-      label.position.set(
-        x,
-        SURF + 0.008,
-        z,
-      );
+      label.position.set(x, SURF + 0.008, z);
 
       group.add(label);
     }
@@ -331,27 +244,16 @@ function groupSeparators(cols: number): THREE.Group {
     opacity: 0.28,
   });
 
-  const topZ =
-    Z['a'] - PITCH * 0.55;
+  const topZ = Z["a"] - PITCH * 0.55;
 
-  const bottomZ =
-    Z['j'] + PITCH * 0.55;
+  const bottomZ = Z["j"] + PITCH * 0.55;
 
   for (let c = 5; c < cols; c += 5) {
-    const x =
-      (colToX(c, cols) + colToX(c + 1, cols)) / 2;
+    const x = (colToX(c, cols) + colToX(c + 1, cols)) / 2;
 
     const points = [
-      new THREE.Vector3(
-        x,
-        SURF + 0.004,
-        topZ,
-      ),
-      new THREE.Vector3(
-        x,
-        SURF + 0.004,
-        bottomZ,
-      ),
+      new THREE.Vector3(x, SURF + 0.004, topZ),
+      new THREE.Vector3(x, SURF + 0.004, bottomZ),
     ];
 
     group.add(
@@ -370,55 +272,44 @@ function railLabels(cols: number): THREE.Group {
 
   const rails = [
     {
-      text: '+',
-      row: 'rail_top_red',
-      color: '#c62828',
+      text: "+",
+      row: "rail_top_red",
+      color: "#c62828",
     },
     {
-      text: '−',
-      row: 'rail_top_blue',
-      color: '#2563a8',
+      text: "−",
+      row: "rail_top_blue",
+      color: "#2563a8",
     },
     {
-      text: '−',
-      row: 'rail_bot_blue',
-      color: '#2563a8',
+      text: "−",
+      row: "rail_bot_blue",
+      color: "#2563a8",
     },
     {
-      text: '+',
-      row: 'rail_bot_red',
-      color: '#c62828',
+      text: "+",
+      row: "rail_bot_red",
+      color: "#c62828",
     },
   ];
 
-  const leftX =
-    colToX(1, cols) - PITCH * 1.45;
+  const leftX = colToX(1, cols) - PITCH * 1.45;
 
-  const rightX =
-    colToX(cols, cols) + PITCH * 1.45;
+  const rightX = colToX(cols, cols) + PITCH * 1.45;
 
   for (const rail of rails) {
     for (const x of [leftX, rightX]) {
-      const label = textLabel(
-        rail.text,
-        PITCH * 0.95,
-        PITCH * 0.65,
-        {
-          textColor: rail.color,
-          fontSize: 44,
-          bold: true,
-        },
-      );
+      const label = textLabel(rail.text, PITCH * 0.95, PITCH * 0.65, {
+        textColor: rail.color,
+        fontSize: 44,
+        bold: true,
+      });
 
       if (!label) continue;
 
       label.rotation.x = -Math.PI / 2;
 
-      label.position.set(
-        x,
-        SURF + 0.009,
-        Z[rail.row],
-      );
+      label.position.set(x, SURF + 0.009, Z[rail.row]);
 
       group.add(label);
     }
@@ -427,110 +318,54 @@ function railLabels(cols: number): THREE.Group {
   return group;
 }
 
-export function buildBreadboard(
-  cols = COLS,
-): THREE.Group {
+export function buildBreadboard(cols = COLS): THREE.Group {
   const root = new THREE.Group();
 
-  const boardWidth =
-    (cols - 1) * PITCH + PITCH * 3.6;
+  const boardWidth = (cols - 1) * PITCH + PITCH * 3.6;
 
-    const boardDepth = BOARD_D;
+  const boardDepth = BOARD_D;
 
-  root.add(
-    solidBox(
-      boardWidth,
-      BOARD_H,
-      boardDepth,
-      M.cream(),
-    ),
-  );
+  root.add(solidBox(boardWidth, BOARD_H, boardDepth, M.cream()));
 
-  const mainHoleSize =
-    PITCH * 0.52;
+  const mainHoleSize = PITCH * 0.52;
 
-  const mainHoleDepth =
-    BOARD_H * 0.72;
+  const mainHoleDepth = BOARD_H * 0.72;
 
   root.add(
-    holeGrid(
-      cols,
-      ['a', 'b', 'c', 'd', 'e'],
-      mainHoleSize,
-      mainHoleDepth,
-    ),
+    holeGrid(cols, ["a", "b", "c", "d", "e"], mainHoleSize, mainHoleDepth),
   );
 
   root.add(
-    holeGrid(
-      cols,
-      ['f', 'g', 'h', 'i', 'j'],
-      mainHoleSize,
-      mainHoleDepth,
-    ),
+    holeGrid(cols, ["f", "g", "h", "i", "j"], mainHoleSize, mainHoleDepth),
   );
 
-  root.add(
-    railHoles(
-      cols,
-      'rail_top_red',
-    ),
-  );
+  root.add(railHoles(cols, "rail_top_red"));
 
-  root.add(
-    railHoles(
-      cols,
-      'rail_top_blue',
-    ),
-  );
+  root.add(railHoles(cols, "rail_top_blue"));
 
-  root.add(
-    railHoles(
-      cols,
-      'rail_bot_blue',
-    ),
-  );
+  root.add(railHoles(cols, "rail_bot_blue"));
 
-  root.add(
-    railHoles(
-      cols,
-      'rail_bot_red',
-    ),
-  );
+  root.add(railHoles(cols, "rail_bot_red"));
 
-  root.add(
-    centreGap(cols),
-  );
+  root.add(centreGap(cols));
 
-  root.add(
-    railMarkings(cols),
-  );
+  root.add(railMarkings(cols));
 
-  root.add(
-    groupSeparators(cols),
-  );
+  root.add(groupSeparators(cols));
 
-  root.add(
-    rowLabels(cols),
-  );
+  root.add(rowLabels(cols));
 
-  root.add(
-    columnLabels(cols),
-  );
+  root.add(columnLabels(cols));
 
-  root.add(
-    railLabels(cols),
-  );
+  root.add(railLabels(cols));
 
   return root;
 }
 
 export function buildBreadboardStandalone(): THREE.Group {
-  const root =
-    buildBreadboard(10);
+  const root = buildBreadboard(10);
 
-  root.position.y =
-    -TOP_Y;
+  root.position.y = -TOP_Y;
 
   return root;
 }

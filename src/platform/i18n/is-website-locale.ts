@@ -1,6 +1,6 @@
-import { type DocumentationSupportedLanguage } from 'vlabs-iiitsonepat-shared/constants';
+import { type DocumentationSupportedLanguage } from "vlabs-iiitsonepat-shared/constants";
 
-import { WEBSITE_LOCALE_LIST } from './website-locale-list';
+import { WEBSITE_LOCALE_LIST } from "./website-locale-list";
 
 const WEBSITE_LOCALE_SET: ReadonlySet<string> = new Set(WEBSITE_LOCALE_LIST);
 

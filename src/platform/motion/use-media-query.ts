@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from "react";
 
 const subscribe = (query: string, callback: () => void): (() => void) => {
   const mediaQueryList = window.matchMedia(query);
-  mediaQueryList.addEventListener('change', callback);
-  return () => mediaQueryList.removeEventListener('change', callback);
+  mediaQueryList.addEventListener("change", callback);
+  return () => mediaQueryList.removeEventListener("change", callback);
 };
 
 export function useMediaQuery(

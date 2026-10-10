@@ -8,16 +8,16 @@ export type TypeStep = { size: number; lineHeight: number | null };
 export type TypeRamp = { base: TypeStep; md: TypeStep };
 
 export const TYPE_SCALE: Record<
-  | 'display'
-  | 'headingXl'
-  | 'headingLg'
-  | 'headingMd'
-  | 'headingSm'
-  | 'headingXs'
-  | 'eyebrow'
-  | 'bodyMd'
-  | 'bodySm'
-  | 'bodyXs',
+  | "display"
+  | "headingXl"
+  | "headingLg"
+  | "headingMd"
+  | "headingSm"
+  | "headingXs"
+  | "eyebrow"
+  | "bodyMd"
+  | "bodySm"
+  | "bodyXs",
   TypeRamp
 > = {
   // Decorative display tier (the marquee's loud rows) — 2x headingLg, so it

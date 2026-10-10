@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'katex/dist/katex.min.css';
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
 /*
  * Tailwind v4 CSS-first configuration
@@ -117,7 +117,7 @@
 }
 
 /* ─── Scheme overrides ─────────────────────────────────────────────── */
-[data-scheme='muted'] {
+[data-scheme="muted"] {
   --surface: var(--color-neutral);
   --ink: var(--color-black);
   --ink-muted: var(--color-black-60);
@@ -128,7 +128,7 @@
   color: var(--ink);
 }
 
-[data-scheme='dark'] {
+[data-scheme="dark"] {
   --surface: var(--color-black);
   --ink: var(--color-white);
   --ink-muted: var(--color-white-60);
@@ -175,7 +175,7 @@
 /* Rhythm, scheme-collapse, and connect-up rules that cannot be expressed
    with Tailwind utility classes alone (sibling selectors, :has). */
 
-.section-shell[data-rhythm='section'] {
+.section-shell[data-rhythm="section"] {
   padding-block: calc(var(--spacing-base) * 12);
 
   @media (min-width: 921px) {
@@ -183,16 +183,16 @@
   }
 }
 
-.section-shell[data-rhythm='flush'] {
+.section-shell[data-rhythm="flush"] {
   overflow: visible;
   padding-block: 0;
 }
 
-.section-shell[data-rhythm='spacious'] {
+.section-shell[data-rhythm="spacious"] {
   padding-block: calc(var(--spacing-base) * 30);
 }
 
-.section-shell[data-rhythm='hero'] {
+.section-shell[data-rhythm="hero"] {
   padding-block: calc(var(--spacing-base) * 7.5);
 
   @media (min-width: 921px) {
@@ -201,12 +201,12 @@
 }
 
 /* Collapse top rhythm when adjacent sections share the same scheme */
-.section-shell[data-scheme='light']:not([data-rhythm='flush'])
-  + .section-shell[data-scheme='light']:not([data-keep-top-rhythm]),
-.section-shell[data-scheme='muted']:not([data-rhythm='flush'])
-  + .section-shell[data-scheme='muted']:not([data-keep-top-rhythm]),
-.section-shell[data-scheme='dark']:not([data-rhythm='flush'])
-  + .section-shell[data-scheme='dark']:not([data-keep-top-rhythm]) {
+.section-shell[data-scheme="light"]:not([data-rhythm="flush"])
+  + .section-shell[data-scheme="light"]:not([data-keep-top-rhythm]),
+.section-shell[data-scheme="muted"]:not([data-rhythm="flush"])
+  + .section-shell[data-scheme="muted"]:not([data-keep-top-rhythm]),
+.section-shell[data-scheme="dark"]:not([data-rhythm="flush"])
+  + .section-shell[data-scheme="dark"]:not([data-keep-top-rhythm]) {
   padding-top: calc(var(--spacing-base) * 1.5);
 }
 
@@ -272,7 +272,7 @@
 }
 
 .floating-lab-card-handle:hover .floating-lab-card-grip,
-.floating-lab-card[data-dragging='true'] .floating-lab-card-grip {
+.floating-lab-card[data-dragging="true"] .floating-lab-card-grip {
   background: rgba(0, 0, 0, 0.22);
 }
 
@@ -310,61 +310,65 @@
   padding-inline: calc(var(--spacing-base) * 5);
 }
 
-[data-button-root][data-size='small'] {
+[data-button-root][data-size="small"] {
   padding-inline: calc(var(--spacing-base) * 4);
 }
 
-[data-button-root][data-variant='filled'] {
+[data-button-root][data-variant="filled"] {
   --button-fill: var(--color-black);
   --button-hover-fill: var(--color-black-hover);
   --button-label: var(--color-white);
   --button-label-hover: var(--color-white);
 }
 
-[data-button-root][data-variant='outlined'] {
+[data-button-root][data-variant="outlined"] {
   --button-stroke: var(--color-black);
   --button-hover-fill: var(--color-black);
   --button-hover-opacity: 0.05;
 }
 
-[data-scheme='dark'] [data-button-root][data-variant='filled'] {
+[data-scheme="dark"] [data-button-root][data-variant="filled"] {
   --button-fill: var(--color-white);
   --button-hover-fill: var(--color-white-hover);
   --button-label: var(--color-black);
   --button-label-hover: var(--color-black);
 }
 
-[data-scheme='dark'] [data-button-root][data-variant='outlined'] {
+[data-scheme="dark"] [data-button-root][data-variant="outlined"] {
   --button-stroke: var(--color-white);
   --button-hover-fill: var(--color-white);
   --button-label: var(--color-white);
   --button-label-hover: var(--color-white);
 }
 
-[data-scheme='dark'] [data-scheme='light'] [data-button-root][data-variant='filled'] {
+[data-scheme="dark"]
+  [data-scheme="light"]
+  [data-button-root][data-variant="filled"] {
   --button-fill: var(--color-black);
   --button-hover-fill: var(--color-black-hover);
   --button-label: var(--color-white);
   --button-label-hover: var(--color-white);
 }
 
-[data-scheme='dark'] [data-scheme='light'] [data-button-root][data-variant='outlined'] {
+[data-scheme="dark"]
+  [data-scheme="light"]
+  [data-button-root][data-variant="outlined"] {
   --button-stroke: var(--color-black);
   --button-hover-fill: var(--color-black);
   --button-label: var(--color-black);
   --button-label-hover: var(--color-black);
 }
 
-[data-button-root]:is(:hover, :focus-visible) [data-slot='hover-layer'] > span {
+[data-button-root]:is(:hover, :focus-visible) [data-slot="hover-layer"] > span {
   transform: translateX(0);
 }
 
-[data-button-root]:is(:hover, :focus-visible) [data-slot='content'] {
+[data-button-root]:is(:hover, :focus-visible) [data-slot="content"] {
   color: var(--button-label-hover);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-button-root] [data-slot='hover-layer'] > span {
+  [data-button-root] [data-slot="hover-layer"] > span {
     transition: none;
   }
 }

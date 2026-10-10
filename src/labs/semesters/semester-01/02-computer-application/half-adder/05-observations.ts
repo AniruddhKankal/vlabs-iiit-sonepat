@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -19,38 +19,10 @@ export const observations: ObservationSection = {
       "Yellow LED",
     ],
     rows: [
-      [
-        0,
-        0,
-        0,
-        0,
-        "OFF",
-        "OFF",
-      ],
-      [
-        0,
-        1,
-        1,
-        0,
-        "ON",
-        "OFF",
-      ],
-      [
-        1,
-        0,
-        1,
-        0,
-        "ON",
-        "OFF",
-      ],
-      [
-        1,
-        1,
-        0,
-        1,
-        "OFF",
-        "ON",
-      ],
+      [0, 0, 0, 0, "OFF", "OFF"],
+      [0, 1, 1, 0, "ON", "OFF"],
+      [1, 0, 1, 0, "ON", "OFF"],
+      [1, 1, 0, 1, "OFF", "ON"],
     ],
   },
 };

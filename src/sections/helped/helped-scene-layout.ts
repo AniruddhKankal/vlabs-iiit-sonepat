@@ -1,9 +1,9 @@
-import { clampProgress } from '@/platform/motion';
-import { type RefObject } from 'react';
-import { HELPED_CARD_WIDTH_DESKTOP_PX } from './helped-card-width';
+import { clampProgress } from "@/platform/motion";
+import { type RefObject } from "react";
+import { HELPED_CARD_WIDTH_DESKTOP_PX } from "./helped-card-width";
 
-import { getReducedMotionSnapshot } from '@/platform/motion/reduced-motion-snapshot';
-import { BREAKPOINT_PX } from '@/tokens';
+import { getReducedMotionSnapshot } from "@/platform/motion/reduced-motion-snapshot";
+import { BREAKPOINT_PX } from "@/tokens";
 
 // Scroll-driven card fan: cards travel up through the sticky stage in a
 // staggered sequence, fading at both ends, with a parallax hand-off as the
@@ -48,7 +48,7 @@ const easeOutQuad = (value: number) => {
 
 const setStyleProperty = (
   node: HTMLElement,
-  property: 'opacity' | 'transform' | 'width' | 'zIndex',
+  property: "opacity" | "transform" | "width" | "zIndex",
   value: string,
 ) => {
   if (node.style[property] === value) return;
@@ -74,7 +74,7 @@ const readProgressMetrics = (
   cardCount: number,
   inner: HTMLDivElement,
 ): ProgressMetrics | null => {
-  const exitTarget = inner.querySelector('[data-helped-exit-target]');
+  const exitTarget = inner.querySelector("[data-helped-exit-target]");
   const lastCard = refs.cardRefs.current[cardCount - 1];
   if (!(exitTarget instanceof HTMLElement) || !lastCard) return null;
   return {
@@ -109,7 +109,7 @@ const metricsEqual = (a: ProgressMetrics | null, b: ProgressMetrics | null) => {
 
 const needsRemeasure = (
   current: Measurements,
-  next: Omit<Measurements, 'cardWidth' | 'progressScale'>,
+  next: Omit<Measurements, "cardWidth" | "progressScale">,
 ) =>
   current.cardCount !== next.cardCount ||
   current.innerHeight !== next.innerHeight ||
@@ -159,8 +159,8 @@ export function applyHelpedSceneLayout(
     for (let index = 0; index < cardCount; index += 1) {
       const node = refs.cardRefs.current[index];
       if (!node) continue;
-      setStyleProperty(node, 'width', `${cardWidth}px`);
-      setStyleProperty(node, 'zIndex', String(CARD_BASE_Z_INDEX + index));
+      setStyleProperty(node, "width", `${cardWidth}px`);
+      setStyleProperty(node, "zIndex", String(CARD_BASE_Z_INDEX + index));
     }
     measurements = {
       ...next,
@@ -195,8 +195,8 @@ export function applyHelpedSceneLayout(
     if (reducedMotion) {
       const x = cardLeft(index, innerWidth, cardWidth, isDesktop);
       const y = innerHeight * (0.15 + index * 0.25);
-      setStyleProperty(node, 'opacity', '1');
-      setStyleProperty(node, 'transform', `translate3d(${x}px, ${y}px, 0)`);
+      setStyleProperty(node, "opacity", "1");
+      setStyleProperty(node, "transform", `translate3d(${x}px, ${y}px, 0)`);
       continue;
     }
 
@@ -208,7 +208,7 @@ export function applyHelpedSceneLayout(
       clampProgress(travel / FADE_FRACTION),
       clampProgress((1 - travel) / FADE_FRACTION),
     );
-    setStyleProperty(node, 'opacity', String(opacity));
-    setStyleProperty(node, 'transform', `translate3d(${x}px, ${y}px, 0)`);
+    setStyleProperty(node, "opacity", String(opacity));
+    setStyleProperty(node, "transform", `translate3d(${x}px, ${y}px, 0)`);
   }
 }

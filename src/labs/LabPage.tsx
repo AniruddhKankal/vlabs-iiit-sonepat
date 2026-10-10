@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  useRef,
+} from "react";
 import dynamic from "next/dynamic";
 
 import { MathText } from "@/ui/Math";
@@ -15,6 +21,7 @@ import {
   type ObservationSection,
   type ConclusionSection,
 } from "@/labs/lab-content.types";
+import { LabSidebar } from "@/labs/LabSidebar";
 import { FloatingLabCard } from "@/labs/FloatingLabCard";
 import {
   resolveFinalCircuitStepIndex,
@@ -22,7 +29,8 @@ import {
 } from "@/labs/resolve-circuit-step-index";
 import { type Circuit } from "@/labs/types";
 import { type StepMarker } from "@/labs/LabScene";
-import { BlobOptions } from "buffer";
+
+const EMPTY_MARKERS: StepMarker[] = [];
 
 // ── Dynamic imports (all client-only Three.js) ────────────────────────────
 const LabSceneCanvas = dynamic(
@@ -419,7 +427,7 @@ function FloatingCardContent({
 }
 
 // ── Scene renderer per section type ──────────────────────────────────────
-function SceneRenderer({
+const SceneRenderer = React.memo(function SceneRenderer({
   section,
   circuit,
   sceneStepIndex,
@@ -452,14 +460,12 @@ function SceneRenderer({
       markers={activeMarkers}
     />
   );
-}
+});
 
 // ── Main component ─────────────────────────────────────────────────────────
 type Props = { content: LabContent };
 
-export function LabPage({ content }: Props) {
-  if (content.labType === "code") return <CodeLabPage content={content} />;
-  if (content.labType === "simulation") return <SimLabPage content={content} />;
+function LabPageStandard({ content }: Props) {
   const [isMicOn, setIsMicOn] = useState<boolean>(true);
   const [collapsed, setCollapsed] = useState(false);
   const [activeSectionId, setActiveSectionId] = useState(
@@ -524,53 +530,66 @@ export function LabPage({ content }: Props) {
   }, [currentIndex, handleNav]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isAudioUnlockedRef = useRef<boolean>(false);
-  const speak = (path: string) => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-
-    // 2. If path is empty (cleanup phase) or mic is off, just exit
-    if (!path || !isMicOn) return;
-
-    // 3. Create and play the new audio purely in JavaScript memory
-    const audio = new Audio(path);
-    audio.preload = "auto"; // Optimizes loading speed
-
-    audio.play().catch((error) => {
-      console.error("Audio playback failed or was interrupted:", error);
-      if (error.name === "NotAllowedError") {
-        // The browser blocked autoplay (e.g., hard refresh).
-        // Turn the mic state off so the user can manually click it to unlock audio.
-        setIsMicOn(false);
+  const speak = useCallback(
+    (path: string) => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
       }
-    });
 
-    audioRef.current = audio;
-  };
+      // 2. If path is empty (cleanup phase) or mic is off, just exit
+      if (!path || !isMicOn) return;
+
+      // 3. Create and play the new audio purely in JavaScript memory
+      const audio = new Audio(path);
+      audio.preload = "auto"; // Optimizes loading speed
+
+      audio.play().catch((error) => {
+        console.error("Audio playback failed or was interrupted:", error);
+        if (error.name === "NotAllowedError") {
+          // The browser blocked autoplay (e.g., hard refresh).
+          // Turn the mic state off so the user can manually click it to unlock audio.
+          setIsMicOn(false);
+        }
+      });
+
+      audioRef.current = audio;
+    },
+    [isMicOn],
+  );
   useEffect(() => {
     if (!isMicOn) {
       speak("");
       return;
     }
-    if (activeSection?.audioPath) {
-      speak(activeSection.audioPath);
+
+    let currentAudioPath = activeSection?.audioPath;
+    if (activeSection?.type === "procedure") {
+      const step = activeSection.steps[procedureStepIndex];
+      if (step?.audioPath) {
+        currentAudioPath = step.audioPath;
+      }
     }
+
+    if (currentAudioPath) {
+      speak(currentAudioPath);
+    }
+
     return () => {
       // Cleanup: stop any playing audio
       speak("");
     };
-  }, [activeSection, isMicOn]);
+  }, [activeSection, procedureStepIndex, isMicOn, speak]);
   const circuit: Circuit =
     ALL_CIRCUITS.find((c) => c.id === content.circuitId) ?? BREADBOARD_ONLY;
 
-  const { sceneStepIndex, activeMarkers } = (() => {
+  const { sceneStepIndex, activeMarkers } = useMemo(() => {
     if (activeSection?.type === "procedure") {
       const step = activeSection.steps[procedureStepIndex];
       if (!step) {
         return {
           sceneStepIndex: resolveFinalCircuitStepIndex(circuit),
-          activeMarkers: [] as StepMarker[],
+          activeMarkers: EMPTY_MARKERS,
         };
       }
       return {
@@ -578,7 +597,7 @@ export function LabPage({ content }: Props) {
           circuit,
           procedureStepIndex,
         ),
-        activeMarkers: step.markers ?? [],
+        activeMarkers: step.markers ?? EMPTY_MARKERS,
       };
     }
 
@@ -588,12 +607,12 @@ export function LabPage({ content }: Props) {
     ) {
       return {
         sceneStepIndex: resolveFinalCircuitStepIndex(circuit),
-        activeMarkers: [] as StepMarker[],
+        activeMarkers: EMPTY_MARKERS,
       };
     }
 
-    return { sceneStepIndex: 0, activeMarkers: [] as StepMarker[] };
-  })();
+    return { sceneStepIndex: 0, activeMarkers: EMPTY_MARKERS };
+  }, [activeSection, procedureStepIndex, circuit]);
   const handleToggleMic = () => {
     // If turning the mic ON, unlock the audio context via this user gesture
     if (!isMicOn) {
@@ -611,129 +630,25 @@ export function LabPage({ content }: Props) {
     // Toggle your actual state
     setIsMicOn(!isMicOn);
   };
-  const handleSectionClick = useCallback((section: LabSection) => {
-    setActiveSectionId(section.id);
-    if (section.type === "procedure") {
-      setExpandedProcedureId((prev) =>
-        prev === section.id ? null : section.id,
-      );
-    }
-  }, []);
+  const handleSectionClick = useCallback(
+    (section: LabSection) => {
+      setActiveSectionId(section.id);
+      if (section.type === "procedure") {
+        setExpandedProcedureId((prev) => {
+          if (activeSectionId === section.id) {
+            return prev === section.id ? null : section.id;
+          }
+          return section.id;
+        });
+      }
+    },
+    [activeSectionId],
+  );
 
   return (
-    <div className="flex h-dvh overflow-hidden bg-[var(--color-neutral)]">
-      {/* ── Sidebar ── */}
-      <aside
-        className="bg-white border-r border-[var(--color-black-10)] flex flex-col shrink-0 overflow-hidden transition-[width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-        style={{ width: collapsed ? "0px" : "248px" }}
-      >
-        {/* Sidebar header */}
-        <div className="flex items-center border-b border-[var(--color-black-10)] shrink-0 gap-[calc(var(--spacing-base)*2)] min-h-[52px] px-[calc(var(--spacing-base)*3)] whitespace-nowrap">
-          <span className="text-[var(--ink-muted)] font-mono text-[14px]">
-            {"<>"}
-          </span>
-          <span className="text-[var(--ink)] font-sans text-[13px] font-medium overflow-hidden text-ellipsis whitespace-nowrap">
-            {content.title}
-          </span>
-          <button
-            onClick={() => setCollapsed(true)}
-            aria-label="Collapse"
-            className="appearance-none bg-transparent items-center border border-[var(--color-black-10)] rounded-[4px] text-[var(--ink-muted)] cursor-pointer flex h-6 justify-center ml-auto transition-colors duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] w-6 hover:text-[var(--ink)] motion-reduce:transition-none p-0"
-          >
-            <CollapseIcon />
-          </button>
-        </div>
-
-        {/* Search */}
-        <div className="flex items-center border-b border-[var(--color-black-10)] shrink-0 gap-[calc(var(--spacing-base)*2)] py-[calc(var(--spacing-base)*2)] px-[calc(var(--spacing-base)*3)]">
-          <SearchIcon />
-          <input
-            placeholder="Search"
-            className="appearance-none bg-transparent border-none outline-none box-border text-[var(--ink)] flex-1 font-sans text-[12px] placeholder:text-[var(--ink-subtle)] p-0"
-          />
-          <div className="border border-[var(--color-black-10)] rounded-[3px] text-[var(--ink-muted)] font-sans text-[10px] h-[18px] px-1">
-            ⌘S
-          </div>
-        </div>
-
-        {/* Section nav */}
-        <nav className="flex flex-col overflow-y-auto py-[calc(var(--spacing-base)*2)]">
-          {content.sections.map((section) => {
-            const isActive = section.id === activeSectionId;
-            const isExpanded = section.id === expandedProcedureId;
-            const isProcedure = section.type === "procedure";
-            return (
-              <div key={section.id}>
-                <button
-                  className={`appearance-none bg-transparent border-none outline-none items-center box-border cursor-pointer flex font-sans text-[13.5px] gap-[calc(var(--spacing-base)*3)] py-[calc(var(--spacing-base)*2.5)] px-[calc(var(--spacing-base)*4)] transition-colors duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] whitespace-nowrap w-full hover:text-[var(--ink)] motion-reduce:transition-none p-0 ${
-                    isActive
-                      ? "text-[var(--ink)] font-medium"
-                      : "text-[var(--ink-muted)] font-normal"
-                  }`}
-                  style={{
-                    padding: `calc(var(--spacing-base) * 2.5) calc(var(--spacing-base) * 4)`,
-                  }}
-                  onClick={() => handleSectionClick(section)}
-                >
-                  <GridIcon />
-                  {section.title}
-                  {isProcedure && (
-                    <span
-                      className="text-[var(--ink-muted)] flex ml-auto transition-transform duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-                      style={{
-                        transform: `rotate(${isExpanded ? "180deg" : "0deg"})`,
-                      }}
-                    >
-                      <ChevronDownIcon />
-                    </span>
-                  )}
-                </button>
-                {isProcedure && isExpanded && section.type === "procedure" && (
-                  <div className="flex flex-col pb-[calc(var(--spacing-base)*1)]">
-                    {section.steps.map((step: ProcedureStep, i: number) => (
-                      <button
-                        key={i}
-                        className={`appearance-none border-none outline-none box-border text-[var(--ink-muted)] cursor-pointer block font-sans text-[12px] overflow-hidden text-left text-ellipsis transition-[background] duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] whitespace-nowrap w-full before:content-['–_'] before:text-[var(--ink-subtle)] hover:bg-[var(--color-black-5)] motion-reduce:transition-none ${
-                          isActive && procedureStepIndex === i
-                            ? "bg-[var(--color-black-5)]"
-                            : "bg-transparent"
-                        }`}
-                        style={{
-                          padding: `calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 4) calc(var(--spacing-base) * 1.5) calc(var(--spacing-base) * 11)`,
-                        }}
-                        onClick={() => {
-                          setActiveSectionId(section.id);
-                          setProcedureStepIndex(i);
-                        }}
-                      >
-                        {step.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-      </aside>
-
-      {/* ── Scene area (always full screen) ── */}
-      <div className="flex-1 min-w-0 overflow-hidden relative">
-        {collapsed && (
-          <button
-            onClick={() => setCollapsed(false)}
-            aria-label="Expand sidebar"
-            className="appearance-none items-center bg-white border border-[var(--color-black-10)] rounded-[4px] text-[var(--ink-muted)] cursor-pointer flex h-7 justify-center absolute transition-colors duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] w-7 z-[100] hover:text-[var(--ink)] motion-reduce:transition-none p-0"
-            style={{
-              left: "calc(var(--spacing-base) * 3)",
-              top: "calc(var(--spacing-base) * 3)",
-            }}
-          >
-            <ExpandIcon />
-          </button>
-        )}
-
-        {/* Scene fills the full area */}
+    <div className="flex h-dvh overflow-hidden bg-[var(--color-neutral)] relative">
+      {/* ── Scene area (always full screen, stable viewport so Three.js never resizes or resets on sidebar toggle) ── */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-auto">
         {activeSection && (
           <SceneRenderer
             section={activeSection}
@@ -742,20 +657,44 @@ export function LabPage({ content }: Props) {
             activeMarkers={activeMarkers}
           />
         )}
+      </div>
 
+      {/* ── Sidebar ── */}
+      <LabSidebar
+        title={content.title}
+        sections={content.sections}
+        activeSectionId={activeSectionId}
+        onSelectSection={handleSectionClick}
+        expandedProcedureId={expandedProcedureId}
+        onToggleExpandProcedure={(id) =>
+          setExpandedProcedureId((prev) => (prev === id ? null : id))
+        }
+        procedureStepIndex={procedureStepIndex}
+        onSelectProcedureStep={(stepIdx, section) => {
+          setActiveSectionId(section.id);
+          setProcedureStepIndex(stepIdx);
+        }}
+        collapsed={collapsed}
+        onToggleCollapse={setCollapsed}
+      />
+
+      {/* ── Overlay controls & floating cards ── */}
+      <div className="flex-1 min-w-0 overflow-hidden relative pointer-events-none z-10">
         {/* Floating text card over scene */}
         {activeSection && (
-          <FloatingLabCard>
-            <FloatingCardContent
-              key={contentStreamKey(activeSection, procedureStepIndex)}
-              section={activeSection}
-              procedureStepIndex={procedureStepIndex}
-            />
-          </FloatingLabCard>
+          <div className="pointer-events-auto">
+            <FloatingLabCard>
+              <FloatingCardContent
+                key={contentStreamKey(activeSection, procedureStepIndex)}
+                section={activeSection}
+                procedureStepIndex={procedureStepIndex}
+              />
+            </FloatingLabCard>
+          </div>
         )}
 
         {/* Top-Right Floating Controls */}
-        <div className="absolute top-6 right-6 flex items-center gap-4 z-[100]">
+        <div className="absolute top-6 right-6 flex items-center gap-4 z-[100] pointer-events-auto">
           {/* Language & Mic Pill */}
           <div className="relative flex items-center p-1.5 gap-2 bg-white/90 backdrop-blur-md border border-[var(--color-black-10)] rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.04)] transition-transform duration-300">
             {/* Mic Button */}
@@ -840,4 +779,10 @@ export function LabPage({ content }: Props) {
       </div>
     </div>
   );
+}
+
+export function LabPage({ content }: Props) {
+  if (content.labType === "code") return <CodeLabPage content={content} />;
+  if (content.labType === "simulation") return <SimLabPage content={content} />;
+  return <LabPageStandard content={content} />;
 }

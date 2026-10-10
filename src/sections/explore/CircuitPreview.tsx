@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-import { ALL_CIRCUITS } from '@/labs/circuits/index';
-import { resolveFinalCircuitStepIndex } from '@/labs/resolve-circuit-step-index';
+import { ALL_CIRCUITS } from "@/labs/circuits/index";
+import { resolveFinalCircuitStepIndex } from "@/labs/resolve-circuit-step-index";
 
 const LabSceneCanvas = dynamic(
-  () => import('@/labs/LabScene').then((m) => m.LabSceneCanvas),
+  () => import("@/labs/LabScene").then((m) => m.LabSceneCanvas),
   { ssr: false },
 );
 

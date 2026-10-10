@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 const SCROLLED_THRESHOLD_PX = 8;
 const SCROLL_IDLE_TIMEOUT_MS = 150;
@@ -26,10 +26,10 @@ export function ScrollStateEffect({
     };
 
     onScrollStateChange(window.scrollY > SCROLLED_THRESHOLD_PX, false);
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
       if (idleTimer !== null) clearTimeout(idleTimer);
     };
   }, [onScrollStateChange]);

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-import { BREAKPOINT_PX } from '@/tokens';
+import { BREAKPOINT_PX } from "@/tokens";
 
 export type CloseDrawerOnDesktopEffectProps = {
   onClose: () => void;
@@ -18,9 +18,9 @@ export function CloseDrawerOnDesktopEffect({
       if (mediaQuery.matches) onClose();
     };
 
-    mediaQuery.addEventListener('change', handleChange);
+    mediaQuery.addEventListener("change", handleChange);
 
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, [onClose]);
 
   return null;

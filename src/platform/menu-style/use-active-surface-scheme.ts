@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useUnlocalizedPathname } from '@/platform/i18n/use-unlocalized-pathname';
-import { useScheduledOnScroll } from '@/platform/motion';
-import { MENU_HEIGHT_PX, type Scheme } from '@/tokens';
+import { useUnlocalizedPathname } from "@/platform/i18n/use-unlocalized-pathname";
+import { useScheduledOnScroll } from "@/platform/motion";
+import { MENU_HEIGHT_PX, type Scheme } from "@/tokens";
 
-import { findActiveSurfaceScheme } from './find-active-surface-scheme';
+import { findActiveSurfaceScheme } from "./find-active-surface-scheme";
 
 function readScheme(element: Element): Scheme | null {
-  const value = element.getAttribute('data-scheme');
-  return value === 'light' || value === 'muted' || value === 'dark'
+  const value = element.getAttribute("data-scheme");
+  return value === "light" || value === "muted" || value === "dark"
     ? value
     : null;
 }
@@ -35,7 +35,7 @@ export function useActiveSurfaceScheme(): Scheme | null {
 
   useEffect(() => {
     surfacesRef.current = Array.from(
-      document.querySelectorAll('[data-menu-surface]'),
+      document.querySelectorAll("[data-menu-surface]"),
     );
     sync();
   }, [pathname, sync]);
@@ -44,4 +44,3 @@ export function useActiveSurfaceScheme(): Scheme | null {
 
   return activeScheme;
 }
-

@@ -4,22 +4,20 @@ import {
   SectionIntro,
   SectionShell,
   SectionStack,
-} from '@/ui';
+} from "@/ui";
 
-import { FeatureCard } from './FeatureCard';
-import { FEATURE_CARDS } from './feature-cards.data';
+import { FeatureCard } from "./FeatureCard";
+import { FEATURE_CARDS } from "./feature-cards.data";
 
 const centeredIntroClassName =
-  'md:justify-items-center md:mx-auto md:max-w-[900px] md:text-center';
+  "md:justify-items-center md:mx-auto md:max-w-[900px] md:text-center";
 
 export function FeatureCards() {
   return (
     <SectionShell scheme="light">
       <SectionStack>
         <SectionIntro className={centeredIntroClassName}>
-          <Eyebrow>
-            More components to explore.
-          </Eyebrow>
+          <Eyebrow>More components to explore.</Eyebrow>
           <Heading as="h2" size="lg" weight="light">
             Store, control and interact — *the next layer of ECE*
           </Heading>

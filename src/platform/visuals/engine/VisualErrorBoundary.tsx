@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Component, type ReactNode } from 'react';
+import { Component, type ReactNode } from "react";
 
 type VisualErrorBoundaryProps = {
   children: ReactNode;
@@ -24,8 +24,8 @@ export class VisualErrorBoundary extends Component<
   }
 
   componentDidCatch(error: unknown) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('Visual scene crashed:', error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Visual scene crashed:", error);
     }
   }
 

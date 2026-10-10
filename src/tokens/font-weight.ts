@@ -1,4 +1,4 @@
-export type FontWeightToken = 'light' | 'regular' | 'medium';
+export type FontWeightToken = "light" | "regular" | "medium";
 
 export const FONT_WEIGHT: Record<FontWeightToken, number> = {
   light: 300,

@@ -1,14 +1,14 @@
-import { step as s01 } from './01-inspect-and-place-the-breadboard';
-import { step as s02 } from './02-place-all-five-gates';
-import { step as s03 } from './03-wire-inputs-a-and-b';
-import { step as s04 } from './04-connect-internal-wires';
-import { step as s05 } from './05-add-resistors-leds-and-wire-outputs';
-import { step as s06 } from './06-test-a-0-b-0-eq-1';
-import { step as s07 } from './07-test-a-1-b-0-gt-1';
-import { step as s08 } from './08-test-a-0-b-1-lt-1';
-import { step as s09 } from './09-test-a-1-b-1-eq-1';
+import { step as s01 } from "./01-inspect-and-place-the-breadboard";
+import { step as s02 } from "./02-place-all-five-gates";
+import { step as s03 } from "./03-wire-inputs-a-and-b";
+import { step as s04 } from "./04-connect-internal-wires";
+import { step as s05 } from "./05-add-resistors-leds-and-wire-outputs";
+import { step as s06 } from "./06-test-a-0-b-0-eq-1";
+import { step as s07 } from "./07-test-a-1-b-0-gt-1";
+import { step as s08 } from "./08-test-a-0-b-1-lt-1";
+import { step as s09 } from "./09-test-a-1-b-1-eq-1";
 
-import { type SceneProcedureStep } from '@/labs/experiments/types';
+import { type SceneProcedureStep } from "@/labs/experiments/types";
 
 export const procedureSteps: SceneProcedureStep[] = [
   s01,

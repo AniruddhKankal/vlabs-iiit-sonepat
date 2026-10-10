@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from "react";
 
-import { loadVisualImage } from '../engine/load-visual-image';
-import { useAsyncImage } from '../engine/use-async-image';
-import { useVisualRuntime } from '../engine/use-visual-runtime';
+import { loadVisualImage } from "../engine/load-visual-image";
+import { useAsyncImage } from "../engine/use-async-image";
+import { useVisualRuntime } from "../engine/use-visual-runtime";
 import {
   createImageSession,
   type ImageSessionSettings,
-} from './create-image-session';
+} from "./create-image-session";
 
 export type HalftoneImageSceneProps = {
   imageUrl: string;

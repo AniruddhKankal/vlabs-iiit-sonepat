@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState, useId } from "react";
 
-import { spacing } from '@/tokens';
-import { Container } from '@/ui/Container';
+import { spacing } from "@/tokens";
+import { Container } from "@/ui/Container";
 
-import { SubjectCard } from './SubjectCard';
-import { SubjectModal } from './SubjectModal';
-import { type ExploreSemester, type ExploreSubject } from './explore.data';
+import { SubjectCard } from "./SubjectCard";
+import { SubjectModal } from "./SubjectModal";
+import { type ExploreSemester, type ExploreSubject } from "./explore.data";
 
 // ── Chevron icon ──────────────────────────────────────────────────────────
 function Chevron() {
@@ -34,67 +34,84 @@ function Chevron() {
 // ── Single semester block ─────────────────────────────────────────────────
 function SemesterItem({
   semester,
-  defaultOpen,
+  open,
+  onToggle,
   onSubjectClick,
 }: {
   semester: ExploreSemester;
-  defaultOpen: boolean;
+  open: boolean;
+  onToggle: () => void;
   onSubjectClick: (subject: ExploreSubject) => void;
 }) {
-  const [open, setOpen] = useState(defaultOpen);
+  const panelId = useId();
 
   return (
     <div className="flex flex-col">
       <button
         className={[
-          'flex items-center w-full bg-transparent border-none cursor-pointer',
-          'gap-[calc(var(--spacing-base)*4)] justify-between text-left',
-          'pt-[calc(var(--spacing-base)*5)] pb-[calc(var(--spacing-base)*4)]',
-          'focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--color-blue)]',
-          'focus-visible:outline-offset-2 focus-visible:rounded-[4px]',
-        ].join(' ')}
+          "flex items-center w-full bg-white border border-[#DADADA] rounded-sm cursor-pointer px-4",
+          "gap-[calc(var(--spacing-base)*4)] justify-between text-left",
+          "pt-[calc(var(--spacing-base)*5)] pb-[calc(var(--spacing-base)*4)]",
+          "[clip-path:polygon(0_0,calc(100%-48px)_0,100%_24px,100%_100%,0_100%)]",
+          "focus-visible:outline focus-visible:outline-1 focus-visible:outline-[var(--color-blue)]",
+          "focus-visible:outline-offset-2 focus-visible:rounded-[4px]",
+        ].join(" ")}
         aria-expanded={open}
-        onClick={() => setOpen((prev) => !prev)}
+        aria-controls={panelId}
+        onClick={onToggle}
       >
         <span
           className="text-[var(--ink-muted)] font-[family-name:var(--font-sans),sans-serif] font-normal"
           style={{
-            fontSize: 'clamp(2.5rem, 1.7453rem + 2.8195vw, 3rem)',
-            lineHeight: 'clamp(2.875rem, 1.9326rem + 3.5244vw, 3.5rem)',
+            fontSize: "clamp(2.5rem, 1.7453rem + 2.8195vw, 3rem)",
+            lineHeight: "clamp(2.875rem, 1.9326rem + 3.5244vw, 3.5rem)",
           }}
         >
           {semester.label}
         </span>
         <span
           className={[
-            'flex shrink-0 text-[var(--ink-muted)]',
-            'transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
-            'motion-reduce:transition-none',
-            open ? 'rotate-180' : 'rotate-0',
-          ].join(' ')}
+            "flex shrink-0 text-[var(--ink-muted)]",
+            "transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            "motion-reduce:transition-none",
+            open ? "rotate-180" : "rotate-0",
+          ].join(" ")}
           aria-hidden
         >
           <Chevron />
         </span>
       </button>
 
-      {open && (
-        <div
-          className={[
-            'grid gap-[calc(var(--spacing-base)*6)] grid-cols-1',
-            'pb-[calc(var(--spacing-base)*2)]',
-            'min-[921px]:grid-cols-3',
-          ].join(' ')}
-        >
-          {semester.subjects.map((subject) => (
-            <SubjectCard
-              key={subject.id}
-              subject={subject}
-              onClick={onSubjectClick}
-            />
-          ))}
+      <div
+        id={panelId}
+        className={[
+          "grid overflow-hidden origin-top",
+          "transition-[grid-template-rows,opacity,transform,filter] duration-500",
+          "ease-[cubic-bezier(0.16,1,0.3,1)]",
+          "py-4 transition-all duration-500",
+          open
+            ? "grid-rows-[1fr] opacity-100 scale-y-100 translate-y-0 blur-0"
+            : "grid-rows-[0fr] opacity-0 scale-y-[0.92] -translate-y-2 blur-[4px]",
+        ].join(" ")}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <div
+            className={[
+              "grid gap-[calc(var(--spacing-base)*6)] grid-cols-1",
+              "pb-[calc(var(--spacing-base)*2)]",
+              "min-[921px]:grid-cols-3",
+            ].join(" ")}
+          >
+            {semester.subjects.map((subject) => (
+              <SubjectCard
+                key={subject.id}
+                subject={subject}
+                onClick={onSubjectClick}
+              />
+            ))}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -103,7 +120,10 @@ function SemesterItem({
 type Props = { semesters: readonly ExploreSemester[] };
 
 export function SemesterAccordion({ semesters }: Props) {
-  const [activeSubject, setActiveSubject] = useState<ExploreSubject | null>(null);
+  const [openSemester, setOpenSemester] = useState(semesters[0]?.id);
+  const [activeSubject, setActiveSubject] = useState<ExploreSubject | null>(
+    null,
+  );
 
   return (
     <>
@@ -114,8 +134,8 @@ export function SemesterAccordion({ semesters }: Props) {
         <Container>
           <div
             style={{
-              display: 'flex',
-              flexDirection: 'column',
+              display: "flex",
+              flexDirection: "column",
               gap: spacing(2),
             }}
           >
@@ -123,7 +143,12 @@ export function SemesterAccordion({ semesters }: Props) {
               <SemesterItem
                 key={semester.id}
                 semester={semester}
-                defaultOpen={index === 0}
+                open={openSemester === semester.id}
+                onToggle={() => {
+                  setOpenSemester((current) =>
+                    current === semester.id ? null : semester.id,
+                  );
+                }}
                 onSubjectClick={setActiveSubject}
               />
             ))}

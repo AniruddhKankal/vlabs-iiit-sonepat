@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observation",
@@ -17,46 +17,11 @@ export const observations: ObservationSection = {
       "LRU Line Evicted",
     ],
     rows: [
-      [
-        "1",
-        "0x00",
-        "0",
-        "MISS",
-        "",
-        "—",
-      ],
-      [
-        "2",
-        "0x04",
-        "1",
-        "MISS",
-        "",
-        "—",
-      ],
-      [
-        "3",
-        "0x08",
-        "2",
-        "MISS",
-        "",
-        "—",
-      ],
-      [
-        "4",
-        "0x20",
-        "8",
-        "MISS",
-        "",
-        "—",
-      ],
-      [
-        "5",
-        "0x00",
-        "0",
-        "MISS (conflict)",
-        "",
-        "",
-      ],
+      ["1", "0x00", "0", "MISS", "", "—"],
+      ["2", "0x04", "1", "MISS", "", "—"],
+      ["3", "0x08", "2", "MISS", "", "—"],
+      ["4", "0x20", "8", "MISS", "", "—"],
+      ["5", "0x00", "0", "MISS (conflict)", "", ""],
     ],
   },
 };

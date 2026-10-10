@@ -1,4 +1,4 @@
-import { clampProgress } from '@/platform/motion';
+import { clampProgress } from "@/platform/motion";
 
 export type CardRevealFrame = {
   opacity: number;

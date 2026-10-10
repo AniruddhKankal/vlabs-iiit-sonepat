@@ -1,16 +1,17 @@
-const trackClassName = 'items-center flex gap-2';
-const segmentClassName = 'items-center gap-x-2 inline-flex';
+const trackClassName = "items-center flex gap-2";
+const segmentClassName = "items-center gap-x-2 inline-flex";
 
-const dotBase = 'bg-[var(--line-strong)] rounded-full h-2 transition-[background] duration-[220ms] ease-in-out w-2';
-const dotActive = [dotBase, 'bg-[var(--color-blue)] scale-125'].join(' ');
-const dotCompleted = [dotBase, 'bg-[var(--color-blue)]'].join(' ');
+const dotBase =
+  "bg-[var(--line-strong)] rounded-full h-2 transition-[background] duration-[220ms] ease-in-out w-2";
+const dotActive = [dotBase, "bg-[var(--color-blue)] scale-125"].join(" ");
+const dotCompleted = [dotBase, "bg-[var(--color-blue)]"].join(" ");
 
-const connectorBase = 'bg-[var(--line-strong)] flex-1 h-px max-w-8';
-const connectorCompleted = [connectorBase, '!bg-[var(--color-blue)]'].join(' ');
+const connectorBase = "bg-[var(--line-strong)] flex-1 h-px max-w-8";
+const connectorCompleted = [connectorBase, "!bg-[var(--color-blue)]"].join(" ");
 
-function dotClassName(state: 'active' | 'completed' | 'upcoming') {
-  if (state === 'active') return dotActive;
-  if (state === 'completed') return dotCompleted;
+function dotClassName(state: "active" | "completed" | "upcoming") {
+  if (state === "active") return dotActive;
+  if (state === "completed") return dotCompleted;
   return dotBase;
 }
 
@@ -40,10 +41,10 @@ export function StepIndicator({
         const dotIndex = stepNumber - 1;
         const state =
           dotIndex < activeStepIndex
-            ? 'completed'
+            ? "completed"
             : dotIndex === activeStepIndex
-              ? 'active'
-              : 'upcoming';
+              ? "active"
+              : "upcoming";
         return (
           <span className={segmentClassName} key={`step-${stepNumber}`}>
             <span className={dotClassName(state)} />

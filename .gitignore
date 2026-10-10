@@ -16,3 +16,6 @@ build-output*.txt
 # OS
 .DS_Store
 Thumbs.db
+
+# Search Index
+src/sections/explore/search-index.output.ts

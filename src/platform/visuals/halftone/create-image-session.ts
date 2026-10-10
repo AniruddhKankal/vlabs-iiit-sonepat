@@ -1,16 +1,16 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
 import {
   createVisualFrameLoop,
   type VisualFrame,
-} from '../engine/create-visual-frame-loop';
-import { createVisualRenderer } from '../three-runtime/create-visual-renderer';
-import { BLUR_PASS_SHADERS } from './blur-pass-shaders';
-import { createRenderTarget } from './create-render-target';
-import { HALFTONE_CONSTANTS } from './halftone-constants';
-import { createVirtualSize } from './virtual-size';
-import { HALFTONE_PASS_SHADER } from './halftone-pass-shader';
-import { IMAGE_PASS_SHADER } from './image-pass-shader';
+} from "../engine/create-visual-frame-loop";
+import { createVisualRenderer } from "../three-runtime/create-visual-renderer";
+import { BLUR_PASS_SHADERS } from "./blur-pass-shaders";
+import { createRenderTarget } from "./create-render-target";
+import { HALFTONE_CONSTANTS } from "./halftone-constants";
+import { createVirtualSize } from "./virtual-size";
+import { HALFTONE_PASS_SHADER } from "./halftone-pass-shader";
+import { IMAGE_PASS_SHADER } from "./image-pass-shader";
 
 // (The band composite never samples a glow buffer: image sessions run a
 // single image pass straight into the composite — no blur chain.)
@@ -23,7 +23,7 @@ export type ImageSessionSettings = {
   // Camera-distance metaphor kept from the model path: zoom is
   // REFERENCE / previewDistance.
   previewDistance: number;
-  imageFit: 'contain' | 'cover' | 'width';
+  imageFit: "contain" | "cover" | "width";
   // 'width' fit letterboxes against this edge (0 bottom, 0.5 center, 1 top).
   verticalAnchor?: number;
   // Dash response inverts: dark areas grow dashes (the hero bridge).
@@ -67,7 +67,7 @@ export type ImageSessionSettings = {
   pointerExcludeSelector?: string;
   // Backdrops behind pointer-events-none layers track the WINDOW (the old
   // hero's binding); coordinates still resolve against the pointer root.
-  pointerScope?: 'root' | 'window';
+  pointerScope?: "root" | "window";
   pointer: {
     follow: number;
     velocityDamping: number;
@@ -103,7 +103,7 @@ function getContainedImageRect({
   viewportHeight,
   zoom,
 }: {
-  imageFit: 'contain' | 'cover' | 'width';
+  imageFit: "contain" | "cover" | "width";
   imageWidth: number;
   imageHeight: number;
   viewportWidth: number;
@@ -126,13 +126,13 @@ function getContainedImageRect({
   let fittedHeight = viewportHeight;
 
   if (imageAspect > viewAspect) {
-    if (imageFit === 'cover' || imageFit === 'width') {
+    if (imageFit === "cover" || imageFit === "width") {
       fittedWidth = viewportHeight * imageAspect;
     } else {
       fittedHeight = viewportWidth / imageAspect;
     }
   } else {
-    if (imageFit === 'cover' || imageFit === 'width') {
+    if (imageFit === "cover" || imageFit === "width") {
       fittedHeight = viewportWidth / imageAspect;
     } else {
       fittedWidth = viewportHeight * imageAspect;
@@ -165,7 +165,7 @@ function getImageFootprintScale({
   viewportHeight,
   previewDistance,
 }: {
-  imageFit: 'contain' | 'cover';
+  imageFit: "contain" | "cover";
   imageWidth: number;
   imageHeight: number;
   viewportWidth: number;
@@ -217,7 +217,7 @@ function getRelativeImageScale({
   referencePreviewDistance: number;
 }) {
   const currentRect = getContainedImageRect({
-    imageFit: 'contain',
+    imageFit: "contain",
     imageWidth,
     imageHeight,
     viewportWidth,
@@ -225,7 +225,7 @@ function getRelativeImageScale({
     zoom: REFERENCE_PREVIEW_DISTANCE / Math.max(previewDistance, 0.001),
   });
   const referenceRect = getContainedImageRect({
-    imageFit: 'contain',
+    imageFit: "contain",
     imageWidth,
     imageHeight,
     viewportWidth,
@@ -267,9 +267,9 @@ export function createImageSession({
   renderer.setSize(getVirtualWidth(), getVirtualHeight(), false);
 
   const canvas = renderer.domElement;
-  canvas.style.display = 'block';
-  canvas.style.height = '100%';
-  canvas.style.width = '100%';
+  canvas.style.display = "block";
+  canvas.style.height = "100%";
+  canvas.style.width = "100%";
   container.appendChild(canvas);
 
   const imageTexture = new THREE.Texture(image);
@@ -301,9 +301,9 @@ export function createImageSession({
       contrast: { value: settings.contrast },
       imageFit: {
         value:
-          settings.imageFit === 'width'
+          settings.imageFit === "width"
             ? 2
-            : settings.imageFit === 'cover'
+            : settings.imageFit === "cover"
               ? 1
               : 0,
       },
@@ -383,7 +383,7 @@ export function createImageSession({
     // when the shader cover-crops — dash density follows the contained
     // image, not the crop (read from the full monolith mount).
     halftoneMaterial.uniforms.footprintScale.value = getImageFootprintScale({
-      imageFit: 'contain',
+      imageFit: "contain",
       imageWidth: image.naturalWidth,
       imageHeight: image.naturalHeight,
       viewportWidth: getVirtualWidth(),
@@ -465,10 +465,10 @@ export function createImageSession({
   };
 
   const pointerEventTarget: GlobalEventHandlers =
-    settings.pointerScope === 'window' ? window : pointerRoot;
+    settings.pointerScope === "window" ? window : pointerRoot;
   if (!reducedMotion) {
-    pointerEventTarget.addEventListener('pointermove', handlePointerMove);
-    pointerEventTarget.addEventListener('pointerleave', handlePointerLeave);
+    pointerEventTarget.addEventListener("pointermove", handlePointerMove);
+    pointerEventTarget.addEventListener("pointerleave", handlePointerLeave);
   }
 
   let firstFrameNotified = false;
@@ -542,7 +542,7 @@ export function createImageSession({
       imageMaterial.uniforms.horizontalPixelOffset.value =
         frame.horizontalOffsetPx;
       halftoneMaterial.uniforms.footprintScale.value = getImageFootprintScale({
-        imageFit: 'contain',
+        imageFit: "contain",
         imageHeight: image.naturalHeight,
         imageWidth: image.naturalWidth,
         previewDistance: frame.previewDistance,
@@ -565,7 +565,7 @@ export function createImageSession({
   };
 
   const sizeObserver =
-    typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(syncSize);
+    typeof ResizeObserver === "undefined" ? null : new ResizeObserver(syncSize);
   sizeObserver?.observe(container);
 
   function disposeResources() {
@@ -583,7 +583,7 @@ export function createImageSession({
   if (reducedMotion) {
     renderFrame({ deltaSeconds: 0, elapsedSeconds: 0, timestamp: 0 });
     const stillObserver =
-      typeof ResizeObserver === 'undefined'
+      typeof ResizeObserver === "undefined"
         ? null
         : new ResizeObserver(() => {
             syncSize();
@@ -602,7 +602,7 @@ export function createImageSession({
   const frameLoop = createVisualFrameLoop({
     renderFrame,
     target: container,
-    targetVisibilityOptions: { rootMargin: '100px' },
+    targetVisibilityOptions: { rootMargin: "100px" },
   });
   frameLoop.start();
 
@@ -610,9 +610,9 @@ export function createImageSession({
     dispose() {
       frameLoop.dispose();
       sizeObserver?.disconnect();
-      pointerEventTarget.removeEventListener('pointermove', handlePointerMove);
+      pointerEventTarget.removeEventListener("pointermove", handlePointerMove);
       pointerEventTarget.removeEventListener(
-        'pointerleave',
+        "pointerleave",
         handlePointerLeave,
       );
       disposeResources();

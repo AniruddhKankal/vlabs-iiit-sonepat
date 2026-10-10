@@ -12,7 +12,7 @@ still needs Three.js geometry.
 ```
 03-apparatus.ts        ApparatusSection { items: [{name, specification, quantity}] }
         ↓
-ApparatusScene.tsx     buildItemModel(item)  ← string-matches item.name  (line 22)
+ApparatusScene.tsx     buildItemModel(item)  ← matches item.name + specification
         ↓
 src/components/<x>/    buildXStandalone()    ← actual Three.js geometry
 ```
@@ -27,77 +27,84 @@ name list, is what defines the real modelling backlog.
 resistor fallback (or a wrong part — see Known mis-mappings).
 
 ### Boards & wiring
-| Object | Status | Labs | Notes |
-|---|---|---|---|
-| Solderless breadboard (830 tie-point) | YES | 47 | `src/components/breadboard` |
-| Jumper wire (22 AWG, assorted colours) | YES | 43 | `src/components/wire` — red/black/blue/orange |
+
+| Object                                 | Status | Labs | Notes                                         |
+| -------------------------------------- | ------ | ---- | --------------------------------------------- |
+| Solderless breadboard (830 tie-point)  | YES    | 47   | `src/components/breadboard`                   |
+| Jumper wire (22 AWG, assorted colours) | YES    | 43   | `src/components/wire` — red/black/blue/orange |
 
 ### Power
-| Object | Status | Labs | Notes |
-|---|---|---|---|
-| DC power supply (bench / dual ±12 V) | YES | 44 | `src/components/psu` (+ `dc-jack`, `battery`) |
-| Step-down transformer (centre-tap) | **MISS** | 3 | 230 V / 9 V, 500 mA — needed by all rectifier labs |
-| Rheostat 100 Ω, 1 A | **MISS** | 1 | ohms-law |
+
+| Object                               | Status   | Labs | Notes                                              |
+| ------------------------------------ | -------- | ---- | -------------------------------------------------- |
+| DC power supply (bench / dual ±12 V) | YES      | 44   | `src/components/psu` (+ `dc-jack`, `battery`)      |
+| Step-down transformer (centre-tap)   | **MISS** | 3    | 230 V / 9 V, 500 mA — needed by all rectifier labs |
+| Rheostat 100 Ω, 1 A                  | **MISS** | 1    | ohms-law                                           |
 
 ### Measurement & signal
-| Object | Status | Labs | Notes |
-|---|---|---|---|
-| Digital multimeter | YES | 22 | `src/components/multimeter` |
-| Oscilloscope / CRO (20 MHz dual-channel) | **MISS** | 6 | rectifier + filter labs |
-| Function / signal generator (1 Hz–1 MHz) | **MISS** | 4 | |
-| Analogue ammeter / milliammeter (0–100 mA) | **MISS** | 2 | currently renders as the DMM |
-| Analogue voltmeter (0–15 V DC) | **MISS** | 1 | currently renders as the DMM |
-| Oscilloscope probe (10×) | **MISS** | 1 | |
-| Logic analyser | **MISS** | 1 | CLA adder lab |
+
+| Object                                     | Status   | Labs | Notes                        |
+| ------------------------------------------ | -------- | ---- | ---------------------------- |
+| Digital multimeter                         | YES      | 22   | `src/components/multimeter`  |
+| Oscilloscope / CRO (20 MHz dual-channel)   | **MISS** | 6    | rectifier + filter labs      |
+| Function / signal generator (1 Hz–1 MHz)   | **MISS** | 4    |                              |
+| Analogue ammeter / milliammeter (0–100 mA) | **MISS** | 2    | currently renders as the DMM |
+| Analogue voltmeter (0–15 V DC)             | **MISS** | 1    | currently renders as the DMM |
+| Oscilloscope probe (10×)                   | **MISS** | 1    |                              |
+| Logic analyser                             | **MISS** | 1    | CLA adder lab                |
 
 ### Discretes, diodes & displays
-| Object | Status | Labs | Notes |
-|---|---|---|---|
-| LED 5 mm (red / green / yellow / blue / white) | YES | 29 | `src/components/led` |
-| Diode — 1N4148, 1N4007 | **MISS** | 4 | currently renders as a **yellow LED** |
-| BJT BC547 (TO-92) | **MISS** | 4 | currently renders as a resistor |
-| Zener diode 1N4733A (1 W) | **MISS** | 1 | currently renders as a **yellow LED** |
-| 7-segment display, common cathode 0.56" | **MISS** | 1 | 74HC4511 lab |
-| MOSFET 2N7000 (TO-92) | **MISS** | 1 | currently renders as a resistor |
-| Op-amp LM741 (DIP-8) | **MISS** | 1 | currently renders as a resistor |
+
+| Object                                         | Status   | Labs | Notes                                                          |
+| ---------------------------------------------- | -------- | ---- | -------------------------------------------------------------- |
+| LED 5 mm (red / green / yellow / blue / white) | YES      | 29   | `src/components/led`                                           |
+| Diode — 1N4148, 1N4007                         | YES      | 4    | standalone diode geometry; identified by name or specification |
+| BJT BC547 (TO-92)                              | **MISS** | 4    | currently renders as a resistor                                |
+| Zener diode 1N4733A (1 W)                      | **MISS** | 1    | currently renders as a **yellow LED**                          |
+| 7-segment display, common cathode 0.56"        | **MISS** | 1    | 74HC4511 lab                                                   |
+| MOSFET 2N7000 (TO-92)                          | **MISS** | 1    | currently renders as a resistor                                |
+| Op-amp LM741 (DIP-8)                           | **MISS** | 1    | currently renders as a resistor                                |
 
 ### Passives
-| Object | Status | Labs | Notes |
-|---|---|---|---|
-| Carbon-film resistor, ¼ W (27 value variants) | YES | 40 | `src/components/resistor`, value-parametrised |
-| Capacitor (ceramic 100 nF / 100 pF, electrolytic 10 µF / 47 µF) | YES | 7 | `src/components/capacitor` |
-| Potentiometer 10 kΩ | YES | 1 | `src/components/potentiometer` |
-| R-2R ladder resistors (10 k / 20 k, ±1%) | reuse | 1 | ordinary resistors, no new model needed |
+
+| Object                                                          | Status | Labs | Notes                                         |
+| --------------------------------------------------------------- | ------ | ---- | --------------------------------------------- |
+| Carbon-film resistor, ¼ W (27 value variants)                   | YES    | 40   | `src/components/resistor`, value-parametrised |
+| Capacitor (ceramic 100 nF / 100 pF, electrolytic 10 µF / 47 µF) | YES    | 7    | `src/components/capacitor`                    |
+| Potentiometer 10 kΩ                                             | YES    | 1    | `src/components/potentiometer`                |
+| R-2R ladder resistors (10 k / 20 k, ±1%)                        | reuse  | 1    | ordinary resistors, no new model needed       |
 
 ### Integrated circuits
-| Object | Status | Labs | Notes |
-|---|---|---|---|
-| 74HCxx logic IC (32 name variants) | partial | 29 | `src/components/ic` only builds **DIP-14**; DIP-16/20 parts render with the wrong pin count |
-| ADC0804 8-bit SAR ADC (DIP-20) | **MISS** | 1 | needs DIP-20 geometry |
+
+| Object                             | Status   | Labs | Notes                                                                                       |
+| ---------------------------------- | -------- | ---- | ------------------------------------------------------------------------------------------- |
+| 74HCxx logic IC (32 name variants) | partial  | 29   | `src/components/ic` only builds **DIP-14**; DIP-16/20 parts render with the wrong pin count |
+| ADC0804 8-bit SAR ADC (DIP-20)     | **MISS** | 1    | needs DIP-20 geometry                                                                       |
 
 DIP-14/16/20 parts in use: 74HC00, 02, 04, 08, 32, 86, 266, 74, 76, 93, 139, 153, 163,
 194, 273, 279, 283, 4511, plus LM741 (DIP-8) and ADC0804 (DIP-20).
 One parametric DIP builder keyed on pin count + label would cover the whole family.
 
 ### Switches & input
-| Object | Status | Labs | Notes |
-|---|---|---|---|
-| DIP switch (2/4/6/8-pole) | **MISS** | 10 | no `switch` branch in `buildItemModel()` |
-| SPDT switch / jumper link | built, unused | 14 | `src/components/switch` exists but is **not imported** by `ApparatusScene.tsx` |
-| Tactile push button (momentary SPST) | built, unused | 3 | `src/components/button` — same problem |
+
+| Object                               | Status        | Labs | Notes                                                                          |
+| ------------------------------------ | ------------- | ---- | ------------------------------------------------------------------------------ |
+| DIP switch (2/4/6/8-pole)            | **MISS**      | 10   | no `switch` branch in `buildItemModel()`                                       |
+| SPDT switch / jumper link            | built, unused | 14   | `src/components/switch` exists but is **not imported** by `ApparatusScene.tsx` |
+| Tactile push button (momentary SPST) | built, unused | 3    | `src/components/button` — same problem                                         |
 
 ### System boards
-| Object | Status | Labs | Notes |
-|---|---|---|---|
-| Microcontroller / logic-trainer board (Arduino Uno / ATmega328P) | built, unused | 1 | `src/components/mcu-trainer` — not imported by `ApparatusScene.tsx` |
+
+| Object                                                           | Status        | Labs | Notes                                                               |
+| ---------------------------------------------------------------- | ------------- | ---- | ------------------------------------------------------------------- |
+| Microcontroller / logic-trainer board (Arduino Uno / ATmega328P) | built, unused | 1    | `src/components/mcu-trainer` — not imported by `ApparatusScene.tsx` |
 
 ## Known mis-mappings in `buildItemModel()`
 
 These are live bugs, not just missing art — the wrong model is already being drawn:
 
-1. `ApparatusScene.tsx:28` — Zener / 1N4148 / any non-LED diode → `buildLedStandalone('yellow')`.
-   A diode is being shown as an LED.
-2. `ApparatusScene.tsx:40` — the `meter` substring means ammeter and voltmeter both match
+1. A generic diode apparatus item without a recognized part number now defaults to a 1N4148 model.
+2. `ApparatusScene.tsx` — the `meter` substring means ammeter and voltmeter both match
    and render as a full digital multimeter.
 3. No branch for transistor / MOSFET / op-amp / 7-segment / transformer / CRO / function
    generator / DIP switch / logic analyser → all fall to the resistor fallback.

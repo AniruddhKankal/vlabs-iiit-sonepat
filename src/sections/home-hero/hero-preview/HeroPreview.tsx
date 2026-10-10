@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import dynamic from "next/dynamic";
+import { useState } from "react";
 
-import { ALL_CIRCUITS } from '@/labs/circuits/index';
-import { resolveFinalCircuitStepIndex } from '@/labs/resolve-circuit-step-index';
-import { type Circuit } from '@/labs/types';
+import { ALL_CIRCUITS } from "@/labs/circuits/index";
+import { resolveFinalCircuitStepIndex } from "@/labs/resolve-circuit-step-index";
+import { type Circuit } from "@/labs/types";
 
 // Hero sidebar — curated intro set only (order is authored).
 const HERO_PREVIEW_CIRCUIT_IDS = [
-  'half-adder',
-  'full-adder',
-  'half-subtractor',
-  'full-subtractor',
-  'mux-2to1',
-  'demux-1to2',
-  'encoder-4to2',
-  'decoder-2to4',
-  'zener-diode',
-  'logic-gates',
+  "half-adder",
+  "full-adder",
+  "half-subtractor",
+  "full-subtractor",
+  "mux-2to1",
+  "demux-1to2",
+  "11-encoder-4to2",
+  "12-decoder-2to4",
+  "zener-diode",
+  "logic-gates",
 ] as const;
 
 const HERO_PREVIEW_CIRCUITS = HERO_PREVIEW_CIRCUIT_IDS.flatMap((id) => {
@@ -27,7 +27,7 @@ const HERO_PREVIEW_CIRCUITS = HERO_PREVIEW_CIRCUIT_IDS.flatMap((id) => {
 });
 
 const LabSceneCanvas = dynamic(
-  () => import('@/labs/LabScene').then((m) => m.LabSceneCanvas),
+  () => import("@/labs/LabScene").then((m) => m.LabSceneCanvas),
   { ssr: false },
 );
 
@@ -37,15 +37,12 @@ function BreadboardThumb({ active }: { active: boolean }) {
   return (
     <div
       className={`relative h-[38px] w-full overflow-hidden rounded-[3px] before:absolute before:left-1 before:right-1 before:top-1.5 before:h-1 before:bg-[#c84040] before:content-[''] after:absolute after:bottom-1.5 after:left-1 after:right-1 after:h-1 after:bg-[#2060a0] after:content-[''] ${
-        active ? 'bg-[#f0ead8]' : 'bg-[#f7f5f2]'
+        active ? "bg-[#f0ead8]" : "bg-[#f7f5f2]"
       }`}
     >
       <div className="absolute left-1/2 top-[14px] bottom-[14px] grid -translate-x-1/2 grid-cols-[repeat(10,4px)] grid-rows-[repeat(4,4px)] gap-0.5">
         {HOLES.map((_, i) => (
-          <span
-            key={i}
-            className="block h-1 w-1 rounded-[1px] bg-[#c8bfae]"
-          />
+          <span key={i} className="block h-1 w-1 rounded-[1px] bg-[#c8bfae]" />
         ))}
       </div>
     </div>
@@ -55,20 +52,20 @@ function BreadboardThumb({ active }: { active: boolean }) {
 function gatesSummary(circuit: Circuit): string {
   const counts: Record<string, number> = {};
   for (const c of circuit.components) {
-    if (c.type.endsWith('-gate')) {
-      const label = c.type.replace('-gate', '').toUpperCase();
+    if (c.type.endsWith("-gate")) {
+      const label = c.type.replace("-gate", "").toUpperCase();
       counts[label] = (counts[label] ?? 0) + 1;
     }
   }
   return Object.entries(counts)
     .map(([k, v]) => `${v}\u00d7 ${k}`)
-    .join('  \u00b7  ');
+    .join("  \u00b7  ");
 }
 
 export function HeroPreview() {
-  const [activeId, setActiveId] = useState<(typeof HERO_PREVIEW_CIRCUIT_IDS)[number]>(
-    HERO_PREVIEW_CIRCUIT_IDS[0],
-  );
+  const [activeId, setActiveId] = useState<
+    (typeof HERO_PREVIEW_CIRCUIT_IDS)[number]
+  >(HERO_PREVIEW_CIRCUIT_IDS[0]);
   const active =
     HERO_PREVIEW_CIRCUITS.find((circuit) => circuit.id === activeId) ??
     HERO_PREVIEW_CIRCUITS[0];
@@ -84,18 +81,20 @@ export function HeroPreview() {
               key={circuit.id}
               className={`flex w-full cursor-pointer flex-col gap-1 rounded-[7px] border px-1.5 pb-1.5 pt-[5px] transition-[background,border-color] duration-[120ms] ${
                 isActive
-                  ? 'border-[rgba(0,0,0,0.14)] bg-[rgba(0,0,0,0.06)]'
-                  : 'border-[rgba(0,0,0,0.06)] bg-[rgba(0,0,0,0.02)] hover:border-[rgba(0,0,0,0.10)] hover:bg-[rgba(0,0,0,0.05)]'
+                  ? "border-[rgba(0,0,0,0.14)] bg-[rgba(0,0,0,0.06)]"
+                  : "border-[rgba(0,0,0,0.06)] bg-[rgba(0,0,0,0.02)] hover:border-[rgba(0,0,0,0.10)] hover:bg-[rgba(0,0,0,0.05)]"
               }`}
               onClick={() =>
-                setActiveId(circuit.id as (typeof HERO_PREVIEW_CIRCUIT_IDS)[number])
+                setActiveId(
+                  circuit.id as (typeof HERO_PREVIEW_CIRCUIT_IDS)[number],
+                )
               }
               title={circuit.title}
             >
               <BreadboardThumb active={isActive} />
               <span
                 className={`truncate font-[-apple-system,BlinkMacSystemFont,sans-serif] text-[9.5px] font-medium leading-none transition-colors duration-[120ms] ${
-                  isActive ? 'text-[#1a1816]' : 'text-[#9a9694]'
+                  isActive ? "text-[#1a1816]" : "text-[#9a9694]"
                 }`}
               >
                 {circuit.title}

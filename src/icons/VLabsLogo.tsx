@@ -1,4 +1,4 @@
-import NextImage from 'next/image';
+import NextImage from "next/image";
 
 export type VLabsLogoProps = {
   sizePx?: number;

@@ -1,22 +1,27 @@
-import { buildCircuit, buildLabContent } from '@/labs/experiments/build';
-import { type ExperimentDefinition } from '@/labs/experiments/types';
+import { buildCircuit, buildLabContent } from "@/labs/experiments/build";
+import { type ExperimentDefinition } from "@/labs/experiments/types";
 
-import { aim } from './01-aim';
-import { theory } from './02-theory';
-import { codeLab } from './03-code-lab';
-import { observations } from './05-observations';
-import { conclusion } from './06-conclusion';
-import { procedureSteps } from './04-procedure';
+import { aim } from "./01-aim";
+import { theory } from "./02-theory";
+import { codeLab } from "./03-code-lab";
+import { observations } from "./05-observations";
+import { conclusion } from "./06-conclusion";
+import { procedureSteps } from "./04-procedure";
 
 export const exp8085BubbleSortExperiment: ExperimentDefinition = {
-  id: '8085-bubble-sort',
+  id: "8085-bubble-sort",
   title: "Bubble Sort of an Array",
-  description: "Bubble sort is an O(n²) comparison-based sorting algorithm that repeatedly steps through the array, compares adjacent elements, and swaps them if they are in the wrong order. After each full pass, the",
-  labType: 'code',
+  description:
+    "Bubble sort is an O(n²) comparison-based sorting algorithm that repeatedly steps through the array, compares adjacent elements, and swaps them if they are in the wrong order. After each full pass, the",
+  labType: "code",
   components: [],
   sections: [aim, theory, codeLab, observations, conclusion],
   procedureSteps,
 };
 
-export const Exp8085BubbleSortCircuit = buildCircuit(exp8085BubbleSortExperiment);
-export const Exp8085BubbleSortContent = buildLabContent(exp8085BubbleSortExperiment);
+export const Exp8085BubbleSortCircuit = buildCircuit(
+  exp8085BubbleSortExperiment,
+);
+export const Exp8085BubbleSortContent = buildLabContent(
+  exp8085BubbleSortExperiment,
+);

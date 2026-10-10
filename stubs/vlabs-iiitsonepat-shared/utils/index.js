@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Returns true if value is neither null nor undefined.
@@ -15,7 +15,7 @@ function isDefined(value) {
  * @returns {boolean}
  */
 function isNonEmptyString(value) {
-  return typeof value === 'string' && value.length > 0;
+  return typeof value === "string" && value.length > 0;
 }
 
 /**

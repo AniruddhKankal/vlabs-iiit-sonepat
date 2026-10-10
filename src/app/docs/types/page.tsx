@@ -1,9 +1,14 @@
-import Link from 'next/link';
-import { Prose, DocEyebrow, DocNav, DocNavLink } from '@/sections/docs/doc-primitives';
+import Link from "next/link";
+import {
+  Prose,
+  DocEyebrow,
+  DocNav,
+  DocNavLink,
+} from "@/sections/docs/doc-primitives";
 
 export const metadata = {
-  title: 'TypeScript Types — VLabs Docs',
-  description: 'Full TypeScript type reference for the VLabs lab system.',
+  title: "TypeScript Types — VLabs Docs",
+  description: "Full TypeScript type reference for the VLabs lab system.",
 };
 
 export default function TypesPage() {
@@ -25,7 +30,7 @@ export default function TypesPage() {
       <h2>PinRef variants</h2>
       <pre>{`type TiePin     = { board: string; col: number; row: Row };
 type RailPin    = { board: string; rail: 'vcc_top'|'gnd_top'|'vcc_bot'|'gnd_bot'; col: number };
-type IcPin      = { ic: string; pin: 'A'|'B'|'Y'|'1A'|'1B'|'1Y'|'2A'|'2B'|'2Y' };
+type IcPin      = { ic: string; pin: string }; // pin is any named pin on the IC/part
 type PassivePin = { component: string; end: 'p1'|'p2' };
 type LedPin     = { led: string; end: 'anode'|'cathode' };
 
@@ -35,35 +40,33 @@ type PinRef = TiePin | RailPin | IcPin | PassivePin | LedPin;`}</pre>
       <pre>{`type MountPoint = { board: string; col: number; row: Row };`}</pre>
 
       <h2>Color enumerations</h2>
-      <pre>{`type LedColor  = 'red' | 'green' | 'yellow' | 'blue';
-type WireColor = 'red' | 'black' | 'yellow' | 'green' | 'blue' | 'orange' | 'white';`}</pre>
+      <pre>{`type LedColor  = 'red' | 'green' | 'yellow' | 'blue' | 'white';
+type WireColor = 'red' | 'black' | 'yellow' | 'green' | 'blue' | 'orange' | 'white' | 'purple';`}</pre>
 
       <h2>ComponentInstance</h2>
+      <p>
+        A discriminated union covering every renderable part. See{" "}
+        <Link href="/docs/components">Component types</Link> for the full list.
+      </p>
       <pre>{`type ComponentInstance =
   | { id: string; type: 'breadboard' }
   | { id: string; type: 'wire';        from: PinRef; to: PinRef; color: WireColor }
   | { id: string; type: 'resistor';    ohms: number;        mountedAt: MountPoint }
   | { id: string; type: 'capacitor';   capacitance: number; mountedAt: MountPoint }
   | { id: string; type: 'led';         color: LedColor;     mountedAt: MountPoint }
-  | { id: string; type: 'xor-gate';    mountedAt: MountPoint }
-  | { id: string; type: 'and-gate';    mountedAt: MountPoint }
-  | { id: string; type: 'or-gate';     mountedAt: MountPoint }
-  | { id: string; type: 'not-gate';    mountedAt: MountPoint }
-  | { id: string; type: 'nand-gate';   mountedAt: MountPoint }
-  | { id: string; type: 'nor-gate';    mountedAt: MountPoint }
-  | { id: string; type: 'potentiometer'; mountedAt: MountPoint }
-  | { id: string; type: 'push-button';   mountedAt: MountPoint }
-  | { id: string; type: 'switch';        mountedAt: MountPoint }
-  | { id: string; type: 'battery';       mountedAt: MountPoint }
-  | { id: string; type: 'dc-jack';       mountedAt: MountPoint };`}</pre>
+  | { id: string; type: 'npn-bjt';     mountedAt: MountPoint }
+  // ... and many more`}</pre>
 
       <h2>Step</h2>
       <pre>{`type Step = {
-  title:        string;
-  body:         string;
-  show:         string[];               // cumulative component ids
-  highlight?:   string;                // id to spotlight
-  activeInputs?: Record<string, 0|1>;  // I/O panel state
+  title:          string;
+  body:           string;
+  show:           string[];             // cumulative component ids
+  highlight?:     string;               // id to spotlight
+  activeInputs?:  Record<string, 0|1>;  // I/O panel state
+  supplyVoltage?: number;               // for analog circuits
+  readings?:      Record<string, string>; // instrument displays
+  ledBrightness?: Record<string, number>; // analog LED glow values
 };`}</pre>
 
       <h2>TruthTable</h2>
@@ -96,8 +99,12 @@ type BuildFn = (
 ) => THREE.Group | null;`}</pre>
 
       <DocNav>
-        <DocNavLink as={Link} href="/docs/columns" data-dir="prev">Column layout guide</DocNavLink>
-        <DocNavLink as={Link} href="/docs/constraints" data-dir="next">Constraints &amp; rules</DocNavLink>
+        <DocNavLink as={Link} href="/docs/columns" data-dir="prev">
+          Column layout guide
+        </DocNavLink>
+        <DocNavLink as={Link} href="/docs/constraints" data-dir="next">
+          Constraints &amp; rules
+        </DocNavLink>
       </DocNav>
     </Prose>
   );

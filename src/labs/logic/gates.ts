@@ -6,10 +6,22 @@
 
 import {
   type Signal,
-  sigNot, sigAnd, sigOr, sigXor, sigNand, sigNor, sigXnor,
-  reduceAnd, reduceOr, reduceNand, reduceNor, reduceXor, reduceXnor,
-  isFullyDefined, sigX,
-} from './3vl';
+  sigNot,
+  sigAnd,
+  sigOr,
+  sigXor,
+  sigNand,
+  sigNor,
+  sigXnor,
+  reduceAnd,
+  reduceOr,
+  reduceNand,
+  reduceNor,
+  reduceXor,
+  reduceXnor,
+  isFullyDefined,
+  sigX,
+} from "./3vl";
 
 // ── Single-input gates ─────────────────────────────────────────────────────
 
@@ -58,12 +70,24 @@ export function opXnor(...inputs: Signal[]): Signal {
 // ── Reducing gates (N-bit input → 1-bit output) ───────────────────────────
 // Matches DigitalJS OrReduce, AndReduce, etc.
 
-export function opAndReduce (s: Signal): Signal { return reduceAnd(s);  }
-export function opOrReduce  (s: Signal): Signal { return reduceOr(s);   }
-export function opNandReduce(s: Signal): Signal { return reduceNand(s); }
-export function opNorReduce (s: Signal): Signal { return reduceNor(s);  }
-export function opXorReduce (s: Signal): Signal { return reduceXor(s);  }
-export function opXnorReduce(s: Signal): Signal { return reduceXnor(s); }
+export function opAndReduce(s: Signal): Signal {
+  return reduceAnd(s);
+}
+export function opOrReduce(s: Signal): Signal {
+  return reduceOr(s);
+}
+export function opNandReduce(s: Signal): Signal {
+  return reduceNand(s);
+}
+export function opNorReduce(s: Signal): Signal {
+  return reduceNor(s);
+}
+export function opXorReduce(s: Signal): Signal {
+  return reduceXor(s);
+}
+export function opXnorReduce(s: Signal): Signal {
+  return reduceXnor(s);
+}
 
 // ── Gate dispatcher ────────────────────────────────────────────────────────
 // Generic entry point used by the simulator.
@@ -71,10 +95,10 @@ export function opXnorReduce(s: Signal): Signal { return reduceXnor(s); }
 // `inputs` is an ordered array of input Signals (gate1 inputs first).
 
 export type GateInputs = {
-  in1?: Signal;   // primary A input
-  in2?: Signal;   // primary B input
-  in?: Signal;    // single-input gates (NOT, Buffer, reduce)
-  [key: string]: Signal | undefined;  // in3, in4, ...
+  in1?: Signal; // primary A input
+  in2?: Signal; // primary B input
+  in?: Signal; // single-input gates (NOT, Buffer, reduce)
+  [key: string]: Signal | undefined; // in3, in4, ...
 };
 
 export type GateOutputs = {
@@ -91,30 +115,56 @@ export function evaluateGate(
   const b = inputs.in2 ?? sigX(bits);
 
   switch (type) {
-    case 'buffer-gate': return { out: opBuffer(a) };
-    case 'not-gate':    return { out: opNot(a) };
-    case 'and-gate':    return { out: opAnd(a, b) };
-    case 'or-gate':     return { out: opOr(a, b) };
-    case 'nand-gate':   return { out: opNand(a, b) };
-    case 'nor-gate':    return { out: opNor(a, b) };
-    case 'xor-gate':    return { out: opXor(a, b) };
-    case 'xnor-gate':   return { out: opXnor(a, b) };
+    case "buffer-gate":
+      return { out: opBuffer(a) };
+    case "not-gate":
+      return { out: opNot(a) };
+    case "and-gate":
+      return { out: opAnd(a, b) };
+    case "or-gate":
+      return { out: opOr(a, b) };
+    case "nand-gate":
+      return { out: opNand(a, b) };
+    case "nor-gate":
+      return { out: opNor(a, b) };
+    case "xor-gate":
+      return { out: opXor(a, b) };
+    case "xnor-gate":
+      return { out: opXnor(a, b) };
 
     // Reducing gates take a single multi-bit input
-    case 'and-reduce':  return { out: opAndReduce(a) };
-    case 'or-reduce':   return { out: opOrReduce(a) };
-    case 'nand-reduce': return { out: opNandReduce(a) };
-    case 'nor-reduce':  return { out: opNorReduce(a) };
-    case 'xor-reduce':  return { out: opXorReduce(a) };
-    case 'xnor-reduce': return { out: opXnorReduce(a) };
+    case "and-reduce":
+      return { out: opAndReduce(a) };
+    case "or-reduce":
+      return { out: opOrReduce(a) };
+    case "nand-reduce":
+      return { out: opNandReduce(a) };
+    case "nor-reduce":
+      return { out: opNorReduce(a) };
+    case "xor-reduce":
+      return { out: opXorReduce(a) };
+    case "xnor-reduce":
+      return { out: opXnorReduce(a) };
 
-    default: return null;
+    default:
+      return null;
   }
 }
 
 // Export the set of all gate type strings for use in the simulator
 export const GATE_TYPES = new Set([
-  'buffer-gate', 'not-gate',
-  'and-gate', 'or-gate', 'nand-gate', 'nor-gate', 'xor-gate', 'xnor-gate',
-  'and-reduce', 'or-reduce', 'nand-reduce', 'nor-reduce', 'xor-reduce', 'xnor-reduce',
+  "buffer-gate",
+  "not-gate",
+  "and-gate",
+  "or-gate",
+  "nand-gate",
+  "nor-gate",
+  "xor-gate",
+  "xnor-gate",
+  "and-reduce",
+  "or-reduce",
+  "nand-reduce",
+  "nor-reduce",
+  "xor-reduce",
+  "xnor-reduce",
 ]);

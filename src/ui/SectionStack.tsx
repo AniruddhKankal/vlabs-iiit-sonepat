@@ -9,12 +9,9 @@ export function SectionStack({
 }) {
   return (
     <div
-      className={[
-        'grid grid-cols-1 [&>*+*]:mt-10 md:[&>*+*]:mt-20',
-        className,
-      ]
+      className={["grid grid-cols-1 [&>*+*]:mt-10 md:[&>*+*]:mt-20", className]
         .filter(Boolean)
-        .join(' ')}
+        .join(" ")}
     >
       {children}
     </div>

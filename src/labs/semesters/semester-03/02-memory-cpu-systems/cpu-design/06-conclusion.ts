@@ -1,4 +1,4 @@
-import { type ConclusionSection } from '@/labs/lab-content.types';
+import { type ConclusionSection } from "@/labs/lab-content.types";
 
 export const conclusion: ConclusionSection = {
   id: "conclusion",

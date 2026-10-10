@@ -16,33 +16,36 @@
 //   5. Patches  src/sections/explore/explore.data.ts — adds to explore page
 //   6. Prints   npm run dev and the URL to open
 
-import fs   from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT      = path.resolve(__dirname, '..');
+const ROOT = path.resolve(__dirname, "..");
 
 // ── Args ─────────────────────────────────────────────────────────────────────
-const [slug, title = 'New Experiment', description = 'Lab description.'] = process.argv.slice(2);
+const [slug, title = "New Experiment", description = "Lab description."] =
+  process.argv.slice(2);
 
 if (!slug) {
-  console.error('\nUsage: node scripts/new-lab.mjs <slug> "Title" "Description"\n');
+  console.error(
+    '\nUsage: node scripts/new-lab.mjs <slug> "Title" "Description"\n',
+  );
   process.exit(1);
 }
 
 // Derive names
-const constName    = slug.replace(/(^|-)(\w)/g, (_, __, c) => c.toUpperCase()); // kebab → PascalCase
+const constName = slug.replace(/(^|-)(\w)/g, (_, __, c) => c.toUpperCase()); // kebab → PascalCase
 const circuitConst = `${constName}Circuit`;
 const contentConst = `${constName}Content`;
 
 // ── File paths ────────────────────────────────────────────────────────────────
-const circuitDir  = path.join(ROOT, 'src/labs/circuits', slug);
-const circuitFile = path.join(circuitDir, 'index.ts');
-const contentFile = path.join(ROOT, 'src/labs/content', `${slug}.ts`);
-const circuitsIdx = path.join(ROOT, 'src/labs/circuits/index.ts');
-const contentsIdx = path.join(ROOT, 'src/labs/content/index.ts');
-const exploreData = path.join(ROOT, 'src/sections/explore/explore.data.ts');
+const circuitDir = path.join(ROOT, "src/labs/circuits", slug);
+const circuitFile = path.join(circuitDir, "index.ts");
+const contentFile = path.join(ROOT, "src/labs/content", `${slug}.ts`);
+const circuitsIdx = path.join(ROOT, "src/labs/circuits/index.ts");
+const contentsIdx = path.join(ROOT, "src/labs/content/index.ts");
+const exploreData = path.join(ROOT, "src/sections/explore/explore.data.ts");
 
 // ── Guard: already exists ─────────────────────────────────────────────────────
 if (fs.existsSync(circuitFile)) {
@@ -52,7 +55,9 @@ if (fs.existsSync(circuitFile)) {
 
 // ── 1. Circuit template ───────────────────────────────────────────────────────
 fs.mkdirSync(circuitDir, { recursive: true });
-fs.writeFileSync(circuitFile, `import { CB } from '@/labs/builder';
+fs.writeFileSync(
+  circuitFile,
+  `import { CB } from '@/labs/builder';
 
 // ── ${title} ─────────────────────────────────────────────────────────────────
 // TODO: build out components and steps below.
@@ -82,11 +87,14 @@ export const ${circuitConst} = new CB('${slug}', '${title}', '${description}')
 
   // TODO: add more steps
   .build();
-`);
+`,
+);
 console.log(`✓ Circuit:  src/labs/circuits/${slug}/index.ts`);
 
 // ── 2. Content template ───────────────────────────────────────────────────────
-fs.writeFileSync(contentFile, `import { type LabContent } from '@/labs/lab-content.types';
+fs.writeFileSync(
+  contentFile,
+  `import { type LabContent } from '@/labs/lab-content.types';
 
 export const ${contentConst}: LabContent = {
   id: '${slug}',
@@ -158,12 +166,13 @@ export const ${contentConst}: LabContent = {
     },
   ],
 };
-`);
+`,
+);
 console.log(`✓ Content:  src/labs/content/${slug}.ts`);
 
 // ── 3. Patch circuits/index.ts ────────────────────────────────────────────────
 {
-  let src = fs.readFileSync(circuitsIdx, 'utf8');
+  let src = fs.readFileSync(circuitsIdx, "utf8");
 
   // Add import before the `import { type Circuit }` line
   const importLine = `import { ${circuitConst} } from './${slug}';`;
@@ -187,7 +196,7 @@ console.log(`✓ Content:  src/labs/content/${slug}.ts`);
 
 // ── 4. Patch content/index.ts ─────────────────────────────────────────────────
 {
-  let src = fs.readFileSync(contentsIdx, 'utf8');
+  let src = fs.readFileSync(contentsIdx, "utf8");
 
   const importLine = `import { ${contentConst} } from './${slug}';`;
   if (!src.includes(importLine)) {
@@ -209,7 +218,7 @@ console.log(`✓ Content:  src/labs/content/${slug}.ts`);
 
 // ── 5. Patch explore.data.ts ─────────────────────────────────────────────────
 {
-  let src = fs.readFileSync(exploreData, 'utf8');
+  let src = fs.readFileSync(exploreData, "utf8");
 
   const expEntry = `
         {
@@ -224,9 +233,9 @@ console.log(`✓ Content:  src/labs/content/${slug}.ts`);
   if (!src.includes(`id: '${slug}'`)) {
     // Append to the LAST experiments array before its closing bracket
     // Find the last experiments: [ block and append before its ]
-    const lastExpIdx = src.lastIndexOf('      ],\n    },');
+    const lastExpIdx = src.lastIndexOf("      ],\n    },");
     if (lastExpIdx !== -1) {
-      src = src.slice(0, lastExpIdx) + expEntry + '\n' + src.slice(lastExpIdx);
+      src = src.slice(0, lastExpIdx) + expEntry + "\n" + src.slice(lastExpIdx);
     }
     fs.writeFileSync(exploreData, src);
     console.log(`✓ Added to src/sections/explore/explore.data.ts`);

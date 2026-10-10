@@ -1,4 +1,4 @@
-import { type Scheme } from '@/tokens';
+import { type Scheme } from "@/tokens";
 
 export function findActiveSurfaceScheme(
   surfaces: readonly { top: number; bottom: number; scheme: Scheme | null }[],

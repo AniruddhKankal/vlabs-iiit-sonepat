@@ -1,4 +1,4 @@
-import { type ObservationSection } from '@/labs/lab-content.types';
+import { type ObservationSection } from "@/labs/lab-content.types";
 
 export const observations: ObservationSection = {
   id: "observations",
@@ -10,49 +10,24 @@ export const observations: ObservationSection = {
     "Binary files are not human-readable: use a hex editor to inspect them.",
   ],
   table: {
-    headers: [
-      "Operation",
-      "Function",
-      "Mode",
-      "Notes",
-    ],
+    headers: ["Operation", "Function", "Mode", "Notes"],
     rows: [
       [
         "Write struct array",
         "fwrite(arr, sizeof(S), n, fp)",
-        "\"wb\"",
+        '"wb"',
         "Writes n structs",
       ],
-      [
-        "Read struct",
-        "fread(&s, sizeof(S), 1, fp)",
-        "\"rb\"",
-        "Reads 1 struct",
-      ],
+      ["Read struct", "fread(&s, sizeof(S), 1, fp)", '"rb"', "Reads 1 struct"],
       [
         "Seek to record n",
         "fseek(fp, n*sizeof(S), SEEK_SET)",
         "any",
         "O(1) positioning",
       ],
-      [
-        "Get position",
-        "ftell(fp)",
-        "any",
-        "Bytes from start",
-      ],
-      [
-        "Rewind",
-        "rewind(fp)",
-        "any",
-        "Back to byte 0",
-      ],
-      [
-        "Update in-place",
-        "fseek + fwrite",
-        "\"rb+\"",
-        "Overwrite at position",
-      ],
+      ["Get position", "ftell(fp)", "any", "Bytes from start"],
+      ["Rewind", "rewind(fp)", "any", "Back to byte 0"],
+      ["Update in-place", "fseek + fwrite", '"rb+"', "Overwrite at position"],
     ],
   },
 };

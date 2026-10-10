@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useRef, useState, type PointerEvent, type ReactNode } from 'react';
+import { useRef, useState, type PointerEvent, type ReactNode } from "react";
 
 type Offset = { x: number; y: number };
 
@@ -94,15 +94,15 @@ export function FloatingLabCard({ children }: FloatingLabCardProps) {
       ref={cardRef}
       className="floating-lab-card bg-white/[0.97] rounded-[calc(var(--radius-base)*3)] shadow-[0_2px_16px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.06)] w-[min(400px,calc(100vw-var(--spacing-base)*12))] max-h-[48vh] absolute z-[100] flex flex-col data-[dragging=true]:select-none"
       style={{
-        left: 'calc(var(--spacing-base) * 6)',
-        top: 'calc(var(--spacing-base) * 5)',
+        left: "calc(var(--spacing-base) * 6)",
+        top: "calc(var(--spacing-base) * 5)",
         transform: `translate(${offset.x}px, ${offset.y}px)`,
       }}
-      data-dragging={dragging ? 'true' : 'false'}
+      data-dragging={dragging ? "true" : "false"}
     >
       <div
         className="floating-lab-card-handle shrink-0 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none"
-        style={{ height: 'calc(var(--spacing-base) * 4.5)' }}
+        style={{ height: "calc(var(--spacing-base) * 4.5)" }}
         onPointerDown={onHandlePointerDown}
         onPointerMove={onHandlePointerMove}
         onPointerUp={endDrag}
@@ -116,7 +116,8 @@ export function FloatingLabCard({ children }: FloatingLabCardProps) {
       <div
         className="floating-lab-card-body lab-card-scroll overflow-y-auto min-h-0 flex-1"
         style={{
-          padding: '0 calc(var(--spacing-base) * 5) calc(var(--spacing-base) * 5)',
+          padding:
+            "0 calc(var(--spacing-base) * 5) calc(var(--spacing-base) * 5)",
         }}
       >
         {children}

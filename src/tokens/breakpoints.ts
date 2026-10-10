@@ -1,4 +1,4 @@
-export type Breakpoint = 'sm' | 'md' | 'lg';
+export type Breakpoint = "sm" | "md" | "lg";
 
 export const BREAKPOINT_PX: Record<Breakpoint, number> = {
   // sm charter: tablets may CAP/CENTER media and DENSIFY card grids inside

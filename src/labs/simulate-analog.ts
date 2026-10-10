@@ -10,15 +10,18 @@
 //   Zener breakdown: Vz = 5.1V, sharp knee
 
 export type AnalogResult = {
-  vz: number;      // voltage across zener
-  iz: number;      // current in mA
+  vz: number; // voltage across zener
+  iz: number; // current in mA
   brightness: number; // 0.0 to 1.0
   dmmVoltage: string; // formatted for DMM display e.g. "0.65"
   dmmCurrent: string; // formatted for DMM display e.g. "8.30"
   psuVoltage: string; // formatted for PSU display e.g. "5.00"
 };
 
-export function simulateZenerForward(vs: number, rs: number = 470): AnalogResult {
+export function simulateZenerForward(
+  vs: number,
+  rs: number = 470,
+): AnalogResult {
   // Silicon diode forward bias model
   const Vt = 0.026;
   const n = 1.5;
@@ -48,7 +51,11 @@ export function simulateZenerForward(vs: number, rs: number = 470): AnalogResult
   };
 }
 
-export function simulateZenerReverse(vs: number, vz: number = 5.1, rs: number = 470): AnalogResult {
+export function simulateZenerReverse(
+  vs: number,
+  vz: number = 5.1,
+  rs: number = 470,
+): AnalogResult {
   // Reverse bias: below Vz, essentially no current
   // At and above Vz: zener conducts, Vz stays ~constant
   if (vs < vz * 0.95) {
@@ -69,7 +76,7 @@ export function simulateZenerReverse(vs: number, vz: number = 5.1, rs: number = 
   const Zz = 7; // zener impedance
   // Iz = (Vs - Vz_nominal) / (Rs + Zz)
   const iz = Math.max(0, (vs - vz) / (rs + Zz)) * 1000; // mA
-  const actualVz = vz + iz * Zz / 1000; // slight increase with current
+  const actualVz = vz + (iz * Zz) / 1000; // slight increase with current
   const brightness = Math.min(1.0, iz / 15);
 
   return {

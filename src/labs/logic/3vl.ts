@@ -11,8 +11,8 @@
 //
 // All operations return a new Signal — no mutation.
 
-export type Bit    = 1 | 0 | 'x';
-export type Signal = Bit[];                 // [LSB, ..., MSB]
+export type Bit = 1 | 0 | "x";
+export type Signal = Bit[]; // [LSB, ..., MSB]
 
 // ── Constructors ──────────────────────────────────────────────────────────
 
@@ -25,13 +25,13 @@ export function sigLow(bits = 1): Signal {
 }
 
 export function sigX(bits = 1): Signal {
-  return Array(bits).fill('x');
+  return Array(bits).fill("x");
 }
 
 /** Single-bit convenience */
 export const HIGH: Signal = [1];
-export const LOW:  Signal = [0];
-export const X:    Signal = ['x'];
+export const LOW: Signal = [0];
+export const X: Signal = ["x"];
 
 /** From a JS boolean */
 export function fromBool(b: boolean): Signal {
@@ -40,7 +40,10 @@ export function fromBool(b: boolean): Signal {
 
 /** From a binary string e.g. "1010" (MSB first → reversed to LSB-first) */
 export function fromBin(s: string): Signal {
-  return s.split('').reverse().map(c => c === '1' ? 1 : c === '0' ? 0 : 'x') as Signal;
+  return s
+    .split("")
+    .reverse()
+    .map((c) => (c === "1" ? 1 : c === "0" ? 0 : "x")) as Signal;
 }
 
 /** From a BigInt, truncated to `bits` bits (2's complement for signed) */
@@ -61,15 +64,15 @@ export function fromNumber(n: number, bits: number): Signal {
 // ── Accessors ─────────────────────────────────────────────────────────────
 
 export function getBit(s: Signal, i: number): Bit {
-  return i >= 0 && i < s.length ? s[i] : 'x';
+  return i >= 0 && i < s.length ? s[i] : "x";
 }
 
 export function msb(s: Signal): Bit {
-  return s[s.length - 1] ?? 'x';
+  return s[s.length - 1] ?? "x";
 }
 
 export function isFullyDefined(s: Signal): boolean {
-  return s.every(b => b !== 'x');
+  return s.every((b) => b !== "x");
 }
 
 export function isHigh(s: Signal): boolean {
@@ -81,7 +84,7 @@ export function isLow(s: Signal): boolean {
 }
 
 export function isX(s: Signal): boolean {
-  return s.every(b => b === 'x');
+  return s.every((b) => b === "x");
 }
 
 /** Convert to BigInt (unsigned). Returns null if any bit is 'x'. */
@@ -106,7 +109,10 @@ export function toNumber(s: Signal, signed = false): number | null {
 
 /** Convert to binary string "1010" (MSB first) */
 export function toBin(s: Signal): string {
-  return [...s].reverse().map(b => b === 'x' ? 'x' : String(b)).join('');
+  return [...s]
+    .reverse()
+    .map((b) => (b === "x" ? "x" : String(b)))
+    .join("");
 }
 
 // ── Equality ──────────────────────────────────────────────────────────────
@@ -124,24 +130,24 @@ export function eq(a: Signal, b: Signal): boolean {
 //   NOT x   = x   (unknown stays unknown)
 
 function bitAnd(a: Bit, b: Bit): Bit {
-  if (a === 0 || b === 0) return 0;           // 0 AND anything = 0
-  if (a === 'x' || b === 'x') return 'x';
+  if (a === 0 || b === 0) return 0; // 0 AND anything = 0
+  if (a === "x" || b === "x") return "x";
   return 1;
 }
 
 function bitOr(a: Bit, b: Bit): Bit {
-  if (a === 1 || b === 1) return 1;           // 1 OR anything = 1
-  if (a === 'x' || b === 'x') return 'x';
+  if (a === 1 || b === 1) return 1; // 1 OR anything = 1
+  if (a === "x" || b === "x") return "x";
   return 0;
 }
 
 function bitXor(a: Bit, b: Bit): Bit {
-  if (a === 'x' || b === 'x') return 'x';
+  if (a === "x" || b === "x") return "x";
   return (a ^ b) as 0 | 1;
 }
 
 function bitNot(a: Bit): Bit {
-  if (a === 'x') return 'x';
+  if (a === "x") return "x";
   return a === 1 ? 0 : 1;
 }
 
@@ -154,23 +160,49 @@ function zipBits(a: Signal, b: Signal, op: (x: Bit, y: Bit) => Bit): Signal {
   return out;
 }
 
-export function sigAnd(a: Signal, b: Signal): Signal  { return zipBits(a, b, bitAnd); }
-export function sigOr (a: Signal, b: Signal): Signal  { return zipBits(a, b, bitOr);  }
-export function sigXor(a: Signal, b: Signal): Signal  { return zipBits(a, b, bitXor); }
-export function sigNot(a: Signal):            Signal  { return a.map(bitNot);          }
-export function sigNand(a: Signal, b: Signal): Signal { return sigNot(sigAnd(a, b));  }
-export function sigNor (a: Signal, b: Signal): Signal { return sigNot(sigOr(a, b));   }
-export function sigXnor(a: Signal, b: Signal): Signal { return sigNot(sigXor(a, b));  }
+export function sigAnd(a: Signal, b: Signal): Signal {
+  return zipBits(a, b, bitAnd);
+}
+export function sigOr(a: Signal, b: Signal): Signal {
+  return zipBits(a, b, bitOr);
+}
+export function sigXor(a: Signal, b: Signal): Signal {
+  return zipBits(a, b, bitXor);
+}
+export function sigNot(a: Signal): Signal {
+  return a.map(bitNot);
+}
+export function sigNand(a: Signal, b: Signal): Signal {
+  return sigNot(sigAnd(a, b));
+}
+export function sigNor(a: Signal, b: Signal): Signal {
+  return sigNot(sigOr(a, b));
+}
+export function sigXnor(a: Signal, b: Signal): Signal {
+  return sigNot(sigXor(a, b));
+}
 
 // ── Reduce operations — N bits → 1 bit ────────────────────────────────────
 // Match DigitalJS OrReduce / AndReduce etc.
 
-export function reduceOr (s: Signal): Signal { return [s.reduce<Bit>((acc, b) => bitOr(acc, b),  0)]; }
-export function reduceAnd(s: Signal): Signal { return [s.reduce<Bit>((acc, b) => bitAnd(acc, b), 1)]; }
-export function reduceXor(s: Signal): Signal { return [s.reduce<Bit>((acc, b) => bitXor(acc, b), 0)]; }
-export function reduceNor (s: Signal): Signal { return sigNot(reduceOr(s));  }
-export function reduceNand(s: Signal): Signal { return sigNot(reduceAnd(s)); }
-export function reduceXnor(s: Signal): Signal { return sigNot(reduceXor(s)); }
+export function reduceOr(s: Signal): Signal {
+  return [s.reduce<Bit>((acc, b) => bitOr(acc, b), 0)];
+}
+export function reduceAnd(s: Signal): Signal {
+  return [s.reduce<Bit>((acc, b) => bitAnd(acc, b), 1)];
+}
+export function reduceXor(s: Signal): Signal {
+  return [s.reduce<Bit>((acc, b) => bitXor(acc, b), 0)];
+}
+export function reduceNor(s: Signal): Signal {
+  return sigNot(reduceOr(s));
+}
+export function reduceNand(s: Signal): Signal {
+  return sigNot(reduceAnd(s));
+}
+export function reduceXnor(s: Signal): Signal {
+  return sigNot(reduceXor(s));
+}
 
 // ── Concatenation / slicing ────────────────────────────────────────────────
 // concat(a, b): b's bits become the high bits  (matches 3vl: a.concat(ext))
@@ -193,5 +225,5 @@ export function zeroExtend(s: Signal, toLen: number): Signal {
 }
 
 export function signExtend(s: Signal, toLen: number): Signal {
-  return extend(s, toLen, msb(s) === 'x' ? 'x' : msb(s) as 0 | 1);
+  return extend(s, toLen, msb(s) === "x" ? "x" : (msb(s) as 0 | 1));
 }

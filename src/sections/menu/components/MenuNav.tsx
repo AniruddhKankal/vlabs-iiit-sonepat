@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { NavigationMenu } from '@base-ui/react/navigation-menu';
-import { IconChevronDown } from '@tabler/icons-react';
-import { Fragment } from 'react';
+import { NavigationMenu } from "@base-ui/react/navigation-menu";
+import { IconChevronDown } from "@tabler/icons-react";
+import { Fragment } from "react";
 
-import { usePathname } from 'next/navigation';
-import { VerticalDivider } from '@/ui';
+import { usePathname } from "next/navigation";
+import { VerticalDivider } from "@/ui";
 
-import { type MenuNavItem } from '../types/menu-nav-item';
-import { MenuDropdown } from './MenuDropdown';
+import { type MenuNavItem } from "../types/menu-nav-item";
+import { MenuDropdown } from "./MenuDropdown";
 
 /**
  * Shared base classes for nav links and triggers.
@@ -17,14 +17,14 @@ import { MenuDropdown } from './MenuDropdown';
  * pure Tailwind utilities are handled via inline styles or the style prop.
  */
 const navItemClassName = [
-  'cursor-pointer border-none bg-none p-0',
-  'font-mono text-[calc(var(--font-base)*3)] font-medium',
-  'tracking-[0] uppercase no-underline relative',
-  'text-[var(--ink)] transition-colors duration-[0.2s] ease-gentle',
-  'hover:text-[var(--color-blue)]',
-  'data-[active]:text-[var(--color-blue)]',
-  'focus-visible:outline-1 focus-visible:outline-[var(--color-blue)] focus-visible:outline-offset-1',
-].join(' ');
+  "cursor-pointer border-none bg-none p-0",
+  "font-mono text-[calc(var(--font-base)*3)] font-medium",
+  "tracking-[0] uppercase no-underline relative",
+  "text-[var(--ink)] transition-colors duration-[0.2s] ease-gentle",
+  "hover:text-[var(--color-blue)]",
+  "data-[active]:text-[var(--color-blue)]",
+  "focus-visible:outline-1 focus-visible:outline-[var(--color-blue)] focus-visible:outline-offset-1",
+].join(" ");
 
 export type MenuNavProps = {
   items: readonly MenuNavItem[];
@@ -44,17 +44,17 @@ export function MenuNav({ items }: MenuNavProps) {
               {item.children === undefined ? (
                 <NavigationMenu.Link
                   className={navItemClassName}
-                  data-active={pathname === item.href ? '' : undefined}
-                  render={<a href={item.href ?? '/'} />}
+                  data-active={pathname === item.href ? "" : undefined}
+                  render={<a href={item.href ?? "/"} />}
                 >
                   {item.label}
-                 </NavigationMenu.Link>
-               ) : (
-                 <>
-                   <NavigationMenu.Trigger
-                     className={`${navItemClassName} inline-flex items-center gap-x-[4px] data-[popup-open]:text-[var(--color-blue)]`}
-                   >
-                     {item.label}
+                </NavigationMenu.Link>
+              ) : (
+                <>
+                  <NavigationMenu.Trigger
+                    className={`${navItemClassName} inline-flex items-center gap-x-[4px] data-[popup-open]:text-[var(--color-blue)]`}
+                  >
+                    {item.label}
                     <NavigationMenu.Icon className="inline-flex shrink-0 transition-transform duration-[0.24s] ease-standard [[data-popup-open]>&]:rotate-180 [&>svg]:block">
                       <IconChevronDown size={12} stroke={2} />
                     </NavigationMenu.Icon>

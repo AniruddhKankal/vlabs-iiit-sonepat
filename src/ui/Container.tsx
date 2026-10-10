@@ -7,12 +7,10 @@ export function Container({
   children,
   className,
   ...rest
-}: React.ComponentPropsWithoutRef<'div'>) {
+}: React.ComponentPropsWithoutRef<"div">) {
   return (
     <div
-      className={['site-container', className]
-        .filter(Boolean)
-        .join(' ')}
+      className={["site-container", className].filter(Boolean).join(" ")}
       {...rest}
     >
       {children}

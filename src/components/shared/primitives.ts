@@ -1,9 +1,14 @@
-import * as THREE from 'three';
-import { M } from '@/components/shared/materials';
+import * as THREE from "three";
+import { M } from "@/components/shared/materials";
 
 // ── Solid box with black wireframe edges ──────────────────────────────────
-export function solidBox(w: number, h: number, d: number, mat: THREE.Material): THREE.Group {
-  const g   = new THREE.Group();
+export function solidBox(
+  w: number,
+  h: number,
+  d: number,
+  mat: THREE.Material,
+): THREE.Group {
+  const g = new THREE.Group();
   const geo = new THREE.BoxGeometry(w, h, d);
   g.add(new THREE.Mesh(geo, mat));
   g.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), M.edge()));
@@ -11,8 +16,13 @@ export function solidBox(w: number, h: number, d: number, mat: THREE.Material): 
 }
 
 // ── Solid cylinder with black wireframe edges ────────────────────────────
-export function solidCyl(r: number, h: number, mat: THREE.Material, seg = 14): THREE.Group {
-  const g   = new THREE.Group();
+export function solidCyl(
+  r: number,
+  h: number,
+  mat: THREE.Material,
+  seg = 14,
+): THREE.Group {
+  const g = new THREE.Group();
   const geo = new THREE.CylinderGeometry(r, r, h, seg);
   g.add(new THREE.Mesh(geo, mat));
   g.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, 25), M.edge()));
@@ -28,18 +38,18 @@ export function textLabel(
   planeH: number,
   opts: { textColor?: string; fontSize?: number; bold?: boolean } = {},
 ): THREE.Mesh | null {
-  if (typeof document === 'undefined') return null;
+  if (typeof document === "undefined") return null;
 
-  const { textColor = '#c8d0c0', fontSize = 44, bold = true } = opts;
-  const RES  = 256;
-  const cvs  = document.createElement('canvas');
-  cvs.width  = RES;
+  const { textColor = "#c8d0c0", fontSize = 44, bold = true } = opts;
+  const RES = 256;
+  const cvs = document.createElement("canvas");
+  cvs.width = RES;
   cvs.height = Math.max(32, Math.round(RES * (planeH / planeW)));
-  const ctx  = cvs.getContext('2d')!;
-  ctx.font         = `${bold ? '700' : '400'} ${fontSize}px Helvetica,Arial,sans-serif`;
-  ctx.fillStyle    = textColor;
-  ctx.textAlign    = 'center';
-  ctx.textBaseline = 'middle';
+  const ctx = cvs.getContext("2d")!;
+  ctx.font = `${bold ? "700" : "400"} ${fontSize}px Helvetica,Arial,sans-serif`;
+  ctx.fillStyle = textColor;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
   ctx.fillText(text, cvs.width / 2, cvs.height / 2);
 
   const mat = new THREE.MeshBasicMaterial({

@@ -1,6 +1,6 @@
-import { BREAKPOINT_PX } from './breakpoints';
-import { UNITS } from './units';
-import { TYPE_SCALE, type TypeStep } from './type-scale';
+import { BREAKPOINT_PX } from "./breakpoints";
+import { UNITS } from "./units";
+import { TYPE_SCALE, type TypeStep } from "./type-scale";
 
 // Fluid type ramps: size AND leading interpolate linearly between the two
 // DESIGNED steps across [390px, md], rendering the exact designed values at
@@ -12,7 +12,7 @@ const FLUID_VIEWPORT_MIN_PX = 390;
 // are rem, so user font-size preferences scale the type; a non-16px root
 // only shifts the in-between rate, never the designed endpoints.
 const ROOT_FONT_SIZE_PX = 16;
-const RUNNING_TEXT_LINE_HEIGHT = '1.55';
+const RUNNING_TEXT_LINE_HEIGHT = "1.55";
 
 const round = (value: number): number => Math.round(value * 10000) / 10000;
 
@@ -44,5 +44,5 @@ export const typeRampDeclarations = (ramp: keyof typeof TYPE_SCALE): string => {
   return [
     `font-size: ${fluidBetween(base.size, md.size)};`,
     `line-height: ${lineHeightValue(base, md)};`,
-  ].join('\n');
+  ].join("\n");
 };

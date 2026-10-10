@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { Drawer } from '@base-ui/react/drawer';
-import { IconMenu2, IconX } from '@tabler/icons-react';
-import { useCallback, useState } from 'react';
+import { Drawer } from "@base-ui/react/drawer";
+import { IconMenu2, IconX } from "@tabler/icons-react";
+import { useCallback, useState } from "react";
 
-import { VLabsLogo } from '@/icons';
-import { MENU_STYLE_BACKGROUND_VAR, useMenuStyle } from '@/platform/menu-style';
-import { type Scheme } from '@/tokens';
-import { Button, Container, IconButton } from '@/ui';
+import { VLabsLogo } from "@/icons";
+import { MENU_STYLE_BACKGROUND_VAR, useMenuStyle } from "@/platform/menu-style";
+import { type Scheme } from "@/tokens";
+import { Button, Container, IconButton } from "@/ui";
 
-import { MenuDrawer } from './components/MenuDrawer';
-import { MenuNav } from './components/MenuNav';
-import { MenuSearch } from './components/MenuSearch';
-import { MenuSocial } from './components/MenuSocial';
-import { MENU } from './data/menu';
-import { CloseDrawerOnDesktopEffect } from './effect-components/CloseDrawerOnDesktopEffect';
-import { ScrollStateEffect } from './effect-components/ScrollStateEffect';
+import { MenuDrawer } from "./components/MenuDrawer";
+import { MenuNav } from "./components/MenuNav";
+import { CommandPalette } from "./components/MenuSearch";
+import { MenuSocial } from "./components/MenuSocial";
+import { MENU } from "./data/menu";
+import { CloseDrawerOnDesktopEffect } from "./effect-components/CloseDrawerOnDesktopEffect";
+import { ScrollStateEffect } from "./effect-components/ScrollStateEffect";
 
 export type MenuProps = {
   scheme?: Scheme;
 };
 
-export function Menu({ scheme = 'light' }: MenuProps) {
+export function Menu({ scheme = "light" }: MenuProps) {
   const { activeScheme, override } = useMenuStyle();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isElevated, setIsElevated] = useState(false);
@@ -43,13 +43,13 @@ export function Menu({ scheme = 'light' }: MenuProps) {
       <header
         className="sticky top-0 w-full z-[200] transition-[background-color,box-shadow,color] duration-md ease-gentle data-[elevated]:shadow-header data-[pinned]:transition-[box-shadow] data-[pinned]:duration-[0.2s] data-[pinned]:ease-gentle"
         data-elevated={
-          isElevated && !override.suppressElevation ? '' : undefined
+          isElevated && !override.suppressElevation ? "" : undefined
         }
-        data-pinned={override.scheme !== undefined ? '' : undefined}
+        data-pinned={override.scheme !== undefined ? "" : undefined}
         data-scheme={resolvedScheme}
         style={{
           backgroundColor: `var(${MENU_STYLE_BACKGROUND_VAR}, var(--surface))`,
-          color: 'var(--ink)',
+          color: "var(--ink)",
         }}
       >
         <Container>
@@ -64,11 +64,11 @@ export function Menu({ scheme = 'light' }: MenuProps) {
                 />
               }
             >
-              <VLabsLogo sizePx={40} />
+              <VLabsLogo sizePx={52} />
             </Drawer.Close>
             <MenuNav items={MENU.navItems} />
             <div className="hidden md:block">
-              <MenuSearch />
+              <CommandPalette />
             </div>
             <MenuSocial links={MENU.socialLinks} />
             <div className="hidden items-center gap-4 md:flex">
@@ -77,7 +77,7 @@ export function Menu({ scheme = 'light' }: MenuProps) {
             <div className="flex items-center gap-2 md:hidden">
               <Button href={MENU.appUrl} label="Get started" />
               <IconButton
-                ariaLabel={isDrawerOpen ? 'Close menu' : 'Open menu'}
+                ariaLabel={isDrawerOpen ? "Close menu" : "Open menu"}
                 onClick={() => setIsDrawerOpen((previous) => !previous)}
               >
                 {isDrawerOpen ? (

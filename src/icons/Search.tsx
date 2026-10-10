@@ -1,4 +1,4 @@
-const SEARCH_HANDLE_PATH = 'm10.5 10.5 3 3';
+const SEARCH_HANDLE_PATH = "m10.5 10.5 3 3";
 
 export type SearchProps = {
   sizePx?: number;
@@ -10,7 +10,7 @@ export function Search({ sizePx = 16 }: SearchProps) {
     <svg
       fill="none"
       height={sizePx}
-      style={{ display: 'block' }}
+      style={{ display: "block" }}
       viewBox="0 0 16 16"
       width={sizePx}
       xmlns="http://www.w3.org/2000/svg"

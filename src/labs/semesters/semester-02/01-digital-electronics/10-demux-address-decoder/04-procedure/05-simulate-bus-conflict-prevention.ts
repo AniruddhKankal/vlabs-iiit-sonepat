@@ -1,0 +1,31 @@
+import { type SceneProcedureStep } from "@/labs/experiments/types";
+
+export const step: SceneProcedureStep = {
+  label: "Simulate bus conflict prevention",
+  body: "With I permanently tied HIGH, simulate a bus conflict scenario by momentarily connecting both AND gate inputs to HIGH manually (if feasible in the gate-level build). In a real system this cannot occur because only one address is valid at a time. Discuss how the enable input (I) of a practical 74HC139 DEMUX is used as an additional layer of control — asserting the enable signal only during valid address cycles prevents glitches from activating wrong devices during address transitions.",
+  show: [
+    "bb",
+    "not1",
+    "and1",
+    "and2",
+    "w_a0_not",
+    "w_na0_and1",
+    "w_a0_and2",
+    "w_en_and1",
+    "w_en_and2",
+    "r_y0",
+    "r_y1",
+    "led_y0",
+    "led_y1",
+    "w_y0_r",
+    "w_y0_led",
+    "w_y1_r",
+    "w_y1_led",
+    "w_gnd1",
+    "w_gnd2",
+  ],
+  activeInputs: {
+    A0: 0,
+    EN: 0,
+  },
+};

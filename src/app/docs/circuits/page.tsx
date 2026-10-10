@@ -1,9 +1,15 @@
-import Link from 'next/link';
-import { Prose, DocEyebrow, DocNav, DocNavLink } from '@/sections/docs/doc-primitives';
+import Link from "next/link";
+import {
+  Prose,
+  DocEyebrow,
+  DocNav,
+  DocNavLink,
+} from "@/sections/docs/doc-primitives";
 
 export const metadata = {
-  title: 'Circuit Schema — VLabs Docs',
-  description: 'The full Circuit type, its fields, and how to structure a circuit definition.',
+  title: "Circuit Schema — VLabs Docs",
+  description:
+    "The full Circuit type, its fields, and how to structure a circuit definition.",
 };
 
 export default function CircuitsPage() {
@@ -13,9 +19,11 @@ export default function CircuitsPage() {
       <h1>Circuit schema</h1>
 
       <p>
-        A circuit is a plain TypeScript object conforming to the <code>Circuit</code> type.
-        It lives in its own file, imports no renderer code, and can be generated entirely
-        by an AI given the component reference.
+        A circuit is a plain TypeScript object conforming to the{" "}
+        <code>Circuit</code> type. It usually lives in{" "}
+        <code>components.ts</code> within an experiment folder. It imports no
+        renderer code, and can be generated entirely by an AI given the
+        component reference.
       </p>
 
       <hr />
@@ -31,16 +39,45 @@ export default function CircuitsPage() {
   truthTable?: TruthTable;       // optional
 };`}</pre>
 
-      <h2>Minimal working example</h2>
+      <h2>Building circuits using the CB fluent API</h2>
+
+      <p>
+        The recommended way to define circuits is using the <code>CB</code>{" "}
+        fluent builder, which simplifies component placement and handles step
+        cumulative arrays automatically:
+      </p>
+
+      <pre>{`// components.ts
+import { CB } from '@/labs/builder';
+
+export const SrLatchCircuit = new CB(
+  'sr-latch',
+  'SR Latch',
+  'A Set-Reset latch built from two cross-coupled NAND gates.',
+)
+  .board()
+  .gate('nand1', 'nand-gate', 5)
+  .gate('nand2', 'nand-gate', 14)
+  .wire('w_q',  'green',  { ic: 'nand1', pin: 'Y' }, { ic: 'nand2', pin: 'A' })
+  .wire('w_qn', 'yellow', { ic: 'nand2', pin: 'Y' }, { ic: 'nand1', pin: 'B' })
+  .step('Place breadboard', 'Your build surface.').show('bb')
+  .step('Place NAND gates', 'Two cross-coupled gates.').show('nand1', 'nand2').highlight('nand1')
+  .step('Cross-couple outputs', 'Feedback loop.').show('w_q', 'w_qn').highlight('w_q')
+  .build();`}</pre>
+
+      <h2>Manual working example</h2>
+
+      <p>
+        You can also define the <code>Circuit</code> object manually if you
+        prefer:
+      </p>
 
       <pre>{`import { type Circuit } from '@/labs/types';
 
 export const SrLatch: Circuit = {
   id: 'sr-latch',
   title: 'SR Latch',
-  description:
-    'A Set-Reset latch built from two cross-coupled NAND gates. ' +
-    'S=0 sets Q HIGH, R=0 resets Q LOW.',
+  description: 'A Set-Reset latch built from two cross-coupled NAND gates.',
 
   components: [
     { id: 'bb',    type: 'breadboard' },
@@ -66,14 +103,15 @@ export const SrLatch: Circuit = {
       <p>
         kebab-case string, unique across all circuits. Used as the route slug:
         <code> /labs/sr-latch</code>. Must match the folder name
-        <code> src/labs/circuits/sr-latch/</code>.
+        <code> src/labs/semesters/.../sr-latch/</code>.
       </p>
 
       <h2>components</h2>
 
       <p>
-        An array of <code>ComponentInstance</code> values. Order doesn't matter for
-        rendering — the renderer iterates all of them. Conventional order:
+        An array of <code>ComponentInstance</code> values. Order doesn&apos;t
+        matter for rendering — the renderer iterates all of them. Conventional
+        order:
       </p>
 
       <ol>
@@ -87,16 +125,17 @@ export const SrLatch: Circuit = {
       </ol>
 
       <p>
-        See <Link href="/docs/components">Component types</Link> for every supported
-        type and its fields.
+        See <Link href="/docs/components">Component types</Link> for every
+        supported type and its fields.
       </p>
 
       <h2>steps</h2>
 
       <p>
-        An ordered array of <code>Step</code> values that define the assembly walkthrough.
-        See <Link href="/docs/steps">Steps &amp; highlighting</Link> for the full step
-        authoring guide.
+        An ordered array of <code>Step</code> values that define the assembly
+        walkthrough. See{" "}
+        <Link href="/docs/steps">Steps &amp; highlighting</Link> for the full
+        step authoring guide.
       </p>
 
       <h2>truthTable (optional)</h2>
@@ -114,27 +153,17 @@ export const SrLatch: Circuit = {
 
       <p>
         Drives the truth table panel in the lab UI. Input/output keys must be
-        consistent with <code>activeInputs</code> keys in the steps.
-        Omit entirely for circuits without a meaningful truth table.
+        consistent with <code>activeInputs</code> keys in the steps. Omit
+        entirely for circuits without a meaningful truth table.
       </p>
 
-      <h2>Registering a new circuit</h2>
-
-      <pre>{`// src/labs/circuits/index.ts
-
-import { SrLatch } from './sr-latch';   // ← new import
-
-export const ALL_CIRCUITS: Circuit[] = [
-  HalfAdder,
-  // ...
-  SrLatch,   // ← push here
-];
-
-export { /* ..., */ SrLatch };           // ← re-export`}</pre>
-
       <DocNav>
-        <DocNavLink as={Link} href="/docs/registry" data-dir="prev">Registry &amp; renderer</DocNavLink>
-        <DocNavLink as={Link} href="/docs/pins" data-dir="next">Pin references</DocNavLink>
+        <DocNavLink as={Link} href="/docs/registry" data-dir="prev">
+          Registry &amp; renderer
+        </DocNavLink>
+        <DocNavLink as={Link} href="/docs/pins" data-dir="next">
+          Pin references
+        </DocNavLink>
       </DocNav>
     </Prose>
   );

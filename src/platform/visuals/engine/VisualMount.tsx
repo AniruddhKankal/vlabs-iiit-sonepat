@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
-import { observeElementVisibility } from './observe-element-visibility';
-import { useWebGlGate } from './use-webgl-gate';
-import { VisualErrorBoundary } from './VisualErrorBoundary';
-import { VisualRuntimeContext } from './visual-runtime-context';
-import { webGlContextBudget } from './webgl-context-budget';
-import { WEBGL_CONTEXT_LOST_EVENT } from './webgl-context-lost-event';
+import { observeElementVisibility } from "./observe-element-visibility";
+import { useWebGlGate } from "./use-webgl-gate";
+import { VisualErrorBoundary } from "./VisualErrorBoundary";
+import { VisualRuntimeContext } from "./visual-runtime-context";
+import { webGlContextBudget } from "./webgl-context-budget";
+import { WEBGL_CONTEXT_LOST_EVENT } from "./webgl-context-lost-event";
 
 // Mount margins are fractions of the viewport: scenes prepare well before
 // they scroll in. Leaving the margin starts a grace timer so a quick
 // scroll-back doesn't pay a full remount.
-const LAZY_ROOT_MARGIN = '50% 0px 50% 0px';
-const PRIORITY_ROOT_MARGIN = '125% 0px 125% 0px';
-const EAGER_ROOT_MARGIN = '600% 0px 600% 0px';
+const LAZY_ROOT_MARGIN = "50% 0px 50% 0px";
+const PRIORITY_ROOT_MARGIN = "125% 0px 125% 0px";
+const EAGER_ROOT_MARGIN = "600% 0px 600% 0px";
 const OUT_OF_VIEW_DISPOSE_MS = 4000;
 const PRIORITY_OUT_OF_VIEW_DISPOSE_MS = 1500;
 
@@ -24,18 +24,18 @@ export type VisualMountProps = {
   // 'poster' (default): reduced-motion visitors get the static poster and
   // never download the scene chunk. 'designed': the scene mounts and reads
   // useVisualRuntime().reducedMotion to render one frozen frame.
-  reducedMotion?: 'poster' | 'designed';
+  reducedMotion?: "poster" | "designed";
   priority?: boolean;
-  loading?: 'lazy' | 'eager';
+  loading?: "lazy" | "eager";
   detachFromLayout?: boolean;
 };
 
 export function VisualMount({
   children,
   poster = null,
-  reducedMotion = 'poster',
+  reducedMotion = "poster",
   priority = false,
-  loading = 'lazy',
+  loading = "lazy",
   detachFromLayout = false,
 }: VisualMountProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -44,7 +44,7 @@ export function VisualMount({
   const [hasSlot, setHasSlot] = useState(false);
   const [epoch, setEpoch] = useState(0);
 
-  const showsPosterForMotion = gate.reducedMotion && reducedMotion === 'poster';
+  const showsPosterForMotion = gate.reducedMotion && reducedMotion === "poster";
   const wantsScene = gate.allowed && !showsPosterForMotion && isInViewport;
 
   useEffect(() => {
@@ -55,11 +55,11 @@ export function VisualMount({
 
     const rootMargin = priority
       ? PRIORITY_ROOT_MARGIN
-      : loading === 'eager'
+      : loading === "eager"
         ? EAGER_ROOT_MARGIN
         : LAZY_ROOT_MARGIN;
     const disposeDelayMs =
-      priority || loading === 'eager'
+      priority || loading === "eager"
         ? PRIORITY_OUT_OF_VIEW_DISPOSE_MS
         : OUT_OF_VIEW_DISPOSE_MS;
 
@@ -111,30 +111,34 @@ export function VisualMount({
   // cleanup releasing the new epoch's slot unrepresentable.
   useEffect(() => {
     if (!wantsScene) {
-      setHasSlot(false);
+      setTimeout(() => {
+        setHasSlot(false);
+      }, 0);
       return;
     }
     const settle = webGlContextBudget.request({
-      priority: priority ? 'priority' : 'normal',
+      priority: priority ? "priority" : "normal",
       onGranted: () => setHasSlot(true),
     });
     return () => {
       settle();
-      setHasSlot(false);
+      setTimeout(() => {
+        setHasSlot(false);
+      }, 0);
     };
   }, [wantsScene, priority, epoch]);
 
   const rendersScene = wantsScene && hasSlot;
   const runtimeValue = useMemo(
     () => ({
-      reducedMotion: gate.reducedMotion && reducedMotion === 'designed',
+      reducedMotion: gate.reducedMotion && reducedMotion === "designed",
     }),
     [gate.reducedMotion, reducedMotion],
   );
 
   return (
     <div
-      className={`block h-full w-full ${detachFromLayout ? 'absolute inset-0 pointer-events-none' : ''}`}
+      className={`block h-full w-full ${detachFromLayout ? "absolute inset-0 pointer-events-none" : ""}`}
       ref={rootRef}
     >
       {rendersScene ? (

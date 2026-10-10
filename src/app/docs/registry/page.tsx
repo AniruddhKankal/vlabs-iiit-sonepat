@@ -1,9 +1,15 @@
-import Link from 'next/link';
-import { Prose, DocEyebrow, Callout, DocNav, DocNavLink } from '@/sections/docs/doc-primitives';
+import Link from "next/link";
+import {
+  Prose,
+  DocEyebrow,
+  Callout,
+  DocNav,
+  DocNavLink,
+} from "@/sections/docs/doc-primitives";
 
 export const metadata = {
-  title: 'Registry & Renderer — VLabs Docs',
-  description: 'How COMPONENT_REGISTRY works and how to add entries to it.',
+  title: "Registry & Renderer — VLabs Docs",
+  description: "How COMPONENT_REGISTRY works and how to add entries to it.",
 };
 
 export default function RegistryPage() {
@@ -19,17 +25,20 @@ export default function RegistryPage() {
 
       <pre>{`const COMPONENT_REGISTRY: Record<string, BuildFn> = {
   breadboard: () => buildBreadboard(COLS),
+  'long-breadboard': () => buildLongBreadboard(COLS),
   'xor-gate': (inst) => buildDip14(inst.mountedAt.col, 'XOR'),
   resistor:   (inst) => {
     const r = inst as Extract<ComponentInstance, { type: 'resistor' }>;
     return buildResistor(hole(r.mountedAt.col, r.mountedAt.row), ..., r.ohms);
   },
+  diode:      (inst) => { ... },
+  'npn-bjt':  (inst) => { ... },
+  'n-mosfet': (inst) => { ... },
+  'op-amp':   (inst) => { ... },
   // ...
 };`}</pre>
 
-      <p>
-        The renderer dispatches through it:
-      </p>
+      <p>The renderer dispatches through it:</p>
 
       <pre>{`function buildInstance(inst: ComponentInstance, all: ComponentInstance[]) {
   const builder = COMPONENT_REGISTRY[inst.type];
@@ -37,9 +46,10 @@ export default function RegistryPage() {
 }`}</pre>
 
       <p>
-        If a type has no entry, <code>buildInstance</code> returns <code>null</code> and
-        the component is silently skipped. This is how "pending" types work — they're
-        valid in the schema but invisible until a builder is added.
+        If a type has no entry, <code>buildInstance</code> returns{" "}
+        <code>null</code> and the component is silently skipped. This is how any
+        &quot;pending&quot; types work — they&apos;re valid in the schema but
+        invisible until a builder is added.
       </p>
 
       <hr />
@@ -52,16 +62,16 @@ export default function RegistryPage() {
 ) => THREE.Group | null;`}</pre>
 
       <p>
-        The <code>all</code> parameter is the full component list. Wires need it to
-        look up where other components are mounted (to resolve IC pin positions, for
-        example). Most non-wire builders ignore it.
+        The <code>all</code> parameter is the full component list. Wires need it
+        to look up where other components are mounted (to resolve IC pin
+        positions, for example). Most non-wire builders ignore it.
       </p>
 
       <h2>Casting safely inside a registry entry</h2>
 
       <p>
-        The registry value receives <code>ComponentInstance</code> (the union). To
-        access type-specific fields, cast using <code>Extract</code>:
+        The registry value receives <code>ComponentInstance</code> (the union).
+        To access type-specific fields, cast using <code>Extract</code>:
       </p>
 
       <pre>{`'led': (inst) => {
@@ -78,11 +88,12 @@ export default function RegistryPage() {
         <strong>Why not use a switch?</strong>
         <p>
           A switch in the renderer couples every component type to a single
-          function. The registry decouples them: each type's builder can live in
-          a separate file, be imported independently, and be added or removed
-          without touching any existing case. It also makes the set of renderable
-          types machine-readable — you can iterate <code>Object.keys(COMPONENT_REGISTRY)</code>
-          to know what's supported.
+          function. The registry decouples them: each type&apos;s builder can
+          live in a separate file, be imported independently, and be added or
+          removed without touching any existing case. It also makes the set of
+          renderable types machine-readable — you can iterate{" "}
+          <code>Object.keys(COMPONENT_REGISTRY)</code>
+          to know what&apos;s supported.
         </p>
       </Callout>
 
@@ -90,8 +101,8 @@ export default function RegistryPage() {
 
       <p>
         Wires are the only type that uses the second <code>all</code> argument,
-        because resolving an IC pin or passive lead requires finding the referenced
-        component's position:
+        because resolving an IC pin or passive lead requires finding the
+        referenced component&apos;s position:
       </p>
 
       <pre>{`wire: (inst, all) => {
@@ -105,19 +116,33 @@ export default function RegistryPage() {
       <h2>Adding a new entry — checklist</h2>
 
       <ol>
-        <li>Type variant added to <code>ComponentInstance</code> in <code>types.ts</code></li>
-        <li>Geometry builder written in <code>geometry/</code> and exported from <code>geometry/index.ts</code></li>
-        <li>Builder imported at the top of <code>LabScene.tsx</code></li>
-        <li>One new key added to <code>COMPONENT_REGISTRY</code></li>
         <li>
-          Optional: <code>Standalone</code> variant for the showcase card
-          (<code>buildXxxStandalone()</code>)
+          Type variant added to <code>ComponentInstance</code> in{" "}
+          <code>src/labs/types.ts</code>
+        </li>
+        <li>
+          Geometry builder written in <code>src/components/&lt;name&gt;/</code>{" "}
+          and exported from <code>src/components/index.ts</code>
+        </li>
+        <li>
+          Builder imported at the top of <code>LabScene.tsx</code>
+        </li>
+        <li>
+          One new key added to <code>COMPONENT_REGISTRY</code>
+        </li>
+        <li>
+          Optional: <code>Standalone</code> variant for the showcase card (
+          <code>buildXxxStandalone()</code>) and <code>EceComponentViewer</code>
         </li>
       </ol>
 
       <DocNav>
-        <DocNavLink as={Link} href="/docs/geometry" data-dir="prev">Writing geometry</DocNavLink>
-        <DocNavLink as={Link} href="/docs/circuits" data-dir="next">Circuit schema</DocNavLink>
+        <DocNavLink as={Link} href="/docs/geometry" data-dir="prev">
+          Writing geometry
+        </DocNavLink>
+        <DocNavLink as={Link} href="/docs/circuits" data-dir="next">
+          Circuit schema
+        </DocNavLink>
       </DocNav>
     </Prose>
   );

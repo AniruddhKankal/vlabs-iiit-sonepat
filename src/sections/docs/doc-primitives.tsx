@@ -1,11 +1,6 @@
-import { type ComponentType, type ElementType, type ReactNode } from 'react';
+import { type ComponentType, type ElementType, type ReactNode } from "react";
 
-import {
-  color,
-  radius,
-  spacing,
-  typeRampDeclarations,
-} from '@/tokens';
+import { color, radius, spacing, typeRampDeclarations } from "@/tokens";
 
 // ── Prose container ───────────────────────────────────────────────────────
 // Applies typography to all child elements in a doc page.
@@ -13,7 +8,13 @@ import {
 // purely with Tailwind utility classes. We use a <style> block scoped via
 // a data attribute to replicate the original Linaria behaviour.
 
-export function Prose({ children, className }: { children: ReactNode; className?: string }) {
+export function Prose({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <>
       <style>{`
@@ -23,7 +24,7 @@ export function Prose({ children, className }: { children: ReactNode; className?
           max-width: 72ch;
         }
         [data-prose] h1 {
-          ${typeRampDeclarations('headingLg')}
+          ${typeRampDeclarations("headingLg")}
           font-family: var(--font-serif), serif;
           font-weight: 300;
           letter-spacing: -0.03em;
@@ -31,7 +32,7 @@ export function Prose({ children, className }: { children: ReactNode; className?
           margin-bottom: ${spacing(4)};
         }
         [data-prose] h2 {
-          ${typeRampDeclarations('headingMd')}
+          ${typeRampDeclarations("headingMd")}
           font-family: var(--font-sans), sans-serif;
           font-weight: 500;
           letter-spacing: -0.03em;
@@ -41,7 +42,7 @@ export function Prose({ children, className }: { children: ReactNode; className?
           border-bottom: 1px solid rgba(0,0,0,0.07);
         }
         [data-prose] h3 {
-          ${typeRampDeclarations('headingSm')}
+          ${typeRampDeclarations("headingSm")}
           font-family: var(--font-sans), sans-serif;
           font-weight: 500;
           letter-spacing: -0.02em;
@@ -49,13 +50,13 @@ export function Prose({ children, className }: { children: ReactNode; className?
           margin-bottom: ${spacing(2)};
         }
         [data-prose] p {
-          ${typeRampDeclarations('bodyMd')}
+          ${typeRampDeclarations("bodyMd")}
           color: var(--ink-muted);
           line-height: 1.7;
           margin-bottom: ${spacing(4)};
         }
         [data-prose] ul, [data-prose] ol {
-          ${typeRampDeclarations('bodyMd')}
+          ${typeRampDeclarations("bodyMd")}
           color: var(--ink-muted);
           line-height: 1.7;
           margin-bottom: ${spacing(4)};
@@ -137,7 +138,7 @@ export function DocEyebrow({ children }: { children: ReactNode }) {
   return (
     <p
       className="font-[var(--font-sans),sans-serif] text-[11px] font-medium tracking-[0.10em] mb-[calc(var(--spacing-base)*2)] uppercase"
-      style={{ color: color('blue') }}
+      style={{ color: color("blue") }}
     >
       {children}
     </p>
@@ -146,37 +147,37 @@ export function DocEyebrow({ children }: { children: ReactNode }) {
 
 // ── Callout box ───────────────────────────────────────────────────────────
 export function Callout({
-  $tone = 'info',
+  $tone = "info",
   children,
 }: {
-  $tone?: 'info' | 'warn' | 'tip';
+  $tone?: "info" | "warn" | "tip";
   children: ReactNode;
 }) {
   const bgColor =
-    $tone === 'warn' ? 'rgba(221,96,0,0.07)' :
-    $tone === 'tip'  ? 'rgba(34,168,74,0.07)' :
-    'rgba(25,97,237,0.07)';
+    $tone === "warn"
+      ? "rgba(221,96,0,0.07)"
+      : $tone === "tip"
+        ? "rgba(34,168,74,0.07)"
+        : "rgba(25,97,237,0.07)";
 
   const borderColor =
-    $tone === 'warn' ? '#dd6000' :
-    $tone === 'tip'  ? '#22a84a' :
-    color('blue');
+    $tone === "warn" ? "#dd6000" : $tone === "tip" ? "#22a84a" : color("blue");
 
   const strongColor =
-    $tone === 'warn' ? '#dd6000' :
-    $tone === 'tip'  ? '#22a84a' :
-    color('blue');
+    $tone === "warn" ? "#dd6000" : $tone === "tip" ? "#22a84a" : color("blue");
 
   return (
     <div
       data-callout-tone={$tone}
       className="font-[var(--font-sans),sans-serif] text-[14px] leading-[1.65] mb-[calc(var(--spacing-base)*5)] px-[calc(var(--spacing-base)*4)] py-[calc(var(--spacing-base)*3)] [&>strong]:block [&>strong]:font-medium [&>strong]:mb-[calc(var(--spacing-base)*1)] [&>p]:text-[var(--ink-muted)] [&>p]:text-[14px] [&>p]:m-0"
-      style={{
-        backgroundColor: bgColor,
-        borderLeft: `3px solid ${borderColor}`,
-        borderRadius: `0 ${radius(1)} ${radius(1)} 0`,
-        '--callout-accent': strongColor,
-      } as React.CSSProperties}
+      style={
+        {
+          backgroundColor: bgColor,
+          borderLeft: `3px solid ${borderColor}`,
+          borderRadius: `0 ${radius(1)} ${radius(1)} 0`,
+          "--callout-accent": strongColor,
+        } as React.CSSProperties
+      }
     >
       <style>{`[data-callout-tone="${$tone}"] > strong { color: ${strongColor}; }`}</style>
       {children}
@@ -189,7 +190,7 @@ export function StepBadge({ children }: { children: ReactNode }) {
   return (
     <span
       className="items-center rounded-full text-white inline-flex shrink-0 font-[var(--font-mono),monospace] text-[11px] font-medium h-5 justify-center mr-[calc(var(--spacing-base)*2)] w-5"
-      style={{ backgroundColor: color('blue') }}
+      style={{ backgroundColor: color("blue") }}
     >
       {children}
     </span>
@@ -210,7 +211,7 @@ export function TypePill({ children }: { children: ReactNode }) {
   return (
     <span
       className="bg-[rgba(25,97,237,0.10)] rounded-[calc(var(--radius-base)*1)] font-[var(--font-mono),monospace] text-[12px] py-[0.15em] px-[0.45em]"
-      style={{ color: color('blue') }}
+      style={{ color: color("blue") }}
     >
       {children}
     </span>
@@ -229,25 +230,25 @@ export function DocNav({ children }: { children: ReactNode }) {
 export function DocNavLink({
   as: Component,
   href,
-  'data-dir': dir,
+  "data-dir": dir,
   children,
 }: {
   as?: ElementType | ComponentType<any>;
   href: string;
-  'data-dir'?: 'prev' | 'next';
+  "data-dir"?: "prev" | "next";
   children: ReactNode;
 }) {
-  const Tag = Component ?? 'a';
+  const Tag = Component ?? "a";
   return (
     <Tag
       className="font-[var(--font-sans),sans-serif] text-[14px] font-medium no-underline transition-opacity duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-70"
       href={href}
       data-dir={dir}
-      style={{ color: color('blue') }}
+      style={{ color: color("blue") }}
     >
-      {dir === 'prev' && '← '}
+      {dir === "prev" && "← "}
       {children}
-      {dir === 'next' && ' →'}
+      {dir === "next" && " →"}
     </Tag>
   );
 }

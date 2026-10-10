@@ -1,4 +1,4 @@
-import { type AnchorHTMLAttributes } from 'react';
+import { type AnchorHTMLAttributes } from "react";
 
 // The one place the new-tab security attributes exist. Styled variants wrap
 // this (styled(ExternalLink)); React 19 forwards ref as a prop.

@@ -7,21 +7,21 @@ export function isWebGlSupported(): boolean {
     return cachedSupportProbe;
   }
 
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
+  if (typeof window === "undefined" || typeof document === "undefined") {
     return false;
   }
 
   try {
-    const probeCanvas = document.createElement('canvas');
+    const probeCanvas = document.createElement("canvas");
     const probeContext =
-      probeCanvas.getContext('webgl2') ?? probeCanvas.getContext('webgl');
+      probeCanvas.getContext("webgl2") ?? probeCanvas.getContext("webgl");
 
     if (!probeContext) {
       cachedSupportProbe = false;
       return cachedSupportProbe;
     }
 
-    probeContext.getExtension('WEBGL_lose_context')?.loseContext();
+    probeContext.getExtension("WEBGL_lose_context")?.loseContext();
     cachedSupportProbe = true;
     return cachedSupportProbe;
   } catch {

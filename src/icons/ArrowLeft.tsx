@@ -1,4 +1,4 @@
-const ARROW_LEFT_PATH = 'M1 5.75h13.5M1 5.75 6.25.5M1 5.75 6.25 11';
+const ARROW_LEFT_PATH = "M1 5.75h13.5M1 5.75 6.25.5M1 5.75 6.25 11";
 
 export type ArrowLeftProps = {
   sizePx?: number;

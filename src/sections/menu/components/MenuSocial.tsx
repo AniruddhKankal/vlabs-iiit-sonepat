@@ -1,6 +1,6 @@
-import { ExternalArrow, ExternalLink, VerticalDivider } from '@/ui';
+import { ExternalArrow, ExternalLink, VerticalDivider } from "@/ui";
 
-import { type MenuSocialLink } from '../types/menu-social-link';
+import { type MenuSocialLink } from "../types/menu-social-link";
 
 export type MenuSocialProps = {
   links: readonly MenuSocialLink[];

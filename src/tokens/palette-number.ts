@@ -1,4 +1,4 @@
-import { PALETTE, type PaletteToken } from './palette';
+import { PALETTE, type PaletteToken } from "./palette";
 
 // WebGL uniforms take numeric colors; the palette stays the single source.
 export function paletteColorNumber(token: PaletteToken): number {

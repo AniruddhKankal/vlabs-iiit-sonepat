@@ -1,4 +1,4 @@
-import { type ApparatusSection } from '@/labs/lab-content.types';
+import { type ApparatusSection } from "@/labs/lab-content.types";
 
 export const apparatus: ApparatusSection = {
   id: "apparatus",
@@ -7,7 +7,8 @@ export const apparatus: ApparatusSection = {
   items: [
     {
       name: "Program Counter (PC)",
-      specification: "8-bit register holding the address of the next instruction",
+      specification:
+        "8-bit register holding the address of the next instruction",
     },
     {
       name: "Instruction Register (IR)",

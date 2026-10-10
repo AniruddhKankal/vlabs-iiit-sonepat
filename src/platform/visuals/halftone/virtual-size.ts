@@ -1,4 +1,4 @@
-import { HALFTONE_CONSTANTS } from './halftone-constants';
+import { HALFTONE_CONSTANTS } from "./halftone-constants";
 
 // Container-tracking size helpers: CSS size for layout, virtual size for
 // the render buffers (height floored at the authored virtual height, width

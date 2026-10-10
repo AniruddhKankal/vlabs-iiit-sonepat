@@ -1,7 +1,7 @@
-import * as THREE from 'three';
-import { PITCH, BOARD_H, TOP_Y, Z, COLS, colToX } from '@/labs/coords';
-import { M } from '@/components/shared/materials';
-import { solidBox, solidCyl, textLabel } from '@/components/shared/primitives';
+import * as THREE from "three";
+import { PITCH, BOARD_H, TOP_Y, Z, COLS, colToX } from "@/labs/coords";
+import { M } from "@/components/shared/materials";
+import { solidBox, solidCyl, textLabel } from "@/components/shared/primitives";
 
 // ── DIP-14 IC ─────────────────────────────────────────────────────────────
 // board(startCol, label) — pins go into hole grid, body straddles centre gap
@@ -28,16 +28,16 @@ import { solidBox, solidCyl, textLabel } from '@/components/shared/primitives';
 // We only model pins 1–3 (gate 1) and 7/14 (power) for circuit wiring.
 // The visual body fills columns col..col+6, straddling e/f.
 
-const PIN_COUNT = 7; // per side
+const DEFAULT_PIN_COUNT = 7; // per side (14-pin)
 
 function chipCode(label: string): string {
   const table: Record<string, string> = {
-    XOR:  '74HC86',
-    AND:  '74HC08',
-    OR:   '74HC32',
-    NOT:  '74HC04',
-    NAND: '74HC00',
-    NOR:  '74HC02',
+    XOR: "74HC86",
+    AND: "74HC08",
+    OR: "74HC32",
+    NOT: "74HC04",
+    NAND: "74HC00",
+    NOR: "74HC02",
   };
   return table[label] ?? label;
 }
@@ -61,15 +61,19 @@ function buildDipBody(
 
   // Pin-1 notch (semicircle indent at left end)
   const notch = new THREE.Mesh(
-    new THREE.CylinderGeometry(PITCH * 0.20, PITCH * 0.20, bodyD + 0.01, 12),
+    new THREE.CylinderGeometry(PITCH * 0.2, PITCH * 0.2, bodyD + 0.01, 12),
     M.gray(),
   );
   notch.rotation.x = Math.PI / 2;
-  notch.position.set(bodyX - bodyW / 2 + PITCH * 0.25, TOP_Y + bodyH * 0.75, bodyZ);
+  notch.position.set(
+    bodyX - bodyW / 2 + PITCH * 0.25,
+    TOP_Y + bodyH * 0.75,
+    bodyZ,
+  );
   root.add(notch);
 
   // Pins — flat rectangular legs going down into holes
-  const pinH   = bodyH * 0.45 + BOARD_H * 0.5;
+  const pinH = bodyH * 0.45 + BOARD_H * 0.5;
   const pinGeo = new THREE.BoxGeometry(PITCH * 0.17, pinH, PITCH * 0.17);
   for (const p of pinPositions) {
     const pTop = new THREE.Mesh(pinGeo, M.silver());
@@ -82,14 +86,20 @@ function buildDipBody(
 
   // Labels on top face
   if (label) {
-    const code  = chipCode(label);
-    const codeL = textLabel(code, bodyW * 0.90, bodyH * 0.52, { textColor: '#b8c8b0', fontSize: 46 });
+    const code = chipCode(label);
+    const codeL = textLabel(code, bodyW * 0.9, bodyH * 0.52, {
+      textColor: "#b8c8b0",
+      fontSize: 46,
+    });
     if (codeL) {
       codeL.rotation.x = -Math.PI / 2;
       codeL.position.set(bodyX, TOP_Y + bodyH + 0.002, bodyZ - bodyD * 0.12);
       root.add(codeL);
     }
-    const typeL = textLabel(label, bodyW * 0.55, bodyH * 0.30, { textColor: '#7aaa8a', fontSize: 34 });
+    const typeL = textLabel(label, bodyW * 0.55, bodyH * 0.3, {
+      textColor: "#7aaa8a",
+      fontSize: 34,
+    });
     if (typeL) {
       typeL.rotation.x = -Math.PI / 2;
       typeL.position.set(bodyX, TOP_Y + bodyH + 0.003, bodyZ + bodyD * 0.22);
@@ -103,30 +113,60 @@ function buildDipBody(
 // ── Board-placed DIP-14 ───────────────────────────────────────────────────
 // startCol: the column where pin 1 lands (row e).
 // Pins 1–7 go in rows e, pins 8–14 go in row f (mirrored: pin 14 at col+0,f).
-export function buildDip14(startCol: number, label = '', cols = COLS): THREE.Group {
-  const pinPositions = Array.from({ length: PIN_COUNT }, (_, i) => ({
-    ex: colToX(startCol + i, cols),   // pin (i+1) — top side, row e
-    ez: Z['e'],
-    fx: colToX(startCol + i, cols),   // pin (14-i) — bottom side, row f
-    fz: Z['f'],
+export function buildDip14(
+  startCol: number,
+  label = "",
+  cols = COLS,
+): THREE.Group {
+  return buildDip(startCol, 7, label, cols);
+}
+
+export function buildDip16(
+  startCol: number,
+  label = "",
+  cols = COLS,
+): THREE.Group {
+  return buildDip(startCol, 8, label, cols);
+}
+
+function buildDip(
+  startCol: number,
+  pinsPerSide: number,
+  label: string,
+  cols: any,
+): THREE.Group {
+  const pinPositions = Array.from({ length: pinsPerSide }, (_, i) => ({
+    ex: colToX(startCol + i, cols), // pin (i+1) — top side, row e
+    ez: Z["e"],
+    fx: colToX(startCol + i, cols), // pin (2*pinsPerSide-i) — bottom side, row f
+    fz: Z["f"],
   }));
 
-  const bodyX = (colToX(startCol, cols) + colToX(startCol + PIN_COUNT - 1, cols)) / 2;
-  const bodyZ = (Z['e'] + Z['f']) / 2;
-  const bodyW = (PIN_COUNT - 1) * PITCH + PITCH * 0.65;
+  const bodyX =
+    (colToX(startCol, cols) + colToX(startCol + pinsPerSide - 1, cols)) / 2;
+  const bodyZ = (Z["e"] + Z["f"]) / 2;
+  const bodyW = (pinsPerSide - 1) * PITCH + PITCH * 0.65;
   // Body depth = distance between the two pin rows, slightly narrower than full gap
-  const bodyD = Math.abs(Z['f'] - Z['e']) * 0.72;
+  const bodyD = Math.abs(Z["f"] - Z["e"]) * 0.72;
   const bodyH = PITCH * 1.25;
 
   return buildDipBody(bodyX, bodyZ, bodyW, bodyH, bodyD, pinPositions, label);
 }
 
 // ── Standalone DIP-14 (for display/apparatus scene) ───────────────────────
-export function buildDip14Standalone(label = ''): THREE.Group {
-  const P     = PITCH;
-  const bodyW = (PIN_COUNT - 1) * P + P * 0.65;
-  const bodyH = P * 1.30;
-  const bodyD = P * 2.20;
+export function buildDip14Standalone(label = ""): THREE.Group {
+  return buildDipStandalone(7, label);
+}
+
+export function buildDip16Standalone(label = ""): THREE.Group {
+  return buildDipStandalone(8, label);
+}
+
+function buildDipStandalone(pinsPerSide: number, label: string): THREE.Group {
+  const P = PITCH;
+  const bodyW = (pinsPerSide - 1) * P + P * 0.65;
+  const bodyH = P * 1.3;
+  const bodyD = P * 2.2;
 
   const root = new THREE.Group();
 
@@ -143,27 +183,37 @@ export function buildDip14Standalone(label = ''): THREE.Group {
   notch.position.set(-bodyW / 2 + P * 0.22, 0, 0);
   root.add(notch);
 
-  // Pins: 7 per side
+  // Pins
   const pinGeo = new THREE.BoxGeometry(P * 0.17, P * 0.72, P * 0.17);
-  for (let i = 0; i < PIN_COUNT; i++) {
-    const x = -((PIN_COUNT - 1) / 2) * P + i * P;
+  for (let i = 0; i < pinsPerSide; i++) {
+    const x = -((pinsPerSide - 1) / 2) * P + i * P;
     for (const zSign of [-1, 1]) {
       const pin = new THREE.Mesh(pinGeo, M.silver());
-      pin.position.set(x, -bodyH / 2 - P * 0.26, zSign * (bodyD / 2 + P * 0.12));
+      pin.position.set(
+        x,
+        -bodyH / 2 - P * 0.26,
+        zSign * (bodyD / 2 + P * 0.12),
+      );
       root.add(pin);
     }
   }
 
   // Labels
   if (label) {
-    const code  = chipCode(label);
-    const codeL = textLabel(code, bodyW * 0.90, bodyH * 0.52, { textColor: '#b8c8b0', fontSize: 46 });
+    const code = chipCode(label);
+    const codeL = textLabel(code, bodyW * 0.9, bodyH * 0.52, {
+      textColor: "#b8c8b0",
+      fontSize: 46,
+    });
     if (codeL) {
       codeL.rotation.x = -Math.PI / 2;
       codeL.position.set(0, bodyH / 2 + 0.002, -bodyD * 0.12);
       root.add(codeL);
     }
-    const typeL = textLabel(label, bodyW * 0.55, bodyH * 0.30, { textColor: '#7aaa8a', fontSize: 34 });
+    const typeL = textLabel(label, bodyW * 0.55, bodyH * 0.3, {
+      textColor: "#7aaa8a",
+      fontSize: 34,
+    });
     if (typeL) {
       typeL.rotation.x = -Math.PI / 2;
       typeL.position.set(0, bodyH / 2 + 0.003, bodyD * 0.22);
@@ -189,46 +239,157 @@ export function buildDip14Standalone(label = ''): THREE.Group {
 // Gate 3:                 3Y=col+4,f  3B=col+5,f  3A=col+6,f
 //
 // Aliases: 'A'='1A', 'B'='1B', 'Y'='1Y'
-import { hole } from '@/labs/coords';
-import type { IcPin } from '@/labs/types';
+import { hole } from "@/labs/coords";
+import type { IcPin } from "@/labs/types";
 
 export function resolveIcPin(
-  pin: IcPin['pin'],
+  pin: IcPin["pin"],
   startCol: number,
-  mountRow: string = 'e',
+  mountRow: string = "e",
   cols = COLS,
+  icType?: string,
 ): THREE.Vector3 | null {
+  const is16Pin =
+    icType === "mux-4to1" ||
+    icType === "mux-8to1" ||
+    icType === "decoder-3to8" ||
+    icType === "counter-4bit" ||
+    icType === "shift-register";
+  const pinsPerSide = is16Pin ? 8 : 7;
+
   // Determine the two rows this IC straddles, based on its mountedAt row
   const sideA = mountRow as string;
-  const sideB = sideA === 'e' ? 'f' :
-                sideA === 'h' ? 'i' :
-                sideA === 'd' ? 'g' :
-                sideA === 'c' ? 'h' : 'f';
+  const sideB =
+    sideA === "e"
+      ? "f"
+      : sideA === "h"
+        ? "i"
+        : sideA === "d"
+          ? "g"
+          : sideA === "c"
+            ? "h"
+            : "f";
 
   // Aliases
-  const p = pin === 'A' ? '1A' : pin === 'B' ? '1B' : pin === 'Y' ? '1Y' : pin;
+  const p = pin === "A" ? "1A" : pin === "B" ? "1B" : pin === "Y" ? "1Y" : pin;
 
+  // LM741 / 8-pin op-amp
+  if (icType === "op-amp") {
+    switch (p) {
+      case "2":
+      case "IN-":
+      case "-IN":
+        return hole(startCol + 1, sideA, cols);
+
+      case "3":
+      case "IN+":
+      case "+IN":
+        return hole(startCol + 2, sideA, cols);
+
+      case "4":
+      case "V-":
+        return hole(startCol + 3, sideA, cols);
+
+      case "6":
+      case "OUT":
+        return hole(startCol + 1, sideB, cols);
+
+      case "7":
+      case "V+":
+        return hole(startCol + 0, sideB, cols);
+    }
+  }
+
+
+  // Power pins
+  if (p === "GND") {
+    return hole(startCol + (pinsPerSide - 1), sideA, cols);
+  }
+  if (p === "VCC") {
+    return hole(startCol + 0, sideB, cols);
+  }
+
+  // 16-pin mux-4to1 specific pins
+  if (is16Pin) {
+    switch (p) {
+      case "1G":
+        return hole(startCol + 0, sideA, cols);
+      case "S1":
+        return hole(startCol + 1, sideA, cols);
+      case "1C3":
+        return hole(startCol + 2, sideA, cols);
+      case "1C2":
+        return hole(startCol + 3, sideA, cols);
+      case "1C1":
+        return hole(startCol + 4, sideA, cols);
+      case "1C0":
+        return hole(startCol + 5, sideA, cols);
+      case "1Y":
+        return hole(startCol + 6, sideA, cols);
+
+      case "2Y":
+        return hole(startCol + 6, sideB, cols); // Pin 9
+      case "2C0":
+        return hole(startCol + 5, sideB, cols); // Pin 10
+      case "2C1":
+        return hole(startCol + 4, sideB, cols); // Pin 11
+      case "2C2":
+        return hole(startCol + 3, sideB, cols); // Pin 12
+      case "2C3":
+        return hole(startCol + 2, sideB, cols); // Pin 13
+      case "S0":
+        return hole(startCol + 1, sideB, cols); // Pin 14
+      case "2G":
+        return hole(startCol + 0, sideB, cols); // Pin 15 (wait, VCC is 16, wait... pin 15 is col+1, pin 16 is col+0 on sideB)
+    }
+    // Correct sideB pins:
+    // Pin 16 is VCC (col+0).
+    // Pin 15 is 2G (col+1).
+    // Pin 14 is S0 (col+2).
+    // Pin 13 is 2C3 (col+3).
+    // Pin 12 is 2C2 (col+4).
+    // Pin 11 is 2C1 (col+5).
+    // Pin 10 is 2C0 (col+6).
+    // Pin 9 is 2Y (col+7).
+    if (p === "2G") return hole(startCol + 1, sideB, cols);
+    if (p === "S0") return hole(startCol + 2, sideB, cols);
+    if (p === "2C3") return hole(startCol + 3, sideB, cols);
+    if (p === "2C2") return hole(startCol + 4, sideB, cols);
+    if (p === "2C1") return hole(startCol + 5, sideB, cols);
+    if (p === "2C0") return hole(startCol + 6, sideB, cols);
+    if (p === "2Y") return hole(startCol + 7, sideB, cols);
+  }
+
+  // 14-pin gate pins
   switch (p) {
     // Gate 1 — sideA bank
-    case '1A': return hole(startCol + 0, sideA, cols);
-    case '1B': return hole(startCol + 1, sideA, cols);
-    case '1Y': return hole(startCol + 2, sideA, cols);
+    case "1A":
+      return hole(startCol + 0, sideA, cols);
+    case "1B":
+      return hole(startCol + 1, sideA, cols);
+    case "1Y":
+      return hole(startCol + 2, sideA, cols);
     // Gate 2 — sideA bank
-    case '2A': return hole(startCol + 3, sideA, cols);
-    case '2B': return hole(startCol + 4, sideA, cols);
-    case '2Y': return hole(startCol + 5, sideA, cols);
-    // GND — sideA bank rightmost
-    case 'GND': return hole(startCol + 6, sideA, cols);
-    // VCC — sideB bank leftmost
-    case 'VCC': return hole(startCol + 0, sideB, cols);
+    case "2A":
+      return hole(startCol + 3, sideA, cols);
+    case "2B":
+      return hole(startCol + 4, sideA, cols);
+    case "2Y":
+      return hole(startCol + 5, sideA, cols);
     // Gate 4 — sideB bank (mirrored)
-    case '4Y': return hole(startCol + 1, sideB, cols);
-    case '4B': return hole(startCol + 2, sideB, cols);
-    case '4A': return hole(startCol + 3, sideB, cols);
+    case "4Y":
+      return hole(startCol + 1, sideB, cols);
+    case "4B":
+      return hole(startCol + 2, sideB, cols);
+    case "4A":
+      return hole(startCol + 3, sideB, cols);
     // Gate 3 — sideB bank (mirrored)
-    case '3Y': return hole(startCol + 4, sideB, cols);
-    case '3B': return hole(startCol + 5, sideB, cols);
-    case '3A': return hole(startCol + 6, sideB, cols);
+    case "3Y":
+      return hole(startCol + 4, sideB, cols);
+    case "3B":
+      return hole(startCol + 5, sideB, cols);
+    case "3A":
+      return hole(startCol + 6, sideB, cols);
     default:
       return null;
   }

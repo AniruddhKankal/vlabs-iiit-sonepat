@@ -49,23 +49,23 @@ export const MyCircuit: Circuit = {
 
 These types have geometry builders in LabScene.tsx and will actually appear:
 
-| Type | Geometry | Notes |
-|------|----------|-------|
-| `breadboard` | Full 30-col board | Always first component, id='bb' |
-| `resistor` | Body + colour bands + leads | `ohms` field, spans p1=col to p2=col+3 |
-| `led` | Dome + body + leads, GLOWS when on | `color` field, anode=col, cathode=col+1 |
-| `capacitor` | Electrolytic cylinder | `capacitance` field |
-| `wire` | Catenary curve | `color`, `from`, `to` PinRefs |
-| `and-gate` | DIP-14 IC | Pins: A(col+0), B(col+1), Y(col+2) |
-| `or-gate` | DIP-14 IC | Same pin layout |
-| `not-gate` | DIP-14 IC | Pins: A(col+0), Y(col+1) |
-| `nand-gate` | DIP-14 IC | Same as and-gate |
-| `nor-gate` | DIP-14 IC | Same as and-gate |
-| `xor-gate` | DIP-14 IC | Same as and-gate |
-| `xnor-gate` | DIP-14 IC | Same as and-gate |
-| `buffer-gate` | DIP-14 IC | Same as and-gate |
-| `dc-jack` | DC Power Supply model beside board | Rendered to the LEFT of breadboard |
-| `battery` | DC Power Supply model beside board | Same as dc-jack |
+| Type          | Geometry                           | Notes                                   |
+| ------------- | ---------------------------------- | --------------------------------------- |
+| `breadboard`  | Full 30-col board                  | Always first component, id='bb'         |
+| `resistor`    | Body + colour bands + leads        | `ohms` field, spans p1=col to p2=col+3  |
+| `led`         | Dome + body + leads, GLOWS when on | `color` field, anode=col, cathode=col+1 |
+| `capacitor`   | Electrolytic cylinder              | `capacitance` field                     |
+| `wire`        | Catenary curve                     | `color`, `from`, `to` PinRefs           |
+| `and-gate`    | DIP-14 IC                          | Pins: A(col+0), B(col+1), Y(col+2)      |
+| `or-gate`     | DIP-14 IC                          | Same pin layout                         |
+| `not-gate`    | DIP-14 IC                          | Pins: A(col+0), Y(col+1)                |
+| `nand-gate`   | DIP-14 IC                          | Same as and-gate                        |
+| `nor-gate`    | DIP-14 IC                          | Same as and-gate                        |
+| `xor-gate`    | DIP-14 IC                          | Same as and-gate                        |
+| `xnor-gate`   | DIP-14 IC                          | Same as and-gate                        |
+| `buffer-gate` | DIP-14 IC                          | Same as and-gate                        |
+| `dc-jack`     | DC Power Supply model beside board | Rendered to the LEFT of breadboard      |
+| `battery`     | DC Power Supply model beside board | Same as dc-jack                         |
 
 #### Component Types That ARE DEFINED but do NOT render (return null)
 
@@ -133,12 +133,12 @@ Steps are CUMULATIVE — each `show` array must include all previously shown com
 ### Layer 2: Content File (`content/<name>.ts`)
 
 ```ts
-import { type LabContent } from '@/labs/lab-content.types';
+import { type LabContent } from "@/labs/lab-content.types";
 
 export const MyContent: LabContent = {
-  id: 'my-circuit',
-  title: 'My Circuit Title',
-  circuitId: 'my-circuit',   // MUST match the Circuit.id exactly
+  id: "my-circuit",
+  title: "My Circuit Title",
+  circuitId: "my-circuit", // MUST match the Circuit.id exactly
   sections: [
     // 1. Theory (type: 'text')
     // 2. Apparatus (type: 'apparatus')
@@ -256,6 +256,7 @@ export default function Page() {
 ## Analog vs Digital Experiments
 
 ### Digital (e.g., half-adder, decoder)
+
 - Use gate ICs (`and-gate`, `or-gate`, etc.) with mountedAt
 - Wire inputs from TiePin holes to IC pins
 - Wire outputs from IC.Y through resistors to LEDs to GND
@@ -264,6 +265,7 @@ export default function Page() {
 - Content procedure steps map 1:1 to assembly steps
 
 ### Analog (e.g., zener-diode, ohms-law)
+
 - Use `resistor`, `led` (as component stand-ins), `wire`, `capacitor`
 - Use `dc-jack` or `battery` for power supply model beside breadboard
 - Use colored wires to represent instrument connections:
