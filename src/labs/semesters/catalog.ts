@@ -155,6 +155,18 @@ import {
 } from "./semester-02/01-digital-electronics/04-01-full-adder";
 
 import {
+  InvertingNonInvertingOpampCircuit,
+  InvertingNonInvertingOpampContent,
+  invertingNonInvertingOpampExperiment,
+} from "./semester-01/01-analog-electronics/10-inverting-non-inverting-opamp";
+
+import {
+  Exp11Encoder4to2Circuit,
+  Exp11Encoder4to2Content,
+  exp11Encoder4to2Experiment,
+} from "./semester-02/01-digital-electronics/11-encoder-4to2";
+
+import {
   FullSubtractorCircuit,
   FullSubtractorContent,
   fullSubtractorExperiment,
@@ -165,12 +177,6 @@ import {
   IntroLogicGatesContent,
   introLogicGatesExperiment,
 } from "./semester-02/01-digital-electronics/01-intro-logic-gates";
-
-import {
-  Exp11Encoder4to2Circuit,
-  Exp11Encoder4to2Content,
-  exp11Encoder4to2Experiment,
-} from "./semester-02/01-digital-electronics/11-encoder-4to2";
 
 import {
   Exp12Decoder2to4Circuit,
@@ -601,6 +607,18 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationCircuit,
         ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationContent,
         ["bjt", "fixed bias", "voltage divider bias", "q-point", "stability"],
+      ),
+      fromBuilt(
+        invertingNonInvertingOpampExperiment,
+        InvertingNonInvertingOpampCircuit,
+        InvertingNonInvertingOpampContent,
+        [
+          "op-amp",
+          "lm741",
+          "inverting amplifier",
+          "non-inverting amplifier",
+          "voltage gain",
+        ],
       ),
       fromBuilt(
         mosfetCharacteristicsExperiment,
