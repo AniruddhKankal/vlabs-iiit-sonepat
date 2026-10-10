@@ -1,10 +1,10 @@
-import { type LabSection } from "@/labs/lab-content.types";
+import { type TheorySection } from "@/labs/lab-content.types";
 
-export const aim: LabSection = {
+export const aim: TheorySection = {
   id: "aim",
   type: "text",
   title: "Aim",
   paragraphs: [
-    "To study the input and output characteristics of an NPN transistor (BC547) in the Common Emitter (CE) configuration, and to determine its input resistance, current gain and output resistance from the plotted curves.",
+    "To study and verify common emitter bjt amplifier on a breadboard.",
   ],
 };

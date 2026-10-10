@@ -1,12 +1,12 @@
-import { type LabSection } from "@/labs/lab-content.types";
+import { type ConclusionSection } from "@/labs/lab-content.types";
 
-export const conclusion: LabSection = {
+export const conclusion: ConclusionSection = {
   id: "conclusion",
   type: "conclusion",
   title: "Conclusion",
   paragraphs: [
-    "The input characteristics of the CE configuration resemble a forward-biased diode: the base current is negligible below about 0.6 V and rises rapidly beyond it, and a higher $V_{CE}$ shifts the curve slightly to the right.",
-    "The output characteristics show cut-off, active and saturation regions. In the active region $I_C$ is nearly independent of $V_{CE}$ and is approximately $\\beta I_B$, with a small positive slope due to the Early effect.",
-    "From the curves the input resistance $h_{ie}$, current gain $h_{fe}$ and output resistance $r_o$ were calculated at the chosen operating point.",
+    "The common-emitter BJT amplifier was successfully assembled and characterised. The DC Q-point measured closely matched the theoretical calculations, confirming proper biasing in the active region. The 180° phase inversion between input and output — a defining characteristic of the CE configuration — was clearly observed on the oscilloscope.",
+    "The mid-band voltage gain measured at 1 kHz agreed with the theoretical value within measurement error. The frequency response plot revealed the expected low-frequency roll-off (due to coupling and bypass capacitors) and the high-frequency roll-off (due to transistor junction capacitances).",
+    "This experiment established the fundamentals of transistor biasing, small-signal amplification, and AC frequency response — core topics in analog electronics applicable to audio amplifiers, sensor signal conditioning, and RF circuits.",
   ],
 };

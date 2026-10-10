@@ -7,13 +7,9 @@ import { type Circuit } from "@/labs/types";
 
 import { type ExperimentDefinition, type SceneProcedureStep } from "./types";
 
-/** Procedure belongs after apparatus sections, before simulation / observations (05+). */
+/** Procedure belongs after apparatus (04), before simulation / observations (05+). */
 function procedureInsertIndex(sections: readonly LabSection[]): number {
-  const apparatusIdx = sections.reduce(
-    (lastIndex, section, index) =>
-      section.type === "apparatus" ? index : lastIndex,
-    -1,
-  );
+  const apparatusIdx = sections.findIndex((s) => s.type === "apparatus");
   if (apparatusIdx >= 0) return apparatusIdx + 1;
 
   const afterTheory = sections.findIndex(

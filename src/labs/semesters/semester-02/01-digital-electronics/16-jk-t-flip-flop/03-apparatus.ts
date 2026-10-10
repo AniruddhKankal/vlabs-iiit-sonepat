@@ -3,37 +3,42 @@ import { type ApparatusSection } from "@/labs/lab-content.types";
 export const apparatus: ApparatusSection = {
   id: "apparatus",
   type: "apparatus",
-  title: "Apparatus",
+  title: "Apparatus Required",
   items: [
     {
-      name: "Long breadboard",
-      specification: "60-column board",
+      name: "Breadboard",
+      specification: "830 tie-point, solderless",
       quantity: "1",
     },
     {
-      name: "DC power supply",
-      specification: "+5 V regulated, if using compatible 74HC logic",
+      name: "74HC76 JK Flip-Flop IC",
+      specification: "Dual JK-FF, falling-edge, DIP-16, 5 V",
       quantity: "1",
     },
     {
-      name: "AND gates",
-      specification: "Two-input gate primitives for J·CLK and K·CLK",
-      quantity: "2",
-    },
-    {
-      name: "Resistors",
-      specification: "330 Ω current-limiting resistor",
-      quantity: "2",
-    },
-    {
-      name: "LEDs",
-      specification: "Green Q and yellow Q̅ indicators",
-      quantity: "2",
-    },
-    {
-      name: "Input jumpers",
-      specification: "For J, K, T and CLK",
+      name: "Green LED",
+      specification: "5 mm, Q output",
       quantity: "1",
+    },
+    {
+      name: "Yellow LED",
+      specification: "5 mm, Q_bar output",
+      quantity: "1",
+    },
+    {
+      name: "Resistor 330 Ω",
+      specification: "¼ W, ×2",
+      quantity: "2",
+    },
+    {
+      name: "DC Power Supply",
+      specification: "+5 V DC",
+      quantity: "1",
+    },
+    {
+      name: "Connecting Wires",
+      specification: "M-M jumper wires",
+      quantity: "1 set",
     },
   ],
 };

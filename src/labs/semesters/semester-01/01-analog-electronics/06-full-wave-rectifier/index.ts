@@ -11,9 +11,9 @@ import { conclusion } from "./06-conclusion";
 
 export const fullWaveRectifierExperiment: ExperimentDefinition = {
   id: "full-wave-rectifier",
-  title: "Center-Tapped Full-Wave Rectifier",
+  title: "Full-Wave Bridge Rectifier",
   description:
-    "A center-tapped full-wave rectifier using a center-tapped step-down transformer and two diodes conducting on alternate half-cycles, with a load resistor and capacitor filter.",
+    "A four-diode bridge rectifier that converts an AC input into pulsating DC on both half-cycles, with a load resistor and filter capacitor to demonstrate ripple reduction.",
   components,
   sections: [aim, theory, apparatus, observations, conclusion],
   procedureSteps,

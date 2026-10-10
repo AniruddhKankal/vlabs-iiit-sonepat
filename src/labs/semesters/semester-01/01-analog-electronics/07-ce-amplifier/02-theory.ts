@@ -5,13 +5,9 @@ export const theory: TheorySection = {
   type: "text",
   title: "Theory",
   paragraphs: [
-    "In the Common Emitter (CE) configuration the emitter terminal is common to both the input (base–emitter) and the output (collector–emitter) loops. The input signal is applied between base and emitter, and the output is taken between collector and emitter. CE is the most widely used amplifier configuration because it gives both current gain and voltage gain.",
-    "**Input characteristics** are plotted between the base current $I_B$ and the base–emitter voltage $V_{BE}$ while the collector–emitter voltage $V_{CE}$ is held constant. The curve resembles a forward-biased p–n junction: $I_B$ is negligible until $V_{BE}$ crosses the cut-in voltage (about 0.6 V for silicon) and then rises steeply. Increasing $V_{CE}$ shifts the curve slightly to the right because the collector-base junction becomes more reverse biased and the effective base width narrows.",
-    "**Output characteristics** are plotted between the collector current $I_C$ and $V_{CE}$ while the base current $I_B$ is held constant. The family of curves has three regions: the *cut-off region* ($I_B \\approx 0$, both junctions reverse biased, $I_C \\approx I_{CEO}$), the *active region* (base-emitter forward biased, collector-base reverse biased, $I_C \\approx \\beta I_B$ and nearly flat) and the *saturation region* (both junctions forward biased, small $V_{CE}$ where $I_C$ rises sharply). The slight upward slope in the active region is due to the Early effect.",
-    "**Parameters from the curves** (small-signal, at a chosen operating point):",
-    "Input resistance: $h_{ie} = \\dfrac{\\Delta V_{BE}}{\\Delta I_B}\\Big|_{V_{CE}=\\text{const}}$",
-    "Current gain: $h_{fe} = \\beta = \\dfrac{\\Delta I_C}{\\Delta I_B}\\Big|_{V_{CE}=\\text{const}}$",
-    "Output admittance: $h_{oe} = \\dfrac{\\Delta I_C}{\\Delta V_{CE}}\\Big|_{I_B=\\text{const}}$, so output resistance $r_o = 1/h_{oe}$",
-    "The terminal currents are related by $I_E = I_B + I_C$. For the BC547 the absolute maximum ratings are $V_{CEO} = 45$ V, $I_C = 100$ mA and $P_{tot} = 500$ mW, so $V_{CE}$ is kept at or below 10 V in this experiment.",
+    "The common-emitter (CE) amplifier is the most widely used BJT amplifier configuration because it provides both voltage and current gain with 180° phase inversion. The transistor is biased in the active region using a voltage-divider bias network (R1, R2) for stability. The collector resistor R_C converts collector current changes into output voltage variations.",
+    "The DC operating point (Q-point) is set by V_B = V_CC × R2/(R1 + R2), V_E = V_B − 0.7, I_E ≈ I_C = V_E/R_E. The AC voltage gain (with bypass capacitor C_E across R_E) is A_v = −g_m × R_C || R_L, where g_m = I_C / V_T (V_T = 26 mV at room temperature). The negative sign indicates phase inversion.",
+    "Three coupling/bypass capacitors are used: C_1 (input coupling, blocks DC from the signal source), C_2 (output coupling, blocks DC from the load), and C_E (emitter bypass, short-circuits R_E at AC frequencies to maximise gain). Their values are chosen so that their reactance is negligible at the operating frequency.",
+    "The frequency response of the CE amplifier has a mid-band region where gain is maximum and flat, a low-frequency roll-off (due to coupling and bypass capacitors), and a high-frequency roll-off (due to transistor junction capacitances). The bandwidth is defined as the frequency range between the upper and lower −3 dB points.",
   ],
 };

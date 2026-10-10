@@ -1,41 +1,49 @@
-import { type LabSection } from "@/labs/lab-content.types";
+import { type ApparatusSection } from "@/labs/lab-content.types";
 
-export const apparatus: LabSection = {
+export const apparatus: ApparatusSection = {
   id: "apparatus",
   type: "apparatus",
-  title: "Apparatus",
+  title: "Apparatus Required",
   items: [
     {
-      name: "Long breadboard",
-      specification: "60-column solderless",
+      name: "74HC04 Hex Inverter IC",
+      specification: "DIP-14 (two NOT gates used)",
       quantity: "1",
     },
     {
-      name: "NOR gate IC",
-      specification: "74HC02 (quad 2-input NOR) – one gate used",
+      name: "74HC08 Quad 2-input AND IC",
+      specification: "DIP-14 (all four AND gates used)",
       quantity: "1",
     },
-    {
-      name: "XOR gate IC",
-      specification: "74HC86 (quad 2-input XOR) – one gate used",
-      quantity: "1",
-    },
-    {
-      name: "AND gate IC",
-      specification: "74HC08 (quad 2-input AND) – one gate used per IC",
-      quantity: "3",
-    },
-    { name: "Resistor", specification: "330 Ω, 1/4 W", quantity: "4" },
     {
       name: "LED",
-      specification: "Green, yellow, red, blue, 5 mm",
+      specification: "5 mm, four different colours (Y0–Y3)",
       quantity: "4",
     },
-    { name: "DC power supply", specification: "+5 V", quantity: "1" },
     {
-      name: "Jumper wires",
-      specification: "Assorted colours",
-      quantity: "As required",
+      name: "Resistor (current limiting)",
+      specification: "330 Ω, 0.25 W",
+      quantity: "4",
+    },
+    {
+      name: "SPDT Switch / Jumper",
+      specification: "Logic input (A, B)",
+      quantity: "2",
+    },
+    {
+      name: "DC Power Supply",
+      specification: "5 V regulated",
+      quantity: "1",
+    },
+    {
+      name: "Bread Board",
+      specification: "Full size, 830 tie-points",
+      quantity: "1",
+    },
+    {
+      name: "Connecting Wires",
+      specification: "22 AWG solid-core jumper wires",
+      quantity: "20",
     },
   ],
 };

@@ -1,25 +1,24 @@
-import { type ObservationSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const observations: ObservationSection = {
+export const observations: LabSection = {
   id: "observations",
   type: "observation",
   title: "Observations",
   paragraphs: [
-    "The 3-variable K-map for f = Σm(0,2,5,7) yielded exactly two prime implicants, both essential.",
-    "The canonical SOP has 4 minterms (4 × 3-literal AND terms + OR = 13 literals). The minimized SOP has 2 terms (2 × 2-literal AND terms + OR = 5 literals). This represents a 62% reduction in literal count.",
-    "Further simplification: the result is XNOR(A,C), requiring just one 2-input XNOR gate.",
+    "Apply every combination of A, B and C to both networks. Record the output of the two-level AND-OR network (F1) and of the multi-level factored network (F2) as 1 when the LED glows and 0 when it is off. The two columns must be identical.",
+    "Cost comparison: two-level F1 = AB + AC uses 3 gates, 4 literals and 6 gate inputs. Multi-level F2 = A(B + C) uses 2 gates, 3 literals and 4 gate inputs.",
   ],
   table: {
-    headers: ["A", "B", "C", "f", "K-map Group"],
+    headers: ["S.No.", "A", "B", "C", "F1 = AB + AC", "F2 = A(B + C)"],
     rows: [
-      [0, 0, 0, 1, "Group 1 (A'C')"],
-      [0, 0, 1, 0, "-"],
-      [0, 1, 0, 1, "Group 1 (A'C')"],
-      [0, 1, 1, 0, "-"],
-      [1, 0, 0, 0, "-"],
-      [1, 0, 1, 1, "Group 2 (AC)"],
-      [1, 1, 0, 0, "-"],
-      [1, 1, 1, 1, "Group 2 (AC)"],
+      ["1", "0", "0", "0", "0", "0"],
+      ["2", "0", "0", "1", "0", "0"],
+      ["3", "0", "1", "0", "0", "0"],
+      ["4", "0", "1", "1", "0", "0"],
+      ["5", "1", "0", "0", "0", "0"],
+      ["6", "1", "0", "1", "1", "1"],
+      ["7", "1", "1", "0", "1", "1"],
+      ["8", "1", "1", "1", "1", "1"],
     ],
   },
 };

@@ -1,12 +1,10 @@
-import { type ConclusionSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const conclusion: ConclusionSection = {
+export const conclusion: LabSection = {
   id: "conclusion",
   type: "conclusion",
   title: "Conclusion",
   paragraphs: [
-    "The Karnaugh map method was applied to minimize f = Σm(0,2,5,7) for three variables. The canonical SOP was reduced from four 3-literal product terms to two 2-literal terms: $f = \\overline{A}\\overline{C} + AC$, equivalent to XNOR(A,C).",
-    "The procedure demonstrated identification of prime implicants by grouping adjacent 1-cells in the K-map, and selection of essential prime implicants that must appear in any minimal cover. Don't care conditions (not present in this example) can further reduce complexity when applicable.",
-    "K-maps are practical for up to 4–5 variables. For larger functions, algorithmic methods such as the Quine–McCluskey algorithm or modern EDA tools (espresso, ABC) are used, which implement the same theoretical principles computationally.",
+    "The function F(A,B,C) = Σm(5,6,7) was minimized with a K-map to F = AB + AC and implemented as a two-level AND-OR network and as a multi-level factored network F = A(B + C). Both networks gave identical outputs for all eight input combinations, which verifies that they are equivalent. Factoring reduced the cost from 3 gates and 4 literals to 2 gates and 3 literals. In general, multi-level networks save hardware at the cost of extra levels and propagation delay, while two-level networks are faster and more regular.",
   ],
 };
