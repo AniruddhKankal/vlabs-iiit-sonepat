@@ -125,6 +125,12 @@ import {
 } from "./semester-01/01-analog-electronics/10-bjt-bias";
 
 import {
+  ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationCircuit,
+  ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationContent,
+  toStudyBjtFixedBiasAndVoltageDividerBiasConfigurationExperiment,
+} from "./semester-01/01-analog-electronics/07-to-study-bjt-fixed-bias-and-voltage-divider-bias-configuration";
+
+import {
   MosfetCharacteristicsCircuit,
   MosfetCharacteristicsContent,
   mosfetCharacteristicsExperiment,
@@ -549,8 +555,21 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         fullWaveRectifierExperiment,
         FullWaveRectifierCircuit,
         FullWaveRectifierContent,
-        ["rectifier", "bridge", "full-wave", "ripple"],
+        ["rectifier", "center-tapped", "full-wave", "ripple", "filter"],
       ),
+      // fromBuilt(
+      //   rectifiersCapacitorFiltersExperiment,
+      //   RectifiersCapacitorFiltersCircuit,
+      //   RectifiersCapacitorFiltersContent,
+      //   ["rectifier", "filter", "capacitor", "ripple reduction"],
+      // ),
+      // fromBuilt(ohmsLawExperiment, OhmsLawCircuit, OhmsLawContent, [
+      //   "ohm",
+      //   "resistance",
+      //   "voltage",
+      //   "current",
+      //   "v-i graph",
+      // ]),
       fromBuilt(ceAmplifierExperiment, CeAmplifierCircuit, CeAmplifierContent, [
         "bjt",
         "amplifier",
@@ -578,6 +597,12 @@ export const SEMESTER_SUBJECTS: readonly SemesterSubjectCatalog[] = [
         "voltage divider",
         "stability",
       ]),
+      fromBuilt(
+        toStudyBjtFixedBiasAndVoltageDividerBiasConfigurationExperiment,
+        ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationCircuit,
+        ToStudyBjtFixedBiasAndVoltageDividerBiasConfigurationContent,
+        ["bjt", "fixed bias", "voltage divider bias", "q-point", "stability"],
+      ),
       fromBuilt(
         mosfetCharacteristicsExperiment,
         MosfetCharacteristicsCircuit,

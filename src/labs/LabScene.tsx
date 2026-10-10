@@ -13,6 +13,7 @@ import {
   PITCH,
   TOP_Y,
   BOARD_D,
+  BOARD_W,
 } from "./coords";
 import {
   buildBreadboard,
@@ -63,6 +64,12 @@ import {
   type LedPin,
 } from "./types";
 
+// ── Transformer: placed on the bench to the left of the breadboard ─────────
+const TRANSFORMER_SIDE_X = -BOARD_W / 2 - 1.25;
+const TRANSFORMER_SIDE_Y = -TOP_Y + 0.04;
+const TRANSFORMER_SIDE_Z = 0;
+const TRANSFORMER_SCALE = 0.55;
+
 // ── PinRef → THREE.Vector3 ────────────────────────────────────────────────
 // Uses the real DIP-14 pin resolver for IcPins.
 function resolvePin(
@@ -104,7 +111,32 @@ function resolvePin(
   if ("component" in pin) {
     const pp = pin as PassivePin;
     const inst = all.find((c) => c.id === pp.component);
-    if (!inst || !("mountedAt" in inst) || !inst.mountedAt) return null;
+    if (!inst) return null;
+
+    if (inst.type === "transformer") {
+      const mm = PITCH / 2.54;
+      const termX = TRANSFORMER_SIDE_X + 15.24 * mm * TRANSFORMER_SCALE;
+      const termY = TRANSFORMER_SIDE_Y + 29 * mm * TRANSFORMER_SCALE;
+      if (pp.end === "s1" || pp.end === "p1") {
+        return new THREE.Vector3(
+          termX,
+          termY,
+          TRANSFORMER_SIDE_Z - 5.08 * mm * TRANSFORMER_SCALE,
+        );
+      }
+      if (pp.end === "ct") {
+        return new THREE.Vector3(termX, termY, TRANSFORMER_SIDE_Z);
+      }
+      if (pp.end === "s2" || pp.end === "p2") {
+        return new THREE.Vector3(
+          termX,
+          termY,
+          TRANSFORMER_SIDE_Z + 5.08 * mm * TRANSFORMER_SCALE,
+        );
+      }
+    }
+
+    if (!("mountedAt" in inst) || !inst.mountedAt) return null;
     const { col, row, board } = inst.mountedAt;
     const cols = colsForBoardId(board, all);
     return pp.end === "p1" ? hole(col, row, cols) : hole(col + 3, row, cols);
@@ -467,7 +499,14 @@ function buildInstance(
     }
 
     case "transformer": {
-      return buildTransformer(new THREE.Vector3());
+      // Stands separately on the bench beside the breadboard, with connection wires
+      // running from its secondary terminals (S1, CT, S2) into the circuit
+      const pos = new THREE.Vector3(
+        TRANSFORMER_SIDE_X,
+        TRANSFORMER_SIDE_Y,
+        TRANSFORMER_SIDE_Z,
+      );
+      return buildTransformer(pos, "12-0-12V", "2 VA", TRANSFORMER_SCALE);
     }
 
     case "mcu-trainer": {
