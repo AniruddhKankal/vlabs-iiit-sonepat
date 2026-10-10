@@ -254,7 +254,7 @@ import {
   SrLatchCircuit,
   SrLatchContent,
   srLatchExperiment,
-} from "./semester-02/01-digital-electronics/sr-latch";
+} from "./semester-02/01-digital-electronics/sr-flip-flop";
 
 import {
   DFlipFlopCircuit,

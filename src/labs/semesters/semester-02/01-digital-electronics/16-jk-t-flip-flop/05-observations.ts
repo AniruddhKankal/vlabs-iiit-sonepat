@@ -1,20 +1,21 @@
-import { type ObservationSection } from "@/labs/lab-content.types";
+import { type LabSection } from "@/labs/lab-content.types";
 
-export const observations: ObservationSection = {
+export const observations: LabSection = {
   id: "observations",
   type: "observation",
   title: "Observations",
   paragraphs: [
-    "Supply: +5 V. 74HC76 falling-edge triggered. CLK pulsed manually.",
+    "Record the output after each active clock edge. Q̅ should be the complement of Q in normal operation.",
   ],
   table: {
-    headers: ["J", "K", "CLK Edge", "$Q_{n+1}$", "Mode"],
+    headers: ["Mode", "Inputs", "Expected next Q", "Operation", "Observed"],
     rows: [
-      [0, 0, "↓", "$Q_n$", "Hold"],
-      [0, 1, "↓", 0, "Reset"],
-      [1, 0, "↓", 1, "Set"],
-      [1, 1, "↓", "$\\bar{Q}_n$", "Toggle"],
-      ["T", "T", "↓", "$T \\oplus Q_n$", "T mode"],
+      ["JK", "J=0, K=0", "Q(previous)", "Hold", ""],
+      ["JK", "J=0, K=1", "0", "Reset", ""],
+      ["JK", "J=1, K=0", "1", "Set", ""],
+      ["JK", "J=1, K=1", "Q̅(previous)", "Toggle", ""],
+      ["T", "T=0 (J=K=0)", "Q(previous)", "Hold", ""],
+      ["T", "T=1 (J=K=1)", "Q̅(previous)", "Toggle", ""],
     ],
   },
 };

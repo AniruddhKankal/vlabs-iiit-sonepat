@@ -1,16 +1,18 @@
-import { step as s01 } from "./01-place-the-breadboard";
-import { step as s02 } from "./02-place-the-74hc76-jk-flip-flop-ic";
-import { step as s03 } from "./03-tie-set-bar-and-clr-bar-high";
-import { step as s04 } from "./04-wire-j-k-and-clk-inputs";
-import { step as s05 } from "./05-add-q-and-q-bar-output-leds";
-import { step as s06 } from "./06-test-jk-10-set-on-falling-edge";
-import { step as s07 } from "./07-test-jk-01-reset-on-falling-edge";
-import { step as s08 } from "./08-test-jk-11-toggle-on-falling-edge";
-import { step as s09 } from "./09-rewire-for-t-mode-connect-t-to-both-j-and-k";
-import { step as s10 } from "./10-t-mode-t-1-q-toggles-on-every-clock";
-
 import { type SceneProcedureStep } from "@/labs/experiments/types";
-//
+import { step as s01 } from "./01-breadboard-and-supply";
+import { step as s02 } from "./02-input-gates";
+import { step as s03 } from "./03-storage-latch";
+import { step as s04 } from "./04-input-wiring";
+import { step as s05 } from "./05-gated-inputs";
+import { step as s06 } from "./06-cross-coupling";
+import { step as s07 } from "./07-output-leds";
+import { step as s08 } from "./08-jk-hold";
+import { step as s09 } from "./09-jk-reset";
+import { step as s10 } from "./10-jk-set";
+import { step as s11 } from "./11-jk-toggle";
+import { step as s12 } from "./12-t-mode";
+import { step as s13 } from "./13-record";
+
 export const procedureSteps: SceneProcedureStep[] = [
   s01,
   s02,
@@ -22,4 +24,7 @@ export const procedureSteps: SceneProcedureStep[] = [
   s08,
   s09,
   s10,
+  s11,
+  s12,
+  s13,
 ];
